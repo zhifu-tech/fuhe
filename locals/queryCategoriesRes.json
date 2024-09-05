@@ -1,0 +1,36 @@
+{
+    "0": {
+        "category_spec_s": [],
+        "name": "即食海参",
+        "_id": "ef45322e66d6afb109764c32641ea84c"
+    },
+    "1": {
+        "category_spec_s": [
+            {
+                "owner": "1823347207003971586",
+                "createdAt": 1725372291207,
+                "createBy": "1823347207003971586",
+                "updateBy": "1823347207003971586",
+                "_openid": "1823347207003971586",
+                "_id": "9bf3df1366d71783097e420f419a92dc",
+                "updatedAt": 1725372291207
+            },
+            {
+                "owner": "1823347207003971586",
+                "createdAt": 1725372302533,
+                "createBy": "1823347207003971586",
+                "updateBy": "1823347207003971586",
+                "_openid": "1823347207003971586",
+                "_id": "9bf3df1366d7178e097e43a7466b9fa0",
+                "updatedAt": 1725372302533
+            }
+        ],
+        "name": "海参",
+        "_id": "8df0e92f66d6afa7097162d61ee7bcd9"
+    },
+    "profile": {
+        "requestTimeCost": 199,
+        "trrigerTimeCost": 200,
+        "resolveParamsTimecost": 0
+    }
+}
