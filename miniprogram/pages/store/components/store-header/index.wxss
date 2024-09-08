@@ -1,0 +1,5 @@
+.store-page-header {
+  display: block;
+  padding: 0 24rpx;
+  background: linear-gradient(#fff, #f5f5f5);
+}

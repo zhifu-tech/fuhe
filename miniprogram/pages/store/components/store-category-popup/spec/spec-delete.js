@@ -1,0 +1,43 @@
+import Dialog from 'tdesign-miniprogram/dialog/index';
+
+const { default: log } = require('../../../../../utils/log');
+
+module.exports = Behavior({
+  methods: {
+    onSpecDeleteClick: function (e) {
+      const { tag } = this.data;
+      const { spec } = e.target.dataset;
+      log.info(tag, 'spec-delete', spec, e);
+      Dialog.confirm({
+        context: this,
+        title: '是否确认删除',
+        content: `如果存在与规格「${spec.title}」关联的作品，将导致规格不可用！`,
+        confirmBtn: '确认删除',
+        cancelBtn: '取消',
+      })
+        .then(() => this._deleteSpec(spec))
+        .catch((error) => {
+          log.info(tag, 'spec-delete', 'cancel', error);
+          if (error) {
+            this.showToastError('删除失败！');
+          }
+        });
+    },
+    _deleteSpec: async function (spec) {
+      const { tag, specs } = this.data;
+      const index = specs.findIndex((it) => it._id === spec._id);
+      if (index != -1) {
+        specs.splice(index, 1);
+        this.setData({
+          specs,
+        });
+      } else {
+        log.info(tag, 'spec-delete', `不存在删除的 ${spec}`);
+      }
+      this.showToastSuccess('删除成功！');
+      this.setData({
+        specs,
+      });
+    },
+  },
+});

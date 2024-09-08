@@ -1,0 +1,119 @@
+<t-popup visible="{{visible}}"
+  placement="bottom">
+  <view class="container"
+    slot='content'>
+    <view class="header">
+      <t-button theme="default"
+        variant="text"
+        shape='circle'
+        size="small"
+        t-class="header-cancel"
+        bind:tap="onCancelClick">
+        取消
+      </t-button>
+      <view class="title">{{ title }}
+      </view>
+      <t-button theme="primary"
+        variant="text"
+        shape='circle'
+        size="small"
+        disabled="{{ comfirmDisabled }}"
+        bind:tap="onConfirmClick">确认</t-button>
+    </view>
+    <view class="section">
+      <view class="label-container">
+        <view class="label">分类信息</view>
+        <t-icon class="icon"
+          name="{{showCategoryInput ? 'edit':'edit-off'}}"
+          bind:tap="onCategoryIconEditClick" />
+        <t-icon class="icon"
+          name="delete"
+          bind:tap="onCategoryIconDeleteClick"
+          wx:if="{{true || category.title.length > 0}}" />
+      </view>
+      <store-input input-class="input"
+        tips="输入分类名称"
+        value="{{category.title || ''}}"
+        action="{{ category.title.length > 0 ? '确认修改':'新增分类' }}"
+        actionResponse="{{categoryActionResponse}}"
+        bind:action="onCategoryInputAction"
+        wx:if="{{showCategoryInput}}" />
+      <t-divider t-class='divider'
+        wx:if="{{!showCategoryInput}}" />
+    </view>
+    <view class="section">
+      <view class="label-container">
+        <view class="label">规格信息</view>
+        <t-icon class="icon"
+          name="{{specAddShow ? 'edit':'edit-off'}}"
+          bind:tap="onSpecAddClick" />
+      </view>
+      <store-input input-class="input"
+        tips="输入规格名称"
+        action="新增规格"
+        actionResponse="{{specActionResponse}}"
+        bind:action="onSpecInputAction"
+        wx:if="{{specAddShow}}" />
+      <t-divider t-class='divider'
+        wx:if="{{!specAddShow}}" />
+      <block wx:for="{{specs}}"
+        wx:for-item="spec"
+        wx:key="spec">
+        <view class="label-container label-container-sub">
+          <view class="label">{{spec.title}}</view>
+          <t-icon data-spec="{{spec}}"
+            class="icon"
+            name="{{specEditId === spec._id ? 'edit':'edit-off'}}"
+            bind:tap="onSpecEditClick" />
+          <t-icon class="icon"
+            name="delete"
+            data-spec="{{spec}}"
+            bind:tap="onSpecDeleteClick" />
+        </view>
+        <store-input input-class="input"
+          data-spec="{{spec}}"
+          data-spec-id="{{spec._id}}"
+          tips="输入规格名称"
+          action="修改规格"
+          value="{{specEditId === spec._id ? spec.title : ''}}"
+          actionResponse="{{specActionResponse}}"
+          bind:action="onSpecInputAction"
+          wx:if="{{specEditId === spec._id }}" />
+        <view class="options">
+          <t-tag data-option="{{option}}"
+            wx:for="{{spec.options}}"
+            wx:for-item="option"
+            wx:key="_id"
+            closable
+            variant="light"
+            bind:close="onOptionDelete"
+            bind:click="onOptionEditClick"
+            t-class="spec-option">
+            {{option.title}}
+          </t-tag>
+          <t-tag data-spec-id="{{spec._id}}"
+            variant="light"
+            bind:click="onOptionAddClick"
+            t-class="spec-option">
+            {{optionAddSpecId === spec._id || optionEditSpecId === spec._id?'收起':'新增选项'}}
+          </t-tag>
+        </view>
+        <store-input input-class="input"
+          data-spec-id="{{spec._id}}"
+          tips="输入选项名称"
+          action="{{optionEdit ? '修改选项':'新增选项'}}"
+          value="{{optionEdit ? optionEdit.title:''}}"
+          bind:action="onOptionInputAction"
+          actionResponse="{{optionInputActionResponse}}"
+          wx:if="{{optionAddSpecId === spec._id || optionEditSpecId === spec._id }}" />
+        <t-divider t-class='divider'
+          wx:if="{{optionAddSpecId !== spec._id && optionEditSpecId !== spec._id }}" />
+      </block>
+    </view>
+  </view>
+</t-popup>
+
+<t-dialog id="t-dialog"
+  z-index="12000"
+  overlay-props="{{ {zIndex:11900} }}" />
+<t-toast id="t-toast" />

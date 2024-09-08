@@ -1,0 +1,12 @@
+{
+  "component": true,
+  "usingComponents": {
+    "store-header": "/pages/store/components/store-header/index",
+    "store-category-popup": "../store-category-popup/index",
+    "t-side-bar": "tdesign-miniprogram/side-bar/side-bar",
+    "t-side-bar-item": "tdesign-miniprogram/side-bar-item/side-bar-item",
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
+    "load-more": "/components/load-more/index"
+  }
+}
