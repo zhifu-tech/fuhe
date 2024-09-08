@@ -1,0 +1,1 @@
+"/Applications/wechatwebdevtools.app/Contents/MacOS/cli" cloud functions deploy --e fuhe-1gsdvmoc4478eafb --n fuhe-mall --r --project "/Users/zzf/zhi-tech/fuhe-mall" --report_first --report

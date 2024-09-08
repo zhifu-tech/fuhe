@@ -1,0 +1,54 @@
+<view class="store-page-header">
+  <view>客户：北京福和德运商贸有限公司</view>
+</view>
+
+<view class="store-page-container">
+  <t-side-bar class="custom-side-bar"
+    value="{{category.selected}}"
+    bind:change="onCategorySelectedChange">
+    <t-side-bar-item wx:for="{{category.items}}"
+      wx:for-item="item"
+      wx:key="value"
+      label="{{item.label}}"
+      value="{{item.value}}"
+      badge-props="{{item.badgeProps}}" />
+  </t-side-bar>
+  <scroll-view class="store-page-content"
+    type="list"
+    scroll-y
+    bind:scroll="onScroll"
+    enable-flex>
+    <t-tabs theme="tag"
+      space-evenly="{{false}}"
+      t-class="custom-tabs"
+      value="{{spec.selected}}"
+      defaultValue="{{spec.selected}}"
+      bind:change="onSpecSelectedChange">
+      <t-tab-panel wx:for="{{spec.items}}"
+        wx:for-item="item"
+        wx:key="value"
+        label="{{item.label}}"
+        value="{{item.value}}" />
+    </t-tabs>
+    <block class="goods-container"
+      wx:for="{{goods.items}}"
+      wx:for-item="item"
+      wx:key="key">
+      <view class="goods-item-container">
+        <view class="goods-item-info">
+          <view class="goods-item-name">{{item.goods.name}}</view>
+          <view>总库存：3件</view>
+        </view>
+        <block wx:for="{{item.stocks}}"
+          wx:for-item="stock"
+          wx:key="_id">
+          <view>
+            我是{{stock._id}}的库存信息
+          </view>
+        </block>
+      </view>
+    </block>
+    <load-more wx:if="{{goods.items.length > 0}}"
+      status="{{loadMoreStatus}}" />
+  </scroll-view>
+</view>

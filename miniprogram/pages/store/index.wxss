@@ -1,0 +1,38 @@
+.store-page-header {
+  display: block;
+  padding: 0 24rpx;
+  background: linear-gradient(#fff, #f5f5f5);
+}
+.store-page-container {
+  display: flex;
+  height: 100vh;
+}
+.store-page-container .custom-side-bar {
+  --td-side-bar-bg-color: #f5f5f5;
+  --td-side-bar-width: 150rpx;
+}
+.store-page-container .store-page-content {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.store-page-content .custom-tabs {
+  width: 100%;
+  flex: none;
+  background-color: white;
+}
+
+.store-page-content .goods-container {
+}
+.goods-item-container {
+  margin: 30rpx 10rpx;
+  border-radius: var(--td-radius-large, 18rpx);
+  background-color: #f5f5f5;
+
+}
+
+.goods-item-name {
+  font-size: 28rpx;
+  font-weight: 500;
+}

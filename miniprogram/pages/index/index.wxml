@@ -1,0 +1,4 @@
+<!--pages/index/index.wxml-->
+<button bind:tap="gotoMain">
+  点击进入首页
+</button>

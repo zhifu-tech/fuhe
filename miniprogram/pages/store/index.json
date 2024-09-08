@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "库存",
+  "onReachBottomDistance": 10,
+  "backgroundTextStyle": "light",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "t-side-bar": "tdesign-miniprogram/side-bar/side-bar",
+    "t-side-bar-item": "tdesign-miniprogram/side-bar-item/side-bar-item",
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
+    "t-collapse": "tdesign-miniprogram/collapse/collapse",
+    "t-collapse-panel": "tdesign-miniprogram/collapse-panel/collapse-panel",
+    "load-more": "/components/load-more/index"
+  }
+}

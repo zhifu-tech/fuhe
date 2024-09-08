@@ -1,0 +1,75 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "type": 0,
+      "status": 2,
+      "created_at": 1,
+      "finished_at": 2,
+      "goods": [
+        {
+          "id": 1,
+          "sttus": 5,
+          "cost_price": 800,
+          "quantity": 10
+        }
+      ],
+      "p_id": 4,
+      "p_uid": 1,
+      "c_id": 3,
+      "c_uid": 2
+    },
+    {
+      "id": 2,
+      "type": 0,
+      "status": 2,
+      "created_at": 3,
+      "finished_at": 4,
+      "goods": [
+        {
+          "id": 1,
+          "status": 5,
+          "cost_price": 900,
+          "quantity": 20
+        },
+        {
+          "id": 2,
+          "status": 5,
+          "cost_price": 800,
+          "quantity": 10
+        }
+      ],
+      "p_id": 4,
+      "p_uid": 1,
+      "c_id": 3,
+      "c_uid": 2
+    },
+    {
+      "id": 3,
+      "type": 0,
+      "status": 2,
+      "created_at": 5,
+      "finished_at": 6,
+      "goods": [
+        {
+          "id": 1,
+          "status": 2,
+          "cost_price": 800,
+          "quantity": 10,
+          "sale_price": 1250
+        },
+        {
+          "id": 2,
+          "status": 15,
+          "cost_price": 900,
+          "quantity": 5,
+          "sale_price": 1250
+        }
+      ],
+      "p_id": 4,
+      "p_uid": 1,
+      "c_id": 3,
+      "c_uid": 2
+    }
+  ]
+}

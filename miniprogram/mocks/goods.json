@@ -1,0 +1,39 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "cat_id": 1,
+      "name": "张一的海参",
+      "stocks": [
+        {
+          "spec_id": 1,
+          "o_id": 1,
+          "quantity": 3,
+          "cost_price": 800,
+          "guide_price": 1280.0
+        },
+        {
+          "spec_id": 1,
+          "o_id": 2,
+          "quantity": 20,
+          "cost_price": 900,
+          "guide_price": 1380.0
+        } 
+      ]
+    },
+    {
+      "id": 2,
+      "name": "张二的海参",
+      "cat_id": 1,
+      "spec_id": 2,
+      "stocks": [
+        {
+          "o_id": 2,
+          "quantity": 10,
+          "cost_price": 800,
+          "guide_price": 1000.0
+        }
+      ]
+    }
+  ]
+}
