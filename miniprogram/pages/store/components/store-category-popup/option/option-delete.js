@@ -27,7 +27,7 @@ module.exports = Behavior({
       let spec = specs.find((it) => it._id === option.sId);
       const index = spec?.options?.findIndex((it) => it._id === option._id) ?? -1;
       if (index !== -1) {
-        spec = this.checkSpecCloned(specs, spec);
+        spec = this.checkSpecEditable(specs, spec);
         spec.options.splice(index, 1);
         this.setData({
           specs,

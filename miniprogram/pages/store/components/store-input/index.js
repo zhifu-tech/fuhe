@@ -6,10 +6,6 @@ Component({
   },
   externalClasses: ['input-class'],
   properties: {
-    label: {
-      type: String,
-      value: '',
-    },
     tips: {
       type: String,
       value: '',
@@ -22,81 +18,69 @@ Component({
       type: String,
       value: '',
     },
-    actionDisabled: {
-      type: Boolean,
-      value: true,
-    },
-    actionResponse: {
-      type: Object,
-      value: {},
-    },
   },
   data: {
-    tag: 'store-input',
+    tag: 'input',
+    hasFocus: false,
+    inputValue: null,
+    actionDisabled: true,
+    enterTimeout: null,
   },
   observers: {
-    actionResponse: function (res) {
-      log.info('store-input', 'actionResponse', res);
-      this.onActionResult(res);
-    },
-  },
-  methods: {
-    onChange(e) {
-      const value = e.detail.value || '';
-      this.data.value = value;
-      this._setActionDisabled(value.length === 0);
-    },
-    onClear() {
-      this._setActionDisabled(true);
-      this.data.value = '';
-    },
-    onBlur(e) {
-      const value = e.detail.value || '';
-      this.data.value = value;
-    },
-    onAction() {
-      const { tag, actionDisabled } = this.data;
-      if (actionDisabled) {
-        log.info(tag, 'action is disabled, and action triggered by enter');
-        return;
-      }
-      this.triggerEvent('action', {
-        value: this.data.value || '',
-      });
-    },
-    onActionResult({ result, reason, post, keep }) {
-      if (keep) {
-        // do nothing.
-        result;
-      }
-      if (result === 'ok') {
-        if (post) {
-          this.setData({
-            value: post.value || '',
-            action: post.action || '',
-            actionDisabled: true,
-          });
-        } else {
-          this.setData({
-            value: '',
-            actionDisabled: true,
-          });
-        }
-      } else if (result === 'fail') {
-        wx.showToast({
-          title: reason,
-        });
-      }
-    },
-    _setActionDisabled(disabled) {
-      const { action, actionDisabled } = this.data;
-      if (action.length === 0) {
-        return;
-      }
-      if (disabled !== actionDisabled) {
+    inputValue: function () {
+      const { inputValue, value, actionDisabled } = this.data;
+      const disabled = !inputValue || inputValue === value;
+      if (actionDisabled !== disabled) {
         this.setData({
           actionDisabled: disabled,
         });
+      }
+    },
+  },
+  methods: {
+    onChange: function (e) {
+      this.setData({
+        inputValue: e.detail.value || '',
+      });
+    },
+    onBlur: function (e) {
+      this.data.hasFocus = true;
+      this.setData({
+        inputValue: e.detail.value || '',
+      });
+    },
+    onFocus: function () {
+      this.data.hasFocus = true;
+    },
+    onEnter: function (e) {
+      const { tag, enterTimeout, hasFocus, actionDisabled, inputValue } = this.data;
+      if (enterTimeout) return;
+      this.data.enterTimeout = setTimeout(() => {
+        this.data.enterTimeout = 0;
+      }, 1000);
+      if (!hasFocus || actionDisabled) return;
+      log.info(tag, 'action triggered by enter');
+      this.triggerEvent('action', {
+        value: inputValue || '',
+        callback: this._onActionResult.bind(this),
+      });
+    },
+    onAction: function () {
+      const { tag, actionDisabled, inputValue } = this.data;
+      if (actionDisabled) return;
+      log.info(tag, 'action triggered by button');
+      this.triggerEvent('action', {
+        value: inputValue || '',
+        callback: this._onActionResult.bind(this),
+      });
+    },
+    _onActionResult: function ({ tips, value, action }) {
+      if (tips || value != undefined || action) {
+        const postData = {};
+        if (tips) postData.tips = tips;
+        if (value != undefined) postData.value = value || '';
+        if (action) postData.action = action;
+        this.setData(postData);
       }
     },
   },

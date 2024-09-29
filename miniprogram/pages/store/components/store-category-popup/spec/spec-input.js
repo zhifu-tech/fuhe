@@ -7,11 +7,8 @@ module.exports = Behavior({
   },
   observers: {
     showInputScene: function (scene) {
-      if (scene !== 'specAdd') {
-        this._hideSpecAdd();
-      }
-      if (scene !== 'specEdit') {
-        this._hideSpecEdit();
+      if (scene === 'optionAdd' || scene === 'optionEdit') {
+        this.hideSpecEdit();
       }
     },
   },
@@ -27,7 +24,7 @@ module.exports = Behavior({
       const { specEditId } = this.data;
       const { spec } = e.target.dataset;
       if (specEditId === spec._id) {
-        this._hideSpecEdit();
+        this.hideSpecEdit();
       } else {
         this._showSpecEdit(spec);
       }
@@ -52,7 +49,7 @@ module.exports = Behavior({
         specEditId: spec._id,
       });
     },
-    _hideSpecEdit: function () {
+    hideSpecEdit: function () {
       const { specEditId } = this.data;
       if (specEditId) {
         this.setData({

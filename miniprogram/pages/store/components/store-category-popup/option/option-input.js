@@ -9,42 +9,40 @@ module.exports = Behavior({
   observers: {
     showInputScene: function (scene) {
       if (scene !== 'optionAdd') {
-        this._hideOptionAdd();
+        this.hideOptionAdd();
       }
       if (scene !== 'optionEdit') {
-        this._hideOptionEdit();
+        this.hideOptionEdit();
       }
     },
   },
   methods: {
     onOptionAddClick: function (e) {
-      log.info('==========', e);
-      const { optionAddSpecId } = this.data;
+      const { tag, optionAddSpecId } = this.data;
       const { specId } = e.target.dataset;
+      log.info(tag, 'onOptionAddClick', specId, optionAddSpecId);
       if (optionAddSpecId === specId) {
-        this._hideOptionAdd();
+        this.hideOptionAdd();
       } else {
-        this._showOptionAdd(specId);
+        this.showOptionAdd(specId);
       }
     },
     onOptionEditClick: function (e) {
-      log.info('==========', e);
       const { optionEditSpecId } = this.data;
       const { option } = e.target.dataset;
-
       if (optionEditSpecId === option.sId) {
-        this._hideOptionEdit();
+        this.hideOptionEdit();
       } else {
-        this._showOptionEdit(option);
+        this.showOptionEdit(option);
       }
     },
-    _showOptionAdd: function (specId) {
+    showOptionAdd: function (specId) {
       this.setData({
         showInputScene: 'optionAdd',
         optionAddSpecId: specId,
       });
     },
-    _hideOptionAdd: function () {
+    hideOptionAdd: function () {
       const { optionAddSpecId } = this.data;
       if (optionAddSpecId) {
         this.setData({
@@ -52,15 +50,19 @@ module.exports = Behavior({
         });
       }
     },
-    _showOptionEdit: function (option) {
+    showOptionEdit: function (option) {
+      const { tag } = this.data;
+      log.info(tag, 'showOptionEdit', option, this.data.optionEdit);
       this.setData({
+        showInputScene: 'optionEdit',
         optionEditSpecId: option.sId,
         optionEdit: option,
       });
     },
-    _hideOptionEdit: function () {
-      const { optionEditSpecId, optionEdit } = this.data;
+    hideOptionEdit: function () {
+      const { tag, optionEditSpecId, optionEdit } = this.data;
       if (optionEditSpecId || optionEdit) {
+        log.info(tag, 'hideOptionEdit', this.data.optionEdit);
         this.setData({
           optionEditSpecId: null,
           optionEdit: null,

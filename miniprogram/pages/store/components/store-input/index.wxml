@@ -1,10 +1,9 @@
-<t-input placeholder="{{tips}}"
-  label="{{label||''}}"
+<t-input t-class="input-class"
+  placeholder="{{tips}}"
   value="{{value||''}}"
   bind:change="onChange"
-  bind:clear="onClear"
-  t-class="input input-class"
-  bind:enter="onAction"
+  bind:enter="onEnter"
+  bind:focus="onFocus"
   bind:blur="onBlur">
 
   <t-button slot="suffix"

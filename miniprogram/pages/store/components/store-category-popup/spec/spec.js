@@ -45,19 +45,22 @@ module.exports = Behavior({
       }
       return false;
     },
-    checkSpecCloned: function (specs, spec) {
-      if (spec.isCloned) return spec;
-      const cloned = { ...spec, isCloned: true };
-      if (cloned.options) {
-        cloned.options = [...cloned.options];
+    checkSpecEditable: function (specs, spec) {
+      if (spec.editable) return spec;
+      const editable = { ...spec, editable: true };
+      if (editable.options) {
+        editable.options = [...editable.options];
+      } else {
+        cloned.options = [];
       }
       const index = specs.findIndex((it) => it._id === spec._id);
       if (index === -1) {
-        return cloned;
+        return editable;
       }
-      specs[index] = cloned;
-      return cloned;
+      specs[index] = editable;
+      return editable;
     },
+
     handleSpecsChanged: async function () {
       await Promise.all([
         // 1. 规格：新增
@@ -104,7 +107,7 @@ module.exports = Behavior({
       const list = [];
       specs.forEach((spec) => {
         // 更新的必须是clone来的，省去不必要的判定
-        if (!spec.isCloned) return;
+        if (!spec.editable) return;
         const src = specsInit.find((it) => it._id === spec._id);
         if (src && src.title !== spec.title) {
           list.push({

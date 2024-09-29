@@ -3,15 +3,15 @@ const { default: log } = require('../../../../../utils/log');
 
 module.exports = Behavior({
   methods: {
-    checkOptionCloned: function (options, option) {
-      if (option.isCloned) return option;
-      const cloned = { ...option, isCloned: true };
-      const index = options.findIndex((it) => it._id === spec._id);
+    checkOptionEditable: function (options, option) {
+      if (option.editable) return option;
+      const editable = { ...option, editable: true };
+      const index = options.findIndex((it) => it._id === option._id);
       if (index === -1) {
-        return cloned;
+        return editable;
       }
-      options[index] = cloned;
-      return cloned;
+      options[index] = editable;
+      return editable;
     },
     handleSpecOptionsAdd: async function () {
       const { tag, specs } = this.data;
@@ -40,13 +40,13 @@ module.exports = Behavior({
       const list = [];
       specs.forEach((spec) => {
         // 更新的必须是clone来的，省去不必要的判定
-        if (!spec.isCloned) return;
+        if (!spec.editable) return;
         if (!spec.options || spec.options.length === 0) return;
         const src = specsInit.find((it) => it._id === spec._id);
         if (!src) return;
         if (spec.options == src.options) return;
         spec.options.forEach((option) => {
-          if (!option.isCloned) return;
+          if (!option.editable) return;
           const srcOption = src.options.find((it) => it._id === option._id);
           if (srcOption && srcOption.title !== option.title) {
             list.push({ spec, sId: spec._id, option, id: option._id, title: option.title });
