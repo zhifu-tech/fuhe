@@ -3,7 +3,7 @@ Component({
     virtualHost: true,
   },
   behaviors: [
-    require('./common/toasts'),
+    require('../../../../behaviors/toasts'),
     require('./header/header'),
     require('./category/category'),
     require('./category/category-delete'),
