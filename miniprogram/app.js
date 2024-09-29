@@ -1,7 +1,6 @@
-const config = require('./config');
-const { init } = require('@cloudbase/wx-cloud-client-sdk');
+const config = require('./cloud-config');
+const { init: initCloudClientSdk } = require('@cloudbase/wx-cloud-client-sdk');
 
-let models = null;
 App({
   onLaunch: async function (opts, data) {
     console.log('App Launch', opts);
@@ -17,7 +16,7 @@ App({
         env: config.envId,
         traceUser: true,
       });
-      init(wx.cloud);
+      initCloudClientSdk(wx.cloud);
     }
   },
   onShow(opts) {
@@ -25,9 +24,5 @@ App({
   },
   onHide() {
     console.log('App Hide');
-  },
-
-  getModels() {
-    return models;
   },
 });

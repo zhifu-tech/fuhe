@@ -15,7 +15,6 @@
 ├── config
 ├── config.js
 ├── custom-tab-bar
-├── evnList.js              // 环境配置
 ├── miniprogram_npm
 ├── mocks
 ├── node_modules
@@ -24,7 +23,6 @@
 ├── package_home
 ├── package_user
 ├── pages
-├── pbcopy
 ├── services
 ├── sitemap.json
 ├── style

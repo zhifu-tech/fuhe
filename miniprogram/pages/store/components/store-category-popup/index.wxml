@@ -34,7 +34,7 @@
         tips="输入分类名称"
         value="{{category.title || ''}}"
         action="{{category.title.length > 0 ? '确认修改':'新增分类'}}"
-        catch:action="onCategoryInputAction"
+        bind:action="onCategoryInputAction"
         wx:if="{{showCategoryInput}}" />
       <t-divider t-class='divider'
         wx:if="{{!showCategoryInput}}" />

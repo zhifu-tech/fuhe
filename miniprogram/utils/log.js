@@ -1,5 +1,5 @@
 const log = (function () {
-  const format = (level, lable) => `fuhe:${level}:[${lable}]:[${new Date().toISOString()}]:`;
+  const format = (level, lable) => `[fuhe:${level}]:[${new Date().toISOString()}]:[${lable}]`;
   return {
     info: (label, ...args) => {
       console.log(format('info', label), ...args);

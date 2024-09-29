@@ -1,9 +1,6 @@
-.custom-tab-bar-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+/* @import 'miniprogram_npm/tdesign-miniprogram/common/style/theme/_index.wxss'; */
 
-.custom-tab-bar-wrapper .text {
-  font-size: 20rpx;
+.custom-tab-bar.page {
+  /* --td-tab-bar-bg-color: var(--td-primary-color-1);  */
+  /* --td-tab-bar-color: red; */
 }

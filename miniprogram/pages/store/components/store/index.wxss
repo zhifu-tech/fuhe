@@ -1,14 +1,14 @@
 .store-page-header {
   display: block;
   padding: 0 24rpx;
-  background: linear-gradient(#fff, #f5f5f5);
+  /* background: linear-gradient(#fff, #f5f5f5); */
 }
 .store-page-container {
   display: flex;
   height: 100vh;
 }
 .store-page-container .custom-side-bar {
-  --td-side-bar-bg-color: #f5f5f5;
+  /* --td-side-bar-bg-color: #f5f5f5; */
   --td-side-bar-width: 150rpx;
 }
 .store-page-container .store-page-content {

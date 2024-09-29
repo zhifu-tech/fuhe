@@ -4,26 +4,16 @@
   "darkmode": true,
   "resizable": true,
   "frameset": true,
-  "useExtendedLib": {
-    "weui": true
+  "window": {
+    "navigationStyle": "custom"
   },
   "pages": [
     "pages/store/index",
     "pages/cart/index",
     "pages/user/index"
   ],
-  "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "福猫",
-    "navigationBarTextStyle": "black"
-  },
   "tabBar": {
     "custom": true,
-    "color": "#7A7E83",
-    "selectedColor": "#3cc51f",
-    "borderStyle": "black",
-    "backgroundColor": "#F7F7F7",
     "list": [
       {
         "pagePath": "pages/store/index"

@@ -12,9 +12,7 @@ module.exports = Behavior({
   observers: {
     'specs.length': function (a1) {
       const changed = this.checkSpecsChanged();
-      console.log('tmp', 'specChanged check', a1, changed);
       if (this.data.specsChanged !== changed) {
-        console.log('tmp', 'specChanged notify');
         this.setData({
           specsChanged: changed,
         });

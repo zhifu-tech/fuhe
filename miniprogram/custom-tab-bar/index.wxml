@@ -1,18 +1,14 @@
-<t-tab-bar
- value="{{active}}"
- bindchange="onChange"
- split="{{false}}"
->
-	<t-tab-bar-item
-	 wx:for="{{list}}"
-	 wx:for-item="item"
-	 wx:for-index="index"
-	 wx:key="index"
-	>
-		<view class="custom-tab-bar-wrapper">
-			<t-icon name="{{item.icon}}" size="48rpx" />
-			<view class="text">{{ item.text }}</view>
-		</view>
-	</t-tab-bar-item>
+<t-tab-bar default-value="{{active}}"
+  bind:change="onChange"
+  t-class="page">
+  <!-- 因为page和tabbar处于同一层级，tabbar的默认属性中，使用了page中定义的属性，所以种类通过直接应用page的class来生效 -->
+  <block wx:for="{{list}}"
+    wx:for-item="item"
+    wx:for-index="index"
+    wx:key="value">
+    <t-tab-bar-item value="{{item.value}}"
+      icon='{{item.icon}}'>
+      {{item.label}}
+    </t-tab-bar-item>
+  </block>
 </t-tab-bar>
-

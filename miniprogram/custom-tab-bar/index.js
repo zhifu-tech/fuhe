@@ -1,29 +1,42 @@
-import TabMenu from './data';
 Component({
-  data: {
-    active: 0,
-    list: TabMenu,
+  options: {
+    virtualHost: true,
+    styleIsolation: 'shared',
   },
-
+  data: {
+    active: 'store',
+    list: [
+      {
+        icon: 'app',
+        label: '小店',
+        value: 'store',
+        url: '/pages/store/index',
+      },
+      {
+        icon: 'chart-analytics',
+        label: '统计',
+        value: 'chart',
+        url: '/pages/cart/index',
+      },
+      {
+        icon: 'user',
+        label: '我的',
+        value: 'user',
+        url: '/pages/user/index',
+      },
+    ],
+  },
   methods: {
-    onChange(event) {
-      this.setData({ active: event.detail.value });
-      wx.switchTab({
-        url: this.data.list[event.detail.value].url.startsWith('/')
-          ? this.data.list[event.detail.value].url
-          : `/${this.data.list[event.detail.value].url}`,
+    onChange(e) {
+      const { value: active } = e.detail;
+      const { list } = this.data;
+      this.setData({
+        active,
       });
-    },
-
-    init() {
-      const page = getCurrentPages().pop();
-      const route = page ? page.route.split('?')[0] : '';
-      const active = this.data.list.findIndex(
-        (item) =>
-          (item.url.startsWith('/') ? item.url.substr(1) : item.url) ===
-          `${route}`,
-      );
-      this.setData({ active });
+      const item = list.find((it) => it.value === active);
+      wx.switchTab({
+        url: item.url,
+      });
     },
   },
 });

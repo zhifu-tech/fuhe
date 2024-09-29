@@ -1,5 +1,3 @@
-import log from '../../../../../utils/log';
-
 module.exports = Behavior({
   data: {
     optionAddSpecId: null, // 展示「新增选项」输入的Spec
@@ -18,9 +16,8 @@ module.exports = Behavior({
   },
   methods: {
     onOptionAddClick: function (e) {
-      const { tag, optionAddSpecId } = this.data;
+      const { optionAddSpecId } = this.data;
       const { specId } = e.target.dataset;
-      log.info(tag, 'onOptionAddClick', specId, optionAddSpecId);
       if (optionAddSpecId === specId) {
         this.hideOptionAdd();
       } else {
@@ -51,8 +48,6 @@ module.exports = Behavior({
       }
     },
     showOptionEdit: function (option) {
-      const { tag } = this.data;
-      log.info(tag, 'showOptionEdit', option, this.data.optionEdit);
       this.setData({
         showInputScene: 'optionEdit',
         optionEditSpecId: option.sId,
@@ -60,9 +55,8 @@ module.exports = Behavior({
       });
     },
     hideOptionEdit: function () {
-      const { tag, optionEditSpecId, optionEdit } = this.data;
+      const { optionEditSpecId, optionEdit } = this.data;
       if (optionEditSpecId || optionEdit) {
-        log.info(tag, 'hideOptionEdit', this.data.optionEdit);
         this.setData({
           optionEditSpecId: null,
           optionEdit: null,
