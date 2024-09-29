@@ -1,10 +1,7 @@
 import log from '../../../../../utils/log';
 
 module.exports = Behavior({
-  data: {
-    title: null,
-    comfirmDisabled: true,
-  },
+  behaviors: [require('../../../../../common/popup/popup-header')],
   observers: {
     'category.title': function () {
       const { category, categoryInit } = this.data;
@@ -31,9 +28,6 @@ module.exports = Behavior({
     },
   },
   methods: {
-    onCancelClick: function () {
-      this.hidePopup();
-    },
     onConfirmClick: async function () {
       const { tag, categoryChanged, specsChanged } = this.data;
       this.showToastLoading('处理中');

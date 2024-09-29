@@ -10,6 +10,10 @@ module.exports = Behavior({
         this.showCategoryPopup((popup) => {
           popup.showAddCategory({ saasId });
         });
+      } else if (selected === services.category.addGoodsId) {
+        this.showGoodsPopup((popup) => {
+          popup.showAddGoods({});
+        });
       } else {
         this.setData({
           'category.selected': selected,

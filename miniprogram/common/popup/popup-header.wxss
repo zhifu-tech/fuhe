@@ -1,0 +1,15 @@
+.header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  height: 116rpx;
+  padding: 0 var(--td-spacer-2) 0;
+}
+.header .title {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  font-family: var(--td-font-family-medium);
+  font-size: var(--td-font-size-m);
+  color: var(--td-text-color-primary);
+}

@@ -47,7 +47,7 @@ module.exports = Behavior({
       }));
       if (items.length > 1) {
         items.unshift({
-          label: '所有分类',
+          label: '所有商品',
           value: services.category.allCategoryId,
           badgeProps: {},
         });
@@ -55,6 +55,11 @@ module.exports = Behavior({
       items.push({
         label: '新增分类',
         value: services.category.addCategoryId,
+        badgeProps: {},
+      });
+      items.push({
+        label: '新增商品',
+        value: services.category.addGoodsId,
         badgeProps: {},
       });
       return items;

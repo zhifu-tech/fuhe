@@ -6,14 +6,12 @@
   flex-direction: column;
 }
 @import '../../../../common/popup/popup-header.wxss';
-
 .section {
   display: flex;
   flex: none;
   flex-direction: column;
   justify-content: center;
 }
-
 .label-container {
   height: 70rpx;
   display: inline-flex;
@@ -28,25 +26,4 @@
   size: 48rpx;
   margin-left: var(--td-spacer-1);
   padding: var(--td-spacer-1) 0 var(--td-spacer-1) var(--td-spacer-1);
-}
-.label-container-sub {
-  margin-left: var(--td-spacer-2);
-}
-.input {
-  margin-left: var(--td-spacer-2);
-}
-.specs {
-  flex: 1;
-  overflow: auto; /* 确保内容超出时可滚动 */
-}
-.options {
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: var(--td-spacer-4);
-}
-.option {
-  margin: var(--td-spacer);
-}
-.divider {
-  margin-left: var(--td-spacer-3);
 }

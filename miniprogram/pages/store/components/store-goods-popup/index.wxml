@@ -1,0 +1,26 @@
+<t-popup visible="{{visible}}"
+  placement="bottom">
+  <view class=".container">
+    <include src="../../../../common/popup/popup-header" />
+    <view class="section">
+      <view class="label-container">
+        <view class="label">SPU信息</view>
+      </view>
+      <t-divider t-class='divider'
+        wx:if="{{!showCategoryInput}}" />
+    </view>
+    <view class="section">
+      <view class="label-container">
+        <view class="label">SKU信息</view>
+      </view>
+      <t-divider t-class='divider'
+        wx:if="{{!showCategoryInput}}" />
+    </view>
+  </view>
+</t-popup>
+
+
+<t-dialog id="t-dialog"
+  z-index="12000"
+  overlay-props="{{ {zIndex:11900} }}" />
+<t-toast id="t-toast" />

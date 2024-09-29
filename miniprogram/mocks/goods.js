@@ -14,7 +14,6 @@ export default {
         {
           id: '10012',
           value: '米色荷叶边',
-          saasId: '88888888',
           specId: '10011',
         },
       ],

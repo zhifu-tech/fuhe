@@ -1,9 +1,8 @@
-<t-navbar>
+<t-navbar t-class="class">
   <view class="store-page-header"
     slot="left">
     <t-icon size="48rpx"
       name="user-circle" />
     <view>客户：北京福和德运商贸有限公司</view>
   </view>
-
 </t-navbar>

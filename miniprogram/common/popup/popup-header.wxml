@@ -1,0 +1,17 @@
+<!-- 取消 + 标题 + 确定 -->
+<view class="header">
+  <t-button theme="default"
+    variant="text"
+    shape='circle'
+    size="small"
+    t-class="header-cancel"
+    bind:tap="onCancelClick">取消</t-button>
+  <view class="title">{{ title }}
+  </view>
+  <t-button theme="primary"
+    variant="text"
+    shape='circle'
+    size="small"
+    disabled="{{ comfirmDisabled }}"
+    bind:tap="onConfirmClick">确认</t-button>
+</view>

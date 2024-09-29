@@ -5,16 +5,8 @@ module.exports = Behavior({
     storeCategoryPopupEnabled: false,
   },
   methods: {
-    onCategoryPopupClose: function (e) {
-      const { hasChanged } = e.detail;
-      // 规格数据发生变化，需要重新拉取数据。
-      if (hasChanged) {
-        this._init();
-      }
-      this.hideCategoryPopup();
-    },
-    categoryPopupComponent() {
-      return this.selectComponent('.store-category-popup');
+    categoryPopupComponent: function () {
+      return this.selectComponent('#store-category-popup');
     },
     showCategoryPopup: function (callback) {
       this.setData(
@@ -41,6 +33,14 @@ module.exports = Behavior({
       } else {
         doHide();
       }
+    },
+    onCategoryPopupClose: function (e) {
+      const { hasChanged } = e.detail;
+      // 规格数据发生变化，需要重新拉取数据。
+      if (hasChanged) {
+        this._init();
+      }
+      this.hideCategoryPopup();
     },
   },
 });

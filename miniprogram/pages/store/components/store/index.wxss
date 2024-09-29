@@ -1,15 +1,20 @@
+.store-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
 .store-page-header {
-  display: block;
-  padding: 0 24rpx;
-  /* background: linear-gradient(#fff, #f5f5f5); */
+  flex: none;
 }
 .store-page-container {
   display: flex;
-  height: 100vh;
+  flex: 1;
 }
-.store-page-container .custom-side-bar {
-  /* --td-side-bar-bg-color: #f5f5f5; */
+.store-page-container .side-bar {
   --td-side-bar-width: 150rpx;
+  --td-side-bar-height: 100%;
+  /*  应该是获取到tabbar的高度+修正的距离。 */
+  padding-bottom: 60px;
 }
 .store-page-container .store-page-content {
   flex: auto;

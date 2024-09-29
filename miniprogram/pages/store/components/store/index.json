@@ -3,6 +3,7 @@
   "usingComponents": {
     "store-header": "/pages/store/components/store-header/index",
     "store-category-popup": "../store-category-popup/index",
+    "store-goods-popup": "../store-goods-popup/index",
     "t-side-bar": "tdesign-miniprogram/side-bar/side-bar",
     "t-side-bar-item": "tdesign-miniprogram/side-bar-item/side-bar-item",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",

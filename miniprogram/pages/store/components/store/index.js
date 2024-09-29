@@ -4,6 +4,7 @@ Component({
     require('./behaviors/store-category'), // 分类
     require('./behaviors/store-category-popup'), // 分类
     require('./behaviors/store-spec'), // 规格信息
+    require('./behaviors/store-goods-popup'), // 商品
   ],
   data: {
     tag: 'storePage',
