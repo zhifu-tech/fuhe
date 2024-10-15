@@ -1,1 +1,4 @@
-<store />
+<import src="index.skeleton.wxml" />
+<template is="skeleton"
+  wx:if="{{showSkeleton}}" />
+<store id='store' />

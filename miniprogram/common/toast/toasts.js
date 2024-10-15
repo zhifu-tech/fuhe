@@ -1,49 +1,47 @@
 import Toast, { hideToast } from 'tdesign-miniprogram/toast/index';
+import pages from '../page/pages';
 
 module.exports = Behavior({
   methods: {
     showToastSuccess(msg) {
       Toast({
-        context: this,
-        selector: '#t-toast',
         message: msg,
         theme: 'success',
-        direction: 'column',
+        ...this._commonToastProps(),
       });
     },
     showToastWarning(msg) {
       Toast({
-        context: this,
-        selector: '#t-toast',
         message: msg,
         theme: 'warning',
-        direction: 'column',
+        ...this._commonToastProps(),
       });
     },
     showToastError(msg) {
       Toast({
-        context: this,
-        selector: '#t-toast',
-        message: msg,
         theme: 'error',
-        direction: 'column',
+        message: msg,
+        ...this._commonToastProps(),
       });
     },
     showToastLoading(msg) {
       Toast({
-        context: this,
-        selector: '#t-toast',
+        theme: 'loading',
         message: msg,
         duration: -1,
-        theme: 'loading',
-        direction: 'column',
+        ...this._commonToastProps(),
       });
     },
     hideToast() {
-      hideToast({
-        context: this,
+      hideToast(this._commonToastProps());
+    },
+    _commonToastProps: function () {
+      return {
+        context: pages.currentPage().store(),
         selector: '#t-toast',
-      });
+        style: `z-index:${pages.zIndexToast}`,
+        direction: 'column',
+      };
     },
   },
 });

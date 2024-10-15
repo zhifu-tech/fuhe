@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@cloudbase/wx-cloud-client-sdk": "^1.2.1",
+    "dayjs": "^1.11.13",
     "tdesign-miniprogram": "^1.6.0"
   }
 }

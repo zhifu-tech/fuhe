@@ -1,28 +1,46 @@
 <t-popup visible="{{visible}}"
-  placement="bottom">
+  zIndex="{{popupProps.zIndex}}"
+  overlayProps="{{popupProps.overlayProps}}"
+  placement="bottom"
+  bind:visible-change="hide">
   <view class="container"
-    slot='content'>
-    <include src="../../../../common/popup/popup-header" />
+    slot="content">
+    <!-- header: 取消 + 标题 + 确定 -->
+    <view class="header">
+      <t-button theme="default"
+        variant="text"
+        shape="circle"
+        size="small"
+        t-class="header-cancel"
+        bind:tap="onCancelClick">取消</t-button>
+      <view class="title">{{ title }} </view>
+      <t-button theme="primary"
+        variant="text"
+        shape="circle"
+        size="small"
+        disabled="{{ comfirmDisabled }}"
+        bind:tap="onConfirmClick">确认</t-button>
+    </view>
     <view class="section">
       <view class="label-container">
         <view class="label">分类信息</view>
         <t-icon class="icon"
           name="{{showCategoryInput ? 'edit':'edit-off'}}"
           bind:tap="onCategoryIconEditClick" />
-        <t-icon class="icon"
+        <t-icon wx:if="{{true || category.title.length > 0}}"
+          class="icon"
           name="delete"
-          bind:tap="onCategoryIconDeleteClick"
-          wx:if="{{true || category.title.length > 0}}" />
+          bind:tap="onCategoryIconDeleteClick" />
       </view>
-      <store-input input-class="input"
-        tag='category-input'
+      <store-input wx:if="{{showCategoryInput}}"
+        input-class="input"
+        tag="category-input"
         tips="输入分类名称"
         value="{{category.title || ''}}"
         action="{{category.title.length > 0 ? '确认修改':'新增分类'}}"
-        bind:action="onCategoryInputAction"
-        wx:if="{{showCategoryInput}}" />
-      <t-divider t-class='divider'
-        wx:if="{{!showCategoryInput}}" />
+        bind:action="onCategoryInputAction" />
+      <t-divider wx:if="{{!showCategoryInput}}"
+        t-class="divider" />
     </view>
     <view class="section">
       <view class="label-container">
@@ -31,13 +49,13 @@
           name="{{specAddShow ? 'edit':'edit-off'}}"
           bind:tap="onSpecAddClick" />
       </view>
-      <store-input input-class="input"
-        tag='spec-add-input'
+      <store-input wx:if="{{specAddShow}}"
+        input-class="input"
+        tag="spec-add-input"
         tips="输入规格名称"
         action="新增规格"
-        catch:action="onSpecInputAction"
-        wx:if="{{specAddShow}}" />
-      <t-divider t-class='divider'
+        catch:action="onSpecInputAction" />
+      <t-divider t-class="divider"
         wx:if="{{!specAddShow}}" />
     </view>
     <scroll-view scroll-y="true"
@@ -59,15 +77,15 @@
             data-spec="{{spec}}"
             bind:tap="onSpecDeleteClick" />
         </view>
-        <store-input input-class="input"
-          tag='spec-edit-input'
+        <store-input wx:if="{{specEditId === spec._id }}"
+          input-class="input"
+          tag="spec-edit-input"
           data-spec="{{spec}}"
           data-spec-id="{{spec._id}}"
           tips="输入规格名称"
           action="修改规格"
           value="{{specEditId === spec._id ? spec.title : ''}}"
-          catch:action="onSpecInputAction"
-          wx:if="{{specEditId === spec._id }}" />
+          catch:action="onSpecInputAction" />
         <view class="options">
           <block wx:for="{{spec.options}}"
             wx:for-item="option"
@@ -88,21 +106,16 @@
             {{optionAddSpecId === spec._id || optionEditSpecId === spec._id?'收起':'新增选项'}}
           </t-tag>
         </view>
-        <store-input input-class="input"
+        <store-input wx:if="{{optionAddSpecId === spec._id || optionEditSpecId === spec._id }}"
+          input-class="input"
           data-spec-id="{{spec._id}}"
           tips="输入选项名称"
           action="{{optionEdit ? '修改选项':'新增选项'}}"
           value="{{optionEdit ? optionEdit.title:''}}"
-          catch:action="onOptionInputAction"
-          wx:if="{{optionAddSpecId === spec._id || optionEditSpecId === spec._id }}" />
-        <t-divider t-class='divider'
-          wx:if="{{optionAddSpecId !== spec._id && optionEditSpecId !== spec._id }}" />
+          catch:action="onOptionInputAction" />
+        <t-divider wx:if="{{optionAddSpecId !== spec._id && optionEditSpecId !== spec._id }}"
+          t-class="divider" />
       </block>
     </scroll-view>
   </view>
 </t-popup>
-
-<t-dialog id="t-dialog"
-  z-index="12000"
-  overlay-props="{{ {zIndex:11900} }}" />
-<t-toast id="t-toast" />

@@ -1,5 +1,5 @@
 import services from '../../../../../services/index';
-import log from '../../../../../utils/log';
+import log from '../../../../../common/log/log';
 
 module.exports = Behavior({
   data: {
@@ -12,7 +12,7 @@ module.exports = Behavior({
     _initCategory: async function () {
       services.category.cache.reset();
       const { tag, saasId } = this.data;
-      const res = await this._fetchCategoryList({ tag, saasId, pageNumber: 1, refresh: true });
+      const res = await this._fetchCategoryList({ tag, saasId, pageNumber: 1, refresh: false });
       this.setData({
         'category.items': res.items,
         'category.selected': res.selected,
@@ -55,11 +55,6 @@ module.exports = Behavior({
       items.push({
         label: '新增分类',
         value: services.category.addCategoryId,
-        badgeProps: {},
-      });
-      items.push({
-        label: '新增商品',
-        value: services.category.addGoodsId,
         badgeProps: {},
       });
       return items;

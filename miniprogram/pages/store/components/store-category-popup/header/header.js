@@ -1,7 +1,10 @@
-import log from '../../../../../utils/log';
+import log from '../../../../../common/log/log';
 
 module.exports = Behavior({
-  behaviors: [require('../../../../../common/popup/popup-header')],
+  data: {
+    title: null,
+    comfirmDisabled: true,
+  },
   observers: {
     'category.title': function () {
       const { category, categoryInit } = this.data;
@@ -28,6 +31,9 @@ module.exports = Behavior({
     },
   },
   methods: {
+    onCancelClick: function () {
+      this.hide();
+    },
     onConfirmClick: async function () {
       const { tag, categoryChanged, specsChanged } = this.data;
       this.showToastLoading('处理中');
@@ -43,7 +49,7 @@ module.exports = Behavior({
       } catch (error) {
         log.error(tag, 'confirmed', error);
       } finally {
-        this.hidePopup();
+        this.hide();
         this.hideToast();
       }
     },

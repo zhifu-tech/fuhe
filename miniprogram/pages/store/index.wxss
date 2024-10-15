@@ -1,1 +1,1 @@
-/* pages/store/index2.wxss */
+@import './index.skeleton.wxss';

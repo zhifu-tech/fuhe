@@ -2,8 +2,8 @@
   "cloud": true,
   "sitemapLocation": "sitemap.json",
   "darkmode": true,
-  "resizable": true,
-  "frameset": true,
+  "resizable": false,
+  "frameset": false,
   "window": {
     "navigationStyle": "custom"
   },
@@ -25,5 +25,12 @@
         "pagePath": "pages/user/index"
       }
     ]
+  },
+  "resolveAlias": {
+    "@/*": "/*"
+  },
+  "debug": true,
+  "debugOptions": {
+    "enableFPSPanel": false
   }
 }

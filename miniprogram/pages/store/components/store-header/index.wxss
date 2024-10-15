@@ -1,5 +1,7 @@
 .store-page-header {
   display: flex;
-  flex-direction: column;
   padding: 0 24rpx;
+}
+.store-page-header .label {
+  margin-left: var(--td-spacer-2);
 }

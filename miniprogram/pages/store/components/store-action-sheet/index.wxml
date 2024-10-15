@@ -1,0 +1,13 @@
+<t-action-sheet id="action-sheet"
+  visible="{{visible}}"
+  value="{{[selected]}}"
+  title="选择类别"
+  cancelBtn="取消"
+  confirmBtn="确认"
+  popupProps="{{popupProps}}"
+  usingCustomNavbar
+  data-items="{{items}}"
+  bind:confirm="_confirm"
+  bind:close="_close">
+  <t-picker-item options="{{items}}" />
+</t-action-sheet>

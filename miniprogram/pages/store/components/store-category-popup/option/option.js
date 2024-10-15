@@ -1,5 +1,5 @@
 const { default: services } = require('../../../../../services/index');
-const { default: log } = require('../../../../../utils/log');
+const { default: log } = require('../../../../../common/log/log');
 
 module.exports = Behavior({
   methods: {
@@ -17,9 +17,13 @@ module.exports = Behavior({
       const { tag, specs } = this.data;
       const list = [];
       specs.forEach((spec) => {
-        spec.options?.forEach(({ _id, title }) => {
-          if (_id.startsWith('-')) {
-            list.push({ spec, sId: spec._id, title });
+        spec.options?.forEach((option) => {
+          if (option._id.startsWith('-')) {
+            list.push({
+              option,
+              sId: spec._id,
+              title: option.title,
+            });
           }
         });
       });
@@ -28,10 +32,10 @@ module.exports = Behavior({
           tag,
           infoList: list,
         });
-        list.forEach(({ spec }, index) => {
-          spec._id = res[index]._id;
+        list.forEach(({ option }, index) => {
+          option._id = res[index]._id;
+          option.sId = res[index].sId;
         });
-        log.info(tag, 'handleSpecOptionsAdd', res);
         this.setHasChanged();
       }
     },

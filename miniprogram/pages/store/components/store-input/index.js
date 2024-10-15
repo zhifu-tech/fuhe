@@ -1,4 +1,4 @@
-import log from '../../../../utils/log';
+import log from '../../../../common/log/log';
 
 Component({
   options: {
@@ -7,6 +7,10 @@ Component({
   externalClasses: ['input-class'],
   properties: {
     tips: {
+      type: String,
+      value: '',
+    },
+    label: {
       type: String,
       value: '',
     },

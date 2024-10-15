@@ -1,5 +1,5 @@
 import cache from './cache';
-import log from '../../utils/log';
+import log from '../../common/log/log';
 import services from '../index';
 
 export default {
@@ -63,7 +63,7 @@ export default {
           _id: true,
           cId: true,
           title: true,
-          options: {
+          optionList: {
             _id: true,
             sId: true,
             title: true,
@@ -175,7 +175,7 @@ export default {
       });
       const { id } = data;
       const option = services.spec.createSpecOptionObject({ id, sId, title });
-      cache.setSpec({ sId, option });
+      cache.setSpecOption({ sId, option });
       log.info(tag, 'spec-option-create', title, data, option);
       return option;
     } catch (error) {
@@ -204,7 +204,7 @@ export default {
       const options = idList.map((id, index) => {
         const { sId, title } = infoList[index];
         const option = services.spec.createSpecOptionObject({ id, sId, title });
-        cache.setSpec(sId, option);
+        cache.setSpecOption({ sId, option });
         return option;
       });
       log.info(tag, 'spec-option-createMany', infoList, data, options);

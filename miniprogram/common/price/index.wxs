@@ -1,0 +1,11 @@
+var regExp = getRegExp('^\\d+(\\.\\d+)?$');
+function addUnit(value) {
+  if (value == null) {
+    return '';
+  }
+  return regExp.test('' + value) ? value + 'rpx' : value;
+}
+
+module.exports = {
+  addUnit: addUnit,
+};

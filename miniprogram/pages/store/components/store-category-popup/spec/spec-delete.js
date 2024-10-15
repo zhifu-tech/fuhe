@@ -1,6 +1,6 @@
 import Dialog from 'tdesign-miniprogram/dialog/index';
 
-const { default: log } = require('../../../../../utils/log');
+const { default: log } = require('../../../../../common/log/log');
 
 module.exports = Behavior({
   methods: {

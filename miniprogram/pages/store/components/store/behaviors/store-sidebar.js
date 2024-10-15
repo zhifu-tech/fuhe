@@ -1,19 +1,36 @@
 import services from '../../../../../services/index';
-import log from '../../../../../utils/log';
+import log from '../../../../../common/log/log';
 
 module.exports = Behavior({
+  data: {
+    showSideBar: true,
+    foldBtnProps: {
+      theme: 'default',
+      size: 'large',
+      variant: 'text',
+    },
+  },
+  lifetimes: {
+    attached: function () {
+      const prefs = wx.getStorageSync('store.showSideBar');
+      if (prefs !== '') {
+        this.setData({
+          showSideBar: prefs,
+        });
+      }
+    },
+  },
   methods: {
+    handleSideBarFold: function () {
+      const showSideBar = !this.data.showSideBar;
+      this.setData({ showSideBar });
+      wx.setStorageSync('store.showSideBar', showSideBar);
+    },
     onSideBarChange: function (e) {
       const { saasId } = this.data;
       const { value: selected } = e.detail;
       if (selected === services.category.addCategoryId) {
-        this.showCategoryPopup((popup) => {
-          popup.showAddCategory({ saasId });
-        });
-      } else if (selected === services.category.addGoodsId) {
-        this.showGoodsPopup((popup) => {
-          popup.showAddGoods({});
-        });
+        this.showCategoryPopup({ saasId });
       } else {
         this.setData({
           'category.selected': selected,
@@ -25,10 +42,6 @@ module.exports = Behavior({
       const { id: cId } = e.currentTarget.dataset;
       if (cId === services.category.allCategoryId) {
         log.info(tag, 'all category is not support long press');
-      } else if (cId === services.category.addCategoryId) {
-        this.showCategoryPopup((popup) => {
-          popup.showAddCategory({ saasId });
-        });
       } else {
         const args = { saasId };
         try {
@@ -42,9 +55,7 @@ module.exports = Behavior({
           log.error(tag, 'showPopup', error);
           return;
         }
-        this.showCategoryPopup((popup) => {
-          popup.showEditCategory(args);
-        });
+        this.showCategoryPopup(args);
         log.info(tag, 'onCategoryLongPressed', e);
       }
     },

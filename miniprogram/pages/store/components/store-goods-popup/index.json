@@ -1,14 +1,13 @@
 {
   "component": true,
   "usingComponents": {
-    "t-tag": "tdesign-miniprogram/tag/tag",
-    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-check-tag": "tdesign-miniprogram/check-tag/check-tag",
+    "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-upload": "tdesign-miniprogram/upload/upload",
     "t-popup": "tdesign-miniprogram/popup/popup",
     "t-input": "tdesign-miniprogram/input/input",
-    "t-toast": "tdesign-miniprogram/toast/toast",
-    "t-dialog": "tdesign-miniprogram/dialog/dialog",
     "t-button": "tdesign-miniprogram/button/button",
     "t-divider": "tdesign-miniprogram/divider/divider",
-    "store-input": "../store-input/index"
+    "store-goods": "../store-goods/index"
   }
 }

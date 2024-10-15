@@ -1,4 +1,4 @@
-import log from '../../../../../utils/log';
+import log from '../../../../../common/log/log';
 import services from '../../../../../services/index';
 
 /** 新增规格 */
@@ -91,11 +91,11 @@ module.exports = Behavior({
       });
       if (list.length > 0) {
         const specsRes = await services.spec.crud.createMany({ tag, cId, titles: list });
-        list.forEach((spec, index) => {
+        list.forEach(({ spec }, index) => {
           const specRes = specsRes[index];
           spec._id = specRes._id;
+          spec.cId = specRes.cId;
         });
-        log.info(tag, '_handleSpecsAdd', specsRes);
         this.setHasChanged();
       }
     },

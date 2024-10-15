@@ -1,19 +1,10 @@
 module.exports = Behavior({
-  data: {
-    storeGoodsPopupEnabled: false,
-  },
+  behaviors: [require('../../store-goods-popup/popup')],
   methods: {
-    goodsPopupComponent: function () {
-      return this.selectComponent('#store-goods-popup');
+    handleShowGoodsPopup: function () {
+      this.showGoodsAddSpuPopup({
+        
+      });
     },
-    showGoodsPopup: function (callback) {
-      this.setData(
-        {
-          storeGoodsPopupEnabled: true,
-        },
-        () => callback(this.goodsPopupComponent()),
-      );
-    },
-    onGoodsPopupClose: function () {},
   },
 });

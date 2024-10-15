@@ -1,4 +1,4 @@
-import log from '../../utils/log';
+import log from '../../common/log/log';
 
 export default (function () {
   const list = new Map();
@@ -30,11 +30,11 @@ export default (function () {
     },
     getSpecOption: function ({ sId, id }) {
       const spec = this.getSpec(sId);
-      return spec?.options.find(({ _id }) => _id === id);
+      return spec?.options?.find(({ _id }) => _id === id);
     },
     setSpecOption: function ({ sId, option }) {
       const spec = this.getSpec(sId);
-      spec?.options.push(option);
+      spec?.options?.push(option);
     },
     deleteSpecOption: function ({ sId, id }) {
       const spec = this.getSpec(sId);

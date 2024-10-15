@@ -1,5 +1,5 @@
 import services from '../../../../../services/index';
-import log from '../../../../../utils/log';
+import log from '../../../../../common/log/log';
 
 module.exports = Behavior({
   data: {
@@ -12,6 +12,5 @@ module.exports = Behavior({
     _initSpec: function () {
       services.spec.cache.reset();
     },
-
   },
 });

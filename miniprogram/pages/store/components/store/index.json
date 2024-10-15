@@ -3,11 +3,21 @@
   "usingComponents": {
     "store-header": "/pages/store/components/store-header/index",
     "store-category-popup": "../store-category-popup/index",
+    "store-goods": "../store-goods/index",
     "store-goods-popup": "../store-goods-popup/index",
+    "store-picker": "../store-picker/index",
+    "t-pull-down-refresh": "tdesign-miniprogram/pull-down-refresh/pull-down-refresh",
+    "t-action-sheet": "tdesign-miniprogram/action-sheet/action-sheet",
     "t-side-bar": "tdesign-miniprogram/side-bar/side-bar",
     "t-side-bar-item": "tdesign-miniprogram/side-bar-item/side-bar-item",
+    "t-fab": "tdesign-miniprogram/fab/fab",
+    "t-search": "tdesign-miniprogram/search/search",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-empty": "tdesign-miniprogram/empty/empty",
+    "t-dialog": "tdesign-miniprogram/dialog/dialog",
+    "t-toast": "tdesign-miniprogram/toast/toast",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
-    "load-more": "/components/load-more/index"
+    "load-more": "/common/load-more/index"
   }
 }

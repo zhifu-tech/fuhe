@@ -2,6 +2,9 @@ const config = require('./cloud-config');
 const { init: initCloudClientSdk } = require('@cloudbase/wx-cloud-client-sdk');
 
 App({
+  globalData: {
+    saasId: '666666',
+  },
   onLaunch: async function (opts, data) {
     console.log('App Launch', opts);
     if (data && data.path) {

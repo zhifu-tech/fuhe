@@ -1,12 +1,14 @@
 <t-input t-class="input-class"
   placeholder="{{tips}}"
+  label="{{label}}"
   value="{{value||''}}"
   bind:change="onChange"
   bind:enter="onEnter"
   bind:focus="onFocus"
   bind:blur="onBlur">
 
-  <t-button slot="suffix"
+  <t-button wx:if="{{action}}"
+    slot="suffix"
     theme="primary"
     size="extra-small"
     wx:if="{{action.length > 0}}"

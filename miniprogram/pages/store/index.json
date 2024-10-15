@@ -1,6 +1,5 @@
 {
   "navigationBarTitleText": "小店",
-  "backgroundTextStyle": "light",
   "usingComponents": {
     "store": "./components/store/index"
   }

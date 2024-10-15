@@ -1,4 +1,4 @@
-import log from '../../../../../utils/log';
+import log from '../../../../../common/log/log';
 
 module.exports = Behavior({
   data: {

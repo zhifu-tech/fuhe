@@ -1,4 +1,4 @@
-import log from '../../../../../utils/log';
+import log from '../../../../../common/log/log';
 import services from '../../../../../services/index';
 
 /** 分类共有行为 */
