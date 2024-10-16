@@ -55,7 +55,7 @@ module.exports = Behavior({
       });
 
       // 提交商品SKU的Stock信息
-      const stockIdList = await services.goods.stockCreateMany({
+      const stockIdList = await services.stock.createMany({
         tag,
         paramList: newSkuList.map((sku) => {
           const { quantity, costPrice, salePrice } = sku.stockList[0];

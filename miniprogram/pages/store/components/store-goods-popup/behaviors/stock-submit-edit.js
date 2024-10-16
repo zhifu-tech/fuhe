@@ -39,7 +39,7 @@ module.exports = Behavior({
       const { tag, stock, _stock } = this.data;
       this.showToastLoading();
       try {
-        await services.goods.stockUpdate({
+        await services.stock.update({
           tag,
           stockId: stock._id,
           quantity: stock.quantity === _stock.quantity ? undefined : stock.quantity,

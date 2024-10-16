@@ -1,103 +1,95 @@
 <view class="container">
   <store-header />
-  <view wx:if="{{false}}"
-    class="search-wrapper">
-    <t-search placeholder="输入tdesign，有预览结果"
-      shape="round"
-      bind:change="onChangeValue" />
+  <view wx:if="{{false}}" class="search-wrapper">
+    <t-search placeholder="输入tdesign，有预览结果" shape="round" bind:change="onChangeValue" />
   </view>
-
   <view class="content">
-    <view style="display: {{showSideBar ? 'flex':'none'}};"
-      class="side-bar-wrapper">
-      <t-side-bar class="side-bar"
-        value="{{category.selected}}"
-        bind:change="onSideBarChange">
-        <block wx:for="{{category.items}}"
-          wx:for-item="item"
-          wx:for-index="index"
-          wx:key="value">
-          <t-side-bar-item t-class="side-bar-item"
+    <view style="display: {{showSideBar ? 'flex':'none'}};" class="side-bar-wrapper">
+      <t-side-bar class="side-bar" value="{{category.selected}}" bind:change="onSideBarChange">
+        <block wx:for="{{category.items}}" wx:for-item="item" wx:for-index="index" wx:key="value">
+          <t-side-bar-item
+            t-class="side-bar-item"
             label="{{item.label}}"
             data-id="{{item.value}}"
             bind:longpress="onSideBarItemLongPress"
             value="{{item.value}}"
-            badge-props="{{item.badgeProps}}" />
+            badge-props="{{item.badgeProps}}"
+          />
         </block>
       </t-side-bar>
       <view class="side-bar-actions">
-        <view class="side-bar-action"
-          bind:tap="handleShowGoodsPopup">新增商品</view>
-        <t-button class="side-bar-action"
+        <view class="side-bar-action" bind:tap="handleShowGoodsPopup">新增商品</view>
+        <t-button
+          class="side-bar-action"
           theme="default"
           size="large"
           variant="text"
           icon="menu-unfold"
-          bind:tap="handleSideBarFold">
-        </t-button>
+          bind:tap="handleSideBarFold"
+        />
       </view>
     </view>
-    <t-pull-down-refresh value="{{pdrEnabled}}"
+    <t-pull-down-refresh
+      value="{{pdrEnabled}}"
       loadingTexts="{{['下拉刷新', '松手刷新', '正在刷新', '刷新完成']}}"
       class="scroll"
       type="list"
       scroll-y
       bind:refresh="handlePDRRefresh"
       bind:scrolltolower="onScrollToLower"
-      scroll-with-animation>
-      <block wx:for="{{goods.items}}"
-        wx:for-item="spu"
-        wx:key="_id">
-        <block wx:for="{{ spu.skuList }}"
-          wx:for-item="sku"
-          wx:key="_id">
-          <store-goods spu="{{ spu }}"
-            sku="{{ sku }}" />
+      scroll-with-animation
+      enable-flex="true"
+    >
+      <block wx:for="{{goods.items}}" wx:for-item="spu" wx:key="_id">
+        <block wx:for="{{ spu.skuList }}" wx:for-item="sku" wx:key="_id">
+          <store-goods spu="{{ spu }}" sku="{{ sku }}" />
         </block>
       </block>
       <load-more status="{{loadMoreStatus}}" />
-      <t-empty wx:if="{{empty}}"
-        class="empty"
-        icon="info-circle-filled"
-        description="暂无商品">
-        <t-button slot="action"
+      <t-empty wx:if="{{empty}}" class="empty" icon="info-circle-filled" description="暂无商品">
+        <t-button
+          slot="action"
           block
           theme="primary"
           variant="outline"
           size="large"
-          bind:tap="handleShowGoodsPopup">新增商品</t-button>
+          bind:tap="handleShowGoodsPopup"
+          >新增商品
+        </t-button>
       </t-empty>
     </t-pull-down-refresh>
   </view>
 </view>
-
-<t-fab wx:if="{{!showSideBar}}"
+<t-fab
+  wx:if="{{!showSideBar}}"
   icon="menu-fold"
   button-props="{{foldBtnProps}}"
   draggable="true"
   usingCustomNavbar="true"
-  style="left: unset; right:unset; bottom: calc(80px + env(safe-area-inset-bottom));"
+  style="left: unset; right: unset; bottom: calc(80px + env(safe-area-inset-bottom))"
   bind:click="handleSideBarFold"
-  aria-label="增加" />
-
-<t-fab icon="cart"
+  aria-label="增加"
+/>
+<t-fab
+  icon="cart"
   button-props="{{foldBtnProps}}"
   draggable="true"
   usingCustomNavbar="true"
-  style="left: unset; right:var(--td-spacer); bottom: calc(80px + env(safe-area-inset-bottom));"
+  style="left: unset; right: var(--td-spacer); bottom: calc(80px + env(safe-area-inset-bottom))"
   bind:click="handleSideBarFold"
-  aria-label="增加" />
-
-<store-category-popup wx:if="{{storeCategoryPopupEnabled}}"
+  aria-label="增加"
+/>
+<store-category-popup
+  wx:if="{{storeCategoryPopupEnabled}}"
   id="store-category-popup"
-  bind:close="onCategoryPopupClose" />
-
-<store-goods-popup wx:if="{{storeGoodsPopupEnabled}}"
+  bind:close="onCategoryPopupClose"
+/>
+<store-goods-popup
+  wx:if="{{storeGoodsPopupEnabled}}"
   id="store-goods-popup"
-  bind:close="onCategoryPopupClose" />
-
+  bind:close="onCategoryPopupClose"
+/>
 <include src="../../../../common/picker/simple.wxml" />
 <include src="../../../../common/action-sheet/simple.wxml" />
-
 <t-toast id="t-toast" />
 <t-dialog id="t-dialog" />

@@ -32,8 +32,7 @@ Component({
   },
   methods: {
     _init: async function () {
-      await this._initCategory();
-      await this._initGoods();
+      await Promise.all([this._initCategory(), this._initGoods()]);
       this.hideSkeleton();
     },
   },

@@ -1,28 +1,33 @@
+import log from '../../../../../common/log/log';
 import services from '../../../../../services/index';
 
 module.exports = Behavior({
   data: {
     goods: {
-      total: 0,
       items: [],
-      pageNumber: 0,
-      selectedCategory: '',
+      _total: 0,
+      _pageNumber: 0,
+      _selectedCategory: services.category.allCategoryId,
     },
   },
   observers: {
     'category.selected': function () {
       const { goods, category } = this.data;
-      if (goods.selectedCategory !== category.selected) {
-        goods.selectedCategory = category.selected;
+      if (goods._selectedCategory !== category.selected) {
+        log.info('goods', 'category.selected');
+        goods._selectedCategory = category.selected;
         this._fetchGoodsList({ pageNumber: 1, refresh: true });
       }
     },
   },
   methods: {
     _initGoods: async function () {
+      log.info('goods', '_initGoods');
       await this._fetchGoodsList({ pageNumber: 1, refresh: true });
     },
     onScrollToLower: async function () {
+      log.info('goods', 'onScrollToLower');
+
       if (this.isLoadMoreLoading()) {
         return;
       }
@@ -37,6 +42,7 @@ module.exports = Behavior({
       });
     },
     _fetchGoodsList: async function ({ pageNumber, refresh }) {
+      log.info('goods', '_fetchGoodsList', { pageNumber, refresh });
       const {
         tag,
         goods: { items, selectedCategory },

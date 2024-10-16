@@ -1,25 +1,25 @@
-const { saasId } = require('../../../../common/saas/saas');
+const { saasId } = require('@/common/saas/saas');
 
 Component({
   options: {
     virtualHost: true,
   },
   behaviors: [
-    require('../../../../common/popup/popup-props'),
-    require('../../../../common/toast/toasts'),
-    require('./header/header'),
-    require('./category/category'),
-    require('./category/category-delete'),
-    require('./category/category-input'),
-    require('./category/category-input-action'),
-    require('./spec/spec'),
-    require('./spec/spec-delete'),
-    require('./spec/spec-input'),
-    require('./spec/spec-input-action'),
-    require('./option/option'),
-    require('./option/option-delete'),
-    require('./option/option-input'),
-    require('./option/option-input-action'),
+    require('@/common/popup/popup-props'),
+    require('@/common/toast/toasts'),
+    require('./behaviors/header'),
+    require('./behaviors/category'),
+    require('./behaviors/category-delete'),
+    require('./behaviors/category-input'),
+    require('./behaviors/category-input-action'),
+    require('./behaviors/spec'),
+    require('./behaviors/spec-delete'),
+    require('./behaviors/spec-input'),
+    require('./behaviors/spec-input-action'),
+    require('./behaviors/option'),
+    require('./behaviors/option-delete'),
+    require('./behaviors/option-input'),
+    require('./behaviors/option-input-action'),
   ],
   data: {
     tag: 'category-popup',

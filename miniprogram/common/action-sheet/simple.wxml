@@ -4,5 +4,6 @@
   usingCustomNavbar
   items="{{ simpleActionSheet.items }}"
   popupProps="{{ simpleActionSheet.popupProps }}"
+  bind:cancel="_handleSimpleActionSheetClose"
   bind:close="_handleSimpleActionSheetClose"
   bind:selected="_handleSimpleActionSheetSelected" />

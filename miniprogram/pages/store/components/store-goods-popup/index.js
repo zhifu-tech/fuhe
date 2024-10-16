@@ -80,8 +80,8 @@ Component({
       close,
       callback,
     }) {
-      this.initSpu(spu ?? {});
-      this.initSku(sku ?? {});
+      this.initSpu(spu);
+      this.initSku(sku);
       this.initStock(stock ?? {});
       this.initOptions();
       this.setData({

@@ -47,7 +47,7 @@ module.exports = Behavior({
         try {
           const [categoryRes, specsRes] = await Promise.all([
             services.category.crud.get({ tag, saasId, id: cId }),
-            services.spec.crud.list({ tag, saasId, cId }),
+            services.spec.list({ tag, saasId, cId }),
           ]);
           args.category = categoryRes;
           args.specs = specsRes.records;

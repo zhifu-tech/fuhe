@@ -28,7 +28,7 @@ module.exports = Behavior({
         });
       });
       if (list.length > 0) {
-        const res = await services.spec.crud.createOptionMany({
+        const res = await services.option.createMany({
           tag,
           infoList: list,
         });
@@ -58,7 +58,7 @@ module.exports = Behavior({
         });
       });
       if (list.length > 0) {
-        const res = await services.spec.crud.updateOptionsMany({
+        const res = await services.option.updateMany({
           tag,
           infoList: list,
         });
@@ -92,7 +92,7 @@ module.exports = Behavior({
         }
       });
       if (list.length > 0) {
-        const res = await services.spec.crud.deleteOptionMany({
+        const res = await services.option.deleteMany({
           tag,
           ids: list,
         });

@@ -3,7 +3,7 @@ const { default: pages } = require('../../../../../common/page/pages');
 
 module.exports = Behavior({
   methods: {
-    showActionMore: function (e) {
+    showActionMore: function () {
       pages
         .currentPage()
         .root()
@@ -21,6 +21,10 @@ module.exports = Behavior({
               label: '新增库存',
               value: '2',
             },
+            {
+              label: '删除库存',
+              value: '3',
+            },
           ],
           selected: (value) => {
             switch (value) {
@@ -34,6 +38,10 @@ module.exports = Behavior({
               }
               case '2': {
                 this._handleAddSku();
+                break;
+              }
+              case '3': {
+                this._handleDeleteSku();
                 break;
               }
             }
@@ -89,5 +97,6 @@ module.exports = Behavior({
           },
         });
     },
+    _handleDeleteSku: function () {},
   },
 });

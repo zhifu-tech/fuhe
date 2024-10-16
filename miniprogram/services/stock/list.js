@@ -1,7 +1,6 @@
 import log from '../../common/log/log';
-import services from '../index';
 
-export default async function list({ tag, skuId }) {
+export default async function ({ tag, skuId }) {
   try {
     const { data } = await wx.cloud.models.fh_stock.list({
       select: {
@@ -10,21 +9,15 @@ export default async function list({ tag, skuId }) {
         costPrice: true,
         salePrice: true,
         quantity: true,
-        createdAt: true, // 2024-10-12 08:17:42
-        updatedAt: true, // 2024-10-12 08:17:42
+        createdAt: true,
+        updatedAt: true,
       },
       filter: {
         where: {
-          $and: [
-            { skuId: { $eq: skuId } },
-            { quantity: { $gt: 0 } }, // 忽略已经清空的
-          ],
+          $and: [{ skuId: { $eq: skuId } }, { quantity: { $gt: 0 } }],
         },
       },
-      orderBy: [
-        { createdAt: 'asc' }, // 创建时间升序排列
-        { costPrice: 'asc' }, // 成本升序排序
-      ],
+      orderBy: [{ createdAt: 'asc' }, { costPrice: 'asc' }],
       getCount: true,
       pageNumber: 1,
       pageSize: 200,

@@ -6,7 +6,7 @@ module.exports = Behavior({
       // 1. 更新SPU类别信息
       const category = picked || {};
       // 2. 加载规格信息
-      const { records: specList } = await services.spec.crud.list({
+      const { records: specList } = await services.spec.list({
         tag: 'goods-spu-category',
         cId: category._id,
         loadFromCacheEnabled: true,

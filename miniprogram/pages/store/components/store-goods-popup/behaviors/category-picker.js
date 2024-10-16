@@ -40,7 +40,7 @@ module.exports = Behavior({
       const { tag } = this.data;
       if (cId !== '0') {
         this.handleUpdateSpuCategory(data);
-        log.info(tag, 'category-picker', 'confirm', item);
+        log.info(tag, 'category-picker', 'confirm');
         return;
       }
       pages

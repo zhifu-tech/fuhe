@@ -58,26 +58,24 @@ const _handleSpuSpecList = async function (tag, spuList) {
     if (cId) cIdSet.add(cId);
   });
   const cIdList = Array.from(cIdSet);
-
-  // 批量执行所有请求
-  const promises = cIdList.map((cId) =>
-    services.spec.crud.list({
-      tag,
-      cId,
-      loadFromCacheEnabled: true,
-    }),
-  );
-  const specListResult = await Promise.all(promises);
-
-  // 将请求结果映射到 cIdMap 中
-  const cIdMap = new Map();
-  cIdList.forEach((cId, index) => {
-    cIdMap.set(cId, specListResult[index].records);
+  const { records: specList } = await services.spec.listBatch({
+    tag,
+    cIdList,
   });
-
-  // 将对应的规格列表添加到 spuList 中
   spuList.forEach((spu) => {
-    spu.specList = (spu.cId && cIdMap.get(spu.cId)) ?? [];
+    spu.specList = [];
+    let index = 0;
+    // 遍历找到第一个匹配的 cId
+    while (index < specList.length && specList[index].cId !== spu.cId) index++;
+    if (index >= specList.length) return;
+    const startIndex = index;
+    // 添加所有匹配的规格记录
+    while (index < specList.length && specList[index].cId === spu.cId) {
+      spu.specList.push(specList[index]);
+      index++;
+    }
+    // 移除已经添加的记录
+    cIdList.splice(startIndex, index - startIndex);
   });
 };
 
@@ -104,16 +102,33 @@ const _handleSkuOptionList = function (spuList) {
 
 const _handleSkuStockList = async function (tag, spuList) {
   if (!spuList || spuList.length <= 0) return;
-  const promises = [];
-  spuList.forEach((spu) => {
-    const skuPromises = spu.skuList.map((sku) => services.goods.stockList({ tag, skuId: sku._id }));
-    promises.push(...skuPromises);
-  });
-  const resultList = await Promise.all(promises);
-  let index = 0;
+
+  const skuIdList = [];
   spuList.forEach((spu) => {
     spu.skuList.forEach((sku) => {
-      sku.stockList = resultList[index++].records;
+      skuIdList.push(sku._id);
+    });
+  });
+  const { records: stockList } = await services.stock.listBatch({
+    tag,
+    skuIdList: skuIdList,
+  });
+
+  spuList.forEach((spu) => {
+    spu.skuList.forEach((sku) => {
+      sku.stockList = [];
+      let index = 0;
+      // 遍历找到第一个匹配的 skuId
+      while (index < stockList.length && stockList[index].skuId !== sku._id) index++;
+      if (index >= stockList.length) return;
+      const startIndex = index;
+      // 添加所有匹配的库存记录
+      while (index < stockList.length && stockList[index].skuId === sku._id) {
+        sku.stockList.push(stockList[index]);
+        index++;
+      }
+      // 移除已经添加的记录
+      skuIdList.splice(startIndex, index - startIndex);
     });
   });
 };

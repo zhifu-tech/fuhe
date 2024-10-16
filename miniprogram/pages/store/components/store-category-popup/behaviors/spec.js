@@ -90,7 +90,7 @@ module.exports = Behavior({
         }
       });
       if (list.length > 0) {
-        const specsRes = await services.spec.crud.createMany({ tag, cId, titles: list });
+        const specsRes = await services.spec.createMany({ tag, cId, titles: list });
         list.forEach(({ spec }, index) => {
           const specRes = specsRes[index];
           spec._id = specRes._id;
@@ -116,7 +116,7 @@ module.exports = Behavior({
         }
       });
       if (list.length > 0) {
-        const res = await services.spec.crud.updateMany({ tag, cId, infoList: list });
+        const res = await services.spec.updateMany({ tag, cId, infoList: list });
         log.info(tag, '_handleSpecsUpdate', res);
         this.setHasChanged();
       }
@@ -129,7 +129,7 @@ module.exports = Behavior({
         if (!dst) list.push(src._id);
       });
       if (list.length > 0) {
-        const res = await services.spec.crud.deleteMany({ tag, ids: list });
+        const res = await services.spec.deleteMany({ tag, ids: list });
         log.info(tag, '_handleSpecsDelete', res);
         this.setHasChanged();
       }
@@ -153,7 +153,7 @@ module.exports = Behavior({
       const promises = [];
       if (sIds.length > 0) {
         promises.push(
-          services.spec.crud.deleteMany({
+          services.spec.deleteMany({
             tag,
             ids: sIds,
           }),
@@ -161,7 +161,7 @@ module.exports = Behavior({
       }
       if (oIds.length > 0) {
         promises.push(
-          services.spec.crud.deleteOptionMany({
+          services.option.deleteMany({
             tag,
             ids: oIds,
           }),

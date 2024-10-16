@@ -12,8 +12,8 @@ module.exports = Behavior({
   },
   methods: {
     initSpu: function (spu) {
-      this.data._spu = spu;
-      this.data.spu = { ...spu };
+      this.data._spu = spu || {};
+      this.data.spu = (spu && { ...spu }) ?? {};
     },
     handleUpdateSpuTitle: function (e) {
       const { value: title } = e.detail;

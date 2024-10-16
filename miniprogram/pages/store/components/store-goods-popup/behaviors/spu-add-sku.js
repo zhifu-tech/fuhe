@@ -24,7 +24,7 @@ module.exports = Behavior({
       sku._id = '-' + spu.skuList.length + 1;
       spu.skuList = [...spu.skuList, sku];
 
-      this.initSku({});
+      this.initSku();
       this.initStock({});
       this.initOptions();
 

@@ -9,8 +9,13 @@ module.exports = Behavior({
   },
   methods: {
     initSku: function (sku) {
-      this.data._sku = sku;
-      this.data.sku = { ...sku };
+      const createSku = () => ({
+        imageList: [],
+        optionList: [],
+        stockList: [],
+      });
+      this.data._sku = sku ?? createSku();
+      this.data.sku = (sku && { ...sku }) ?? createSku();
     },
     checkSkuImageList: function (sku) {
       if (!sku.imageList || sku.imageList.length <= 0) {

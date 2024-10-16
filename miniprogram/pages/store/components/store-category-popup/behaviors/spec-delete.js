@@ -1,3 +1,4 @@
+import pages from '@/common/page/pages';
 import Dialog from 'tdesign-miniprogram/dialog/index';
 
 const { default: log } = require('../../../../../common/log/log');
@@ -9,7 +10,7 @@ module.exports = Behavior({
       const { spec } = e.target.dataset;
       log.info(tag, 'spec-delete', spec, e);
       Dialog.confirm({
-        context: this,
+        context: pages.currentPage().store(),
         title: '是否确认删除',
         content: `如果存在与规格「${spec.title}」关联的作品，将导致规格不可用！`,
         confirmBtn: '确认删除',
