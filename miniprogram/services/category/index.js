@@ -1,13 +1,22 @@
 import cache from './cache';
-import crud from './crud';
+
+import create from './create';
+import get from './get';
+import list from './list';
+import update from './update';
+import deleteCategory from './delete';
 
 export default {
   addCategoryId: '0', // 新增分类入口
   allCategoryId: '1', // 所有分类入口
-  addGoodsId: '2', // 新增商品入口
 
-  crud,
   cache,
+
+  create,
+  get,
+  list,
+  update,
+  deleteCategory,
 
   createCategory: ({ id, saasId, title, disabled }) => ({
     _id: id,

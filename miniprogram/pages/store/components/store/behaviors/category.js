@@ -21,7 +21,7 @@ module.exports = Behavior({
     },
     _fetchCategoryList: async function ({ tag, saasId, pageNumber, refresh }) {
       try {
-        const { records, total } = await services.category.crud.list({
+        const { records, total } = await services.category.list({
           tag,
           saasId,
           pageNumber,

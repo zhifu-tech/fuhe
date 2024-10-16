@@ -10,7 +10,7 @@ module.exports = Behavior({
         saasId,
         spu: { category },
       } = this.data;
-      const { records: categories } = await services.category.crud.list({
+      const { records: categories } = await services.category.list({
         tag,
         saasId,
         pageNumber: 1,

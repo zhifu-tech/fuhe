@@ -12,7 +12,3 @@ export default {
   deleteOption,
   deleteMany,
 };
-
-function a() {
-  create;
-}

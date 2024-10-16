@@ -17,7 +17,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[wxml]": {
-    "editor.defaultFormatter": "wechat.miniprogram.wxml-language-features"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "wxmlConfig.onSaveFormat": true,
   "wxmlConfig.format": {

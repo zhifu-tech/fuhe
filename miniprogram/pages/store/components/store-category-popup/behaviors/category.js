@@ -37,7 +37,7 @@ module.exports = Behavior({
       const { tag, saasId, category } = this.data;
       // 新增分类
       if (category._id === '0') {
-        const categoryAdd = await services.category.crud.create({
+        const categoryAdd = await services.category.create({
           tag,
           saasId,
           title: category.title,
@@ -49,7 +49,7 @@ module.exports = Behavior({
       }
       // 修改分类
       else {
-        const result = await services.category.crud.update({
+        const result = await services.category.update({
           tag,
           saasId,
           id: category._id,
@@ -62,7 +62,7 @@ module.exports = Behavior({
     },
     handleCategoryDelete: async function () {
       const { tag, saasId, category } = this.data;
-      await services.category.crud.delete({
+      await services.category.deleteCategory({
         tag,
         saasId,
         id: category._id,
