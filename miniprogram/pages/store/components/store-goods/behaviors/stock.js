@@ -23,7 +23,6 @@ module.exports = Behavior({
           ? dayjs(stock.createdAt).format('YYYY-MM-DD HH:mm')
           : '';
       });
-      log.info('createdAtFormatted', updates);
       this.setData({
         ...updates,
         stockTotals,

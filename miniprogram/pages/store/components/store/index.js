@@ -3,23 +3,23 @@ Component({
     virtualHost: true,
   },
   behaviors: [
-    require('./behaviors/skeleton'),
-    require('./behaviors/page-status'),
-    require('./behaviors/pull-down-refresh'),
-    require('./goods/goods'),
-    require('./behaviors/store-sidebar'), // 侧边栏
-    require('./behaviors/store-category'), // 分类
-    require('./behaviors/store-category-popup'), // 分类
-    require('./behaviors/store-spec'), // 规格信息
-    require('./behaviors/store-goods-popup'), // 商品
-    require('../store-picker/picker'),
-    require('@/common/action-sheet/action-sheets'),
     ...require('@/common/debug/debug').behaviors({
       tag: 'store',
       debug: true,
       debugLifecycle: true,
       debugPageLifecycler: true,
     }),
+    require('@/common/picker/simple'),
+    require('@/common/action-sheet/simple'),
+
+    require('./behaviors/skeleton'),
+    require('./behaviors/page-status'),
+    require('./behaviors/pull-down-refresh'),
+    require('./behaviors/goods'),
+    require('./behaviors/goods-popup'),
+    require('./behaviors/sidebar'),
+    require('./behaviors/category'),
+    require('./behaviors/category-popup'),
   ],
   data: {
     tag: 'storePage',

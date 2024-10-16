@@ -7,7 +7,7 @@ module.exports = Behavior({
       pages
         .currentPage()
         .root()
-        ?.showActionSheet({
+        ?.showSimpleActionSheet({
           items: [
             {
               label: '修改库存信息',

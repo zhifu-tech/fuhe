@@ -30,37 +30,30 @@ module.exports = Behavior({
       pages
         .currentPage()
         .store()
-        ?.showPicker({
+        ?.showSimpePicker({
           selected: selected?._id || '',
           items,
           confirm: this._onCategoryPickerConfirm.bind(this),
         });
     },
-    _onCategoryPickerConfirm: function (e) {
+    _onCategoryPickerConfirm: function ({ value: cId, data }) {
       const { tag } = this.data;
-      const { label, value, columns } = e.detail;
-      const cId = value && value.length > 0 && value[0];
-      log.info(tag, 'category-picker', 'confirm', label, cId);
-      if (cId === '0') {
-        pages
-          .currentPage()
-          .store()
-          ?.showCategoryPopup({
-            close: ({ hasChanged, category }) => {
-              log.info(tag, 'category-picker', 'hasChanged', hasChanged, category);
-              if (hasChanged && category) {
-                this.handleUpdateSpuCategory(category);
-              }
-            },
-          });
-        log.info(tag, 'category-picker', 'showCategoryPopup');
-      } else {
-        const { items } = e.currentTarget.dataset;
-        const { index } = columns[0];
-        const item = items[index];
-        this.handleUpdateSpuCategory(item.data);
+      if (cId !== '0') {
+        this.handleUpdateSpuCategory(data);
         log.info(tag, 'category-picker', 'confirm', item);
+        return;
       }
+      pages
+        .currentPage()
+        .store()
+        ?.showCategoryPopup({
+          close: ({ hasChanged, category }) => {
+            log.info(tag, 'category-picker', 'hasChanged', hasChanged, category);
+            if (hasChanged && category) {
+              this.handleUpdateSpuCategory(category);
+            }
+          },
+        });
     },
   },
 });

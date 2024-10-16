@@ -96,13 +96,8 @@
   id="store-goods-popup"
   bind:close="onCategoryPopupClose" />
 
-<store-picker wx:if="{{storePickerEnabled}}"
-  id="store-picker" />
+<include src="../../../../common/picker/simple.wxml" />
+<include src="../../../../common/action-sheet/simple.wxml" />
 
 <t-toast id="t-toast" />
 <t-dialog id="t-dialog" />
-<t-action-sheet wx:if="{{ actionSheet.enabled }}"
-  id="t-action-sheet"
-  usingCustomNavbar
-  bind:close="handleActionSheetClose"
-  bind:selected="handleActionSheetSelected" />

@@ -29,7 +29,6 @@ module.exports = Behavior({
           storeGoodsPopupEnabled: true,
         },
         () => {
-          log.info(this.data.tag, 'showGoodsPopup', args);
           args = args || {};
           args.close = this.hideGoodsPopup.bind(this);
           this._goodsPopupComponent().show(args);

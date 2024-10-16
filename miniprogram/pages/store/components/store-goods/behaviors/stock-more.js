@@ -8,7 +8,7 @@ module.exports = Behavior({
       pages
         .currentPage()
         .root()
-        ?.showActionSheet({
+        ?.showSimpleActionSheet({
           items: [
             {
               label: '补货',

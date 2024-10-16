@@ -10,6 +10,7 @@ module.exports = Behavior({
   },
   methods: {
     _initCategory: async function () {
+      services.spec.cache.reset();
       services.category.cache.reset();
       const { tag, saasId } = this.data;
       const res = await this._fetchCategoryList({ tag, saasId, pageNumber: 1, refresh: false });
