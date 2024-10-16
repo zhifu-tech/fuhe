@@ -10,12 +10,7 @@ module.exports = Behavior({
       }
     },
     handleOptionSelected: function (e) {
-      const { tag, isModeEditSku, sku } = this.data;
-      // 编辑Sku，只是静态展示，不可以修改
-      if (isModeEditSku) {
-        log.info(tag, 'handleOptionSelected', 'edit sku mode do nothing.');
-        return;
-      }
+      const { tag, sku } = this.data;
       const { option } = e.target.dataset;
       log.info(tag, 'handleOptionSelected', option);
       sku.optionList = sku.optionList || [];

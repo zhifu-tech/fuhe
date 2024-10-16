@@ -4,45 +4,63 @@ const { default: pages } = require('../../../../../common/page/pages');
 module.exports = Behavior({
   methods: {
     showStockActionMore: function (e) {
+      const { stock, index } = e.target.dataset;
       pages
         .currentPage()
         .root()
         ?.showActionSheet({
           items: [
             {
-              label: '修改库存信息',
+              label: '补货',
               value: '0',
+            },
+            {
+              label: '补货或修改价格',
+              value: '1',
             },
           ],
           selected: (value) => {
-            const { spu, sku } = this.data;
             switch (value) {
               case '0': {
-                pages.currentPage().root().showGoodsEditSkuPopup({
-                  spu,
-                  sku,
-                });
+                this._handleEditStock(stock, index);
                 break;
               }
               case '1': {
-                pages.currentPage().root().showGoodsEditSpuPopup({
-                  spu,
-                });
-                break;
-              }
-              case '2': {
-                pages.currentPage().root().showGoodsAddSpuPopup({
-                  spu,
-                });
-                break;
-              }
-              case '3': {
-                pages.currentPage().root().showGoodsAddSpuPopup({
-                  spu,
-                });
-                break;
+                this._handleEditStockSuper(stock, index);
               }
             }
+          },
+        });
+    },
+    _handleEditStock: function (stock, index) {
+      const { spu, sku } = this.data;
+      pages
+        .currentPage()
+        .root()
+        .showGoodsEditStockPopup({
+          spu,
+          sku,
+          stock,
+          callback: () => {
+            this.setData({
+              [`sku.stockList[${index}]`]: stock,
+            });
+          },
+        });
+    },
+    _handleEditStockSuper: function (stock, index) {
+      const { spu, sku } = this.data;
+      pages
+        .currentPage()
+        .root()
+        .showGoodsEditStockSuperPopup({
+          spu,
+          sku,
+          stock,
+          callback: () => {
+            this.setData({
+              [`sku.stockList[${index}]`]: stock,
+            });
           },
         });
     },

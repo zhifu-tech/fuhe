@@ -126,6 +126,7 @@
         icon="more"
         disabled="{{ !editable }}"
         data-stock="{{ stock }}"
+        data-index="{{ index }}"
         theme="default"
         variant="text"
         size="small"
@@ -180,24 +181,4 @@
       <view>收起库存清单</view>
     </view>
   </t-divider>
-
-  <view wx:if="{{false}}"
-    class="actions">
-    <view class="action">
-      <t-button theme="primary"
-        shape="circle"
-        size="small"
-        variant="outline"
-        content="入"
-        bind:tap="handleGoodsAdd" />
-    </view>
-    <view class="action">
-      <t-button theme="primary"
-        shape="circle"
-        size="small"
-        variant="outline"
-        content="出"
-        bind:tap="handleGoodsAdd" />
-    </view>
-  </view>
 </view>

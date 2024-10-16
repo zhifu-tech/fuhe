@@ -191,10 +191,3 @@
 .divider-content {
   display: inline-flex;
 }
-.actions {
-  display: flex;
-  justify-content: flex-end;
-}
-.actions .action {
-  margin-left: var(--td-spacer-1);
-}

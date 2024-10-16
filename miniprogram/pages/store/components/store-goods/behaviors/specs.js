@@ -16,7 +16,7 @@ module.exports = Behavior({
     },
   },
   methods: {
-    handleShowSpecList: function (e) {
+    handleShowSpecList: function () {
       const showSpecList = !this.data.showSpecList;
       this.setData({
         showSpecList: showSpecList,
@@ -30,12 +30,8 @@ module.exports = Behavior({
     },
     handleOptionSelected: function (e) {
       const { option } = e.target.dataset;
-      const { tag, optionList, isModeEditSku } = this.data;
-      log.info(tag, 'handleOptionSelected', option);
-      // 修改库存Sku，规格不可修改
-      if (isModeEditSku) {
-        return;
-      }
+      const { tag, optionList } = this.data;
+
       // 每种规格，只允许选中一个
       const last = optionList.findIndex(({ sId }) => sId === option.sId);
       if (last != -1) {

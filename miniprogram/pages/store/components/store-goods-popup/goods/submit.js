@@ -12,6 +12,10 @@ module.exports = Behavior({
         this._submitEditSku();
       } else if (this.data.isModeAddSku) {
         this._submitAddSku();
+      } else if (this.data.isModeEditStock) {
+        this._submitEditStock();
+      } else if (this.data.isModeEditStockSuper) {
+        this._submitEditStockSuper();
       }
     },
   },

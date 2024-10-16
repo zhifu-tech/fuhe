@@ -1,3 +1,5 @@
+const { default: log } = require('@/common/log/log');
+
 Component({
   options: {
     virtualHost: true,
@@ -16,6 +18,7 @@ Component({
     require('./goods/sku-submit-add'),
     require('./goods/sku-image'),
     require('./goods/stock'),
+    require('./goods/stock-submit-edit'),
     require('./goods/option'),
     require('./goods/category'),
     require('./goods/category-picker'),
@@ -46,6 +49,8 @@ Component({
     isModeEditSpu: false,
     isModeAddSku: false,
     isModeEditSku: false,
+    isModeEditStock: false,
+    isModeEditStockSuper: false,
     _close: () => null,
     _callback: () => null,
   },
@@ -67,6 +72,8 @@ Component({
       isModeEditSpu = false,
       isModeAddSku = false,
       isModeEditSku = false,
+      isModeEditStock = false,
+      isModeEditStockSuper = false,
       spu,
       sku,
       stock,
@@ -82,6 +89,8 @@ Component({
         isModeEditSpu,
         isModeAddSku,
         isModeEditSku,
+        isModeEditStock,
+        isModeEditStockSuper,
         spu: this.data.spu,
         sku: this.data.sku,
         stock: this.data.stock,
