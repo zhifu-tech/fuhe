@@ -24,7 +24,7 @@ module.exports = Behavior({
     _submitAddSku: async function () {
       const { tag, spu } = this.data;
       try {
-        this._submitAddSkuList(spu);
+        this._submitAddSkuList(tag, spu);
 
         this.notify();
         this.hideToast();
@@ -35,7 +35,7 @@ module.exports = Behavior({
         this.hide();
       }
     },
-    _submitAddSkuList: async function (spu) {
+    _submitAddSkuList: async function (tag, spu) {
       // 计算新增的sku
       const newSkuList = spu.skuList.filter((sku) => sku._id.startsWith('-'));
       // 上传新增的图片

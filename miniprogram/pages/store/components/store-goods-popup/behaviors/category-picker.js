@@ -1,6 +1,7 @@
 const { default: log } = require('../../../../../common/log/log');
 const { default: pages } = require('../../../../../common/page/pages');
 const { default: services } = require('../../../../../services/index');
+const { showSimpePicker } = require('../../../../../common/picker/simples');
 
 module.exports = Behavior({
   methods: {
@@ -27,14 +28,11 @@ module.exports = Behavior({
       });
       const selected =
         (category && category._id && categories.find(({ _id }) => _id === category._id)) || '';
-      pages
-        .currentPage()
-        .store()
-        ?.showSimpePicker({
-          selected: selected?._id || '',
-          items,
-          confirm: this._onCategoryPickerConfirm.bind(this),
-        });
+      showSimpePicker({
+        selected: selected?._id || '',
+        items,
+        confirm: this._onCategoryPickerConfirm.bind(this),
+      });
     },
     _onCategoryPickerConfirm: function ({ value: cId, data }) {
       const { tag } = this.data;

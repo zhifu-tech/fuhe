@@ -1,5 +1,6 @@
 const { default: log } = require('../../../../../common/log/log');
 const { default: pages } = require('../../../../../common/page/pages');
+const { showGoodsAddSkuPopup } = require('../../store-goods-popup/popups');
 import Dialog from 'tdesign-miniprogram/dialog/index';
 
 module.exports = Behavior({
@@ -18,7 +19,7 @@ module.exports = Behavior({
         },
       })
         .then(() => {
-          pages.currentPage().store().showGoodsAddSkuPopup({
+          showGoodsAddSkuPopup({
             spu,
             sku: {
               optionList,

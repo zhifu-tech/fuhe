@@ -1,75 +1,65 @@
-<wxs src="./index.wxs"
-  module="_" />
+<wxs src="./index.wxs" module="_" />
 <view class="container">
-  <view class='header'>
+  <view class="header">
     <view class="image">
-      <t-image t-class="image-content"
+      <t-image
+        t-class="image-content"
         src="{{ _.getImage(sku) }}"
         shape="round"
         mode="scaleToFill"
-        aria-label="{{ spu.title }}" />
+        aria-label="{{ spu.title }}"
+      />
     </view>
-    <view class='right'>
+    <view class="right">
       <view class="title-container">
         <view class="title-wrapper">
           <view class="title">{{ _.getTitle(spu, sku) }}</view>
         </view>
-        <t-button class="more"
+        <t-button
+          class="more"
           icon="more"
           theme="default"
           variant="text"
           size="small"
           disabled="{{ !editable }}"
-          bind:tap="showActionMore" />
+          bind:tap="showActionMore"
+        />
       </view>
-      <view class='tags'
-        bind:tap="{{ editable ? 'handleShowSpecList' : '' }}">
-        <t-tag t-class="tag"
-          size="medium"
-          shape="round"
-          icon="swap"
-          variant="outline">{{ spu.category.title }}</t-tag>
-        <block wx:for="{{ sku.optionList }}"
-          wx:for-item="option"
-          wx:key="_id">
-          <t-tag t-class="tag"
-            size="medium"
-            shape="round"
-            variant="outline">{{ option.title }}</t-tag>
+      <view class="tags" bind:tap="{{ editable ? 'handleShowSpecList' : '' }}">
+        <t-tag t-class="tag" size="medium" shape="round" icon="swap" variant="outline"
+          >{{ spu.category.title }}</t-tag
+        >
+        <block wx:for="{{ sku.optionList }}" wx:for-item="option" wx:key="_id">
+          <t-tag t-class="tag" size="medium" shape="round" variant="outline"
+            >{{ option.title }}</t-tag
+          >
         </block>
       </view>
     </view>
   </view>
 
-  <view wx:if="{{ showSpecList }}"
-    class="specs">
-    <block wx:for="{{ spu.specList }}"
-      wx:for-item="spec"
-      wx:key="_id">
+  <view wx:if="{{ showSpecList }}" class="specs">
+    <block wx:for="{{ spu.specList }}" wx:for-item="spec" wx:key="_id">
       <view class="label">{{ spec.title }}</view>
       <view class="options">
-        <block wx:for="{{spec.optionList}}"
-          wx:for-item="option"
-          wx:key="_id">
-          <t-check-tag class="option"
+        <block wx:for="{{spec.optionList}}" wx:for-item="option" wx:key="_id">
+          <t-check-tag
+            class="option"
             shape="round"
             size="large"
             variant="outline"
             checked="{{_.isOptionChecked(optionList, option)}}"
             data-option="{{option}}"
             bind:click="handleOptionSelected"
-            content="{{ [option.title, option.title] }}" />
+            content="{{ [option.title, option.title] }}"
+          />
         </block>
       </view>
     </block>
   </view>
-  <t-divider wx:if="{{ showSpecList }}"
-    t-class="divider3"
-    bind:tap="handleShowSpecList">
-    <view slot="content"
-      class="divider-content">
-      <t-icon name="chevron-up-double"
-        size="20px" />
+  <t-divider wx:if="{{ showSpecList }}" t-class="divider3" bind:tap="handleShowSpecList">
+    <view slot="content" class="divider-content">
+      <t-icon name="chevron-up-double" size="20px" />
       <view>收起规格</view>
     </view>
   </t-divider>
@@ -83,13 +73,15 @@
     </view>
     <view class="view-all">
       <view>
-        <t-button t-class="button"
+        <t-button
+          t-class="button"
           theme="default"
           size="extra-small"
           variant="text"
           icon="{{ showStockList ? 'browse': 'browse-off' }}"
           content="库存清单"
-          bind:tap="handleShowStockList" />
+          bind:tap="handleShowStockList"
+        />
       </view>
     </view>
   </view>
@@ -98,31 +90,37 @@
   <view class="input-price-quantity-wrapper">
     <view class="input-price">
       <view class="label">售价</view>
-      <t-input t-class="input"
+      <t-input
+        t-class="input"
         type="number"
         disabled="{{ !editable }}"
         value="{{ salePrice }}"
-        bind:blur="handleUpdateSalePrice" />
-
+        bind:blur="handleUpdateSalePrice"
+      />
     </view>
-    <t-stepper defaultValue="{{ 0 }}"
+    <t-stepper
+      defaultValue="{{ 0 }}"
       size="large"
       theme="outline"
       disabled="{{ !editable }}"
       max="{{ stockTotals }}"
       value="{{ stockSelected || 0 }}"
-      bind:change="handleUpdateQuantity" />
+      bind:change="handleUpdateQuantity"
+    />
   </view>
 
   <!--库存清单-->
-  <block wx:if="{{ showStockList }}"
+  <block
+    wx:if="{{ showStockList }}"
     wx:for="{{ sku.stockList }}"
     wx:for-item="stock"
     wx:for-index="index"
-    wx:key="_id">
+    wx:key="_id"
+  >
     <view class="stock-date-wrapper">
       <view class="stock-date">{{ stock.createdAtFormatted }} 入库</view>
-      <t-button class="more"
+      <t-button
+        class="more"
         icon="more"
         disabled="{{ !editable }}"
         data-stock="{{ stock }}"
@@ -130,7 +128,8 @@
         theme="default"
         variant="text"
         size="small"
-        bind:tap="showStockActionMore" />
+        bind:tap="showStockActionMore"
+      />
     </view>
     <view class="stocks">
       <view class="stock">
@@ -140,26 +139,31 @@
       </view>
       <view class="prices">
         <view class="label">成本</view>
-        <price class="price"
+        <price
+          class="price"
           symbol="¥"
           priceUnit="yuan"
           price="{{ stock.costPrice }}"
           fill="true"
-          decimalSmaller />
+          decimalSmaller
+        />
       </view>
     </view>
     <view class="orders">
       <view class="prices">
         <view class="label">单价</view>
-        <price class="price"
+        <price
+          class="price"
           symbol="¥"
           priceUnit="yuan"
           price="{{ stock.salePrice }}"
           fill="true"
-          decimalSmaller />
+          decimalSmaller
+        />
       </view>
       <view class="quantity-wrapper">
-        <t-stepper defaultValue="0"
+        <t-stepper
+          defaultValue="0"
           size="large"
           theme="outline"
           disabled="{{ !editable }}"
@@ -167,17 +171,15 @@
           value="{{ stock.stockSelected || 0 }}"
           data-stock="{{ stock }}"
           data-index="{{ index }}"
-          bind:change="handleUpdateStockQuantity" />
+          bind:change="handleUpdateStockQuantity"
+        />
       </view>
     </view>
     <t-divider class="divider3" />
   </block>
-  <t-divider wx:if="{{ showStockList }}"
-    bind:tap="handleShowStockList">
-    <view slot="content"
-      class="divider-content">
-      <t-icon name="chevron-up-double"
-        size="20px" />
+  <t-divider wx:if="{{ showStockList }}" bind:tap="handleShowStockList">
+    <view slot="content" class="divider-content">
+      <t-icon name="chevron-up-double" size="20px" />
       <view>收起库存清单</view>
     </view>
   </t-divider>

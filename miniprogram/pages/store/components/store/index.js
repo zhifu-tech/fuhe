@@ -12,11 +12,14 @@ Component({
     require('@/common/picker/simple'),
     require('@/common/action-sheet/simple'),
 
+    require('../store-goods-popup/popup'),
+
     require('./behaviors/skeleton'),
     require('./behaviors/page-status'),
     require('./behaviors/pull-down-refresh'),
     require('./behaviors/goods'),
-    require('./behaviors/goods-popup'),
+    require('./behaviors/goods-sku'),
+    require('./behaviors/goods-spu'),
     require('./behaviors/sidebar'),
     require('./behaviors/category'),
     require('./behaviors/category-popup'),

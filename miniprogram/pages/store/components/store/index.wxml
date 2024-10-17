@@ -4,7 +4,7 @@
     <t-search placeholder="输入tdesign，有预览结果" shape="round" bind:change="onChangeValue" />
   </view>
   <view class="content">
-    <view style="display: {{showSideBar ? 'flex':'none'}};" class="side-bar-wrapper">
+    <view class="{{ showSideBar ? 'side-bar-wrapper show': 'side-bar-wrapper hide' }}">
       <t-side-bar class="side-bar" value="{{category.selected}}" bind:change="onSideBarChange">
         <block wx:for="{{category.items}}" wx:for-item="item" wx:for-index="index" wx:key="value">
           <t-side-bar-item
@@ -42,7 +42,13 @@
     >
       <block wx:for="{{goods.items}}" wx:for-item="spu" wx:key="_id">
         <block wx:for="{{ spu.skuList }}" wx:for-item="sku" wx:key="_id">
-          <store-goods spu="{{ spu }}" sku="{{ sku }}" />
+          <store-goods
+            spu="{{ spu }}"
+            sku="{{ sku }}"
+            data-spu="{{ spu }}"
+            data-sku="{{ sku }}"
+            bind:sku-delete="handleGoodsSkuDelete"
+          />
         </block>
       </block>
       <load-more status="{{loadMoreStatus}}" />

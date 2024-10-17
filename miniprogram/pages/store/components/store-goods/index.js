@@ -1,14 +1,13 @@
-const { default: log } = require('../../../../common/log/log');
-
 Component({
   behaviors: [
+    require('@/common/toast/toasts'),
     require('./behaviors/sku'),
     require('./behaviors/specs'),
     require('./behaviors/stock'),
     require('./behaviors/stock-more'),
     require('./behaviors/sku-add'),
+    require('./behaviors/sku-delete'),
     require('./behaviors/sku-more'),
-    require('../../../../common/toast/toasts'),
   ],
   options: {
     virtualHost: true,

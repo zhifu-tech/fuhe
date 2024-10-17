@@ -7,7 +7,6 @@
     "source.fixAll.eslint": "explicit"
   },
   "[javascript]": {
-    "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[json]": {
@@ -17,7 +16,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[wxml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "qiu8310.minapp-vscode"
   },
   "wxmlConfig.onSaveFormat": true,
   "wxmlConfig.format": {
@@ -33,5 +32,12 @@
     "wrap_attributes_count": 4,
     "wrap_attributes_indent_size": 2
   },
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "prettier.documentSelectors": ["/*.wxml", "/*.wxss"],
+  "files.associations": {
+    "*.wxml": "html"
+  },
+  "emmet.includeLanguages": {
+    "wxml": "html"
+  }
 }

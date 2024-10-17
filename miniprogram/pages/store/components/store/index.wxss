@@ -29,6 +29,13 @@ page {
   display: flex;
   flex-direction: column;
 }
+.side-bar-wrapper.show {
+  display: flex;
+}
+.side-bar-wrapper.hide {
+  display: none;
+}
+
 .side-bar-actions {
   display: flex;
   width: 110rpx;
