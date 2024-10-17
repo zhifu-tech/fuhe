@@ -1,6 +1,7 @@
-const { default: log } = require('../../../../../common/log/log');
-const { saasId } = require('../../../../../common/saas/saas');
-const { default: services } = require('../../../../../services/index');
+import log from '../../../../../common/log/log';
+import { saasId } from '../../../../../common/saas/saas';
+import services from '../../../../../services/index';
+import { showToastLoading, hideToastLoading } from '../../../../../common/toast/simples';
 
 module.exports = Behavior({
   observers: {
@@ -29,7 +30,7 @@ module.exports = Behavior({
       if (!this.checkSpuTitle(spu)) return;
       if (!this.checkSpuCategory(spu)) return;
       if (!this.checkSpuSpecList(spu)) return;
-      this.showToastLoading('更新中');
+      showToastLoading({ message: '更新中' });
       // 提交商品Spu信息
       const { id } = await services.goods.spuCreate({
         tag,
@@ -45,7 +46,7 @@ module.exports = Behavior({
       log.info(tag, 'goods submit', spu);
 
       // 提交库存信息
-      this.hideToast();
+      hideToastLoading();
       this.hide();
     },
   },

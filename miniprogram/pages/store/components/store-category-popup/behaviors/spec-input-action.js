@@ -1,5 +1,7 @@
 import services from '../../../../../services/index';
 import log from '../../../../../common/log/log';
+import showToastError from '../../../../../common/toast/simples';
+
 module.exports = Behavior({
   data: {
     scrollIntoView: '',
@@ -13,7 +15,7 @@ module.exports = Behavior({
       const { tag, category, specs } = this.data;
       const dupSpec = specs.find((it) => it.title === title);
       if (dupSpec) {
-        this.showToastError(`已经存在规格 ${title}`);
+        showToastError({ messsage: `已经存在规格 ${title}` });
         log.info(tag, 'spec', `已经存在规格 ${title}`);
         return;
       }

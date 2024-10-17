@@ -11,6 +11,7 @@ Component({
     }),
     require('@/common/picker/simple'),
     require('@/common/action-sheet/simple'),
+    require('@/common/toast/simple'),
 
     require('../store-goods-popup/popup'),
 

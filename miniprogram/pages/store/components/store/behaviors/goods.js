@@ -1,5 +1,6 @@
 import log from '../../../../../common/log/log';
 import services from '../../../../../services/index';
+import { showToastLoading, hideToastLoading } from '../../../../../common/toast/simples';
 
 module.exports = Behavior({
   data: {
@@ -49,7 +50,7 @@ module.exports = Behavior({
       } = this.data;
       if (items.length === 0) {
         this.hideEmpty();
-        this.showToastLoading();
+        showToastLoading({});
       } else {
         this.showLoadMoreLoading();
       }
@@ -61,16 +62,16 @@ module.exports = Behavior({
       });
       if (total === 0) {
         this.showEmpty();
-        this.hideToast();
+        hideToastLoading();
         this.hideLoadMore();
       } else if (items.length + spuList.length >= total) {
         this.showLoadMoreAll();
         this.hideEmpty();
-        this.hideToast();
+        hideToastLoading();
       } else {
+        hideToastLoading();
         this.hideLoadMore();
         this.hideEmpty();
-        this.hideToast();
       }
       if (refresh) {
         this.setData({

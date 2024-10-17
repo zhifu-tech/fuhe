@@ -1,6 +1,11 @@
+import log from '../../../../../common/log/log';
 import Dialog from 'tdesign-miniprogram/dialog/index';
 import pages from '../../../../../common/page/pages';
-const { default: log } = require('../../../../../common/log/log');
+import {
+  showToastSuccess,
+  showToastError,
+  showToastLoading,
+} from '../../../../../common/toast/simples';
 
 /** 删除分类 */
 module.exports = Behavior({
@@ -22,7 +27,7 @@ module.exports = Behavior({
         .catch((error) => {
           log.info(tag, 'category-delte', 'cancel', error);
           if (error) {
-            this.showToastError('删除失败！');
+            showToastError({ message: '删除失败！' });
           }
         });
     },
@@ -36,14 +41,14 @@ module.exports = Behavior({
       // 删除分类的时候，需要级联删除规格和选项信息。
       else {
         this.setHasChanged();
-        this.showToastLoading('删除中...');
+        showToastLoading({ message: '删除中...' });
         await Promise.all([
           // 删除分类
           this.handleCategoryDelete(),
           // 删除所有规格和选项
           this.handleSpecDeleteAll(),
         ]);
-        this.showToastSuccess('删除成功！');
+        showToastSuccess({ message: '删除成功!' });
         // 恢复为新加分类
         this.hide();
       }

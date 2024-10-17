@@ -6,7 +6,6 @@ Component({
   },
   behaviors: [
     require('@/common/popup/popup-props'),
-    require('@/common/toast/toasts'),
     require('./behaviors/header'),
     require('./behaviors/category'),
     require('./behaviors/category-delete'),

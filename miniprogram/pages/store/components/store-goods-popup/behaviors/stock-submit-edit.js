@@ -1,6 +1,11 @@
-const { default: log } = require('@/common/log/log');
-const { saasId } = require('../../../../../common/saas/saas');
-const { default: services } = require('@/services/index');
+import log from '../../../../../common/log/log';
+import services from '../../../../../services/index';
+import { saasId } from '../../../../../common/saas/saas';
+import {
+  showToastError,
+  showToastLoading,
+  hideToastLoading,
+} from '../../../../../common/toast/simples';
 
 module.exports = Behavior({
   observers: {
@@ -37,7 +42,7 @@ module.exports = Behavior({
     },
     _submitEditStock: async function () {
       const { tag, stock, _stock } = this.data;
-      this.showToastLoading();
+      showToastLoading({});
       try {
         await services.stock.update({
           tag,
@@ -52,9 +57,9 @@ module.exports = Behavior({
         _stock.salePrice = stock.salePrice;
 
         this.notify();
-        this.hideToast();
+        hideToastLoading();
       } catch (error) {
-        this.showToastError('未知错误，稍后重试!');
+        showToastError({ message: '未知错误，稍后重试!' });
       } finally {
         this.hide();
       }

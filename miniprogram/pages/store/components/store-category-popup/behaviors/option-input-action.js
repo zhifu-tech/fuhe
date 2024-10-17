@@ -1,5 +1,6 @@
-const { default: services } = require('../../../../../services/index');
-const { default: log } = require('../../../../../common/log/log');
+import { showToastError } from '../../../../../common/toast/simples.js';
+import log from '../../../../../common/log/log';
+import services from '../../../../../services/index';
 
 module.exports = Behavior({
   data: {
@@ -14,14 +15,14 @@ module.exports = Behavior({
       // 查找绑定的spec
       let spec = specs.find((it) => it._id === sId);
       if (!spec) {
-        this.showToastError('未知错误');
+        showToastError({ message: '未知错误' });
         log.info(tag, 'option', '未知错误');
         return;
       }
       // 重复性校验
       const dupOption = spec.options?.find((it) => it.title === title);
       if (dupOption) {
-        this.showToastError(`已经存在选项 ${title}`);
+        showToastError({ message: `已经存在选项 ${title}` });
         log.info(tag, 'option', `已经存在选项 ${title}`);
         return;
       }
@@ -31,7 +32,7 @@ module.exports = Behavior({
       if (optionEdit) {
         let option = spec.options.find((it) => it._id === optionEdit._id);
         if (!option) {
-          this.showToastError('未知错误');
+          showToastError({ message: '未知错误' });
           log.info(tag, 'option', '未知错误,选项状态错误');
           return;
         }

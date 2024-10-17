@@ -1,6 +1,7 @@
 import { uploadSpuImageList } from './images';
 import log from '@/common/log/log';
 import services from '@/services/index';
+import { showToastError, hideToastLoading } from '../../../../../common/toast/simples';
 
 module.exports = Behavior({
   observers: {
@@ -27,10 +28,10 @@ module.exports = Behavior({
         this._submitAddSkuList(tag, spu);
 
         this.notify();
-        this.hideToast();
+        hideToastLoading();
       } catch (error) {
         log.error(tag, 'update spu error', error);
-        this.showToastError('未知错误，稍后重试!');
+        showToastError({ message: '未知错误，稍后重试!' });
       } finally {
         this.hide();
       }

@@ -1,6 +1,11 @@
-const { default: log } = require('@/common/log/log');
-const { saasId } = require('../../../../../common/saas/saas');
-const { default: services } = require('@/services/index');
+import log from '../../../../../common/log/log';
+import services from '../../../../../services/index';
+import saasId from '../../../../../common/saas/saas';
+import {
+  showToastError,
+  showToastLoading,
+  hideToastLoading,
+} from '../../../../../common/toast/simples';
 
 module.exports = Behavior({
   observers: {
@@ -22,7 +27,7 @@ module.exports = Behavior({
     },
     _submitEditSpu: async function () {
       const { tag, spu, _spu } = this.data;
-      this.showToastLoading();
+      showToastLoading({});
       try {
         await services.goods.spuUpdate({
           tag,
@@ -34,10 +39,10 @@ module.exports = Behavior({
         _spu.title = spu.title;
         _spu.desc = spu.desc;
         this.notify();
-        this.hideToast();
+        hideToastLoading();
       } catch (error) {
         log.error(tag, 'update spu error', error);
-        this.showToastError('未知错误，稍后重试!');
+        showToastError({ message: '未知错误，稍后重试!' });
       } finally {
         this.hide();
       }

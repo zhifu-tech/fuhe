@@ -1,14 +1,13 @@
 import pages from '@/common/page/pages';
 import Dialog from 'tdesign-miniprogram/dialog/index';
-
-const { default: log } = require('../../../../../common/log/log');
+import log from '../../../../../common/log/log';
+import { showToastSuccess, showToastError } from '../../../../../common/toast/simples.js';
 
 module.exports = Behavior({
   methods: {
     onSpecDeleteClick: function (e) {
       const { tag } = this.data;
       const { spec } = e.target.dataset;
-      log.info(tag, 'spec-delete', spec, e);
       Dialog.confirm({
         context: pages.currentPage().store(),
         title: '是否确认删除',
@@ -20,7 +19,7 @@ module.exports = Behavior({
         .catch((error) => {
           log.info(tag, 'spec-delete', 'cancel', error);
           if (error) {
-            this.showToastError('删除失败！');
+            showToastError({ message: '删除失败！' });
           }
         });
     },
@@ -35,7 +34,7 @@ module.exports = Behavior({
       } else {
         log.info(tag, 'spec-delete', `不存在删除的 ${spec}`);
       }
-      this.showToastSuccess('删除成功！');
+      showToastSuccess({ message: '删除成功！' });
       this.setData({
         specs,
       });

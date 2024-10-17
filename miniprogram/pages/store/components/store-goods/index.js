@@ -1,6 +1,5 @@
 Component({
   behaviors: [
-    require('@/common/toast/toasts'),
     require('./behaviors/sku'),
     require('./behaviors/specs'),
     require('./behaviors/stock'),

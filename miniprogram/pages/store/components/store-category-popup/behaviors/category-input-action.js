@@ -1,5 +1,6 @@
 import log from '../../../../../common/log/log';
 import services from '../../../../../services/index';
+import showToastError from '../../../../../common/toast/simples';
 
 /** 分类的输入行为控制 */
 module.exports = Behavior({
@@ -11,7 +12,7 @@ module.exports = Behavior({
       const cachedCategory = services.category.cache.getCategoryWithTitle({ saasId, title });
       if (cachedCategory) {
         log.info(tag, `${title} duplicated`);
-        this.showToastError(`存在{${title}}同名分类`);
+        showToastError({ mesage: `存在{${title}}同名分类` });
         return;
       }
       // 更新UI的展示

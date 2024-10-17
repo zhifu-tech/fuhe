@@ -1,5 +1,4 @@
 module.exports = Behavior({
-  behaviors: [require('../../../../../common/toast/toasts')],
   data: {
     empty: 0,
     loadMoreStatus: 0,

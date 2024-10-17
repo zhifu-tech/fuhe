@@ -1,3 +1,6 @@
+import log from '../../../../../common/log/log';
+import { showToastError } from '../../../../../common/toast/simples';
+
 module.exports = Behavior({
   data: {
     _spu: {}, // 输入spu信息
@@ -29,7 +32,7 @@ module.exports = Behavior({
     },
     checkSpuTitle: function (spu) {
       if (!spu.title) {
-        this.showToastError('请输入商品名称！');
+        showToastError({ message: '请输入商品名称！' });
         this.setData({
           'spu.titleTips': '商品名称为必填项',
           'spu.titleStatus': 'error',
@@ -47,14 +50,14 @@ module.exports = Behavior({
     },
     checkSpuCategory: function (spu) {
       if (!spu.category || !spu.category.title) {
-        this.showToastError('请选择商品分类！');
+        showToastError({ message: '请选择商品分类！' });
         return false;
       }
       return true;
     },
     checkSpuSpecList: function (spu) {
       if (spu.specList.length === 0) {
-        this.showToastError('该商品分类不可用，请重新选择！');
+        showToastError({ message: '该商品分类不可用，请重新选择！' });
         return false;
       }
       return true;

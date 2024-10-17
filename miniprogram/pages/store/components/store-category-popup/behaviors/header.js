@@ -1,4 +1,5 @@
 import log from '../../../../../common/log/log';
+import { showToastLoading, hideToastLoading } from '../../../../../common/toast/simples';
 
 module.exports = Behavior({
   data: {
@@ -36,7 +37,7 @@ module.exports = Behavior({
     },
     onConfirmClick: async function () {
       const { tag, categoryChanged, specsChanged } = this.data;
-      this.showToastLoading('处理中');
+      showToastLoading({ message: '处理中' });
       try {
         if (categoryChanged) {
           const result = await this.handleCategoryChanged();
@@ -50,7 +51,7 @@ module.exports = Behavior({
         log.error(tag, 'confirmed', error);
       } finally {
         this.hide();
-        this.hideToast();
+        hideToastLoading();
       }
     },
   },

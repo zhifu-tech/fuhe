@@ -2,6 +2,7 @@ import Dialog from 'tdesign-miniprogram/dialog/index';
 import services from '@/services/index';
 import log from '@/common/log/log';
 import pages from '@/common/page/pages';
+import showToastError from '@/common/toast/simples';
 
 module.exports = Behavior({
   methods: {
@@ -10,7 +11,7 @@ module.exports = Behavior({
       // 有库存时，不可以删除
       const hasStock = sku.stockList?.some((stock) => stock.quantity > 0);
       if (hasStock) {
-        this.showToastError('有库存时，不可以删除');
+        showToastError({ message: '有库存时，不可以删除' });
         return;
       }
       Dialog.confirm({

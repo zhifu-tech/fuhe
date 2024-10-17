@@ -1,3 +1,5 @@
+import { showToastError } from '../../../../../common/toast/simples.js';
+
 module.exports = Behavior({
   data: {
     _sku: {},
@@ -19,7 +21,7 @@ module.exports = Behavior({
     },
     checkSkuImageList: function (sku) {
       if (!sku.imageList || sku.imageList.length <= 0) {
-        this.showToastError('至少添加一张图片');
+        showToastError({ message: '至少添加一张图片' });
         return false;
       }
       return true;
@@ -27,7 +29,7 @@ module.exports = Behavior({
     checkSkuSpecList: function (spu, sku) {
       const optionList = sku.optionList ?? [];
       if (optionList.length <= 0) {
-        this.showToastError('选择规格信息！');
+        showToastError({ mesage: '选择规格信息！' });
         return false;
       }
       const selected = [];
@@ -38,7 +40,7 @@ module.exports = Behavior({
         optionList.every((option, index) => option._id === list[index]._id),
       );
       if (hasSelected) {
-        this.showToastError('规格信息重复！');
+        showToastError({ mesage: '规格信息重复！' });
       }
       return !hasSelected;
     },

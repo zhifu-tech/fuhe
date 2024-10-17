@@ -1,6 +1,7 @@
 import { uploadSkuImageList, deleteImageFiles } from './images';
 import log from '@/common/log/log';
 import services from '@/services/index';
+import { showToastError, hideToastLoading } from '../../../../../common/toast/simples';
 
 module.exports = Behavior({
   observers: {
@@ -51,10 +52,10 @@ module.exports = Behavior({
         _sku.imageList = sku.imageList;
 
         this.notify();
-        this.hideToast();
+        hideToastLoading();
       } catch (error) {
         log.error(tag, 'update spu error', error);
-        this.showToastError('未知错误，稍后重试!');
+        showToastError({ message: '未知错误，稍后重试!' });
       } finally {
         this.hide();
       }

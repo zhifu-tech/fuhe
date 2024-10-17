@@ -12,7 +12,6 @@ Component({
       debugLifecycle: true,
     }),
     require('@/common/popup/popup-props'),
-    require('@/common/toast/toasts'),
     require('./behaviors/submit'),
     require('./behaviors/spu'),
     require('./behaviors/spu-submit-add'),

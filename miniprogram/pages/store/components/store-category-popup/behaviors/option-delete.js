@@ -1,5 +1,7 @@
 import Dialog from 'tdesign-miniprogram/dialog/index';
-const { default: log } = require('../../../../../common/log/log');
+import log from '../../../../../common/log/log';
+
+import { showToastSuccess, showToastError } from '../../../../../common/toast/simples.js';
 
 module.exports = Behavior({
   methods: {
@@ -18,7 +20,7 @@ module.exports = Behavior({
         .catch((error) => {
           log.info(tag, 'category-delte', 'cancel', error);
           if (error) {
-            this.showToastError('删除失败！');
+            showToastError({ message: '删除失败！' });
           }
         });
     },
@@ -32,9 +34,9 @@ module.exports = Behavior({
         this.setData({
           specs,
         });
-        this.showToastSuccess('删除成功！');
+        showToastSuccess({ message: '删除成功！' });
       } else {
-        this.showToastError('删除失败!');
+        showToastError({ message: '删除失败!' });
       }
     },
   },

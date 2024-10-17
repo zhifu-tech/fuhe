@@ -1,3 +1,5 @@
+import { showToastError } from '../../../../../common/toast/simples';
+
 module.exports = Behavior({
   data: {
     _stock: {},
@@ -32,7 +34,7 @@ module.exports = Behavior({
     },
     checkStockCostPrice: function (stock) {
       if (!stock.costPrice) {
-        this.showToastError('请输入成本价格');
+        showToastError({ message: '请输入成本价格' });
         this.setData({
           'stock.costPriceTips': '成本价格为必填项',
           'stock.costPriceStatus': 'error',
@@ -50,7 +52,7 @@ module.exports = Behavior({
     },
     checkStockSalePrice: function (stock) {
       if (!stock.salePrice) {
-        this.showToastError('请输入销售价格');
+        showToastError({ message: '请输入销售价格' });
         this.setData({
           'stock.salePriceTips': '销售价格为必填项',
           'stock.salePriceStatus': 'error',
@@ -68,7 +70,7 @@ module.exports = Behavior({
     },
     checkStockQuantity: function (stock) {
       if (!stock.quantity) {
-        this.showToastError('请输入库存数量');
+        showToastError({ message: '请输入库存数量' });
         this.setData({
           'stock.quantityTips': '销售价格为必填项',
           'stock.quantityStatus': 'error',
