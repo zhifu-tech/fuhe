@@ -3,6 +3,7 @@
   <view class="header">
     <view class="image">
       <t-image
+        wx:if="{{ _.getImage(sku) }}"
         t-class="image-content"
         src="{{ _.getImage(sku) }}"
         shape="round"

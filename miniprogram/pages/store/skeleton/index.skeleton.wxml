@@ -1,5 +1,5 @@
 <!--
-此文件为开发者工具生成，生成时间: 2024/10/15下午4:51:03
+此文件为开发者工具生成，生成时间: 2024/10/21下午8:06:05
 使用方法：
 在 /Users/zzf/zhi-tech/fuhe-mall/miniprogram/pages/store/index.wxml 引入模板
 
@@ -26,115 +26,25 @@
               <view class="t-icon icon--t-icon  " style="font-size: 24px;">
                 <label class="t-icon-user-circle icon--t-icon-user-circle t-icon-base icon--t-icon-base sk-pseudo sk-pseudo-circle"></label>
               </view>
-              <view class="label sk-transparent sk-text-14-2857-922 sk-text">北京福和德运商贸有限公司</view>
+              <view class="label sk-transparent sk-text-14-2857-637 sk-text">北京福和德运商贸有限公司</view>
             </view>
           </view>
         </view>
       </view>
       <view class="store-index--content">
-        <view class="store-index--side-bar-wrapper" style="display: flex;">
-          <view class="t-side-bar bar--t-side-bar store-index--side-bar " style="true">
-            <view class="t-side-bar-item item--t-side-bar-item t-side-bar-item--active item--t-side-bar-item--active store-index--side-bar-item sk-button" style="true">
-              <view class="t-side-bar-item__line item--t-side-bar-item__line"></view>
-              <view class="t-side-bar-item__prefix item--t-side-bar-item__prefix sk-pseudo sk-pseudo-circle"></view>
-              <view class="t-side-bar-item__suffix item--t-side-bar-item__suffix sk-pseudo sk-pseudo-circle"></view>
-              <view class="t-badge badge--t-badge  " style="true">
-                <view class="t-badge__content badge--t-badge__content item--undefined" id="cfe1f963--t_badge_0_label">
-                  <text class="t-badge__content-text badge--t-badge__content-text sk-transparent sk-text-20-8333-486 sk-text">所有商品</text>
-                </view>
-              </view>
-            </view>
-            <view class="t-side-bar-item item--t-side-bar-item store-index--side-bar-item sk-button" style="true">
-              <view class="t-badge badge--t-badge  " style="true">
-                <view class="t-badge__content badge--t-badge__content item--undefined" id="a9868e74--t_badge_1_label">
-                  <text class="t-badge__content-text badge--t-badge__content-text sk-transparent sk-text-20-8333-894 sk-text">测试分类9</text>
-                </view>
-              </view>
-            </view>
-            <view class="t-side-bar-item item--t-side-bar-item store-index--side-bar-item sk-button" style="true">
-              <view class="t-badge badge--t-badge  " style="true">
-                <view class="t-badge__content badge--t-badge__content item--undefined" id="22a3a378--t_badge_2_label">
-                  <text class="t-badge__content-text badge--t-badge__content-text sk-transparent sk-text-20-8333-441 sk-text" style="background-position-x: 50%;">海参</text>
-                </view>
-              </view>
-            </view>
-            <view class="t-side-bar-item item--t-side-bar-item store-index--side-bar-item sk-button" style="true">
-              <view class="t-badge badge--t-badge  " style="true">
-                <view class="t-badge__content badge--t-badge__content item--undefined" id="68c01ca1--t_badge_3_label">
-                  <text class="t-badge__content-text badge--t-badge__content-text sk-transparent sk-text-20-8333-696 sk-text">你好fenlei</text>
-                </view>
-              </view>
-            </view>
-            <view class="t-side-bar-item item--t-side-bar-item store-index--side-bar-item sk-button" style="true">
-              <view class="t-badge badge--t-badge  " style="true">
-                <view class="t-badge__content badge--t-badge__content item--undefined" id="0546a29c--t_badge_4_label">
-                  <text class="t-badge__content-text badge--t-badge__content-text sk-transparent sk-text-20-8333-896 sk-text">测试新增</text>
-                </view>
-              </view>
-            </view>
-            <view class="t-side-bar-item item--t-side-bar-item store-index--side-bar-item sk-button" style="true">
-              <view class="t-badge badge--t-badge  " style="true">
-                <view class="t-badge__content badge--t-badge__content item--undefined" id="b5837ead--t_badge_5_label">
-                  <text class="t-badge__content-text badge--t-badge__content-text sk-transparent sk-text-20-8333-609 sk-text" style="background-position-x: 50%;">哈哈</text>
-                </view>
-              </view>
-            </view>
-            <view class="t-side-bar-item item--t-side-bar-item store-index--side-bar-item sk-button" style="true">
-              <view class="t-badge badge--t-badge  " style="true">
-                <view class="t-badge__content badge--t-badge__content item--undefined" id="6df600a9--t_badge_6_label">
-                  <text class="t-badge__content-text badge--t-badge__content-text sk-transparent sk-text-20-8333-849 sk-text">测试分类8</text>
-                </view>
-              </view>
-            </view>
-            <view class="t-side-bar-item item--t-side-bar-item store-index--side-bar-item sk-button" style="true">
-              <view class="t-badge badge--t-badge  " style="true">
-                <view class="t-badge__content badge--t-badge__content item--undefined" id="769a20a1--t_badge_7_label">
-                  <text class="t-badge__content-text badge--t-badge__content-text sk-transparent sk-text-20-8333-590 sk-text">测试新增2</text>
-                </view>
-              </view>
-            </view>
-            <view class="t-side-bar-item item--t-side-bar-item store-index--side-bar-item sk-button" style="true">
-              <view class="t-badge badge--t-badge  " style="true">
-                <view class="t-badge__content badge--t-badge__content item--undefined" id="e22fac8f--t_badge_8_label">
-                  <text class="t-badge__content-text badge--t-badge__content-text sk-transparent sk-text-20-8333-672 sk-text" style="background-position-x: 50%;">手机</text>
-                </view>
-              </view>
-            </view>
-            <view class="t-side-bar-item item--t-side-bar-item store-index--side-bar-item sk-button" style="true">
-              <view class="t-badge badge--t-badge  " style="true">
-                <view class="t-badge__content badge--t-badge__content item--undefined" id="13103ca2--t_badge_9_label">
-                  <text class="t-badge__content-text badge--t-badge__content-text sk-transparent sk-text-20-8333-916 sk-text">新增分类</text>
-                </view>
-              </view>
-            </view>
-            <view class="t-side-bar__padding bar--t-side-bar__padding"></view>
-          </view>
-          <view class="store-index--side-bar-actions">
-            <view class="store-index--side-bar-action sk-transparent sk-text-14-2857-736 sk-text">新增商品</view>
-            <button app-parameter="true" data-custom="null" form-type="true" hover-class="t-button--hover" hover-start-time="20" hover-stay-time="70" lang="en" open-type="true" send-message-img="true" send-message-path="true" send-message-title="true"
-              session-from="true" style="true" class="store-index--side-bar-action t-button button--t-button t-button--text button--t-button--text t-button--default button--t-button--default t-button--rectangle button--t-button--rectangle t-button--size-large button--t-button--size-large sk-button sk-pseudo sk-pseudo-circle">
-              <view class="t-icon icon--t-icon button--t-button__icon " style="true">
-                <label class="t-icon-menu-unfold icon--t-icon-menu-unfold t-icon-base icon--t-icon-base sk-pseudo sk-pseudo-circle"></label>
-              </view>
-              <view class="t-button__content button--t-button__content"></view>
-            </button>
-          </view>
-        </view>
         <scroll-view scroll-with-animation="true" enhanced="true" scroll-y="true" class="t-pull-down-refresh refresh--t-pull-down-refresh store-index--scroll " enable-back-to-top="true" lower-threshold="50" scroll-into-view="true" scroll-top="0" show-scrollbar="true"
           style="true" type="list" upper-threshold="50">
           <view class="t-pull-down-refresh__track refresh--t-pull-down-refresh__track t-pull-down-refresh__track--loosing refresh--t-pull-down-refresh__track--loosing" style="true">
-            <view class="t-pull-down-refresh__tips refresh--t-pull-down-refresh__tips t-pull-down-refresh__tips--loosing refresh--t-pull-down-refresh__tips--loosing" style="height: 0px">
-              <view class="t-pull-down-refresh__text refresh--t-pull-down-refresh__text sk-transparent sk-text-14-2857-16 sk-text">刷新完成</view>
-            </view>
+            <view class="t-pull-down-refresh__tips refresh--t-pull-down-refresh__tips t-pull-down-refresh__tips--loosing refresh--t-pull-down-refresh__tips--loosing" style="height: 0px"></view>
             <view class="goods-index--container">
               <view class="goods-index--header">
                 <view class="goods-index--image">
-                  <image class="goods-index--image-content t-image image--t-image t-image--shape-round image--t-image--shape-round sk-image" id="0464f8f7--image" mode="scaleToFill" style="true"></image>
+                  <image class="goods-index--image-content t-image image--t-image t-image--shape-round image--t-image--shape-round sk-image" id="1f4e4e24--image" mode="scaleToFill" style="true"></image>
                 </view>
                 <view class="goods-index--right">
                   <view class="goods-index--title-container">
                     <view class="goods-index--title-wrapper">
-                      <view class="goods-index--title sk-transparent sk-text-16-6667-343 sk-text">iphone2012 64G 红色</view>
+                      <view class="goods-index--title sk-transparent sk-text-16-6667-821 sk-text">iphone2012 64G 红色</view>
                     </view>
                     <button app-parameter="true" data-custom="null" form-type="true" hover-class="t-button--hover" hover-start-time="20" hover-stay-time="70" lang="en" open-type="true" send-message-img="true" send-message-path="true" send-message-title="true"
                       session-from="true" style="true" class="goods-index--more t-button button--t-button t-button--text button--t-button--text t-button--default button--t-button--default t-button--rectangle button--t-button--rectangle t-button--size-small button--t-button--size-small sk-button sk-pseudo sk-pseudo-circle">
@@ -151,23 +61,23 @@
                           <label class="t-icon-swap icon--t-icon-swap t-icon-base icon--t-icon-base sk-pseudo sk-pseudo-circle"></label>
                         </view>
                       </view>
-                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-101 sk-text">手机</view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-10 sk-text">手机</view>
                     </view>
                     <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
                       <view class="t-tag__icon tag-tag--t-tag__icon"></view>
-                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-73 sk-text">64G</view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-739 sk-text">64G</view>
                     </view>
                     <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
                       <view class="t-tag__icon tag-tag--t-tag__icon"></view>
-                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-821 sk-text">红色</view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-478 sk-text">红色</view>
                     </view>
                   </view>
                 </view>
               </view>
               <view class="goods-index--stock-wrapper">
                 <view class="goods-index--stock">
-                  <view class="goods-index--label sk-transparent sk-text-14-2857-153 sk-text">库存</view>
-                  <view class="goods-index--value sk-transparent sk-opacity">4</view>
+                  <view class="goods-index--label sk-transparent sk-text-14-2857-52 sk-text">库存</view>
+                  <view class="goods-index--value sk-transparent sk-text-14-2857-119 sk-text">33</view>
                   <view class="goods-index--unit sk-transparent sk-opacity">件</view>
                 </view>
                 <view class="goods-index--view-all">
@@ -177,22 +87,22 @@
                       <view class="t-icon icon--t-icon button--t-button__icon " style="true">
                         <label class="t-icon-browse-off icon--t-icon-browse-off t-icon-base icon--t-icon-base sk-pseudo sk-pseudo-circle"></label>
                       </view>
-                      <view class="t-button__content button--t-button__content sk-transparent sk-text-25-8621-19 sk-text" style="background-position-x: 50%;">库存清单</view>
+                      <view class="t-button__content button--t-button__content sk-transparent sk-text-25-8621-820 sk-text" style="background-position-x: 50%;">库存清单</view>
                     </button>
                   </view>
                 </view>
               </view>
               <view class="goods-index--input-price-quantity-wrapper">
                 <view class="goods-index--input-price">
-                  <view class="goods-index--label sk-transparent sk-text-14-2857-514 sk-text">售价</view>
+                  <view class="goods-index--label sk-transparent sk-text-14-2857-203 sk-text">售价</view>
                   <view class="t-input input--t-input t-input--border input--t-input--border t-input--layout-horizontal input--t-input--layout-horizontal goods-index--input sk-pseudo sk-pseudo-circle" style="true">
                     <view class="t-input__wrap--prefix input--t-input__wrap--prefix">
                       <view class="t-input__label input--t-input__label "></view>
                     </view>
                     <view class="t-input__wrap input--t-input__wrap">
                       <view class="t-input__content input--t-input__content t-input--default input--t-input--default">
-                        <view class="t-input__control input--t-input__control t-input--left input--t-input--left sk-image" cursor="-1" maxlength="-1" placeholder="true" placeholder-class="t-input__placeholder input-placeholder" placeholder-style="true"
-                          safe-password-custom-hash="true" selection-end="-1" selection-start="-1" type="number" value="3"></view>
+                        <view class="t-input__control input--t-input__control t-input--left input--t-input--left sk-image" cursor="0" maxlength="-1" placeholder="true" placeholder-class="t-input__placeholder input-placeholder" placeholder-style="true" safe-password-custom-hash="true"
+                          selection-end="-1" selection-start="-1" type="number" value="309"></view>
                       </view>
                     </view>
                   </view>
@@ -217,12 +127,12 @@
             <view class="goods-index--container">
               <view class="goods-index--header">
                 <view class="goods-index--image">
-                  <image class="goods-index--image-content t-image image--t-image t-image--shape-round image--t-image--shape-round sk-image" id="cf9303cd--image" mode="scaleToFill" style="true"></image>
+                  <image class="goods-index--image-content t-image image--t-image t-image--shape-round image--t-image--shape-round sk-image" id="608a5ec4--image" mode="scaleToFill" style="true"></image>
                 </view>
                 <view class="goods-index--right">
                   <view class="goods-index--title-container">
                     <view class="goods-index--title-wrapper">
-                      <view class="goods-index--title sk-transparent sk-text-16-6667-505 sk-text">iPhone20011 64G 红色</view>
+                      <view class="goods-index--title sk-transparent sk-text-16-6667-570 sk-text">iPhone20011 64G 红色</view>
                     </view>
                     <button app-parameter="true" data-custom="null" form-type="true" hover-class="t-button--hover" hover-start-time="20" hover-stay-time="70" lang="en" open-type="true" send-message-img="true" send-message-path="true" send-message-title="true"
                       session-from="true" style="true" class="goods-index--more t-button button--t-button t-button--text button--t-button--text t-button--default button--t-button--default t-button--rectangle button--t-button--rectangle t-button--size-small button--t-button--size-small sk-button sk-pseudo sk-pseudo-circle">
@@ -239,22 +149,22 @@
                           <label class="t-icon-swap icon--t-icon-swap t-icon-base icon--t-icon-base sk-pseudo sk-pseudo-circle"></label>
                         </view>
                       </view>
-                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-635 sk-text">手机</view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-515 sk-text">手机</view>
                     </view>
                     <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
                       <view class="t-tag__icon tag-tag--t-tag__icon"></view>
-                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-687 sk-text">64G</view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-110 sk-text">64G</view>
                     </view>
                     <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
                       <view class="t-tag__icon tag-tag--t-tag__icon"></view>
-                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-952 sk-text">红色</view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-927 sk-text">红色</view>
                     </view>
                   </view>
                 </view>
               </view>
               <view class="goods-index--stock-wrapper">
                 <view class="goods-index--stock">
-                  <view class="goods-index--label sk-transparent sk-text-14-2857-84 sk-text">库存</view>
+                  <view class="goods-index--label sk-transparent sk-text-14-2857-609 sk-text">库存</view>
                   <view class="goods-index--value sk-transparent sk-opacity">3</view>
                   <view class="goods-index--unit sk-transparent sk-opacity">件</view>
                 </view>
@@ -265,14 +175,14 @@
                       <view class="t-icon icon--t-icon button--t-button__icon " style="true">
                         <label class="t-icon-browse-off icon--t-icon-browse-off t-icon-base icon--t-icon-base sk-pseudo sk-pseudo-circle"></label>
                       </view>
-                      <view class="t-button__content button--t-button__content sk-transparent sk-text-25-8621-800 sk-text" style="background-position-x: 50%;">库存清单</view>
+                      <view class="t-button__content button--t-button__content sk-transparent sk-text-25-8621-832 sk-text" style="background-position-x: 50%;">库存清单</view>
                     </button>
                   </view>
                 </view>
               </view>
               <view class="goods-index--input-price-quantity-wrapper">
                 <view class="goods-index--input-price">
-                  <view class="goods-index--label sk-transparent sk-text-14-2857-724 sk-text">售价</view>
+                  <view class="goods-index--label sk-transparent sk-text-14-2857-811 sk-text">售价</view>
                   <view class="t-input input--t-input t-input--border input--t-input--border t-input--layout-horizontal input--t-input--layout-horizontal goods-index--input sk-pseudo sk-pseudo-circle" style="true">
                     <view class="t-input__wrap--prefix input--t-input__wrap--prefix">
                       <view class="t-input__label input--t-input__label "></view>
@@ -305,12 +215,12 @@
             <view class="goods-index--container">
               <view class="goods-index--header">
                 <view class="goods-index--image">
-                  <image class="goods-index--image-content t-image image--t-image t-image--shape-round image--t-image--shape-round sk-image" id="057c4741--image" mode="scaleToFill" style="true"></image>
+                  <image class="goods-index--image-content t-image image--t-image t-image--shape-round image--t-image--shape-round sk-image" id="1eb0d47a--image" mode="scaleToFill" style="true"></image>
                 </view>
                 <view class="goods-index--right">
                   <view class="goods-index--title-container">
                     <view class="goods-index--title-wrapper">
-                      <view class="goods-index--title sk-transparent sk-text-16-6667-404 sk-text">iphone211 64G 红色</view>
+                      <view class="goods-index--title sk-transparent sk-text-16-6667-150 sk-text">张一的海参 特级 一级 二级 三级</view>
                     </view>
                     <button app-parameter="true" data-custom="null" form-type="true" hover-class="t-button--hover" hover-start-time="20" hover-stay-time="70" lang="en" open-type="true" send-message-img="true" send-message-path="true" send-message-title="true"
                       session-from="true" style="true" class="goods-index--more t-button button--t-button t-button--text button--t-button--text t-button--default button--t-button--default t-button--rectangle button--t-button--rectangle t-button--size-small button--t-button--size-small sk-button sk-pseudo sk-pseudo-circle">
@@ -327,22 +237,30 @@
                           <label class="t-icon-swap icon--t-icon-swap t-icon-base icon--t-icon-base sk-pseudo sk-pseudo-circle"></label>
                         </view>
                       </view>
-                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-485 sk-text">手机</view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-577 sk-text">海参</view>
                     </view>
                     <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
                       <view class="t-tag__icon tag-tag--t-tag__icon"></view>
-                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-154 sk-text">64G</view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-236 sk-text">特级</view>
                     </view>
                     <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
                       <view class="t-tag__icon tag-tag--t-tag__icon"></view>
-                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-80 sk-text">红色</view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-240 sk-text">一级</view>
+                    </view>
+                    <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
+                      <view class="t-tag__icon tag-tag--t-tag__icon"></view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-931 sk-text">二级</view>
+                    </view>
+                    <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
+                      <view class="t-tag__icon tag-tag--t-tag__icon"></view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-586 sk-text">三级</view>
                     </view>
                   </view>
                 </view>
               </view>
               <view class="goods-index--stock-wrapper">
                 <view class="goods-index--stock">
-                  <view class="goods-index--label sk-transparent sk-text-14-2857-481 sk-text">库存</view>
+                  <view class="goods-index--label sk-transparent sk-text-14-2857-993 sk-text">库存</view>
                   <view class="goods-index--value sk-transparent sk-opacity">0</view>
                   <view class="goods-index--unit sk-transparent sk-opacity">件</view>
                 </view>
@@ -353,14 +271,14 @@
                       <view class="t-icon icon--t-icon button--t-button__icon " style="true">
                         <label class="t-icon-browse-off icon--t-icon-browse-off t-icon-base icon--t-icon-base sk-pseudo sk-pseudo-circle"></label>
                       </view>
-                      <view class="t-button__content button--t-button__content sk-transparent sk-text-25-8621-189 sk-text" style="background-position-x: 50%;">库存清单</view>
+                      <view class="t-button__content button--t-button__content sk-transparent sk-text-25-8621-783 sk-text" style="background-position-x: 50%;">库存清单</view>
                     </button>
                   </view>
                 </view>
               </view>
               <view class="goods-index--input-price-quantity-wrapper">
                 <view class="goods-index--input-price">
-                  <view class="goods-index--label sk-transparent sk-text-14-2857-69 sk-text">售价</view>
+                  <view class="goods-index--label sk-transparent sk-text-14-2857-486 sk-text">售价</view>
                   <view class="t-input input--t-input t-input--border input--t-input--border t-input--layout-horizontal input--t-input--layout-horizontal goods-index--input sk-pseudo sk-pseudo-circle" style="true">
                     <view class="t-input__wrap--prefix input--t-input__wrap--prefix">
                       <view class="t-input__label input--t-input__label "></view>
@@ -393,12 +311,12 @@
             <view class="goods-index--container">
               <view class="goods-index--header">
                 <view class="goods-index--image">
-                  <image class="goods-index--image-content t-image image--t-image t-image--shape-round image--t-image--shape-round sk-image" id="c9c77e0b--image" mode="scaleToFill" style="true"></image>
+                  <image class="goods-index--image-content t-image image--t-image t-image--shape-round image--t-image--shape-round sk-image" id="7ab81dd5--image" mode="scaleToFill" style="true"></image>
                 </view>
                 <view class="goods-index--right">
                   <view class="goods-index--title-container">
                     <view class="goods-index--title-wrapper">
-                      <view class="goods-index--title sk-transparent sk-text-16-6667-350 sk-text">iphone13 64G 红色</view>
+                      <view class="goods-index--title sk-transparent sk-text-16-6667-100 sk-text">iphone11 64G 128G 红色 黑色 银色 粉色 灰色</view>
                     </view>
                     <button app-parameter="true" data-custom="null" form-type="true" hover-class="t-button--hover" hover-start-time="20" hover-stay-time="70" lang="en" open-type="true" send-message-img="true" send-message-path="true" send-message-title="true"
                       session-from="true" style="true" class="goods-index--more t-button button--t-button t-button--text button--t-button--text t-button--default button--t-button--default t-button--rectangle button--t-button--rectangle t-button--size-small button--t-button--size-small sk-button sk-pseudo sk-pseudo-circle">
@@ -415,22 +333,42 @@
                           <label class="t-icon-swap icon--t-icon-swap t-icon-base icon--t-icon-base sk-pseudo sk-pseudo-circle"></label>
                         </view>
                       </view>
-                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-558 sk-text">手机</view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-759 sk-text">手机</view>
                     </view>
                     <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
                       <view class="t-tag__icon tag-tag--t-tag__icon"></view>
-                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-102 sk-text">64G</view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-695 sk-text">64G</view>
                     </view>
                     <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
                       <view class="t-tag__icon tag-tag--t-tag__icon"></view>
-                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-220 sk-text">红色</view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-877 sk-text">128G</view>
+                    </view>
+                    <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
+                      <view class="t-tag__icon tag-tag--t-tag__icon"></view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-901 sk-text">红色</view>
+                    </view>
+                    <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
+                      <view class="t-tag__icon tag-tag--t-tag__icon"></view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-268 sk-text">黑色</view>
+                    </view>
+                    <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
+                      <view class="t-tag__icon tag-tag--t-tag__icon"></view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-250 sk-text">银色</view>
+                    </view>
+                    <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
+                      <view class="t-tag__icon tag-tag--t-tag__icon"></view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-954 sk-text">粉色</view>
+                    </view>
+                    <view class="t-tag tag-tag--t-tag t-tag--default tag-tag--t-tag--default t-tag--outline tag-tag--t-tag--outline t-tag--medium tag-tag--t-tag--medium t-tag--round tag-tag--t-tag--round  goods-index--tag" style="true">
+                      <view class="t-tag__icon tag-tag--t-tag__icon"></view>
+                      <view class="t-tag__text tag-tag--t-tag__text sk-transparent sk-text-25-0000-37 sk-text">灰色</view>
                     </view>
                   </view>
                 </view>
               </view>
               <view class="goods-index--stock-wrapper">
                 <view class="goods-index--stock">
-                  <view class="goods-index--label sk-transparent sk-text-14-2857-952 sk-text">库存</view>
+                  <view class="goods-index--label sk-transparent sk-text-14-2857-610 sk-text">库存</view>
                   <view class="goods-index--value sk-transparent sk-opacity">0</view>
                   <view class="goods-index--unit sk-transparent sk-opacity">件</view>
                 </view>
@@ -441,36 +379,8 @@
                       <view class="t-icon icon--t-icon button--t-button__icon " style="true">
                         <label class="t-icon-browse-off icon--t-icon-browse-off t-icon-base icon--t-icon-base sk-pseudo sk-pseudo-circle"></label>
                       </view>
-                      <view class="t-button__content button--t-button__content sk-transparent sk-text-25-8621-505 sk-text" style="background-position-x: 50%;">库存清单</view>
+                      <view class="t-button__content button--t-button__content sk-transparent sk-text-25-8621-318 sk-text" style="background-position-x: 50%;">库存清单</view>
                     </button>
-                  </view>
-                </view>
-              </view>
-              <view class="goods-index--input-price-quantity-wrapper">
-                <view class="goods-index--input-price">
-                  <view class="goods-index--label sk-transparent sk-text-14-2857-769 sk-text">售价</view>
-                  <view class="t-input input--t-input t-input--border input--t-input--border t-input--layout-horizontal input--t-input--layout-horizontal goods-index--input sk-pseudo sk-pseudo-circle" style="true">
-                    <view class="t-input__wrap input--t-input__wrap">
-                      <view class="t-input__content input--t-input__content t-input--default input--t-input--default">
-                        <view class="t-input__control input--t-input__control t-input--left input--t-input--left sk-image" cursor="0" maxlength="-1" placeholder="true" placeholder-class="t-input__placeholder input-placeholder" placeholder-style="true" safe-password-custom-hash="true"
-                          selection-end="-1" selection-start="-1" type="number" value="0"></view>
-                      </view>
-                    </view>
-                  </view>
-                </view>
-                <view class="t-stepper stepper--t-stepper t-stepper--large stepper--t-stepper--large  " style="true">
-                  <view class="t-stepper__minus stepper--t-stepper__minus t-stepper__minus--outline stepper--t-stepper__minus--outline t-stepper__icon--large stepper--t-stepper__icon--large t-stepper--outline-disabled stepper--t-stepper--outline-disabled sk-button">
-                    <view class="t-icon icon--t-icon stepper--t-stepper__minus-icon " style="true">
-                      <label class="t-icon-remove icon--t-icon-remove t-icon-base icon--t-icon-base sk-pseudo sk-pseudo-circle"></label>
-                    </view>
-                  </view>
-                  <view class="t-stepper__input--outline stepper--t-stepper__input--outline">
-                    <view class="t-stepper__input stepper--t-stepper__input t-stepper__input--large stepper--t-stepper__input--large sk-image" style="true" type="number" value="0"></view>
-                  </view>
-                  <view class="t-stepper__plus stepper--t-stepper__plus t-stepper__plus--outline stepper--t-stepper__plus--outline t-stepper__icon--large stepper--t-stepper__icon--large t-stepper--outline-disabled stepper--t-stepper--outline-disabled sk-button">
-                    <view class="t-icon icon--t-icon stepper--t-stepper__plus-icon " style="true">
-                      <label class="t-icon-add icon--t-icon-add t-icon-base icon--t-icon-base sk-pseudo sk-pseudo-circle"></label>
-                    </view>
                   </view>
                 </view>
               </view>
@@ -479,7 +389,16 @@
         </scroll-view>
       </view>
     </view>
-    <view class="draggable--t-draggable  " style="right: 16px; bottom: 32px; left: unset; right:var(--td-spacer); bottom: calc(80px + env(safe-area-inset-bottom));">
+    <view class="draggable--t-draggable  " style="right: 16px; bottom: 32px; left: unset; right: unset; bottom: calc(80px + env(safe-area-inset-bottom));">
+      <button app-parameter="true" data-custom="null" form-type="true" hover-class="t-button--hover" hover-start-time="20" hover-stay-time="70" lang="en" open-type="true" send-message-img="true" send-message-path="true" send-message-title="true" session-from="true"
+        style="true" class="t-button button--t-button fab--t-fab__button t-button--text button--t-button--text t-button--default button--t-button--default t-button--circle button--t-button--circle t-button--size-large button--t-button--size-large sk-button sk-pseudo sk-pseudo-circle">
+        <view class="t-icon icon--t-icon button--t-button__icon " style="true">
+          <label class="t-icon-menu-fold icon--t-icon-menu-fold t-icon-base icon--t-icon-base sk-pseudo sk-pseudo-circle"></label>
+        </view>
+        <view class="t-button__content button--t-button__content"></view>
+      </button>
+    </view>
+    <view class="draggable--t-draggable  " style="right: 16px; bottom: 32px; left: unset; right: var(--td-spacer); bottom: calc(80px + env(safe-area-inset-bottom));">
       <button app-parameter="true" data-custom="null" form-type="true" hover-class="t-button--hover" hover-start-time="20" hover-stay-time="70" lang="en" open-type="true" send-message-img="true" send-message-path="true" send-message-title="true" session-from="true"
         style="true" class="t-button button--t-button fab--t-fab__button t-button--text button--t-button--text t-button--default button--t-button--default t-button--circle button--t-button--circle t-button--size-large button--t-button--size-large sk-button sk-pseudo sk-pseudo-circle">
         <view class="t-icon icon--t-icon button--t-button__icon " style="true">

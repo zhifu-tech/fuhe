@@ -36,13 +36,18 @@ module.exports = Behavior({
         _category.isDeleted = true;
         this.setHasChanged();
         showToastLoading({ message: '删除中...' });
-        await Promise.all([
-          // 删除分类
-          this.handleCategoryDelete(),
-          // 删除所有规格和选项
-          this.handleSpecDeleteAll(),
-        ]);
-        showToastSuccess({ message: '删除成功!' });
+        try {
+          await Promise.all([
+            // 删除分类
+            this.handleCategoryDelete(),
+            // 删除所有规格和选项
+            this.handleSpecDeleteAll(),
+          ]);
+          showToastSuccess({ message: '删除成功!' });
+        } catch (error) {
+          log.error(tag, 'category-delete', 'delete category error', error);
+          showToastError({ message: '操作失败，请稍后重试！' });
+        }
         // 恢复为新加分类
         this.hide();
       }

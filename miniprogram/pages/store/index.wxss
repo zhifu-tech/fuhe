@@ -1,1 +1,1 @@
-@import './index.skeleton.wxss';
+@import './skeleton/index.skeleton.wxss';
