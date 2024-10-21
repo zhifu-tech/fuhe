@@ -1,5 +1,10 @@
 import { showSimpleActionSheet } from '../../../../../common/action-sheet/simples';
-import { showGoodsAddSpuPopup, showGoodsEditSpuPopup } from '../../store-goods-popup/popups';
+import {
+  showGoodsAddSpuPopup,
+  showGoodsEditSpuPopup,
+  showGoodsEditSkuPopup,
+  showGoodsAddSkuPopup,
+} from '../../store-goods-popup/popups';
 
 module.exports = Behavior({
   methods: {

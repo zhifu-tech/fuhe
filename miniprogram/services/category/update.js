@@ -23,7 +23,7 @@ export default async function ({ tag, saasId, id, title }) {
       cache.setCategory(saasId, id, category);
     }
     log.info(tag, 'category-update', res, title);
-    return res;
+    return category;
   } catch (error) {
     log.error(tag, 'category-update', error);
     throw error;

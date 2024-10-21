@@ -5,7 +5,7 @@ import services from '../../../../../services/index';
 module.exports = Behavior({
   data: {
     specs: [],
-    specsInit: [],
+    _specs: [],
     specsChanged: false,
     specInputVisible: false,
   },
@@ -21,11 +21,11 @@ module.exports = Behavior({
   },
   methods: {
     checkSpecsChanged: function () {
-      const { specsInit, specs } = this.data;
-      if (specsInit.length !== specs.length) return true;
+      const { _specs, specs } = this.data;
+      if (_specs.length !== specs.length) return true;
       for (let i = 0; i < specs.length; i++) {
         const a = specs[i];
-        const b = specsInit[i];
+        const b = _specs[i];
         if (a == b) continue;
         if (a._id !== b._id) return true;
         if (a.title !== b.title) return true;
@@ -100,13 +100,13 @@ module.exports = Behavior({
       }
     },
     _handleSpecsUpdate: async function () {
-      const { tag, category, specs, specsInit } = this.data;
+      const { tag, category, specs, _specs } = this.data;
       const cId = category._id;
       const list = [];
       specs.forEach((spec) => {
         // 更新的必须是clone来的，省去不必要的判定
         if (!spec.editable) return;
-        const src = specsInit.find((it) => it._id === spec._id);
+        const src = _specs.find((it) => it._id === spec._id);
         if (src && src.title !== spec.title) {
           list.push({
             spec,
@@ -122,9 +122,9 @@ module.exports = Behavior({
       }
     },
     _handleSpecsDelete: async function () {
-      const { tag, specs, specsInit } = this.data;
+      const { tag, specs, _specs } = this.data;
       const list = [];
-      specsInit.forEach((src) => {
+      _specs.forEach((src) => {
         const dst = specs.find((it) => it._id === src._id);
         if (!dst) list.push(src._id);
       });
@@ -135,10 +135,10 @@ module.exports = Behavior({
       }
     },
     handleSpecDeleteAll: async function () {
-      const { tag, specsInit } = this.data;
+      const { tag, _specs } = this.data;
       const sIds = [];
       const oIds = [];
-      specsInit.forEach((spec) => {
+      _specs.forEach((spec) => {
         if (spec._id.startsWith('-')) return;
         sIds.push(spec._id);
         spec.options?.forEach((option) => {

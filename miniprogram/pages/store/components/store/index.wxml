@@ -85,17 +85,11 @@
   bind:click="handleSideBarFold"
   aria-label="增加"
 />
-<store-category-popup
-  wx:if="{{storeCategoryPopupEnabled}}"
-  id="store-category-popup"
-  bind:close="onCategoryPopupClose"
-/>
-<store-goods-popup
-  wx:if="{{storeGoodsPopupEnabled}}"
-  id="store-goods-popup"
-  bind:close="onCategoryPopupClose"
-/>
-<include src="../../../../common/picker/simple.wxml" />
+
+<include src="../store-category-popup//popup.wxml" />
+<include src="../store-goods-popup/popup.wxml" />
+
 <include src="../../../../common/action-sheet/simple.wxml" />
-<t-toast id="t-toast" />
-<t-dialog id="t-dialog" />
+<include src="../../../../common/dialog/simple.wxml" />
+<include src="../../../../common/picker/simple.wxml" />
+<include src="../../../../common/toast/simple.wxml" />

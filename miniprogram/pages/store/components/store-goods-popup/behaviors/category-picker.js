@@ -1,7 +1,7 @@
 const { default: log } = require('../../../../../common/log/log');
-const { default: pages } = require('../../../../../common/page/pages');
 const { default: services } = require('../../../../../services/index');
 const { showSimpePicker } = require('../../../../../common/picker/simples');
+import { showCategoryPopup } from '../../store-category-popup/popups';
 
 module.exports = Behavior({
   methods: {
@@ -29,6 +29,7 @@ module.exports = Behavior({
       const selected =
         (category && category._id && categories.find(({ _id }) => _id === category._id)) || '';
       showSimpePicker({
+        title: '选择商品类别',
         selected: selected?._id || '',
         items,
         confirm: this._onCategoryPickerConfirm.bind(this),
@@ -41,17 +42,14 @@ module.exports = Behavior({
         log.info(tag, 'category-picker', 'confirm');
         return;
       }
-      pages
-        .currentPage()
-        .store()
-        ?.showCategoryPopup({
-          close: ({ hasChanged, category }) => {
-            log.info(tag, 'category-picker', 'hasChanged', hasChanged, category);
-            if (hasChanged && category) {
-              this.handleUpdateSpuCategory(category);
-            }
-          },
-        });
+      showCategoryPopup({
+        close: ({ hasChanged, category }) => {
+          log.info(tag, 'category-picker', 'hasChanged', hasChanged, category);
+          if (hasChanged && category) {
+            this.handleUpdateSpuCategory(category);
+          }
+        },
+      });
     },
   },
 });

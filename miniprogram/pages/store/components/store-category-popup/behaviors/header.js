@@ -1,5 +1,9 @@
 import log from '../../../../../common/log/log';
-import { showToastLoading, hideToastLoading } from '../../../../../common/toast/simples';
+import {
+  showToastLoading,
+  hideToastLoading,
+  showToastError,
+} from '../../../../../common/toast/simples';
 
 module.exports = Behavior({
   data: {
@@ -8,11 +12,11 @@ module.exports = Behavior({
   },
   observers: {
     'category.title': function () {
-      const { category, categoryInit } = this.data;
+      const { category, _category } = this.data;
       const title =
         category.title && category.title.length > 0
           ? category.title
-          : categoryInit._id
+          : _category._id
           ? '修改分类'
           : '新增分类';
       if (title !== this.data.title) {
@@ -49,6 +53,7 @@ module.exports = Behavior({
         }
       } catch (error) {
         log.error(tag, 'confirmed', error);
+        showToastError({});
       } finally {
         this.hide();
         hideToastLoading();

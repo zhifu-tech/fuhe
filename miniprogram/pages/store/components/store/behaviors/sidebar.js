@@ -1,5 +1,6 @@
 import services from '../../../../../services/index';
 import log from '../../../../../common/log/log';
+import { showCategoryPopup } from '../../store-category-popup/popups';
 
 module.exports = Behavior({
   data: {
@@ -27,10 +28,15 @@ module.exports = Behavior({
       wx.setStorageSync('store.showSideBar', showSideBar);
     },
     onSideBarChange: function (e) {
-      const { saasId } = this.data;
       const { value: selected } = e.detail;
       if (selected === services.category.addCategoryId) {
-        this.showCategoryPopup({ saasId });
+        showCategoryPopup({
+          close: ({ hasChanged, category: added }) => {
+            if (hasChanged) {
+              this.addCategory(added);
+            }
+          },
+        });
       } else {
         this.setData({
           'category.selected': selected,
@@ -43,7 +49,13 @@ module.exports = Behavior({
       if (cId === services.category.allCategoryId) {
         log.info(tag, 'all category is not support long press');
       } else {
-        const args = { saasId };
+        const args = {
+          close: ({ hasChanged, category: updated }) => {
+            if (hasChanged) {
+              this.updateCategory(updated);
+            }
+          },
+        };
         try {
           const [categoryRes, specsRes] = await Promise.all([
             services.category.get({ tag, saasId, id: cId }),
@@ -55,8 +67,7 @@ module.exports = Behavior({
           log.error(tag, 'showPopup', error);
           return;
         }
-        this.showCategoryPopup(args);
-        log.info(tag, 'onCategoryLongPressed', e);
+        showCategoryPopup(args);
       }
     },
   },

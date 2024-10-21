@@ -16,7 +16,6 @@ module.exports = Behavior({
         () => {
           const close = args.close;
           args.close = ({ hasChanged, category }) => {
-            log.info(this.data.tag, 'hasChanged', hasChanged, 'category', category);
             close?.({ hasChanged, category });
             this.hideCategoryPopup();
           };

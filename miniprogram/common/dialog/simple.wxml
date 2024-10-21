@@ -1,0 +1,7 @@
+<t-dialog
+  wx:if="{{ simpleDialog.enabled }}"
+  id="t-dialog"
+  usingCustomNavbar
+  visible="{{ simpleDialog.visible }}"
+  bind:close="hideSimpleDialog"
+/>

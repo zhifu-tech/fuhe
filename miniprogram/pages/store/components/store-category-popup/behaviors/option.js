@@ -40,13 +40,13 @@ module.exports = Behavior({
       }
     },
     handleSpecOptionsUpdate: async function () {
-      const { tag, specs, specsInit } = this.data;
+      const { tag, specs, _specs } = this.data;
       const list = [];
       specs.forEach((spec) => {
         // 更新的必须是clone来的，省去不必要的判定
         if (!spec.editable) return;
         if (!spec.options || spec.options.length === 0) return;
-        const src = specsInit.find((it) => it._id === spec._id);
+        const src = _specs.find((it) => it._id === spec._id);
         if (!src) return;
         if (spec.options == src.options) return;
         spec.options.forEach((option) => {
@@ -67,9 +67,9 @@ module.exports = Behavior({
       }
     },
     handleSpecOptionsDelete: async function () {
-      const { tag, specs, specsInit } = this.data;
+      const { tag, specs, _specs } = this.data;
       const list = [];
-      specsInit.forEach((src) => {
+      _specs.forEach((src) => {
         if (!src.options || src.options.length === 0) return;
         const dst = specs.find((it) => it._id === src._id);
         // 规格被删除，需要删除所有非本地选项

@@ -12,7 +12,9 @@ Component({
     require('@/common/picker/simple'),
     require('@/common/action-sheet/simple'),
     require('@/common/toast/simple'),
+    require('@/common/dialog/simple'),
 
+    require('../store-category-popup/popup'),
     require('../store-goods-popup/popup'),
 
     require('./behaviors/skeleton'),
@@ -23,7 +25,6 @@ Component({
     require('./behaviors/goods-spu'),
     require('./behaviors/sidebar'),
     require('./behaviors/category'),
-    require('./behaviors/category-popup'),
   ],
   data: {
     tag: 'storePage',

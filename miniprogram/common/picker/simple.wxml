@@ -1,12 +1,9 @@
-<t-picker id="simple-picker"
-  visible="{{ simplePicker.visible }}"
-  value="{{ [simplePicker.selected] }}"
-  title="{{ simplePicker.title }}"
-  cancelBtn="取消"
-  confirmBtn="确认"
+<t-picker
+  wx:if="{{ simplePicker.enabled }}"
+  id="t-picker"
   usingCustomNavbar
-  popupProps="{{ simplePicker.popupProps }}"
   bind:confirm="_handleSimplePickerConfirm"
-  bind:close="_handleSimplePickerClose">
-  <t-picker-item options="{{ simplePicker.items }}" />
+  bind:close="hideSimplePicker"
+>
+  <t-picker-item id="t-picker-item" />
 </t-picker>

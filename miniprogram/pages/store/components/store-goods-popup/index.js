@@ -1,4 +1,6 @@
 const { default: log } = require('@/common/log/log');
+const popupProps = require('../../../../common/popup/popup-props');
+const { default: pages } = require('../../../../common/page/pages');
 
 Component({
   options: {
@@ -27,20 +29,6 @@ Component({
     require('./behaviors/category'),
     require('./behaviors/category-picker'),
   ],
-  properties: {
-    isAddSpuMode: {
-      type: Boolean,
-      value: false,
-    },
-    isEditSpuMode: {
-      type: Boolean,
-      value: false,
-    },
-    isAddSkuMode: {
-      type: Boolean,
-      value: false,
-    },
-  },
   data: {
     tag: 'goods-popup',
     visible: false,
@@ -59,6 +47,15 @@ Component({
       if (!visible) {
         this.data._close();
         this.setData({
+          isModeAddSpu: false,
+          isModeEditSpu: false,
+          isModeAddSku: false,
+          isModeEditSku: false,
+          isModeEditStock: false,
+          isModeEditStockSuper: false,
+          spu: {},
+          sku: {},
+          stock: {},
           _close: () => null,
           _callback: () => null,
         });

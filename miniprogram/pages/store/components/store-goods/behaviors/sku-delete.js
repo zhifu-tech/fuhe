@@ -1,8 +1,7 @@
-import Dialog from 'tdesign-miniprogram/dialog/index';
 import services from '@/services/index';
 import log from '@/common/log/log';
-import pages from '@/common/page/pages';
-import showToastError from '@/common/toast/simples';
+import { showToastError } from '@/common/toast/simples';
+import { showConfirmDialog } from '@/common/dialog/simples';
 
 module.exports = Behavior({
   methods: {
@@ -14,23 +13,18 @@ module.exports = Behavior({
         showToastError({ message: '有库存时，不可以删除' });
         return;
       }
-      Dialog.confirm({
-        context: pages.currentPage().store(),
+      showConfirmDialog({
         title: '删除库存',
         content: '删除库存会导致关联的信息不可用？',
         confirmBtn: '确认删除',
         cancelBtn: '取消',
-        zIndex: pages.zIndexDialog,
-        overlayProps: {
-          zIndex: pages.zIndexDialogOverlay,
-        },
-      })
-        .then(() => {
+        confirm: () => {
           this._deleteSku();
-        })
-        .catch((error) => {
+        },
+        cancel: (error) => {
           log.info(tag, 'sku-delete', 'cancel', error);
-        });
+        },
+      });
     },
     _deleteSku: async function () {
       const { tag, spu, sku } = this.data;

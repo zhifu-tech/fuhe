@@ -29,7 +29,7 @@ module.exports = Behavior({
     checkSkuSpecList: function (spu, sku) {
       const optionList = sku.optionList ?? [];
       if (optionList.length <= 0) {
-        showToastError({ mesage: '选择规格信息！' });
+        showToastError({ message: '选择规格信息！' });
         return false;
       }
       const selected = [];
@@ -40,7 +40,7 @@ module.exports = Behavior({
         optionList.every((option, index) => option._id === list[index]._id),
       );
       if (hasSelected) {
-        showToastError({ mesage: '规格信息重复！' });
+        showToastError({ message: '规格信息重复！' });
       }
       return !hasSelected;
     },

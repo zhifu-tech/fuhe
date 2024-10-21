@@ -1,74 +1,85 @@
+import log from '@/common/log/log';
 import pages from '@/common/page/pages';
-import updatePopupProps from '@/common/popup/popup-z-index';
 
 module.exports = Behavior({
   data: {
     simplePicker: {
-      visible: false,
-      title: '',
-      selected: '',
-      items: [],
-      _items: [],
+      enabled: false,
+      _options: [],
       _close: () => null,
       _confirm: () => null,
-      popupProps: {
-        zIndex: pages.zIndexPopup,
-        overlayProps: {
-          zIndex: pages.zIndexOverlay,
-        },
-      },
-    },
-  },
-  observers: {
-    'simplePicker.visible': function () {
-      updatePopupProps({
-        tag: 'simplePicker',
-        visible: this.data.simplePicker.visible,
-        popupProps: this.data.simplePicker.popupProps,
-        callback: (popupProps) => {
-          this.setData({
-            'simplePicker.popupProps': popupProps,
-          });
-        },
-      });
     },
   },
   methods: {
-    showSimpePicker: function ({ title, selected, items, close, confirm }) {
+    showSimpePicker: function ({
+      title,
+      selected,
+      items,
+      cancelBtn = '取消',
+      confirmBtn = '确认',
+      confirm,
+      close,
+    }) {
       this.setData({
-        'simplePicker.visible': true,
-        'simplePicker.title': title,
-        'simplePicker.items': items,
-        'simplePicker._items': items,
-        'simplePicker.selected': selected,
+        'simplePicker.enabled': true,
         'simplePicker._close': close ?? (() => null),
         'simplePicker._confirm': confirm ?? (() => null),
       });
+      this._simplePicker((picker, pickerItem) => {
+        picker.setData({
+          visible: true,
+          title: title ?? '',
+          value: selected ? [selected] : [],
+          cancelBtn: cancelBtn ?? '',
+          confirmBtn: confirmBtn ?? '',
+          popupProps: {
+            zIndex: pages.zIndexIncr(),
+            overlayProps: {
+              zIndex: pages.zIndex() - 500,
+            },
+          },
+        });
+        pickerItem.setData({
+          options: items,
+        });
+      });
     },
     hideSimplePicker: function () {
-      this.data.simplePicker._close?.();
-      this.setData({
-        'simplePicker.visible': false,
-        'simplePicker.title': '',
-        'simplePicker.items': [],
-        'simplePicker.selected': '',
-        'simplePicker._close': () => null,
+      this.data.simplePicker._close();
+      this._simplePicker((picker, pickerItem) => {
+        this.data.simplePicker._options = pickerItem.data.options;
+        pickerItem.setData({
+          options: [],
+        });
+        if (picker.data.visible) {
+          picker.setData({
+            visible: false,
+          });
+        }
+        setTimeout(() => {
+          this.setData({
+            'simplePicker.enabled': false,
+            'simplePicker._options': [],
+            'simplePicker._close': () => null,
+            'simplePicker._confirm': () => null,
+          });
+        }, 300);
       });
-      setTimeout(() => {
-        // close 在confirm之前执行，需要delay一下
-        this.data.simplePicker._items = [];
-        this.data.simplePicker._confirm = () => null;
-      }, 100);
     },
     _handleSimplePickerConfirm: function (e) {
       const value = e.detail.value[0];
-      const item = this.data.simplePicker._items.find((item) => item.value === value);
+      const { simplePicker } = this.data;
+      const item = simplePicker._options.find((item) => item.value === value);
       if (item != null) {
-        this.data.simplePicker._confirm(item);
+        simplePicker._confirm(item);
       }
     },
-    _handleSimplePickerClose: function () {
-      this.hideSimplePicker();
+    _simplePicker: function (callback) {
+      const picker = this.selectComponent('#t-picker');
+      const pickerItem = this.selectComponent('#t-picker-item');
+      if (picker && pickerItem && callback) {
+        callback(picker, pickerItem);
+      }
     },
   },
 });

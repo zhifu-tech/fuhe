@@ -1,88 +1,93 @@
-<wxs src="./index.wxs"
-  module="_" />
-<t-popup visible="{{visible}}"
+<wxs src="./index.wxs" module="_" />
+<t-popup
+  id="goods-popup"
+  visible="{{visible}}"
   zIndex="{{popupProps.zIndex}}"
   overlayProps="{{popupProps.overlayProps}}"
   placement="bottom"
-  bind:visible-change="hide">
+  bind:visible-change="hide"
+>
   <view class="container">
     <!-- header: 取消 + 标题 + 确定 -->
     <view class="header">
-      <t-button theme="default"
+      <t-button
+        theme="default"
         variant="text"
         shape="circle"
         size="small"
         t-class="header-cancel"
-        bind:tap="hide">取消
+        bind:tap="hide"
+        >取消
       </t-button>
       <view class="title">{{ spu.title || '新增商品' }}</view>
-      <t-button theme="primary"
+      <t-button
+        theme="primary"
         variant="text"
         shape="circle"
         size="small"
         disabled="{{ submitDisabled }}"
-        bind:tap="submit">提交
+        bind:tap="submit"
+        >提交
       </t-button>
     </view>
 
-    <scroll-view scroll-y="true"
-      class="content">
-
+    <scroll-view scroll-y="true" class="content">
       <block wx:if="{{ isModeAddSpu || isModeEditSpu }}">
-        <t-input placeholder="输入商品名称，必填"
+        <t-input
+          placeholder="输入商品名称，必填"
           label="商品名称"
           value="{{ spu.title || '' }}"
           tips="{{ spu.titleTips || '' }}"
           status="{{ spu.titleStatus || 'default' }}"
-          bind:blur="handleUpdateSpuTitle" />
-        <t-input placeholder="输入商品描述，选填"
+          bind:blur="handleUpdateSpuTitle"
+        />
+        <t-input
+          placeholder="输入商品描述，选填"
           label="商品描述"
           value="{{spu.desc || ''}}"
-          bind:blur="handleUpdateSpuDesc" />
+          bind:blur="handleUpdateSpuDesc"
+        />
       </block>
       <block wx:if="{{ isModeAddSpu }}">
-        <t-cell title="商品供应商"
+        <t-cell
+          title="商品供应商"
           arrow
           hover
           note="{{supplier.title||''}}"
-          bind:click="showSupplierPicker" />
-        <t-cell title="商品类别"
+          bind:click="showSupplierPicker"
+        />
+        <t-cell
+          title="商品类别"
           arrow
           hover
           note="{{ _.getSpuCategoryTitle(spu.category) }}"
-          bind:click="showCategoryPicker" />
+          bind:click="showCategoryPicker"
+        />
       </block>
 
       <!-- 已加商品信息 -->
       <block wx:if="{{ isModeAddSku || isModeAddSku }}">
         <block wx:if="{{ spu.skuList.length > 0 }}">
-          <t-divider t-class="divider"
-            content="库存商品" />
+          <t-divider t-class="divider" content="库存商品" />
           <view class="skus">
-            <block wx:for="{{spu.skuList}}"
-              wx:for-item="sku"
-              wx:key="id">
-              <store-goods spu="{{spu}}"
-                sku="{{sku}}"
-                editable="{{false}}" />
+            <block wx:for="{{spu.skuList}}" wx:for-item="sku" wx:key="id">
+              <store-goods spu="{{spu}}" sku="{{sku}}" editable="{{false}}" />
             </block>
           </view>
         </block>
       </block>
 
-      <block wx:if="{{ isModeAddSpu || isModeAddSku || isModeEditSku || isModeEditStock || isModeEditStockSuper }}">
-        <t-divider t-class="divider"
-          content="规格信息" />
+      <block
+        wx:if="{{ isModeAddSpu || isModeAddSku || isModeEditSku || isModeEditStock || isModeEditStockSuper }}"
+      >
+        <t-divider t-class="divider" content="规格信息" />
         <view class="specs">
-          <block wx:for="{{ spu.specList }}"
-            wx:for-item="spec"
-            wx:key="_id">
+          <block wx:for="{{ spu.specList }}" wx:for-item="spec" wx:key="_id">
             <view class="label">{{spec.title}}</view>
             <view class="options">
-              <block wx:for="{{spec.optionList}}"
-                wx:for-item="option"
-                wx:key="_id">
-                <t-check-tag class="option"
+              <block wx:for="{{spec.optionList}}" wx:for-item="option" wx:key="_id">
+                <t-check-tag
+                  class="option"
                   shape="round"
                   size="large"
                   disabled="{{ isModeEditSku || isModeEditStock || isModeEditStockSuper }}"
@@ -91,7 +96,8 @@
                   checked="{{_.isOptionChecked(sku, option)}}"
                   data-option="{{option}}"
                   bind:click="handleOptionSelected"
-                  content="{{ [option.title, option.title] }}" />
+                  content="{{ [option.title, option.title] }}"
+                />
               </block>
             </view>
           </block>
@@ -100,51 +106,60 @@
       </block>
 
       <block wx:if="{{ isModeAddSpu || isModeAddSku || isModeEditStock || isModeEditStockSuper }}">
-        <t-input placeholder="输入成本价格，必填"
+        <t-input
+          placeholder="输入成本价格，必填"
           label="成本价格"
           disabled="{{ isModeEditStock }}"
           value="{{ stock.costPrice || '' }}"
           tips="{{ stock.costPriceTips || ''}}"
           status="{{ stock.costPriceStatus || 'default'}}"
-          bind:blur="handleUpdateStockCostPrice" />
-        <t-input placeholder="输入销售价格，必填"
+          bind:blur="handleUpdateStockCostPrice"
+        />
+        <t-input
+          placeholder="输入销售价格，必填"
           label="销售价格"
           disabled="{{ isModeEditStock }}"
           value="{{ stock.salePrice || '' }}"
           tips="{{ stock.salePriceTips || ''}}"
           status="{{ stock.salePriceStatus || 'default'}}"
-          bind:blur="handleUpdateStockSalePrice" />
-        <t-input placeholder="输入库存数量，必填"
+          bind:blur="handleUpdateStockSalePrice"
+        />
+        <t-input
+          placeholder="输入库存数量，必填"
           label="库存数量"
           type="number"
           value="{{ stock.quantity || '' }}"
           tips="{{ stock.quantityTips || ''}}"
           status="{{ stock.quantityStatus || 'default'}}"
-          bind:blur="handleUpdateStockQuantity" />
+          bind:blur="handleUpdateStockQuantity"
+        />
       </block>
 
       <block wx:if="{{ isModeAddSpu || isModeAddSku || isModeEditSku }}">
         <view class="label-container">
           <view class="label">商品图片</view>
         </view>
-        <t-upload mediaType="{{['image']}}"
+        <t-upload
+          mediaType="{{['image']}}"
           files="{{ _.getUploadImageFile( sku.imageList||[] ) }}"
           draggable="true"
           bind:add="handleAddImage"
           bind:remove="handleRemoveImage"
-          class="image-container" />
+          class="image-container"
+        />
       </block>
-
     </scroll-view>
 
     <block wx:if="{{ isModeAddSpu || isModeAddSku }}">
       <view class="block-button-wrapper">
-        <t-button block
+        <t-button
+          block
           theme="primary"
           size="large"
           variant="outline"
           content="{{ '新增商品' }}"
-          bind:tap="handleGoodsAdd" />
+          bind:tap="handleGoodsAdd"
+        />
       </view>
     </block>
   </view>

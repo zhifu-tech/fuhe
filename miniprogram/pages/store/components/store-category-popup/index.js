@@ -3,9 +3,11 @@ const { saasId } = require('@/common/saas/saas');
 Component({
   options: {
     virtualHost: true,
+    pureDataPattern: /^_/,
   },
   behaviors: [
     require('@/common/popup/popup-props'),
+
     require('./behaviors/header'),
     require('./behaviors/category'),
     require('./behaviors/category-delete'),
@@ -24,17 +26,25 @@ Component({
     tag: 'category-popup',
     visible: false,
     saasId: '',
-    hasChanged: false,
-    close: () => null,
+    _hasChanged: false,
+    _close: () => null,
   },
   observers: {
     visible: function () {
       if (!this.data.visible) {
-        this._close();
+        const { _close, _hasChanged, _category } = this.data;
+        _close({
+          hasChanged: _hasChanged,
+          category: _category,
+        });
         this.setData({
+          category: {},
+          _category: {},
+          specs: [],
+          _specs: [],
           saasId: null,
-          hasChanged: false,
-          close: () => null,
+          _hasChanged: false,
+          _close: () => null,
         });
       }
     },
@@ -44,12 +54,12 @@ Component({
       this.setData({
         visible: true,
         saasId: saasId(),
+        _category: category ?? {}, // 记录原始信息，不可修改
         category: category ? { ...category } : {}, // 需要浅拷贝，可以修改
-        categoryInit: category ?? {}, // 记录原始信息，不可修改
+        _specs: specs ?? [], // 记录原始信息，不可修改
         specs: specs ? [...specs] : [], // 需要浅拷贝，可以修改
-        specsInit: specs ?? [], // 记录原始信息，不可修改
-        hasChanged: false,
-        close: close ?? (() => null),
+        _hasChanged: false,
+        _close: close ?? (() => null),
       });
     },
     hide: function () {
@@ -57,18 +67,8 @@ Component({
         visible: false,
       });
     },
-    _close: function () {
-      const { hasChanged, category } = this.data;
-      this.data.close({ hasChanged, category });
-      this.triggerEvent('close', {
-        hasChanged,
-        category,
-      });
-    },
     setHasChanged() {
-      this.setData({
-        hasChanged: true,
-      });
+      this.data._hasChanged = true;
     },
   },
 });

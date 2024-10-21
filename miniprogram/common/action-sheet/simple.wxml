@@ -1,9 +1,8 @@
-<t-action-sheet wx:if="{{ simpleActionSheet.enabled }}"
+<t-action-sheet
+  wx:if="{{ simpleActionSheet.enabled }}"
   id="t-action-sheet"
-  visible="{{ simpleActionSheet.visible }}"
   usingCustomNavbar
-  items="{{ simpleActionSheet.items }}"
-  popupProps="{{ simpleActionSheet.popupProps }}"
-  bind:cancel="_handleSimpleActionSheetClose"
-  bind:close="_handleSimpleActionSheetClose"
-  bind:selected="_handleSimpleActionSheetSelected" />
+  bind:cancel="hideSimpleActionSheet"
+  bind:close="hideSimpleActionSheet"
+  bind:selected="_handleSimpleActionSheetSelected"
+/>

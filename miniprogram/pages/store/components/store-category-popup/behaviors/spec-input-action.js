@@ -1,6 +1,6 @@
 import services from '../../../../../services/index';
 import log from '../../../../../common/log/log';
-import showToastError from '../../../../../common/toast/simples';
+import { showToastError } from '../../../../../common/toast/simples';
 
 module.exports = Behavior({
   data: {

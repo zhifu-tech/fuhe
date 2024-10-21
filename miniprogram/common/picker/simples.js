@@ -1,5 +1,5 @@
 import pages from '../page/pages';
 
-export function showSimpePicker(options) {
-  pages.currentPage().root()?.showSimpePicker(options);
+export function showSimpePicker(args) {
+  pages.currentPage().root()?.showSimpePicker(args);
 }

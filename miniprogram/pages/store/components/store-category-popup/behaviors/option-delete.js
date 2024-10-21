@@ -1,28 +1,25 @@
-import Dialog from 'tdesign-miniprogram/dialog/index';
-import log from '../../../../../common/log/log';
-
-import { showToastSuccess, showToastError } from '../../../../../common/toast/simples.js';
+import log from '@/common/log/log';
+import { showToastSuccess, showToastError } from '@/common/toast/simples.js';
+import { showConfirmDialog } from '@/common/dialog/simples.js';
 
 module.exports = Behavior({
   methods: {
     onOptionDelete: function (e) {
       const { option } = e.target.dataset;
       const { tag } = this.data;
-      log.info(tag, 'option-action-delete', e, option);
-      Dialog.confirm({
-        context: this,
+      showConfirmDialog({
         title: '是否确认删除',
         content: `如果存在与规格「${option.title}」关联的作品，将不可用！`,
         confirmBtn: '确认删除',
         cancelBtn: '取消',
-      })
-        .then(() => this._deleteSepcOption(option))
-        .catch((error) => {
+        conifrm: () => this._deleteSepcOption(option),
+        cancel: () => {
           log.info(tag, 'category-delte', 'cancel', error);
           if (error) {
             showToastError({ message: '删除失败！' });
           }
-        });
+        },
+      });
     },
     _deleteSepcOption: function (option) {
       const { specs } = this.data;

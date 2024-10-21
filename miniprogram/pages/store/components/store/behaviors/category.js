@@ -60,5 +60,41 @@ module.exports = Behavior({
       });
       return items;
     },
+    addCategory: function (added) {
+      const {
+        category: { items },
+      } = this.data;
+      if (items.length === 1) {
+        items.unshift({
+          label: '所有商品',
+          value: services.category.allCategoryId,
+          badgeProps: {},
+        });
+      }
+      items.splice(1, 0, {
+        label: added.title,
+        value: added._id,
+        badgeProps: {},
+      });
+      this.setData({
+        'category.items': items,
+      });
+    },
+    updateCategory: function (updated) {
+      const {
+        category: { items },
+      } = this.data;
+      const index = items.findIndex((item) => item.value === updated._id);
+      if (index !== -1 && updated.isChanged) {
+        this.setData({
+          [`category.items[${index}].label`]: updated.title,
+        });
+      } else if (index !== -1 && updated.isDeleted) {
+        items.splice(index, 1);
+        this.setData({
+          'category.items': items,
+        });
+      }
+    },
   },
 });

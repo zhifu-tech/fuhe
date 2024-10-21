@@ -1,45 +1,39 @@
-import log from '../../../../../common/log/log';
-import Dialog from 'tdesign-miniprogram/dialog/index';
-import pages from '../../../../../common/page/pages';
-import {
-  showToastSuccess,
-  showToastError,
-  showToastLoading,
-} from '../../../../../common/toast/simples';
+import log from '@/common/log/log';
+import { showToastSuccess, showToastError, showToastLoading } from '@/common/toast/simples';
+import { showConfirmDialog } from '@/common/dialog/simples';
 
 /** 删除分类 */
 module.exports = Behavior({
   methods: {
     onCategoryIconDeleteClick: function (e) {
       const { tag, category } = this.data;
-      Dialog.confirm({
-        context: pages.currentPage().store(),
+      showConfirmDialog({
         title: '是否确认删除',
         content: `如果存在与分类「${category.title}」关联的作品，将导致分类不可用！`,
         confirmBtn: '确认删除',
         cancelBtn: '取消',
-        zIndex: pages.zIndexDialog,
-        overlayProps: {
-          zIndex: pages.zIndexDialogOverlay,
+        confirm: () => {
+          log.info(tag, 'category-delete', 'confirm');
+          this._deleteCategory();
         },
-      })
-        .then(() => this._deleteCategory())
-        .catch((error) => {
-          log.info(tag, 'category-delte', 'cancel', error);
+        cancel: (error) => {
+          log.info(tag, 'category-delete', 'cancel', error);
           if (error) {
             showToastError({ message: '删除失败！' });
           }
-        });
+        },
+      });
     },
     _deleteCategory: async function () {
-      log.info(tag, 'category-delte', this);
-      const { tag, category } = this.data;
+      const { tag, category, _category } = this.data;
       // 删除本地未提交分类：重置为新增分类
       if (category._id === '0') {
         this.hide();
       }
       // 删除分类的时候，需要级联删除规格和选项信息。
       else {
+        category.isDeleted = true;
+        _category.isDeleted = true;
         this.setHasChanged();
         showToastLoading({ message: '删除中...' });
         await Promise.all([
