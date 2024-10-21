@@ -1,0 +1,34 @@
+<view
+  wx:if="{{ showLoading || showNoMore || showHasMore || showRetry }}"
+  class="load-more"
+  bind:tap="handleLoadMoreAction"
+>
+  <t-loading
+    wx:if="{{ showLoading }}"
+    t-class="loading"
+    t-class-text="loading-text"
+    t-class-indicator="loading-indicator"
+    loading="{{ showLoading }}"
+    text="{{ loadingText }}"
+    theme="circular"
+    size="40rpx"
+  />
+
+  <t-divider
+    wx:if="{{ showNoMore }}"
+    t-class-content="divider-content"
+    content="{{ noMoreText }}"
+  />
+
+  <t-divider
+    wx:if="{{ showHasMore }}"
+    t-class-content="divider-content"
+    content="{{ hasMoreText }}"
+    bind:tap="handleLoadMoreAction"
+  />
+
+  <view wx:if="{{ showRetry }}" class="load-more__error">
+    {{ retryText }}
+    <text class="load-more__refresh-btn" bind:tap="tapHandle">刷新</text>
+  </view>
+</view>

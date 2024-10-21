@@ -30,13 +30,13 @@
       </view>
     </view>
     <t-pull-down-refresh
-      value="{{pdrEnabled}}"
+      value="{{ pageStatus.isLoadingWithPullDown }}"
       loadingTexts="{{['下拉刷新', '松手刷新', '正在刷新', '刷新完成']}}"
       class="scroll"
       type="list"
       scroll-y
-      bind:refresh="handlePDRRefresh"
-      bind:scrolltolower="onScrollToLower"
+      bind:refresh="pullDownRefresh"
+      bind:scrolltolower="loadMoreGoods"
       scroll-with-animation
       enable-flex="true"
     >
@@ -51,8 +51,20 @@
           />
         </block>
       </block>
-      <load-more status="{{loadMoreStatus}}" />
-      <t-empty wx:if="{{empty}}" class="empty" icon="info-circle-filled" description="暂无商品">
+      <page-load-more
+        showLoading="{{ pageStatus.isLoadingWithMore }}"
+        showNoMore="{{ pageStatus.showNoMore }}"
+        showHasMore="{{ pageStatus.showHasMore }}"
+        showRetry="{{ pageStatus.showRetry }}"
+        bind:more="loadMoreGoods"
+        bind:retry="loadMoreGoods"
+      />
+      <t-empty
+        wx:if="{{ pageStatus.isEmpty }}"
+        class="empty"
+        icon="info-circle-filled"
+        description="暂无商品"
+      >
         <t-button
           slot="action"
           block

@@ -5,7 +5,7 @@
     "store-category-popup": "../store-category-popup/index",
     "store-goods": "../store-goods/index",
     "store-goods-popup": "../store-goods-popup/index",
-    "load-more": "/common/load-more/index",
+    "page-load-more": "/common/page/page-load-more/index",
     "t-action-sheet": "tdesign-miniprogram/action-sheet/action-sheet",
     "t-button": "tdesign-miniprogram/button/button",
     "t-dialog": "tdesign-miniprogram/dialog/dialog",

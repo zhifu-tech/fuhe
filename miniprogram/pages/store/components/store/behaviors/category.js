@@ -8,7 +8,17 @@ module.exports = Behavior({
       items: [],
     },
   },
+  pageLifetimes: {
+    show: function () {
+      if (this._checkCategoryNeedInit()) {
+        this._initCategory();
+      }
+    },
+  },
   methods: {
+    _checkCategoryNeedInit: function () {
+      return this.data.category.items.length === 0;
+    },
     _initCategory: async function () {
       services.spec.cache.reset();
       services.category.cache.reset();

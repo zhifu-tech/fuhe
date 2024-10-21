@@ -67,6 +67,8 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  height: unset;
+  max-height: unset;
 }
 
 .empty {

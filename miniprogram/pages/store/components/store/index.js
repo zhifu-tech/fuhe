@@ -1,6 +1,7 @@
 Component({
   options: {
     virtualHost: true,
+    pureDataPattern: /^_/,
   },
   behaviors: [
     ...require('@/common/debug/debug').behaviors({
@@ -13,13 +14,11 @@ Component({
     require('@/common/action-sheet/simple'),
     require('@/common/toast/simple'),
     require('@/common/dialog/simple'),
+    require('@/common/page/page-status'),
 
     require('../store-category-popup/popup'),
     require('../store-goods-popup/popup'),
 
-    require('./behaviors/skeleton'),
-    require('./behaviors/page-status'),
-    require('./behaviors/pull-down-refresh'),
     require('./behaviors/goods'),
     require('./behaviors/goods-sku'),
     require('./behaviors/goods-spu'),
@@ -29,16 +28,5 @@ Component({
   data: {
     tag: 'storePage',
     saasId: '666666',
-  },
-  pageLifetimes: {
-    show() {
-      this._init();
-    },
-  },
-  methods: {
-    _init: async function () {
-      await Promise.all([this._initCategory(), this._initGoods()]);
-      this.hideSkeleton();
-    },
   },
 });
