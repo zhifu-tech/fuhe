@@ -1,7 +1,0 @@
-.store-page-header {
-  display: flex;
-  padding: 0 24rpx;
-}
-.store-page-header .label {
-  margin-left: var(--td-spacer-2);
-}

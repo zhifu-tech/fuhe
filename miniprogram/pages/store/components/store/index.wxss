@@ -5,6 +5,16 @@
   background-color: var(--td-bg-color-page);
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  padding: var(--td-spacer) var(--td-spacer);
+}
+
+.header .label {
+  margin-left: var(--td-spacer-2);
+}
+
 .search-wrapper {
   padding: var(--td-spacer) var(--td-spacer-1);
   background-color: var(--td-bg-color-container);

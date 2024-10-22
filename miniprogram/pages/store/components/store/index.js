@@ -23,6 +23,7 @@ Component({
     require('./behaviors/goods-sku'),
     require('./behaviors/goods-spu'),
     require('./behaviors/sidebar'),
+    require('./behaviors/header'),
     require('./behaviors/category'),
   ],
   data: {

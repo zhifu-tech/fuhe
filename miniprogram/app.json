@@ -11,13 +11,17 @@
   "pages": [
     "pages/store/index",
     "pages/cart/index",
-    "pages/user/index"
+    "pages/user/index",
+    "pages/order/index"
   ],
   "tabBar": {
     "custom": true,
     "list": [
       {
         "pagePath": "pages/store/index"
+      },
+      {
+        "pagePath": "pages/order/index"
       },
       {
         "pagePath": "pages/cart/index"

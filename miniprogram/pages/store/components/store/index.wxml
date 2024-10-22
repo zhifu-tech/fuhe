@@ -1,5 +1,11 @@
 <view class="container">
-  <store-header />
+  <t-navbar>
+    <view class="header" slot="left">
+      <t-icon size="48rpx" name="user-circle" />
+      <view class="label">{{ header.label }}</view>
+    </view>
+  </t-navbar>
+
   <view wx:if="{{false}}" class="search-wrapper">
     <t-search placeholder="输入tdesign，有预览结果" shape="round" bind:change="onChangeValue" />
   </view>
