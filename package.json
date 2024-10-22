@@ -1,7 +1,7 @@
 {
   "name": "fuhe-mall",
-  "version": "1.0.0",
-  "description": "福猫微信小程序",
+  "version": "0.1.0",
+  "description": "小福进销存助手",
   "main": ".eslintrc.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
