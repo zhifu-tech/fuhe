@@ -21,7 +21,8 @@ bin-release/
 yarn-error.log
 miniprogram_dist/
 .DS_Store
-$node_modules/
+node_modules/
+miniprogram/miniprogram_npm/
 .history/
 **/dist
 components/**/*.lock
