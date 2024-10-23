@@ -26,6 +26,7 @@ Component({
     require('./behaviors/option'),
     require('./behaviors/category'),
     require('./behaviors/category-picker'),
+    require('./behaviors/supplier'),
   ],
   data: {
     tag: 'goods-popup',

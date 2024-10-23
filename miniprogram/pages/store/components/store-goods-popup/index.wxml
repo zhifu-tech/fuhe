@@ -24,7 +24,7 @@
       </t-button>
     </view>
 
-    <scroll-view scroll-y="true" class="content" type="list">
+    <scroll-view scroll-y enable-flex class="content" type="list">
       <block wx:if="{{ isModeAddSpu || isModeEditSpu }}">
         <t-input
           placeholder="输入商品名称，必填"
@@ -46,7 +46,7 @@
           title="商品供应商"
           arrow
           hover
-          note="{{supplier.title||''}}"
+          note="{{ supplier.picked && supplier.picked.name || '' }}"
           bind:click="showSupplierPicker"
         />
         <t-cell

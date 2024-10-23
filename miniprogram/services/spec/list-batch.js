@@ -43,7 +43,7 @@ export default async function ({ tag, cIdList }) {
       totals = total;
       results = [...results, ...records];
     } while (results.length < totals);
-    log.info(tag, 'spec-list-batch', totals === results.length);
+    log.info(tag, 'spec-list-batch', totals, totals === results.length);
 
     return { records: results, total: results.length };
   } catch (error) {

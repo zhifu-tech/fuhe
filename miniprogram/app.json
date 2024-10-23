@@ -23,6 +23,14 @@
     "pages/user/index",
     "pages/order/index"
   ],
+  "subpackages": [
+    {
+      "root": "package-entity",
+      "pages": [
+        "pages/list/index"
+      ]
+    }
+  ],
   "tabBar": {
     "custom": true,
     "list": [

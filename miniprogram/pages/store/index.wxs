@@ -7,7 +7,6 @@ module.exports = {
         result += '\n';
       }
     }
-    console.log('999999', result);
     return result;
   },
 };
