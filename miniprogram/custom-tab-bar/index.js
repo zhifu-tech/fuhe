@@ -32,16 +32,21 @@ Component({
     ],
   },
   methods: {
-    onChange(e) {
+    init: function () {
+      const page = getCurrentPages()[0];
+      const route = page.route.split('/')[1];
+      const item = this.data.list.find((it) => it.value === route);
+      this.setData({ active: item.value });
+      console.log('init 0000009999', page, item);
+    },
+    onChange: function (e) {
       const { value: active } = e.detail;
       const { list } = this.data;
-      this.setData({
-        active,
-      });
       const item = list.find((it) => it.value === active);
       wx.switchTab({
         url: item.pagePath,
       });
+      this.setData({ active });
     },
   },
 });

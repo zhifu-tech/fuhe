@@ -1,14 +1,14 @@
-<t-tab-bar default-value="{{active}}"
-  bind:change="onChange"
-  t-class="page">
+<t-tab-bar value="{{active}}" bind:change="onChange" t-class="page">
   <!-- 因为page和tabbar处于同一层级，tabbar的默认属性中，使用了page中定义的属性，所以种类通过直接应用page的class来生效 -->
-  <block wx:for="{{list}}"
+  <t-tab-bar-item
+    wx:for="{{list}}"
     wx:for-item="item"
     wx:for-index="index"
-    wx:key="value">
-    <t-tab-bar-item value="{{item.value}}"
-      icon='{{item.icon}}'>
-      {{item.label}}
-    </t-tab-bar-item>
-  </block>
+    wx:key="value"
+    value="{{item.value}}"
+    icon="{{item.icon}}"
+    ariaLabel="{{item.label}}"
+  >
+    {{item.label}}
+  </t-tab-bar-item>
 </t-tab-bar>
