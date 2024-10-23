@@ -6,27 +6,31 @@
 
 ```sh
 .
-├── app.js
-├── app.json
-├── app.wxss
-├── cloud-models.d.ts       // 数据模型的定义
-├── cloudbaserc.json        // 数据模型的版本和环境
-├── components
-├── config
-├── config.js
-├── custom-tab-bar
-├── miniprogram_npm
-├── mocks
-├── node_modules
+├── README.md
+├── cloudfunctions
+├── docs
+├── miniprogram
+│   ├── app.js
+│   ├── app.json
+│   ├── app.wxss
+│   ├── cloud-config.js
+│   ├── cloud-models.d.ts
+│   ├── cloudbaserc.json
+│   ├── common
+│   ├── custom-tab-bar
+│   ├── miniprogram_npm
+│   ├── node_modules
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── packages-entity
+│   ├── pages
+│   ├── services
+│   └── sitemap.json
 ├── package-lock.json
 ├── package.json
-├── package_home
-├── package_user
-├── pages
-├── services
-├── sitemap.json
-├── style
-└── tsconfig.json
+├── project.config.json
+├── project.private.config.json
+└── uploadCloudFunction.sh
 ```
 
 ## 数据模型
@@ -68,6 +72,6 @@ tcb sync-model-dts --envId=<envId>
 
 [TDesign MiniProgram](https://tdesign.tencent.com/miniprogram/overview)
 
-
 ## 关于索引
-1. popup 
+
+1. popup
