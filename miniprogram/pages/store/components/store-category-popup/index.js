@@ -1,4 +1,6 @@
 const { saasId } = require('@/common/saas/saas');
+const { default: log } = require('@/common/log/log');
+const { default: pages } = require('../../../../common/page/pages');
 
 Component({
   options: {
@@ -6,8 +8,6 @@ Component({
     pureDataPattern: /^_/,
   },
   behaviors: [
-    require('@/common/popup/popup-props'),
-
     require('./behaviors/header'),
     require('./behaviors/category'),
     require('./behaviors/category-delete'),
@@ -24,14 +24,38 @@ Component({
   ],
   data: {
     tag: 'category-popup',
-    visible: false,
     saasId: '',
     _hasChanged: false,
     _close: () => null,
   },
-  observers: {
-    visible: function () {
-      if (!this.data.visible) {
+  methods: {
+    show: function ({ category, specs, close }) {
+      this.setData({
+        saasId: saasId(),
+        _category: category ?? {}, // 记录原始信息，不可修改
+        category: category ? { ...category } : {}, // 需要浅拷贝，可以修改
+        _specs: specs ?? [], // 记录原始信息，不可修改
+        specs: specs ? [...specs] : [], // 需要浅拷贝，可以修改
+        _hasChanged: false,
+        _close: close ?? (() => null),
+      });
+      this._popup((popup) => {
+        popup.setData({
+          visible: true,
+          zIndex: pages.zIndexIncr(),
+          overlayProps: {
+            zIndex: pages.zIndexOverlay(),
+          },
+        });
+      });
+    },
+    hide: function () {
+      this._popup((popup) => {
+        if (popup.data.visible) {
+          popup.setData({
+            visible: false,
+          });
+        }
         const { _close, _hasChanged, _category } = this.data;
         _close({
           hasChanged: _hasChanged,
@@ -46,29 +70,13 @@ Component({
           _hasChanged: false,
           _close: () => null,
         });
-      }
-    },
-  },
-  methods: {
-    show: function ({ category, specs, close }) {
-      this.setData({
-        visible: true,
-        saasId: saasId(),
-        _category: category ?? {}, // 记录原始信息，不可修改
-        category: category ? { ...category } : {}, // 需要浅拷贝，可以修改
-        _specs: specs ?? [], // 记录原始信息，不可修改
-        specs: specs ? [...specs] : [], // 需要浅拷贝，可以修改
-        _hasChanged: false,
-        _close: close ?? (() => null),
-      });
-    },
-    hide: function () {
-      this.setData({
-        visible: false,
       });
     },
     setHasChanged() {
       this.data._hasChanged = true;
+    },
+    _popup(callback) {
+      callback(this.selectComponent('#category-popup'));
     },
   },
 });

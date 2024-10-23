@@ -1,5 +1,4 @@
 const { default: log } = require('@/common/log/log');
-const popupProps = require('../../../../common/popup/popup-props');
 const { default: pages } = require('../../../../common/page/pages');
 
 Component({
@@ -13,7 +12,6 @@ Component({
       debug: true,
       debugLifecycle: true,
     }),
-    require('@/common/popup/popup-props'),
     require('./behaviors/submit'),
     require('./behaviors/spu'),
     require('./behaviors/spu-submit-add'),
@@ -31,7 +29,6 @@ Component({
   ],
   data: {
     tag: 'goods-popup',
-    visible: false,
     isModeAddSpu: false,
     isModeEditSpu: false,
     isModeAddSku: false,
@@ -40,27 +37,6 @@ Component({
     isModeEditStockSuper: false,
     _close: () => null,
     _callback: () => null,
-  },
-  observers: {
-    visible: function () {
-      const { visible } = this.data;
-      if (!visible) {
-        this.data._close();
-        this.setData({
-          isModeAddSpu: false,
-          isModeEditSpu: false,
-          isModeAddSku: false,
-          isModeEditSku: false,
-          isModeEditStock: false,
-          isModeEditStockSuper: false,
-          spu: {},
-          sku: {},
-          stock: {},
-          _close: () => null,
-          _callback: () => null,
-        });
-      }
-    },
   },
   methods: {
     show: function ({
@@ -90,20 +66,47 @@ Component({
         spu: this.data.spu,
         sku: this.data.sku,
         stock: this.data.stock,
-        visible: true,
         _close: close ?? (() => null),
         _callback: callback ?? (() => null),
+      });
+      this._popup((popup) => {
+        popup.setData({
+          visible: true,
+          zIndex: pages.zIndexIncr(),
+          overlayProps: {
+            zIndex: pages.zIndexOverlay(),
+          },
+        });
+      });
+    },
+    hide: function () {
+      this._popup((popup) => {
+        if (popup.data.visible) {
+          popup.setData({
+            visible: false,
+          });
+        }
+        this.data._close();
+        this.setData({
+          isModeAddSpu: false,
+          isModeEditSpu: false,
+          isModeAddSku: false,
+          isModeEditSku: false,
+          isModeEditStock: false,
+          isModeEditStockSuper: false,
+          spu: {},
+          sku: {},
+          stock: {},
+          _close: () => null,
+          _callback: () => null,
+        });
       });
     },
     notify: function () {
       this.data._callback();
     },
-    hide: function () {
-      if (this.data.visible) {
-        this.setData({
-          visible: false,
-        });
-      }
+    _popup: function (callback) {
+      callback(this.selectComponent('#goods-popup'));
     },
   },
 });

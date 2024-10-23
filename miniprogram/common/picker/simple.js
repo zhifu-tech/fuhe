@@ -35,7 +35,7 @@ module.exports = Behavior({
           popupProps: {
             zIndex: pages.zIndexIncr(),
             overlayProps: {
-              zIndex: pages.zIndex() - 500,
+              zIndex: pages.zIndexOverlay(),
             },
           },
         });

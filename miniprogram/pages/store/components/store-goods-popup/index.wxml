@@ -1,12 +1,5 @@
 <wxs src="./index.wxs" module="_" />
-<t-popup
-  id="goods-popup"
-  visible="{{visible}}"
-  zIndex="{{popupProps.zIndex}}"
-  overlayProps="{{popupProps.overlayProps}}"
-  placement="bottom"
-  bind:visible-change="hide"
->
+<t-popup id="goods-popup" placement="bottom" bind:visible-change="hide">
   <view class="container">
     <!-- header: 取消 + 标题 + 确定 -->
     <view class="header">

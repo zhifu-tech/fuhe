@@ -10,7 +10,7 @@ module.exports = Behavior({
         theme,
         context: this,
         selector: '#t-toast',
-        style: `z-index:${pages.zIndexToast}`,
+        style: `z-index:${pages.zIndex()}`,
         direction: 'column',
       });
     },
