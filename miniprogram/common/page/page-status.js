@@ -5,7 +5,7 @@ module.exports = Behavior({
       isLoadingWithMore: false,
       isLoadingWithPullDown: false,
 
-      isEmpty: false,
+      showEmpty: false,
       showNoMore: false,
       showHasMore: false,
       showRetry: false,
@@ -88,7 +88,7 @@ module.exports = Behavior({
     showPageEmpty: function () {
       this.setData({
         ...this._hidePageLoading(),
-        'pageStatus.isEmpty': true,
+        'pageStatus.showEmpty': true,
         'pageStatus.showNoMore': false,
         'pageStatus.showHasMore': false,
         'pageStatus.showRetry': false,
@@ -97,7 +97,7 @@ module.exports = Behavior({
     showPageNoMore: function () {
       this.setData({
         ...this._hidePageLoading(),
-        'pageStatus.isEmpty': false,
+        'pageStatus.showEmpty': false,
         'pageStatus.showNoMore': true,
         'pageStatus.showHasMore': false,
         'pageStatus.showRetry': false,
@@ -106,7 +106,7 @@ module.exports = Behavior({
     showPageHasMore: function () {
       this.setData({
         ...this._hidePageLoading(),
-        'pageStatus.isEmpty': false,
+        'pageStatus.showEmpty': false,
         'pageStatus.showNoMore': false,
         'pageStatus.showHasMore': true,
         'pageStatus.showRetry': false,
@@ -115,7 +115,7 @@ module.exports = Behavior({
     showPageError: function () {
       this.setData({
         ...this._hidePageLoading(),
-        'pageStatus.isEmpty': false,
+        'pageStatus.showEmpty': false,
         'pageStatus.showNoMore': false,
         'pageStatus.showHasMore': false,
         'pageStatus.showRetry': true,
@@ -123,7 +123,7 @@ module.exports = Behavior({
     },
     hidePageLoadMore: function () {
       return {
-        'pageStatus.isEmpty': false,
+        'pageStatus.showEmpty': false,
         'pageStatus.showNoMore': false,
         'pageStatus.showHasMore': false,
         'pageStatus.showRetry': false,

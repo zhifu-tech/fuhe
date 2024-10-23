@@ -70,7 +70,7 @@
         bind:retry="loadMoreGoods"
       />
       <t-empty
-        wx:if="{{ pageStatus.isEmpty }}"
+        wx:if="{{ pageStatus.showEmpty }}"
         class="empty"
         icon="info-circle-filled"
         description="暂无商品"
