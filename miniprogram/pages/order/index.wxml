@@ -1,1 +1,17 @@
-<order />
+<view class="container">
+  <t-navbar>
+    <view class="search-wrapper" slot="left">
+      <t-search placeholder="输入tdesign，有预览结果" shape="round" bind:change="onChangeValue" />
+    </view>
+  </t-navbar>
+  <t-tabs
+    defaultValue="{{0}}"
+    bind:change="onTabsChange"
+    bind:click="onTabsClick"
+    t-class="custom-tabs"
+  >
+    <block wx:for="{{ 5 }}" wx:for-item="tab" wx:for-index="index" wx:key="value">
+      <t-tab-panel label="选项" value="{{ index }}" />
+    </block>
+  </t-tabs>
+</view>

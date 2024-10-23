@@ -1,6 +1,26 @@
 {
   "navigationBarTitleText": "小店",
+  "component": true,
   "usingComponents": {
-    "store": "./components/store/index"
+    "store-category-popup": "./components/store-category-popup/index",
+    "store-goods-popup": "./components/store-goods-popup/index",
+    "store-goods": "./components/store-goods/index",
+    "page-load-more": "/common/page/page-load-more/index",
+    "t-action-sheet": "tdesign-miniprogram/action-sheet/action-sheet",
+    "t-avatar": "tdesign-miniprogram/avatar/avatar",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-dialog": "tdesign-miniprogram/dialog/dialog",
+    "t-empty": "tdesign-miniprogram/empty/empty",
+    "t-fab": "tdesign-miniprogram/fab/fab",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-navbar": "tdesign-miniprogram/navbar/navbar",
+    "t-picker": "tdesign-miniprogram/picker/picker",
+    "t-picker-item": "tdesign-miniprogram/picker-item/picker-item",
+    "t-pull-down-refresh": "tdesign-miniprogram/pull-down-refresh/pull-down-refresh",
+    "t-side-bar": "tdesign-miniprogram/side-bar/side-bar",
+    "t-side-bar-item": "tdesign-miniprogram/side-bar-item/side-bar-item",
+    "t-search": "tdesign-miniprogram/search/search",
+    "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",
+    "t-toast": "tdesign-miniprogram/toast/toast"
   }
 }

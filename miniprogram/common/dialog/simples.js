@@ -29,9 +29,9 @@ export function showConfirmDialog({
 }
 
 export function showSimpleDialog({ options, confirm = null, cancel = null, action = null }) {
-  pages.currentPage().root()?.showSimpleDialog({ options, confirm, cancel, action });
+  pages.currentPage().showSimpleDialog({ options, confirm, cancel, action });
 }
 
 export function hideSimpleDialog() {
-  pages.currentPage().root()?.hideSimpleDialog();
+  pages.currentPage().hideSimpleDialog();
 }

@@ -1,6 +1,6 @@
-// pages/order/index.js
-Page({
-  onShow() {
-    this.getTabBar().init();
+Component({
+  options: {
+    pureDataPattern: /^_/,
   },
+  behaviors: [require('@/common/tab-bar/custom')],
 });

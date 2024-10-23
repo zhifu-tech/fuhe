@@ -1,0 +1,13 @@
+module.exports = {
+  formatSideBarLabel: function (label) {
+    var result = '';
+    for (var i = 0; i < label.length; i += 2) {
+      result += label.substring(i, i + 2);
+      if (i + 2 < label.length) {
+        result += '\n';
+      }
+    }
+    console.log('999999', result);
+    return result;
+  },
+};

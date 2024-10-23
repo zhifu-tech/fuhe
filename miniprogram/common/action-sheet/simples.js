@@ -1,7 +1,7 @@
 import pages from '@/common/page/pages';
 
 export function showSimpleActionSheet({ items, theme = 'list', selected, close }) {
-  pages.currentPage().root()?.showSimpleActionSheet({
+  pages.currentPage().showSimpleActionSheet({
     options: {
       items,
       theme,
@@ -12,5 +12,5 @@ export function showSimpleActionSheet({ items, theme = 'list', selected, close }
 }
 
 export function hideSimpleActionSheet() {
-  pages.currentPage().root()?.hideSimpleActionSheet();
+  pages.currentPage().hideSimpleActionSheet();
 }

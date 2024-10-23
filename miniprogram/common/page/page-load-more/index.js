@@ -9,7 +9,7 @@ Component({
       value: false,
     },
     showNoMore: {
-      tpye: Boolean,
+      type: Boolean,
       value: false,
     },
     showHasMore: {
@@ -42,8 +42,6 @@ Component({
   methods: {
     handleLoadMoreAction: function () {
       const { showHasMore, showRetry } = this.data;
-      console.log('showHasMore', showHasMore);
-
       if (showRetry) {
         this.triggerEvent('retry');
       } else if (showHasMore) {

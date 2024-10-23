@@ -1,0 +1,103 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--td-bg-color-page);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: var(--td-spacer) var(--td-spacer);
+}
+
+.header .label {
+  margin-left: var(--td-spacer-2);
+}
+
+.search-wrapper {
+  padding: var(--td-spacer) var(--td-spacer-1);
+  background-color: var(--td-bg-color-container);
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.display-none {
+  display: none;
+}
+
+.side-bar-wrapper {
+  width: 120rpx;
+  padding-bottom: calc(60px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+}
+.side-bar-wrapper.show {
+  display: flex;
+}
+.side-bar-wrapper.hide {
+  display: none;
+}
+
+.side-bar-actions {
+  display: flex;
+  width: 120rpx;
+  flex-direction: column;
+  justify-content: center;
+  font-size: var(--td-font-size-base);
+  background-color: var(--td-bg-color-container);
+}
+.side-bar-action {
+  flex-shrink: 0;
+  padding: var(--td-spacer-2) var(--td-spacer);
+  text-align: center;
+  font-size: var(--td-font-size-base);
+}
+
+.side-bar {
+  flex: 1;
+  flex-shrink: 0;
+  --td-side-bar-font-size: var(--td-font-size-base);
+  --td-side-bar-width: 120rpx;
+  --td-side-bar-bg-color: var(--td-bg-color-container);
+}
+.side-bar-item {
+  flex-shrink: 0;
+  padding: var(--td-spacer-2) 0rpx;
+  text-align: center;
+}
+
+.scroll {
+  flex: 1;
+  padding-bottom: calc(60px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  height: unset;
+  max-height: unset;
+}
+
+.empty {
+  justify-content: center;
+}
+
+.sk-goods-container {
+  display: flex;
+  flex-direction: column;
+  margin: var(--td-spacer-1);
+  padding: var(--td-spacer-1) var(--td-spacer-1) var(--td-spacer-3) var(--td-spacer-1);
+  border-radius: var(--td-radius-large);
+  background-color: var(--td-bg-color-container);
+}
+.sk-goods-header {
+  display: flex;
+}
+
+.sk-goods-header-right {
+  flex: 1;
+  margin-left: var(--td-spacer);
+}

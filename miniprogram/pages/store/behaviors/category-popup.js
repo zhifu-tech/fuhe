@@ -1,5 +1,3 @@
-import log from '../../../../../common/log/log';
-
 module.exports = Behavior({
   methods: {
     onCategoryPopupClosed: function (e) {

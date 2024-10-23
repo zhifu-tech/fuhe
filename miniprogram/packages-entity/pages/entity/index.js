@@ -1,5 +1,1 @@
-Page({
-  onShow() {
-    this.getTabBar().init();
-  },
-});
+Page({});

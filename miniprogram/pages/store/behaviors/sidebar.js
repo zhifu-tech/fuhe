@@ -1,6 +1,6 @@
-import services from '../../../../../services/index';
-import log from '../../../../../common/log/log';
-import { showCategoryPopup } from '../../store-category-popup/popups';
+import services from '@/services/index';
+import log from '@/common/log/log';
+import { showCategoryPopup } from '@/pages/store/components/store-category-popup/popups';
 
 module.exports = Behavior({
   data: {
