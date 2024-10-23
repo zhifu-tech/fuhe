@@ -1,5 +1,4 @@
-<import src="./skeleton/skeleton.wxml" />
-<template is="skeleton" wx:if="{{ pageStatus.isLoadingWithSkeleton }}" />
+<include src="./skeleton/skeleton.wxml" />
 
 <view class="container">
   <t-navbar>
