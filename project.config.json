@@ -42,8 +42,7 @@
     "ignoreUploadUnusedFiles": true,
     "useStaticServer": true,
     "condition": true,
-    "compileWorklet": true,
-    "minBaseLibVersion": "2.29.2"
+    "compileWorklet": true
   },
   "condition": {},
   "editorSetting": {

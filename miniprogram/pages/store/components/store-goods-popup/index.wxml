@@ -31,7 +31,7 @@
       </t-button>
     </view>
 
-    <scroll-view scroll-y="true" class="content">
+    <scroll-view scroll-y="true" class="content" type="list">
       <block wx:if="{{ isModeAddSpu || isModeEditSpu }}">
         <t-input
           placeholder="输入商品名称，必填"

@@ -19,6 +19,7 @@
     "t-side-bar": "tdesign-miniprogram/side-bar/side-bar",
     "t-side-bar-item": "tdesign-miniprogram/side-bar-item/side-bar-item",
     "t-search": "tdesign-miniprogram/search/search",
+    "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",
     "t-toast": "tdesign-miniprogram/toast/toast"
   }
 }

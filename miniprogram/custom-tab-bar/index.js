@@ -1,7 +1,6 @@
 Component({
   options: {
     virtualHost: true,
-    styleIsolation: 'shared',
   },
   data: {
     active: 'store',

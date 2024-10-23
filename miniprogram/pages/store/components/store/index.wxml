@@ -1,3 +1,6 @@
+<import src="./skeleton/skeleton.wxml" />
+<template is="skeleton" wx:if="{{ pageStatus.isLoadingWithSkeleton }}" />
+
 <view class="container">
   <t-navbar>
     <view class="header" slot="left">
@@ -9,6 +12,7 @@
   <view wx:if="{{false}}" class="search-wrapper">
     <t-search placeholder="输入tdesign，有预览结果" shape="round" bind:change="onChangeValue" />
   </view>
+
   <view class="content">
     <view class="{{ showSideBar ? 'side-bar-wrapper show': 'side-bar-wrapper hide' }}">
       <t-side-bar class="side-bar" value="{{category.selected}}" bind:change="onSideBarChange">
@@ -35,6 +39,7 @@
         />
       </view>
     </view>
+
     <t-pull-down-refresh
       value="{{ pageStatus.isLoadingWithPullDown }}"
       loadingTexts="{{['下拉刷新', '松手刷新', '正在刷新', '刷新完成']}}"

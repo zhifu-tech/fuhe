@@ -8,6 +8,15 @@
     "navigationStyle": "custom"
   },
   "lazyCodeLoading": "requiredComponents",
+  "renderer": "webview",
+  "rendererOptions": {
+    "skyline": {
+      "defaultDisplayBlock": true,
+      "defaultContentBox": true,
+      "disableABTest": true
+    }
+  },
+  "componentFramework": "glass-easel",
   "pages": [
     "pages/store/index",
     "pages/cart/index",

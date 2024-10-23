@@ -1,5 +1,3 @@
-const { default: pages } = require('@/common/page/pages');
-
 module.exports = Behavior({
   data: {
     pageStatus: {
@@ -30,16 +28,10 @@ module.exports = Behavior({
         ...this.hidePageLoadMore(),
         'pageStatus.isLoadingWithSkeleton': true,
       });
-      pages.currentPage().setData({
-        showSkeleton: true,
-      });
     },
     hidePageLoadigWithSkeleton: function () {
       const { pageStatus } = this.data;
       if (pageStatus.isLoadingWithSkeleton) {
-        pages.currentPage().setData({
-          showSkeleton: false,
-        });
         return {
           'pageStatus.isLoadingWithSkeleton': false,
         };
@@ -120,7 +112,7 @@ module.exports = Behavior({
         'pageStatus.showRetry': false,
       });
     },
-    showPageError: function (error) {
+    showPageError: function () {
       this.setData({
         ...this._hidePageLoading(),
         'pageStatus.isEmpty': false,
