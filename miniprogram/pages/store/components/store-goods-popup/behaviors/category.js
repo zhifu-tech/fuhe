@@ -2,9 +2,15 @@ const { default: services } = require('../../../../../services/index');
 
 module.exports = Behavior({
   methods: {
-    handleUpdateSpuCategory: async function (picked) {
-      // 1. 更新SPU类别信息
-      const category = picked || {};
+    showCategoryPicker: function () {
+      wx.navigateTo({
+        url: '/package-goods/pages/category/index',
+        events: {
+          pickedCategory: this._handleUpdateSpuCategory.bind(this),
+        },
+      });
+    },
+    _handleUpdateSpuCategory: async function (category) {
       // 2. 加载规格信息
       const { records: specList } = await services.spec.list({
         tag: 'goods-spu-category',

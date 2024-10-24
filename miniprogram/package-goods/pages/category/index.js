@@ -6,8 +6,8 @@ Component({
     pureDataPattern: /^_/,
   },
   data: {
-    _tag: 'entity-list',
-    _entityList: [],
+    _tag: 'category-list',
+    _categoryList: [],
     list: [],
     indexList: [],
     stickyOffset: 0,
@@ -15,7 +15,7 @@ Component({
   lifetimes: {
     attached: function () {
       this._calStickyOffset();
-      this._fetchEntityList();
+      this._fetchCategoryList();
     },
   },
   methods: {
@@ -23,8 +23,8 @@ Component({
       wx.navigateBack();
     },
     handleSelect: function (e) {
-      const { entity } = e.target.dataset;
-      pages.currentPage().getOpenerEventChannel().emit('pickedEntity', entity);
+      const { category } = e.target.dataset;
+      pages.currentPage().getOpenerEventChannel().emit('pickedCategory', category);
       wx.navigateBack();
     },
     _calStickyOffset: function () {
@@ -35,14 +35,14 @@ Component({
         this.setData({ stickyOffset: height });
       });
     },
-    _fetchEntityList: async function () {
-      const { records: entityList } = await services.entity.all({ tag: this.data._tag });
+    _fetchCategoryList: async function () {
+      const { records: categoryList } = await services.category.all({ tag: this.data._tag });
       const indexList = [];
       const list = [];
       let lastList = [];
       let lastLetter = '';
-      entityList.forEach((entity) => {
-        const letter = entity.camel[0];
+      categoryList.forEach((category) => {
+        const letter = category.camel[0];
         if (letter !== lastLetter) {
           indexList.push(letter);
           lastList = [];
@@ -52,12 +52,12 @@ Component({
             children: lastList,
           });
         }
-        lastList.push(entity);
+        lastList.push(category);
       });
       this.setData({
         list,
         indexList,
-        _entityList: entityList,
+        _categoryList: categoryList,
       });
     },
   },

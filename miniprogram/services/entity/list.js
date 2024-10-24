@@ -1,6 +1,6 @@
 import log from '@/common/log/log';
 
-export default async function ({ tag }) {
+export async function list({ tag, pageNumber, pageSize = 200 }) {
   try {
     const { data } = await wx.cloud.models.fh_entity.list({
       select: {
@@ -15,11 +15,12 @@ export default async function ({ tag }) {
       filter: {
         where: {},
       },
-      pageSize: 200,
-      pageNumber: 1,
+      pageSize,
+      pageNumber,
       getCount: true,
     });
     log.info(tag, 'entity-list', data);
+    return data;
   } catch (e) {
     log.error(tag, 'entity-list', e);
     throw e;
@@ -33,31 +34,13 @@ export async function all({ tag }) {
     let totals = 0;
     do {
       ++pageNumber;
-      const {
-        data: { records, total },
-      } = await wx.cloud.models.fh_entity.list({
-        select: {
-          _id: true,
-          name: true,
-          signature: true,
-          tel: true,
-          type: true,
-          contacts: true,
-          contacts2: true,
-        },
-        filter: {
-          where: {},
-        },
-        getCount: true,
-        pageSize: 200,
-        pageNumber,
-      });
+      const { records, total } = await list({ tag, pageNumber });
       totals = total;
       results = [...results, ...records];
     } while (results.length < totals);
 
     _postEntityList(results);
-    log.info(tag, 'entity-batch', totals, results);
+    log.info(tag, 'entity-all', totals, results);
     return { records: results, total: results.length };
   } catch (error) {
     log.error(tag, 'entity-all', error);

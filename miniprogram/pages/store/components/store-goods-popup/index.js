@@ -25,7 +25,7 @@ Component({
     require('./behaviors/stock-submit-edit'),
     require('./behaviors/option'),
     require('./behaviors/category'),
-    require('./behaviors/category-picker'),
+    // require('./behaviors/category-picker'),
     require('./behaviors/supplier'),
   ],
   data: {

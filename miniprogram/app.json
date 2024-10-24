@@ -29,6 +29,12 @@
       "pages": [
         "pages/list/index"
       ]
+    },
+    {
+      "root": "package-goods",
+      "pages": [
+        "pages/category/index"
+      ]
     }
   ],
   "tabBar": {

@@ -2,7 +2,7 @@ import cache from './cache';
 
 import create from './create';
 import get from './get';
-import list from './list';
+import { list, all } from './list';
 import update from './update';
 import deleteCategory from './delete';
 
@@ -15,6 +15,7 @@ export default {
   create,
   get,
   list,
+  all,
   update,
   deleteCategory,
 
