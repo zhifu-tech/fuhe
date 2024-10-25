@@ -1,0 +1,12 @@
+.container {
+  width: 100vw;
+  box-sizing: border-box;
+  height: 65vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.block-button-wrapper {
+  display: flex;
+  margin: var(--td-spacer-2);
+}

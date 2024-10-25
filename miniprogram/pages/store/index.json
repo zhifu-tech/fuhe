@@ -5,6 +5,7 @@
     "category-popup": "/package-goods/category/popup/index",
     "goods-popup": "/package-goods/goods/popup/index",
     "goods": "/package-goods/goods/goods/index",
+    "cart": "/package-goods/cart/cart/index",
     "page-load-more": "/common/page/page-load-more/index",
     "t-action-sheet": "tdesign-miniprogram/action-sheet/action-sheet",
     "t-avatar": "tdesign-miniprogram/avatar/avatar",
@@ -26,6 +27,7 @@
   "componentPlaceholder": {
     "category-popup": "view",
     "goods-popup": "view",
-    "goods": "view"
+    "goods": "view",
+    "cart": "view"
   }
 }

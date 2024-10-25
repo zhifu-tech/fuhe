@@ -134,15 +134,7 @@
   bind:click="handleSideBarFold"
   aria-label="增加"
 />
-<t-fab
-  icon="cart"
-  button-props="{{foldBtnProps}}"
-  draggable="true"
-  usingCustomNavbar="true"
-  style="left: unset; right: var(--td-spacer); bottom: calc(80px + env(safe-area-inset-bottom))"
-  bind:click="handleSideBarFold"
-  aria-label="增加"
-/>
+<cart />
 
 <category-popup
   wx:if="{{ categoryPopup && categoryPopup.enabled }}"

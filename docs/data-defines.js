@@ -71,3 +71,21 @@ const goods_define = {
   stockList: '库存信息，查询所有的sku的skuId得到',
   specList: '规格信息列表', // 通过sku的optionList查询得到',
 };
+
+const cart = {
+  id: '唯一标识',
+  providerId: '提供方实体ID',
+  customId: '需求方实体ID',
+  list: [
+    {
+      skuId: '商品SkuId',
+      stockList: [
+        {
+          stockId: '库存ID',
+          quantity: '数量',
+          salePrice: '价格',
+        },
+      ],
+    },
+  ],
+};
