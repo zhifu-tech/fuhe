@@ -1,5 +1,3 @@
-import log from '../../../../../common/log/log';
-
 module.exports = Behavior({
   data: {
     showCategoryInput: true, // 是否展示分类输入

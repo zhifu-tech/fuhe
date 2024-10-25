@@ -1,12 +1,12 @@
 const { default: log } = require('../log/log');
 
-export function behaviors({ tag, debug, debugLifecycle, debugPageLifecycler }) {
+export function behaviors({ tag, debug, debugLifecycle, debugPageLifecycle }) {
   const behaviors = [];
   if (!debug || !_isDebugable()) return behaviors;
   if (debugLifecycle) {
     behaviors.push(_lifecycle(tag));
   }
-  if (debugPageLifecycler) {
+  if (debugPageLifecycle) {
     behaviors.push(_pageLifecycle(tag));
   }
   return behaviors;

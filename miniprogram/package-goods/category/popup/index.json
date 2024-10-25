@@ -9,6 +9,6 @@
     "t-dialog": "tdesign-miniprogram/dialog/dialog",
     "t-button": "tdesign-miniprogram/button/button",
     "t-divider": "tdesign-miniprogram/divider/divider",
-    "store-input": "../store-input/index"
+    "action-input": "./components/action-input/index"
   }
 }

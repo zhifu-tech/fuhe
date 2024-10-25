@@ -1,9 +1,5 @@
-import log from '../../../../../common/log/log';
-import {
-  showToastLoading,
-  hideToastLoading,
-  showToastError,
-} from '../../../../../common/toast/simples';
+import log from '@/common/log/log';
+import { showToastLoading, hideToastLoading, showToastError } from '@/common/toast/simples';
 
 module.exports = Behavior({
   data: {

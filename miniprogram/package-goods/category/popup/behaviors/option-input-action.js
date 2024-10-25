@@ -1,6 +1,6 @@
-import { showToastError } from '../../../../../common/toast/simples.js';
-import log from '../../../../../common/log/log';
-import services from '../../../../../services/index';
+import { showToastError } from '@/common/toast/simples.js';
+import log from '@/common/log/log';
+import services from '@/services/index';
 
 module.exports = Behavior({
   data: {

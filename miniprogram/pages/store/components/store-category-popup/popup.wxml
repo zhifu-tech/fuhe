@@ -1,1 +1,0 @@
-<store-category-popup wx:if="{{storeCategoryPopupEnabled}}" id="store-category-popup" />

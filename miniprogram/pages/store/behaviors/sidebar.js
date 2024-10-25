@@ -1,6 +1,5 @@
 import services from '@/services/index';
 import log from '@/common/log/log';
-import { showCategoryPopup } from '@/pages/store/components/store-category-popup/popups';
 
 module.exports = Behavior({
   data: {
@@ -30,12 +29,16 @@ module.exports = Behavior({
     onSideBarChange: function (e) {
       const { value: selected } = e.detail;
       if (selected === services.category.addCategoryId) {
-        showCategoryPopup({
-          close: ({ hasChanged, category: added }) => {
-            if (hasChanged) {
-              this.addCategory(added);
-            }
-          },
+        require('@/package-goods/category/popup/popup.js', (popup) => {
+          popup.show(this, {
+            close: ({ hasChanged, category: added }) => {
+              if (hasChanged) {
+                this.addCategory(added);
+              }
+            },
+          });
+        }, ({ mod, errMsg }) => {
+          console.error(`path: ${mod}, ${errMsg}`);
         });
       } else {
         this.setData({
@@ -67,7 +70,11 @@ module.exports = Behavior({
           log.error(tag, 'showPopup', error);
           return;
         }
-        showCategoryPopup(args);
+        require('@/package-goods/category/popup/popup.js', (popup) => {
+          popup.show(this, args);
+        }, ({ mod, errMsg }) => {
+          console.error(`path: ${mod}, ${errMsg}`);
+        });
       }
     },
   },

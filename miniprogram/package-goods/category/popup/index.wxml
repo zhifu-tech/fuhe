@@ -1,4 +1,4 @@
-<t-popup id="category-popup" placement="bottom" bind:visible-change="hide">
+<t-popup id="popup" placement="bottom" bind:visible-change="hide">
   <view class="container" slot="content">
     <!-- header: 取消 + 标题 + 确定 -->
     <view class="header">
@@ -37,7 +37,7 @@
           bind:tap="onCategoryIconDeleteClick"
         />
       </view>
-      <store-input
+      <action-input
         wx:if="{{showCategoryInput}}"
         input-class="input"
         tag="category-input"
@@ -53,7 +53,7 @@
         <view class="label">规格信息</view>
         <t-icon class="icon" name="{{specAddShow ? 'edit':'edit-off'}}" bind:tap="onSpecAddClick" />
       </view>
-      <store-input
+      <action-input
         wx:if="{{specAddShow}}"
         input-class="input"
         tag="spec-add-input"
@@ -76,7 +76,7 @@
           />
           <t-icon class="icon" name="delete" data-spec="{{spec}}" bind:tap="onSpecDeleteClick" />
         </view>
-        <store-input
+        <action-input
           wx:if="{{specEditId === spec._id }}"
           input-class="input"
           tag="spec-edit-input"
@@ -109,7 +109,7 @@
             {{optionAddSpecId === spec._id || optionEditSpecId === spec._id?'收起':'新增选项'}}
           </t-tag>
         </view>
-        <store-input
+        <action-input
           wx:if="{{optionAddSpecId === spec._id || optionEditSpecId === spec._id }}"
           input-class="input"
           data-spec-id="{{spec._id}}"

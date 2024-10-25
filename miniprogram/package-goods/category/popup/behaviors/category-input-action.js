@@ -1,6 +1,6 @@
-import log from '../../../../../common/log/log';
-import services from '../../../../../services/index';
-import { showToastError } from '../../../../../common/toast/simples';
+import log from '@/common/log/log';
+import services from '@/services/index';
+import { showToastError } from '@/common/toast/simples';
 
 /** 分类的输入行为控制 */
 module.exports = Behavior({

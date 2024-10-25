@@ -2,7 +2,7 @@
   "navigationBarTitleText": "小店",
   "component": true,
   "usingComponents": {
-    "store-category-popup": "./components/store-category-popup/index",
+    "category-popup": "/package-goods/category/popup/index",
     "store-goods-popup": "./components/store-goods-popup/index",
     "store-goods": "./components/store-goods/index",
     "page-load-more": "/common/page/page-load-more/index",
@@ -22,5 +22,8 @@
     "t-search": "tdesign-miniprogram/search/search",
     "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",
     "t-toast": "tdesign-miniprogram/toast/toast"
+  },
+  "componentPlaceholder": {
+    "category-popup": "view"
   }
 }

@@ -7,6 +7,10 @@ module.exports = Behavior({
       selected: '',
       items: [],
     },
+    categoryPopup: {
+      enabled: false,
+      options: null,
+    },
   },
   pageLifetimes: {
     show: function () {

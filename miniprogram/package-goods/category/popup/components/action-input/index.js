@@ -1,4 +1,4 @@
-import log from '../../../../common/log/log';
+import log from '@/common/log/log';
 
 Component({
   options: {

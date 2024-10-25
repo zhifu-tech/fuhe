@@ -144,7 +144,11 @@
   aria-label="增加"
 />
 
-<include src="./components/store-category-popup/popup.wxml" />
+<category-popup
+  wx:if="{{ categoryPopup && categoryPopup.enabled }}"
+  options="{{ categoryPopup && categoryPopup.options }}"
+/>
+
 <include src="./components/store-goods-popup/popup.wxml" />
 
 <include src="../../common/action-sheet/simple.wxml" />

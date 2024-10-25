@@ -1,5 +1,5 @@
-const { default: services } = require('../../../../../services/index');
-const { default: log } = require('../../../../../common/log/log');
+const { default: services } = require('@/services/index');
+const { default: log } = require('@/common/log/log');
 
 module.exports = Behavior({
   methods: {

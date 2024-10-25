@@ -1,5 +1,5 @@
-import log from '../../../../../common/log/log';
-import services from '../../../../../services/index';
+import log from '@/common/log/log';
+import services from '@/services/index';
 
 /** 分类共有行为 */
 module.exports = Behavior({

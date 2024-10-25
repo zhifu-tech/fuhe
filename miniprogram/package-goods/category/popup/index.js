@@ -1,13 +1,15 @@
+import log from '@/common/log/log';
 const { saasId } = require('@/common/saas/saas');
-const { default: log } = require('@/common/log/log');
-const { default: pages } = require('../../../../common/page/pages');
+import pages from '@/common/page/pages';
 
 Component({
-  options: {
-    virtualHost: true,
-    pureDataPattern: /^_/,
-  },
   behaviors: [
+    ...require('@/common/debug/debug').behaviors({
+      tag: 'category-popup',
+      debug: true,
+      debugLifecycle: true,
+      debugPageLifecycle: true,
+    }),
     require('./behaviors/header'),
     require('./behaviors/category'),
     require('./behaviors/category-delete'),
@@ -22,11 +24,26 @@ Component({
     require('./behaviors/option-input'),
     require('./behaviors/option-input-action'),
   ],
+  options: {
+    virtualHost: true,
+    pureDataPattern: /^_/,
+  },
+  properties: {
+    options: {
+      type: Object,
+      value: {},
+    },
+  },
   data: {
     tag: 'category-popup',
     saasId: '',
     _hasChanged: false,
     _close: () => null,
+  },
+  observers: {
+    options: function (options) {
+      this.show(options);
+    },
   },
   methods: {
     show: function ({ category, specs, close }) {
@@ -76,7 +93,7 @@ Component({
       this.data._hasChanged = true;
     },
     _popup(callback) {
-      callback(this.selectComponent('#category-popup'));
+      callback(this.selectComponent('#popup'));
     },
   },
 });
