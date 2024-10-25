@@ -167,6 +167,7 @@
 .prices .label {
   margin-right: var(--td-spacer);
 }
+.input-price .price,
 .prices .price {
   white-space: nowrap;
   font-weight: 600;

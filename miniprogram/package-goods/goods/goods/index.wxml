@@ -90,12 +90,12 @@
   <!--总售价 + 总数量-->
   <view class="input-price-quantity-wrapper">
     <view class="input-price">
-      <view class="label">售价</view>
-      <t-input
-        t-class="input"
-        type="number"
+      <price
+        input
+        class="price"
+        priceUnit="yuan"
+        price="{{ salePrice }}"
         disabled="{{ !editable }}"
-        value="{{ salePrice }}"
         bind:blur="handleUpdateSalePrice"
       />
     </view>
@@ -152,15 +152,7 @@
     </view>
     <view class="orders">
       <view class="prices">
-        <view class="label">单价</view>
-        <price
-          class="price"
-          symbol="¥"
-          priceUnit="yuan"
-          price="{{ stock.salePrice }}"
-          fill="true"
-          decimalSmaller
-        />
+        <price input class="price" priceUnit="yuan" price="{{ stock.salePrice }}" />
       </view>
       <view class="quantity-wrapper">
         <t-stepper

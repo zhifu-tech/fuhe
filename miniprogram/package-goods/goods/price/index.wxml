@@ -1,0 +1,22 @@
+<wxs src="./index.wxs" module="utils" />
+<view class="price {{type}}" bind:tap="handlePriceClick">
+  <view
+    wx:if="{{type === 'delthrough'}}"
+    class="line"
+    style="height:{{utils.addUnit(lineThroughWidth)}};"
+  />
+  <view class="symbol">{{symbol}}</view>
+  <t-input
+    t-class="input"
+    wx:if="{{ showInput }}"
+    type="number"
+    value="{{ prices.formatted }}"
+    bind:blur="handleInputBlur"
+  />
+  <view wx:if="{{ !showInput }}" class="pprice">
+    <view class="integer">{{prices.integer}}</view>
+    <view wx:if="{{prices.decimal}}" class="decimal {{decimalSmaller ? 'smaller' : ''}}"
+      >.{{prices.decimal }}
+    </view>
+  </view>
+</view>

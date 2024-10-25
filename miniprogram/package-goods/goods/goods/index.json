@@ -8,7 +8,6 @@
     "t-stepper": "tdesign-miniprogram/stepper/stepper",
     "t-divider": "tdesign-miniprogram/divider/divider",
     "t-icon": "tdesign-miniprogram/icon/icon",
-    "t-input": "tdesign-miniprogram/input/input",
-    "price": "/common/price/index"
+    "price": "../price/index"
   }
 }

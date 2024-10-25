@@ -7,8 +7,8 @@
   color: inherit;
   font-size: inherit;
   text-decoration: inherit;
+  text-align: center;
 }
-
 .lighter {
   font-weight: 400;
   font-size: var(--td-font-size-m);
@@ -57,4 +57,20 @@
 .decimal.smaller {
   font-size: 0.8em;
   vertical-align: baseline;
+}
+
+.price-input {
+  line-height: 56rpx;
+}
+
+.price .input {
+  display: inline-flex !important;
+  text-align: center;
+  vertical-align: top;
+  box-sizing: border-box;
+  padding: 0 !important;
+  width: 220rpx;
+  flex: 0 !important;
+  margin-left: var(--td-spacer);
+  --td-input-border-left-space: 0;
 }
