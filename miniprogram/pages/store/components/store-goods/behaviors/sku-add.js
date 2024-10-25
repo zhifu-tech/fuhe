@@ -1,6 +1,6 @@
 import log from '@/common/log/log';
+import pages from '@/common/page/pages';
 import { showConfirmDialog } from '@/common/dialog/simples';
-const { showGoodsAddSkuPopup } = require('../../store-goods-popup/popups');
 
 module.exports = Behavior({
   methods: {
@@ -12,11 +12,15 @@ module.exports = Behavior({
         confirmBtn: '确认新增',
         cancelBtn: '取消',
         confirm: () => {
-          showGoodsAddSkuPopup({
-            spu,
-            sku: {
-              optionList,
-            },
+          require('@/package-goods/goods/popup/popup.js', (popup) => {
+            popup.showGoodsAddSkuPopup(pages.currentpage(), {
+              spu,
+              sku: {
+                optionList,
+              },
+            });
+          }, ({ mod, errMsg }) => {
+            console.error(`path: ${mod}, ${errMsg}`);
           });
         },
         cancel: (error) => {

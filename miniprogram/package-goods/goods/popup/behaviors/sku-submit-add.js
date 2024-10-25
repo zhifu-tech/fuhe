@@ -1,7 +1,7 @@
 import { uploadSpuImageList } from './images';
 import log from '@/common/log/log';
 import services from '@/services/index';
-import { showToastError, hideToastLoading } from '../../../../../common/toast/simples';
+import { showToastError, hideToastLoading } from '@/common/toast/simples';
 
 module.exports = Behavior({
   observers: {

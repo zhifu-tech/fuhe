@@ -149,7 +149,10 @@
   options="{{ categoryPopup && categoryPopup.options }}"
 />
 
-<include src="./components/store-goods-popup/popup.wxml" />
+<goods-popup
+  wx:if="{{ goodsPopup && goodsPopup.enabled }}"
+  options="{{ goodsPopup && goodsPopup.options }}"
+/>
 
 <include src="../../common/action-sheet/simple.wxml" />
 <include src="../../common/dialog/simple.wxml" />

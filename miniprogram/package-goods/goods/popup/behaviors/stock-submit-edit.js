@@ -1,11 +1,5 @@
-import log from '../../../../../common/log/log';
-import services from '../../../../../services/index';
-import { saasId } from '../../../../../common/saas/saas';
-import {
-  showToastError,
-  showToastLoading,
-  hideToastLoading,
-} from '../../../../../common/toast/simples';
+import services from '@/services/index';
+import { showToastError, showToastLoading, hideToastLoading } from '@/common/toast/simples';
 
 module.exports = Behavior({
   observers: {

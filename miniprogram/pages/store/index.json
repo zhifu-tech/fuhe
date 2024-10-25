@@ -3,7 +3,7 @@
   "component": true,
   "usingComponents": {
     "category-popup": "/package-goods/category/popup/index",
-    "store-goods-popup": "./components/store-goods-popup/index",
+    "goods-popup": "/package-goods/goods/popup/index",
     "store-goods": "./components/store-goods/index",
     "page-load-more": "/common/page/page-load-more/index",
     "t-action-sheet": "tdesign-miniprogram/action-sheet/action-sheet",
@@ -24,6 +24,7 @@
     "t-toast": "tdesign-miniprogram/toast/toast"
   },
   "componentPlaceholder": {
-    "category-popup": "view"
+    "category-popup": "view",
+    "goods-popup": "view"
   }
 }

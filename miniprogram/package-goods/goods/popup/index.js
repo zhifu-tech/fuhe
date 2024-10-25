@@ -1,5 +1,5 @@
 const { default: log } = require('@/common/log/log');
-const { default: pages } = require('../../../../common/page/pages');
+const { default: pages } = require('@/common/page/pages');
 
 Component({
   options: {
@@ -25,9 +25,14 @@ Component({
     require('./behaviors/stock-submit-edit'),
     require('./behaviors/option'),
     require('./behaviors/category'),
-    // require('./behaviors/category-picker'),
     require('./behaviors/supplier'),
   ],
+  properties: {
+    options: {
+      type: Object,
+      value: {},
+    },
+  },
   data: {
     tag: 'goods-popup',
     isModeAddSpu: false,
@@ -38,6 +43,11 @@ Component({
     isModeEditStockSuper: false,
     _close: () => null,
     _callback: () => null,
+  },
+  observers: {
+    options: function (options) {
+      this.show(options);
+    },
   },
   methods: {
     show: function ({
@@ -53,6 +63,17 @@ Component({
       close,
       callback,
     }) {
+      log.info('goods-popup show', {
+        isModeAddSpu,
+        isModeEditSpu,
+        isModeAddSku,
+        isModeEditSku,
+        isModeEditStock,
+        isModeEditStockSuper,
+        spu,
+        sku,
+        stock,
+      });
       this.initSpu(spu);
       this.initSku(sku);
       this.initStock(stock ?? {});
@@ -107,7 +128,7 @@ Component({
       this.data._callback();
     },
     _popup: function (callback) {
-      callback(this.selectComponent('#goods-popup'));
+      callback(this.selectComponent('#popup'));
     },
   },
 });

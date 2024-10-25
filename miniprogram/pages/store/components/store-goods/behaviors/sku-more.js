@@ -1,10 +1,5 @@
-import { showSimpleActionSheet } from '../../../../../common/action-sheet/simples';
-import {
-  showGoodsAddSpuPopup,
-  showGoodsEditSpuPopup,
-  showGoodsEditSkuPopup,
-  showGoodsAddSkuPopup,
-} from '../../store-goods-popup/popups';
+import pages from '@/common/page/pages';
+import { showSimpleActionSheet } from '@/common/action-sheet/simples';
 
 module.exports = Behavior({
   methods: {
@@ -50,44 +45,50 @@ module.exports = Behavior({
         },
       });
     },
-    _handleAddSpu: function () {
-      const { spu } = this.data;
-      showGoodsAddSpuPopup({
-        spu,
-      });
-    },
     _handleEditSpu: function () {
-      const { spu } = this.data;
-      showGoodsEditSpuPopup({
-        spu,
-        callback: () => {
-          this.setData({
-            spu,
-          });
-        },
+      require('@/package-goods/goods/popup/popup.js', (popup) => {
+        const { spu } = this.data;
+        popup.showGoodsEditSpuPopup(pages.currentPage(), {
+          spu,
+          callback: () => {
+            this.setData({
+              spu,
+            });
+          },
+        });
+      }, ({ mod, errMsg }) => {
+        console.error(`path: ${mod}, ${errMsg}`);
       });
     },
     _handleEditSku: function () {
       const { spu, sku } = this.data;
-      showGoodsEditSkuPopup({
-        spu,
-        sku,
-        callback: () => {
-          this.setData({
-            sku,
-          });
-        },
+      require('@/package-goods/goods/popup/popup.js', (popup) => {
+        popup.showGoodsEditSkuPopup(pages.currentPage(), {
+          spu,
+          sku,
+          callback: () => {
+            this.setData({
+              sku,
+            });
+          },
+        });
+      }, ({ mod, errMsg }) => {
+        console.error(`path: ${mod}, ${errMsg}`);
       });
     },
     _handleAddSku: function () {
       const { spu } = this.data;
-      showGoodsAddSkuPopup({
-        spu,
-        callback: () => {
-          this.setData({
-            spu,
-          });
-        },
+      require('@/package-goods/goods/popup/popup.js', (popup) => {
+        popup.showGoodsAddSkuPopup(pages.currentPage(), {
+          spu,
+          callback: () => {
+            this.setData({
+              spu,
+            });
+          },
+        });
+      }, ({ mod, errMsg }) => {
+        console.error(`path: ${mod}, ${errMsg}`);
       });
     },
     _handleDeleteSku: function () {

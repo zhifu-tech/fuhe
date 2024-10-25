@@ -1,4 +1,3 @@
-const { default: log } = require('../../../../../common/log/log');
 module.exports = Behavior({
   methods: {
     handleGoodsAdd: function () {

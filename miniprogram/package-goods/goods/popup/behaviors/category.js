@@ -1,4 +1,4 @@
-const { default: services } = require('../../../../../services/index');
+const { default: services } = require('@/services/index');
 
 module.exports = Behavior({
   methods: {

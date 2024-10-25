@@ -1,6 +1,3 @@
-const { default: log } = require('@/common/log/log');
-const { default: pages } = require('@/common/page/pages');
-
 module.exports = Behavior({
   data: {
     supplier: {

@@ -1,8 +1,5 @@
-import { showSimpleActionSheet } from '../../../../../common/action-sheet/simples';
-import {
-  showGoodsEditStockPopup,
-  showGoodsEditStockSuperPopup,
-} from '../../store-goods-popup/popups';
+import pages from '@/common/page/pages';
+import { showSimpleActionSheet } from '@/common/action-sheet/simples';
 
 module.exports = Behavior({
   methods: {
@@ -33,29 +30,45 @@ module.exports = Behavior({
       });
     },
     _handleEditStock: function (stock, index) {
-      const { spu, sku } = this.data;
-      showGoodsEditStockPopup({
-        spu,
-        sku,
-        stock,
-        callback: () => {
-          this.setData({
-            [`sku.stockList[${index}]`]: stock,
-          });
-        },
+      require('@/package-goods/goods/popup/popup.js', (popup) => {
+        const { spu, sku } = this.data;
+        popup.showGoodsEditStockPopup(
+          pages.currentPage(),
+          {
+            spu,
+            sku,
+            stock,
+            callback: () => {
+              this.setData({
+                [`sku.stockList[${index}]`]: stock,
+              });
+            },
+          },
+          ({ mod, errMsg }) => {
+            console.error(`path: ${mod}, ${errMsg}`);
+          },
+        );
       });
     },
     _handleEditStockSuper: function (stock, index) {
-      const { spu, sku } = this.data;
-      showGoodsEditStockSuperPopup({
-        spu,
-        sku,
-        stock,
-        callback: () => {
-          this.setData({
-            [`sku.stockList[${index}]`]: stock,
-          });
-        },
+      require('@/package-goods/goods/popup/popup.js', (popup) => {
+        const { spu, sku } = this.data;
+        popup.showGoodsEditStockSuperPopup(
+          pages.currentPage(),
+          {
+            spu,
+            sku,
+            stock,
+            callback: () => {
+              this.setData({
+                [`sku.stockList[${index}]`]: stock,
+              });
+            },
+          },
+          ({ mod, errMsg }) => {
+            console.error(`path: ${mod}, ${errMsg}`);
+          },
+        );
       });
     },
   },

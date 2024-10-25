@@ -1,4 +1,4 @@
-import { showToastError } from '../../../../../common/toast/simples.js';
+import { showToastError } from '@/common/toast/simples.js';
 
 module.exports = Behavior({
   data: {

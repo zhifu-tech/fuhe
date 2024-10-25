@@ -15,7 +15,6 @@ Component({
     require('@/common/dialog/simple'),
     require('@/common/page/page-status'),
     require('@/common/tab-bar/custom'),
-    require('@/pages/store/components/store-goods-popup/popup'),
     require('./behaviors/goods'),
     require('./behaviors/goods-sku'),
     require('./behaviors/goods-spu'),
