@@ -31,6 +31,6 @@ Component({
     },
   },
   data: {
-    tag: 'store-goods',
+    tag: 'goods',
   },
 });

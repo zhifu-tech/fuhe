@@ -4,7 +4,7 @@
   "usingComponents": {
     "category-popup": "/package-goods/category/popup/index",
     "goods-popup": "/package-goods/goods/popup/index",
-    "store-goods": "./components/store-goods/index",
+    "goods": "/package-goods/goods/goods/index",
     "page-load-more": "/common/page/page-load-more/index",
     "t-action-sheet": "tdesign-miniprogram/action-sheet/action-sheet",
     "t-avatar": "tdesign-miniprogram/avatar/avatar",
@@ -25,6 +25,7 @@
   },
   "componentPlaceholder": {
     "category-popup": "view",
-    "goods-popup": "view"
+    "goods-popup": "view",
+    "goods": "view"
   }
 }

@@ -71,7 +71,7 @@
         wx:key="_id"
       >
         <block wx:for="{{ spu.skuList }}" wx:for-item="sku" wx:key="_id">
-          <store-goods
+          <goods
             spu="{{ spu }}"
             sku="{{ sku }}"
             data-spu="{{ spu }}"

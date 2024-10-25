@@ -1,4 +1,4 @@
-const { default: log } = require('../../../../../common/log/log');
+const { default: log } = require('@/common/log/log');
 
 module.exports = Behavior({
   data: {

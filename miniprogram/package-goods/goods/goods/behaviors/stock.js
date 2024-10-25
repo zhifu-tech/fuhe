@@ -1,4 +1,3 @@
-const { default: log } = require('../../../../../common/log/log');
 const dayjs = require('dayjs');
 
 module.exports = Behavior({

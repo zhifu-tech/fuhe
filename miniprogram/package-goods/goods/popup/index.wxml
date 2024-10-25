@@ -64,7 +64,7 @@
           <t-divider t-class="divider" content="库存商品" />
           <view class="skus">
             <block wx:for="{{spu.skuList}}" wx:for-item="sku" wx:key="id">
-              <store-goods spu="{{spu}}" sku="{{sku}}" editable="{{false}}" />
+              <goods spu="{{spu}}" sku="{{sku}}" editable="{{false}}" />
             </block>
           </view>
         </block>
