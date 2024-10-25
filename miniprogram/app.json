@@ -25,15 +25,10 @@
   ],
   "subpackages": [
     {
-      "root": "package-entity",
-      "pages": [
-        "pages/list/index"
-      ]
-    },
-    {
       "root": "package-goods",
       "pages": [
-        "pages/category/index"
+        "entity/list/index",
+        "category/list/index"
       ]
     }
   ],

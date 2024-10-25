@@ -24,7 +24,7 @@ Component({
     },
     handleSelect: function (e) {
       const { entity } = e.target.dataset;
-      pages.currentPage().getOpenerEventChannel().emit('pickedEntity', entity);
+      this.getOpenerEventChannel().emit('pickedEntity', entity);
       wx.navigateBack();
     },
     _calStickyOffset: function () {

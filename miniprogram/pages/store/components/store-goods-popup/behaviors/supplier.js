@@ -10,7 +10,7 @@ module.exports = Behavior({
   methods: {
     showSupplierPicker: function () {
       wx.navigateTo({
-        url: '/package-entity/pages/list/index',
+        url: '/package-goods/entity/list/index',
         events: {
           pickedEntity: (entity) => {
             this.setData({

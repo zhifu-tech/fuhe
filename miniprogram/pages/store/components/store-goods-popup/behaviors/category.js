@@ -4,7 +4,7 @@ module.exports = Behavior({
   methods: {
     showCategoryPicker: function () {
       wx.navigateTo({
-        url: '/package-goods/pages/category/index',
+        url: '/package-goods/category/list/index',
         events: {
           pickedCategory: this._handleUpdateSpuCategory.bind(this),
         },
