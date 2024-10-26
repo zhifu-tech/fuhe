@@ -4,7 +4,7 @@
   font-size: var(--td-font-size-m);
   color: var(--td-text-color-primary);
   margin: var(--td-spacer-1);
-  padding: var(--td-spacer-1) var(--td-spacer-1) var(--td-spacer-3) var(--td-spacer-1);
+  padding: var(--td-spacer-1) var(--td-spacer-1) var(--td-spacer-1) var(--td-spacer-1);
   border-radius: var(--td-radius-large);
   background-color: var(--td-bg-color-container);
 }
@@ -47,8 +47,9 @@
   font-weight: 600;
 }
 .more {
-  position: absolute;
+  position: relative;
   right: -24rpx;
+  top: -12rpx;
 }
 .tags {
   display: inline-flex;
@@ -87,7 +88,8 @@
 }
 
 .stock-wrapper {
-  margin-top: var(--td-spacer-1);
+  margin-top: var(--td-spacer-s);
+  line-height: 48rpx;
   display: flex;
   align-items: center;
 }
@@ -95,18 +97,16 @@
   display: inline-flex;
   align-items: center;
 }
-.stock .label {
-  margin-right: var(--td-spacer);
-}
+
 .stock .value {
   color: #fa4126;
   font-size: var(--td-font-size-m);
   font-weight: 600;
+  margin: 0 var(--td-spacer);
 }
 .stock .unit {
   font-size: var(--td-font-size-base);
   color: var(--td-text-color-secondary);
-  margin-left: var(--td-spacer);
 }
 .view-all {
   flex: 1;
@@ -120,28 +120,23 @@
 .input-price-quantity-wrapper {
   display: flex;
   align-items: center;
-  margin-top: var(--td-spacer);
+  line-height: 48rpx;
+  margin-top: var(--td-spacer-s);
 }
 .input-price {
   flex: 1;
   display: inline-flex;
   align-items: center;
 }
-.input-price .label {
-  margin-right: var(--td-spacer);
+
+.minus {
+  margin-right: var(--td-spacer-s);
 }
-.input-price .input {
-  text-align: center;
-  vertical-align: top;
-  box-sizing: border-box;
-  padding: 0;
-  width: 90rpx;
-  margin-right: var(--td-spacer-3);
-  --td-input-border-left-space: 0;
+.add {
+  margin-left: var(--td-spacer-s);
 }
 
 .stock-date-wrapper {
-  margin-top: var(--td-spacer-2);
   display: inline-flex;
   align-items: center;
 }
@@ -153,12 +148,13 @@
 .stocks {
   display: flex;
   align-items: center;
-  margin-top: var(--td-spacer);
+  line-height: 48rpx;
 }
 .prices {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
+  line-height: 48rpx;
 }
 .stocks .prices {
   margin-left: var(--td-spacer-2);
@@ -179,7 +175,8 @@
 .orders {
   display: flex;
   align-items: center;
-  margin-top: var(--td-spacer);
+  margin-top: var(--td-spacer-s);
+  line-height: 48rpx;
 }
 .orders .prices {
   margin-right: var(--td-spacer-2);

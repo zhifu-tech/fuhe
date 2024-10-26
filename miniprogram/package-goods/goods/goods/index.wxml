@@ -67,27 +67,27 @@
 
   <!--总库存-->
   <view class="stock-wrapper">
-    <view class="stock">
+    <view class="stock" bind:tap="handleShowStockList">
       <view class="label">库存</view>
       <view class="value">{{ stockTotals }}</view>
       <view class="unit">{{ '件' }}</view>
     </view>
-    <view class="view-all">
+    <!-- <view class="view-all">
       <view>
         <t-button
+          wx:if="{{ false }}"
           t-class="button"
           theme="default"
           size="extra-small"
-          variant="text"
-          icon="{{ showStockList ? 'browse': 'browse-off' }}"
-          content="库存清单"
+          variant="outline"
+          icon="{{ 'add-circle' }}"
+          content="出库"
           bind:tap="handleShowStockList"
         />
       </view>
-    </view>
+    </view> -->
   </view>
 
-  <!--总售价 + 总数量-->
   <view class="input-price-quantity-wrapper">
     <view class="input-price">
       <price
@@ -101,7 +101,7 @@
     </view>
     <t-stepper
       defaultValue="{{ 0 }}"
-      size="large"
+      size="medium"
       theme="outline"
       disabled="{{ !editable }}"
       max="{{ stockTotals }}"
@@ -111,6 +111,7 @@
   </view>
 
   <!--库存清单-->
+  <t-divider wx:if="{{ showStockList }}" />
   <block
     wx:if="{{ showStockList }}"
     wx:for="{{ sku.stockList }}"
@@ -157,7 +158,7 @@
       <view class="quantity-wrapper">
         <t-stepper
           defaultValue="0"
-          size="large"
+          size="medium"
           theme="outline"
           disabled="{{ !editable }}"
           max="{{ stock.quantity || 0 }}"
