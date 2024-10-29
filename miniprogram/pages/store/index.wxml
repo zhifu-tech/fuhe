@@ -66,17 +66,16 @@
     >
       <block
         wx:if="{{ !pageStatus.isLoadingWithSkeleton }}"
-        wx:for="{{goods.items}}"
+        wx:for="{{ goods.spuList }}"
         wx:for-item="spu"
         wx:key="_id"
       >
         <block wx:for="{{ spu.skuList }}" wx:for-item="sku" wx:key="_id">
           <goods
-            spu="{{ spu }}"
-            sku="{{ sku }}"
-            data-spu="{{ spu }}"
-            data-sku="{{ sku }}"
+            spuId="{{ spu._id }}"
+            skuId="{{ sku._id }}"
             bind:sku-delete="handleGoodsSkuDelete"
+            bind:cart-change="handleCartChangeEvent"
           />
         </block>
       </block>
@@ -144,6 +143,11 @@
 <goods-popup
   wx:if="{{ goodsPopup && goodsPopup.enabled }}"
   options="{{ goodsPopup && goodsPopup.options }}"
+/>
+
+<price-quantity-popup
+  wx:if="{{ priceQuantityPopup && priceQuantityPopup.enabled}}"
+  options="{{ priceQuantityPopup && priceQuantityPopup.options }}"
 />
 
 <include src="../../common/action-sheet/simple.wxml" />

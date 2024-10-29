@@ -13,6 +13,9 @@
     "@cloudbase/wx-cloud-client-sdk": "^1.2.1",
     "dayjs": "^1.11.13",
     "js-pinyin": "^0.2.7",
+    "miniprogram-computed": "^5.1.0",
+    "mobx-miniprogram": "^6.12.3",
+    "mobx-miniprogram-bindings": "^4.0.1",
     "tdesign-miniprogram": "^1.6.2"
   }
 }

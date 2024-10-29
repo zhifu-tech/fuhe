@@ -6,6 +6,7 @@
     "goods-popup": "/package-goods/goods/popup/index",
     "goods": "/package-goods/goods/goods/index",
     "cart": "/package-goods/cart/cart/index",
+    "price-quantity-popup": "/package-goods/goods/price-quantity-popup/index",
     "page-load-more": "/common/page/page-load-more/index",
     "t-action-sheet": "tdesign-miniprogram/action-sheet/action-sheet",
     "t-avatar": "tdesign-miniprogram/avatar/avatar",
@@ -28,6 +29,7 @@
     "category-popup": "view",
     "goods-popup": "view",
     "goods": "view",
-    "cart": "view"
+    "cart": "view",
+    "price-quantity-popup": "view"
   }
 }

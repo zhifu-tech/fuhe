@@ -109,13 +109,13 @@
           bind:blur="handleUpdateStockCostPrice"
         />
         <t-input
-          placeholder="输入销售价格，必填"
-          label="销售价格"
+          placeholder="预计出售时的价格，必填"
+          label="商品定价"
           disabled="{{ isModeEditStock }}"
-          value="{{ stock.salePrice || '' }}"
-          tips="{{ stock.salePriceTips || ''}}"
-          status="{{ stock.salePriceStatus || 'default'}}"
-          bind:blur="handleUpdateStockSalePrice"
+          value="{{ stock.originalPrice || '' }}"
+          tips="{{ stock.originalPriceTips || ''}}"
+          status="{{ stock.originalPriceTips || 'default'}}"
+          bind:blur="handleUpdateStockOriginalPrice"
         />
         <t-input
           placeholder="输入库存数量，必填"

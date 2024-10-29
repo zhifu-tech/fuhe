@@ -8,6 +8,7 @@ export default async function ({ tag, skuId }) {
         skuId: true,
         costPrice: true,
         salePrice: true,
+        originalPrice: true,
         quantity: true,
         createdAt: true,
         updatedAt: true,

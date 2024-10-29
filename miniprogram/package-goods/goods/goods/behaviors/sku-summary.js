@@ -2,15 +2,45 @@ const { default: log } = require('@/common/log/log');
 
 module.exports = Behavior({
   data: {
-    salePrice: undefined,
-    stockSelected: 0,
+    summary: {
+      enabled: true,
+      salePrice: 0,
+      originalPrice: 0,
+      saleQuantity: 0,
+      originalQuantity: 0,
+    },
   },
   observers: {
-    sku: function () {
-      const { salePrice } = this.data;
-      if (salePrice === undefined) {
-        this._initSalePrice();
+    sku: function (sku) {
+      // 外显的汇总操作，只在所有库存的销售价格，没有被调整过时，才能生效
+      const enabled = sku.stockList?.every((stock) => !stock.originalSalePrice) || true;
+      if (!enabled) {
+        this.setData({ 'summary.enabled': false });
+        return;
       }
+      let salePrice = sku.salePrice || 0; // 为所有销售价格的最大值
+      let originalPrice = 0; // 取所有商品的最大的原价
+      let saleQuantity = 0;
+      let originalQuantity = 0;
+      sku.stockList?.forEach((stock) => {
+        if (salePrice < stock.salePrice) {
+          salePrice = stock.salePrice;
+        }
+        if (originalPrice < stock.originalPrice) {
+          originalPrice = stock.originalPrice;
+        }
+        saleQuantity += stock.saleQuantity || 0;
+        originalQuantity += stock.quantity || 0;
+      });
+      const summary = {
+        enabled: true,
+        salePrice,
+        originalPrice,
+        saleQuantity,
+        originalQuantity,
+      };
+      // log.info('summary', summary);
+      this.setData({ summary });
     },
   },
   methods: {

@@ -1,0 +1,20 @@
+<view class="price-quantity">
+  <view class="price-wrapper" bind:tap="handleClickPrice">
+    <price class="price salePrice" priceUnit="yuan" price="{{ salePrice }}" />
+    <price
+      wx:if="{{ salePrice !== originalPrice }}"
+      class="price originalPrice"
+      priceUnit="yuan"
+      price="{{ originalPrice }}"
+      type="delthrough"
+    />
+    <view wx:if="{{ salePrice !== originalPrice }}" class="priceLabel">{{ priceLabel }}</view>
+  </view>
+  <t-stepper
+    size="medium"
+    theme="outline"
+    max="{{ originalQuantity }}"
+    value="{{ saleQuantity }}"
+    bind:change="handleUpdateSaleQuantity"
+  />
+</view>

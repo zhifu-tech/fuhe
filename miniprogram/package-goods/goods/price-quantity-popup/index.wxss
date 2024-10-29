@@ -1,0 +1,25 @@
+.container {
+  width: 100vw;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  font-size: var(--td-font-size-m);
+  color: var(--td-text-color-primary);
+}
+.label-container {
+  display: inline-flex;
+  align-items: flex-end;
+}
+.label {
+  margin: 0 0 var(--td-spacer-1) var(--td-spacer-2);
+}
+.slider {
+  width: auto;
+  flex: 1;
+}
+.input {
+  margin-top: var(--td-spacer-2);
+}
+.divider {
+  margin-left: var(--td-spacer-2);
+}

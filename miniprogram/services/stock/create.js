@@ -1,11 +1,12 @@
 import log from '../../common/log/log';
 
-function paramToData({ quantity, costPrice, salePrice, skuId, location = 'default' }) {
+function paramToData({ quantity, costPrice, originalPrice, skuId, location = 'default' }) {
   return {
     location,
     quantity,
     costPrice,
-    salePrice,
+    originalPrice,
+    salePrice: originalPrice, // 商品初始的售价为原价
     skuId,
     sku: {
       _id: skuId,

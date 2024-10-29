@@ -44,7 +44,7 @@ module.exports = Behavior({
           await deleteImageFiles(deleted);
         }
         // 提交修改
-        await services.goods.skuUpdate({
+        await services.goods.skuUpdateImageList({
           tag,
           skuId: sku._id,
           imageList: sku.imageList,

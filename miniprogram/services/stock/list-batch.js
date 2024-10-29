@@ -25,6 +25,7 @@ export default async function ({ tag, skuIdList }) {
           _id: true,
           skuId: true,
           costPrice: true,
+          originalPrice: true,
           salePrice: true,
           quantity: true,
           createdAt: true,

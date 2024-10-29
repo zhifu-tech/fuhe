@@ -1,0 +1,65 @@
+<t-popup
+  id="popup"
+  placement="bottom"
+  close-btn
+  using-custom-navbar
+  close-on-overlay-click
+  show-overlay="false"
+  bind:visible-change="hide"
+>
+  <view class="container" slot="content">
+    <!-- 输入价格支持 -->
+    <t-input
+      t-class="input"
+      placeholder="输入价格"
+      type="number"
+      label="售价"
+      value="{{ salePrice }}"
+      bind:change="handleChangeSalePrice"
+    />
+    <view class="label-container">
+      <view class="label">折扣</view>
+      <t-slider
+        t-class="slider"
+        min="0"
+        max="10"
+        step="0.1"
+        label="${value}折"
+        show-extreme-value="true"
+        value="{{ discount }}"
+        bind:change="handleChangeDiscount"
+      />
+    </view>
+    <t-divider t-class="divider" />
+
+    <view class="label-container">
+      <view class="label">溢价</view>
+      <t-slider
+        t-class="slider"
+        min="1"
+        max="10"
+        step="0.1"
+        label="${value}倍"
+        show-extreme-value="true"
+        value="{{ markup }}"
+        bind:change="handleChangeMarkup"
+      />
+    </view>
+    <t-divider t-class="divider" />
+
+    <view class="label-container">
+      <view class="label">数量</view>
+      <t-slider
+        t-class="slider"
+        min="0"
+        max="{{ originalQuantity }}"
+        step="1"
+        label="${value}件"
+        show-extreme-value="true"
+        value="{{ saleQuantity }}"
+        bind:change="handleChangeSaleQuantity"
+      />
+    </view>
+    <t-divider t-class="divider" />
+  </view>
+</t-popup>

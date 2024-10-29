@@ -1,18 +1,26 @@
+import cache from './cache';
+
 import spuList from './spu-list';
 import spuCreate from './spu-create';
 import spuUpdate from './spu-update';
 
-import skuUpdate from './sku-update';
+import {
+  updateImageList as skuUpdateImageList,
+  updateSaleInfo as skuUpdateSaleInfo,
+} from './sku-update';
 import { create as skuCreate, createMany as skuCreateMany } from './sku-create';
 import skuDelete from './sku-delete';
 
 export default {
+  cache,
+
   spuList,
   spuCreate,
   spuUpdate,
 
   skuCreate,
   skuCreateMany,
-  skuUpdate,
+  skuUpdateImageList,
+  skuUpdateSaleInfo,
   skuDelete,
 };

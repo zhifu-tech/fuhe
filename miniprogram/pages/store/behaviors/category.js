@@ -4,7 +4,7 @@ import services from '@/services/index';
 module.exports = Behavior({
   data: {
     category: {
-      selected: '',
+      selected: '1',
       items: [],
     },
     categoryPopup: {

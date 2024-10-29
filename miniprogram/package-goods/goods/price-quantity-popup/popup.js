@@ -5,7 +5,7 @@ export function show(context, options) {
     setTimeout(() => hide(context), 300);
   };
   context.setData({
-    categoryPopup: {
+    priceQuantityPopup: {
       enabled: true,
       options,
     },
@@ -14,8 +14,6 @@ export function show(context, options) {
 
 export function hide(context) {
   context.setData({
-    categoryPopup: {
-      enabled: false,
-    },
+    'priceQuantityPopup.enabled': false,
   });
 }

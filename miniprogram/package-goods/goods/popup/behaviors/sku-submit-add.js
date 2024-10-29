@@ -45,11 +45,16 @@ module.exports = Behavior({
       // 提交商品Sku信息
       const skuIdList = await services.goods.skuCreateMany({
         tag,
-        paramList: newSkuList.map((sku) => ({
-          imageList: sku.imageList,
-          optionIdList: sku.optionList.map((it) => it._id),
-          spuId: spu._id,
-        })),
+        paramList: newSkuList.map((sku) => {
+          // 提取销售价格
+          const { salePrice } = sku.stockList[0];
+          return {
+            salePrice,
+            imageList: sku.imageList,
+            optionIdList: sku.optionList.map((it) => it._id),
+            spuId: spu._id,
+          };
+        }),
       });
       skuIdList.forEach(({ id }, index) => {
         newSkuList[index]._id = id;

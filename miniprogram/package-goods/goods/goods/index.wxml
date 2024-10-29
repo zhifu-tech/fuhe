@@ -27,13 +27,13 @@
         />
       </view>
       <view class="tags" bind:tap="{{ editable ? 'handleShowSpecList' : '' }}">
-        <t-tag t-class="tag" size="medium" shape="round" icon="swap" variant="outline"
-          >{{ spu.category.title }}</t-tag
-        >
+        <t-tag t-class="tag" size="medium" shape="round" icon="swap" variant="outline">
+          {{ spu.category.title }}
+        </t-tag>
         <block wx:for="{{ sku.optionList }}" wx:for-item="option" wx:key="_id">
-          <t-tag t-class="tag" size="medium" shape="round" variant="outline"
-            >{{ option.title }}</t-tag
-          >
+          <t-tag t-class="tag" size="medium" shape="round" variant="outline">
+            {{ option.title }}
+          </t-tag>
         </block>
       </view>
     </view>
@@ -65,50 +65,21 @@
     </view>
   </t-divider>
 
-  <!--总库存-->
   <view class="stock-wrapper">
     <view class="stock" bind:tap="handleShowStockList">
       <view class="label">库存</view>
       <view class="value">{{ stockTotals }}</view>
       <view class="unit">{{ '件' }}</view>
     </view>
-    <!-- <view class="view-all">
-      <view>
-        <t-button
-          wx:if="{{ false }}"
-          t-class="button"
-          theme="default"
-          size="extra-small"
-          variant="outline"
-          icon="{{ 'add-circle' }}"
-          content="出库"
-          bind:tap="handleShowStockList"
-        />
-      </view>
-    </view> -->
   </view>
 
-  <view class="input-price-quantity-wrapper">
-    <view class="input-price">
-      <price
-        input
-        class="price"
-        priceUnit="yuan"
-        price="{{ salePrice }}"
-        disabled="{{ !editable }}"
-        bind:blur="handleUpdateSalePrice"
-      />
-    </view>
-    <t-stepper
-      defaultValue="{{ 0 }}"
-      size="medium"
-      theme="outline"
-      disabled="{{ !editable }}"
-      max="{{ stockTotals }}"
-      value="{{ stockSelected || 0 }}"
-      bind:change="handleUpdateQuantity"
-    />
-  </view>
+  <price-quantity
+    wx:if="{{ summary.enabled }}"
+    salePrice="{{ summary.salePrice }}"
+    originalPrice="{{ summary.originalPrice }}"
+    saleQuantity="{{ summary.saleQuantity }}"
+    originalQuantity="{{ summary.originalQuantity }}"
+  />
 
   <!--库存清单-->
   <t-divider wx:if="{{ showStockList }}" />
@@ -151,24 +122,15 @@
         />
       </view>
     </view>
-    <view class="orders">
-      <view class="prices">
-        <price input class="price" priceUnit="yuan" price="{{ stock.salePrice }}" />
-      </view>
-      <view class="quantity-wrapper">
-        <t-stepper
-          defaultValue="0"
-          size="medium"
-          theme="outline"
-          disabled="{{ !editable }}"
-          max="{{ stock.quantity || 0 }}"
-          value="{{ stock.stockSelected || 0 }}"
-          data-stock="{{ stock }}"
-          data-index="{{ index }}"
-          bind:change="handleUpdateStockQuantity"
-        />
-      </view>
-    </view>
+    <price-quantity
+      class="orders"
+      salePrice="{{ stock.salePrice }}"
+      originalPrice="{{ stock.originalPrice || 0 }}"
+      saleQuantity="{{ stock.saleQuantity || 0 }}"
+      originalQuantity="{{ stock.quantity || 0 }}"
+      data-stock="{{ stock }}"
+      bind:cart-change="handleCartChangeEvent"
+    />
     <t-divider class="divider3" />
   </block>
   <t-divider wx:if="{{ showStockList }}" bind:tap="handleShowStockList">

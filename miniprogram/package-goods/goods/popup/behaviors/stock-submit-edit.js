@@ -27,7 +27,7 @@ module.exports = Behavior({
       const submitDisabled =
         stock.quantity === _stock.quantity &&
         stock.costPrice === _stock.costPrice &&
-        stock.salePrice === _stock.salePrice;
+        stock.originalPrice === _stock.originalPrice;
       if (submitDisabled !== this.data.submitDisabled) {
         this.setData({
           submitDisabled,
@@ -43,12 +43,12 @@ module.exports = Behavior({
           stockId: stock._id,
           quantity: stock.quantity === _stock.quantity ? undefined : stock.quantity,
           costPrice: stock.costPrice === _stock.costPrice ? undefined : stock.quantity,
-          salePrice: stock.salePrice === _stock.salePrice ? undefined : stock.salePrice,
+          salePrice: stock.originlPrice === _stock.originlPrice ? undefined : stock.originlPrice,
         });
         // 更新之后的信息到_stock
         _stock.quantity = stock.quantity;
         _stock.costPrice = stock.costPrice;
-        _stock.salePrice = stock.salePrice;
+        _stock.originlPrice = stock.originlPrice;
 
         this.notify();
         hideToastLoading();

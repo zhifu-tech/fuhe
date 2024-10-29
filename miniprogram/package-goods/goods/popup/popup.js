@@ -54,7 +54,7 @@ export function show(context, options) {
   const close = options.close;
   options.close = (args) => {
     close?.(args);
-    hide(context);
+    setTimeout(() => hide(context), 300);
   };
   context.setData({
     goodsPopup: {

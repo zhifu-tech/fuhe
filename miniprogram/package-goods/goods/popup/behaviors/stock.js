@@ -6,7 +6,8 @@ module.exports = Behavior({
     stock: {
       // quantity: '', // 库存数量
       // costPrice: '', // 成本价格
-      // salePrice: '', // 销售价格
+      // originalPrice: '', // 销售定价
+      // salePrice: '', // 销售价格，在具体销售时指定
     },
   },
   methods: {
@@ -20,10 +21,10 @@ module.exports = Behavior({
         'stock.costPrice': costPrice,
       });
     },
-    handleUpdateStockSalePrice: function (e) {
-      const { value: salePrice } = e.detail;
+    handleUpdateStockOriginalPrice: function (e) {
+      const { value: originalPrice } = e.detail;
       this.setData({
-        'stock.salePrice': salePrice,
+        'stock.originalPrice': originalPrice,
       });
     },
     handleUpdateStockQuantity: function (e) {
@@ -50,19 +51,19 @@ module.exports = Behavior({
         return true;
       }
     },
-    checkStockSalePrice: function (stock) {
-      if (!stock.salePrice) {
-        showToastError({ message: '请输入销售价格' });
+    checkStockOriginalPrice: function (stock) {
+      if (!stock.originalPrice) {
+        showToastError({ message: '请输入商品定价' });
         this.setData({
-          'stock.salePriceTips': '销售价格为必填项',
-          'stock.salePriceStatus': 'error',
+          'stock.originalPriceTips': '商品定价为必填项',
+          'stock.originalPriceStatus': 'error',
         });
         return false;
       } else {
-        if (stock.salePriceTips || stock.salePriceStatus) {
+        if (stock.originalPriceTips || stock.originalPriceStatus) {
           this.setData({
-            'stock.salePriceTips': '',
-            'stock.salePriceStatus': '',
+            'stock.originalPriceTips': '',
+            'stock.originalPriceStatus': '',
           });
         }
         return true;

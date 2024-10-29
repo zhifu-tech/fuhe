@@ -1,11 +1,29 @@
 import log from '../../common/log/log';
 
-export default async function ({ tag, skuId, imageList }) {
+export async function updateImageList({ tag, skuId, imageList }) {
+  return update({
+    tag,
+    skuId,
+    data: {
+      imageList,
+    },
+  });
+}
+
+export async function updateSaleInfo({ tag, skuId, salePrice }) {
+  return update({
+    tag,
+    skuId,
+    data: {
+      salePrice,
+    },
+  });
+}
+
+async function update({ tag, skuId, data: dataParams }) {
   try {
     const { data } = await wx.cloud.models.fh_goods_sku.update({
-      data: {
-        imageList,
-      },
+      data: dataParams,
       filter: {
         where: {
           $and: [

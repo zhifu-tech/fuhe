@@ -1,3 +1,6 @@
+const { default: log } = require('../../../../common/log/log');
+const { default: services } = require('../../../../services/index');
+
 module.exports = Behavior({
   data: {
     showSpecList: false, // 是否展示规格列表

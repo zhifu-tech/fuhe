@@ -60,6 +60,7 @@ const stock_define = {
   availableQuantity: '可用库存数量',
   onOrderQuantity: '在途库存数量，已下单但未到货',
   costPrice: '成本价格',
+  originalPrice: '商品定价',
   createdAt: '入库的时间',
   updatedAt: '更新时间',
 };

@@ -2,60 +2,55 @@ import log from '@/common/log/log';
 import services from '@/services/index';
 
 module.exports = Behavior({
-  data: {
-    goods: {
-      items: [],
-      _total: 0,
-      _pageNumber: 0,
-      _selectedCategory: services.category.allCategoryId,
-    },
-  },
+  behaviors: [require('miniprogram-computed').behavior],
   observers: {
     'category.selected': function () {
       const { goods, category } = this.data;
-      if (goods._selectedCategory !== category.selected) {
-        this.setData({
-          'goods.items': [],
-          'goods._total': 0,
-          'goods._pageNumber': 0,
-          'goods._selectedCategory': category.selected,
-        });
-        this._initGoods();
+      if (goods.cId !== category.selected) {
+        this.switchSelectedGoodsSpuList(category.selected);
       }
     },
   },
-  pageLifetimes: {
-    show: function () {
-      if (this._checGoodsNeedInit()) {
+  watch: {
+    goods: function (goods) {
+      if (goods.isDefault) {
         this._initGoods();
+      }
+    },
+    fetchGoodsSpuListStatus: function (status) {
+      const { tag, goods } = this.data;
+      const { code, error } = status;
+      switch (code) {
+        case 'success': {
+          if (goods.spuList.length === 0) {
+            this.showPageEmpty();
+          } else if (goods.spuList.length >= goods.total) {
+            this.showPageNoMore();
+          } else {
+            this.showPageHasMore();
+          }
+          break;
+        }
+        case 'error': {
+          this.showPageError(error);
+          break;
+        }
       }
     },
   },
   methods: {
-    _checGoodsNeedInit: function () {
-      return this.data.goods.items.length === 0;
-    },
     _initGoods: async function () {
-      const { tag, goods } = this.data;
+      const { tag, goods, category } = this.data;
       if (this.isPageLoading()) {
         log.info(tag, '_initGoods', 'intercepted as being loading!');
         return;
       }
       this.showPageLoadingWithSkeleton();
-      try {
-        await this._fetchGoodsList({ pageNumber: 1, refresh: true });
-
-        if (goods.items.length === 0) {
-          this.showPageEmpty();
-        } else if (goods.items.length >= goods._total) {
-          this.showPageNoMore();
-        } else {
-          this.showPageHasMore();
-        }
-      } catch (error) {
-        log.error(tag, '_initGoods', error);
-        this.showPageError(error);
-      }
+      this.fetchGoodsSpuList({
+        tag,
+        cId: category.selected,
+        pageNumber: 1,
+      });
     },
     loadMoreGoods: async function () {
       const { tag, goods } = this.data;
@@ -68,71 +63,24 @@ module.exports = Behavior({
         return;
       }
       this.showPageLoadingWithMore();
-      try {
-        await this._fetchGoodsList({
-          pageNumber: goods._pageNumber + 1,
-        });
-
-        if (goods.items.length === 0) {
-          this.showPageEmpty();
-        } else if (goods.items.length >= goods._total) {
-          this.showPageNoMore();
-        } else {
-          this.showPageHasMore();
-        }
-      } catch (error) {
-        log.error(tag, 'loadMoreGoods', error);
-        this.showPageError();
-      }
+      this.fetchGoodsSpuList({
+        tag,
+        cId: category.selected,
+        pageNumber: goods.pageNumber + 1,
+      });
     },
     pullDownRefresh: async function () {
-      const { tag, goods } = this.data;
+      const { tag, goods, category } = this.data;
       if (this.isPageLoading()) {
         log.info(tag, 'pullDownRefresh', 'intercepted as being loading!');
         return;
       }
       this.showPageLoadingWithPullDown();
-      try {
-        await this._fetchGoodsList({ pageNumber: 1 });
-
-        if (goods.items.length === 0) {
-          this.showPageEmpty();
-        } else if (goods.items.length >= goods._total) {
-          this.showPageNoMore();
-        } else {
-          this.showPageHasMore();
-        }
-      } catch (error) {
-        log.error(tag, 'pullDownRefresh', error);
-        this.showPageError();
-      }
-    },
-    _fetchGoodsList: async function ({ pageNumber }) {
-      log.info('goods', '_fetchGoodsList', { pageNumber });
-      const {
+      this.fetchGoodsSpuList({
         tag,
-        goods: { items, _selectedCategory },
-      } = this.data;
-      const { records: spuList, total } = await services.goods.spuList({
-        tag,
-        cId: _selectedCategory,
-        pageNumber,
-        pageSize: 10,
+        cId: category.selected,
+        pageNumber: 1,
       });
-      if (pageNumber === 1) {
-        this.setData({
-          'goods._total': total,
-          'goods._pageNumber': pageNumber,
-          'goods.items': [...spuList],
-        });
-        log.info(tag, '_fetchGoodsList', this.data.goods.items);
-      } else {
-        this.setData({
-          'goods._total': total,
-          'goods._pageNumber': pageNumber,
-          'goods.items': [...items, ...spuList],
-        });
-      }
     },
   },
 });

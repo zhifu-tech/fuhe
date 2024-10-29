@@ -1,4 +1,4 @@
-import log from '../../common/log/log';
+import log from '@/common/log/log';
 import services from '../index';
 
 export default async function ({ tag, cId, pageNumber, pageSize }) {

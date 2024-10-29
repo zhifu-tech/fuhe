@@ -1,7 +1,8 @@
 import log from '../../common/log/log';
 
-function paramToData({ imageList, optionIdList, spuId }) {
+function paramToData({ salePrice, imageList, optionIdList, spuId }) {
   return {
+    salePrice,
     imageList,
     optionIdList,
     spuId,
