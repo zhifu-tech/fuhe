@@ -1,13 +1,9 @@
 import log from '@/common/log/log';
 import services from '@/services/index';
-import { configure, observable, action, flow } from 'mobx-miniprogram';
+import { observable, action, flow } from 'mobx-miniprogram';
 
-configure({
-  enforceActions: true, // 不允许在动作之外进行状态修改
-});
 export default (function store() {
   const spuMap = new Map(); // map<spu._id, spu>
-  const skuMap = new Map(); // map<sku._id, sku>
   const dataMap = new Map(); // map<cId, goodsSpuList>
   let _fetchGoodsSpuListTask = null; // 记录当前正在进行的请求
 
@@ -28,21 +24,19 @@ export default (function store() {
     getSpu: function (spuId) {
       return spuMap.get(spuId);
     },
-    getSku: function (skuId) {
-      return skuMap.get(skuId);
+    getSku: function (spuId, skuId) {
+      const spu = this.getSpu(spuId);
+      return spu?.skuList?.find((sku) => sku._id === skuId);
+    },
+    getStock: function (spuId, skuId, stockId) {
+      const sku = this.getSku(spuId, skuId);
+      return sku?.stockList?.find((stock) => stock._id === stockId);
     },
     _setSpuList: action(function (spuList) {
       spuList.forEach((spu) => {
         spuMap.set(spu._id, spu);
-
-        spu.skuList.forEach((sku) => {
-          skuMap.set(sku._id, sku);
-        });
       });
     }),
-    //****************
-    // [END] 商品
-    // ****************
 
     //****************
     // [START] 商品列表
@@ -51,7 +45,6 @@ export default (function store() {
 
     switchSelectedGoodsSpuList: action(function (cId) {
       this.selected = dataMap.get(cId) || defaultGoods;
-      log.info('store', 'switchSelectedGoodsSpuList', cId, this.selected);
     }),
 
     /**  获取商品列表: 每次只能有一个请求，如果上次请求未结束，则取消请求. */
@@ -98,8 +91,5 @@ export default (function store() {
         this._fetchGoodsSpuListTask = null;
       }
     }),
-    //****************
-    // [END] 商品列表
-    //****************
   });
 })();

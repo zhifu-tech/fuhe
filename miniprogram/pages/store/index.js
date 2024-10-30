@@ -1,4 +1,4 @@
-import store from '@/services/goods/store';
+import store from '@/stores/store';
 
 Component({
   options: {
@@ -25,7 +25,6 @@ Component({
     require('./behaviors/sidebar'),
     require('./behaviors/header'),
     require('./behaviors/category'),
-    require('./behaviors/cart'),
   ],
   data: {
     tag: 'storePage',
@@ -34,14 +33,12 @@ Component({
   storeBindings: {
     store,
     fields: {
-      goods: 'selected',
-      fetchGoodsSpuListStatus: 'fetchGoodsSpuListStatus',
+      goods: () => store.goods.selected,
+      fetchGoodsSpuListStatus: () => store.goods.fetchGoodsSpuListStatus,
     },
     actions: {
       fetchGoodsSpuList: 'fetchGoodsSpuList',
       switchSelectedGoodsSpuList: 'switchSelectedGoodsSpuList',
-      getSpu: 'getSpu',
-      getSku: 'getSku',
     },
   },
 });

@@ -1,6 +1,6 @@
-const { default: services } = require('@/services/index');
-const { default: log } = require('@/common/log/log');
-import store from '@/services/goods/store';
+const { default: store } = require('@/stores/store');
+const { computed } = require('mobx-miniprogram');
+const { default: log } = require('../../../common/log/log');
 
 Component({
   behaviors: [
@@ -13,7 +13,7 @@ Component({
     require('./behaviors/sku-add'),
     require('./behaviors/sku-delete'),
     require('./behaviors/sku-more'),
-    require('./behaviors/cart'),
+    require('./behaviors/stock-cart'),
   ],
   options: {
     virtualHost: true,
@@ -29,23 +29,23 @@ Component({
   },
   data: {
     tag: 'goods',
-    spu: {},
-    sku: {},
-    stock: {},
   },
   storeBindings: {
     store,
-    actions: {
-      getSpu: 'getSpu',
-      getSku: 'getSku',
+    fields: {
+      spu: function () {
+        return store.goods.getSpu(this.properties.spuId);
+      },
+      sku: function () {
+        return store.goods.getSku(this.properties.spuId, this.properties.skuId);
+      },
+      cartSkuSumInfo: function () {
+        return store.cart.getCartSkuSumInfo(this.properties.skuId) || {};
+      },
     },
-  },
-  watch: {
-    'spuId,skuId': function (spuId, skuId) {
-      this.setData({
-        spu: this.getSpu(spuId),
-        sku: this.getSku(skuId),
-      });
+    actions: {
+      getStock: 'getStock',
+      handleCartChange: 'handleCartChange',
     },
   },
 });

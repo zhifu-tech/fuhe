@@ -59,10 +59,7 @@ Component({
         const preSalePrice = this.data.salePrice;
         const preSaleQuantity = this.data.saleQuantity;
         popup.show(pages.currentPage(), {
-          salePrice: this.data.salePrice,
-          originalPrice: this.data.originalPrice,
-          saleQuantity: this.data.saleQuantity,
-          originalQuantity: this.data.originalQuantity,
+          ...this.data,
           change: this.setData.bind(this),
           close: () => {
             if (
@@ -84,19 +81,12 @@ Component({
       this._notifyCartChange();
     },
     _notifyCartChange: function () {
-      this.triggerEvent(
-        'cart-change',
-        {
-          salePrice: this.data.salePrice,
-          originalPrice: this.data.originalPrice,
-          saleQuantity: this.data.saleQuantity,
-          originalQuantity: this.data.originalQuantity,
-        },
-        {
-          bubbles: true,
-          composed: true,
-        },
-      );
+      this.triggerEvent('cart-change', {
+        salePrice: this.data.salePrice,
+        originalPrice: this.data.originalPrice,
+        saleQuantity: this.data.saleQuantity,
+        originalQuantity: this.data.originalQuantity,
+      });
     },
   },
 });

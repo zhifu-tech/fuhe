@@ -1,6 +1,7 @@
 const { default: log } = require('@/common/log/log');
 
 module.exports = Behavior({
+  behaviors: [require('miniprogram-computed').behavior],
   data: {
     summary: {
       enabled: true,
@@ -10,16 +11,30 @@ module.exports = Behavior({
       originalQuantity: 0,
     },
   },
-  observers: {
-    sku: function (sku) {
-      // 外显的汇总操作，只在所有库存的销售价格，没有被调整过时，才能生效
-      const enabled = sku.stockList?.every((stock) => !stock.originalSalePrice) || true;
+  watch: {
+    cartSkuSumInfo: function (info) {
+      log.info('watch cartSkuSumInfo', info);
+      this.updateSummary(info);
+    },
+  },
+  methods: {
+    updateSummary: function (sumInfo) {
+      const { tag, sku, summary } = this.data;
+      // 外显的汇总操作，生效的条件：以下条件之一满足时：
+      // 1. 库存记录有0条或者1条，
+      // 2. 库存记录有N(N>=2)条时，所有库存记录的销售价格，没有被调整过时
+      const enabled =
+        !sku.stockList ||
+        sku.stockList.length === 1 ||
+        sku.stockList.every((stock) => !stock.originalSalePrice);
       if (!enabled) {
-        this.setData({ 'summary.enabled': false });
+        if (summary.enabled != enabled) {
+          this.setData({ 'summary.enabled': false });
+        }
         return;
       }
-      let salePrice = sku.salePrice || 0; // 为所有销售价格的最大值
-      let originalPrice = 0; // 取所有商品的最大的原价
+      let salePrice = sku.salePrice || 0; // 汇总-销售价格: 为所有库存记录销售价格的最大值.
+      let originalPrice = 0; // 汇总-原价: 取所有商品的最大的原价.
       let saleQuantity = 0;
       let originalQuantity = 0;
       sku.stockList?.forEach((stock) => {
@@ -32,107 +47,131 @@ module.exports = Behavior({
         saleQuantity += stock.saleQuantity || 0;
         originalQuantity += stock.quantity || 0;
       });
-      const summary = {
-        enabled: true,
-        salePrice,
-        originalPrice,
-        saleQuantity,
-        originalQuantity,
+      const notifyData = {};
+      if (!summary.enabled) {
+        notifyData['summary.enabled'] = true;
+      }
+      if (summary.salePrice !== salePrice) {
+        notifyData['summary.salePrice'] = salePrice;
+      }
+      if (summary.originalPrice !== originalPrice) {
+        notifyData['summary.originalPrice'] = originalPrice;
+      }
+      if (summary.saleQuantity !== saleQuantity) {
+        notifyData['summary.saleQuantity'] = saleQuantity;
+      }
+      if (summary.originalQuantity !== originalQuantity) {
+        notifyData['summary.originalQuantity'] = originalQuantity;
+      }
+      this.setData(notifyData);
+      log.info(tag, 'updateSummary', sumInfo, notifyData);
+    },
+    handleSummaryCartChangeEvent: function (e) {
+      log.info('handleSummaryCartChangeEvent', e);
+      const { salePrice, saleQuantity } = e.detail;
+      const { summary, spuId, skuId, sku } = this.data;
+      if (summary.salePrice !== salePrice) {
+        // summary的价格发生变化，需要修改所有已经加入cart的售价
+        const notifyData = {
+          'summary.salePrice': salePrice,
+        };
+        sku.stockList?.forEach((stock, index) => {
+          log.info('handleSummaryCartChangeEvent', 'summaryPriceChange', index, stock);
+          // if (stock.saleQuantity && stock.saleQuantity > 0) {
+          // }
+          this.handleCartChange({
+            tag: 'summaryPriceChange',
+            spuId,
+            skuId,
+            stockId: stock._id,
+            salePrice: salePrice,
+            saleQuantity: stock.saleQuantity ?? 0,
+          });
+          notifyData[`sku.stockList[${index}].salePrice`] = salePrice;
+        });
+        this.setData(notifyData);
+        log.info('handleSummaryCartChangeEvent', 'summaryPriceChange', notifyData);
+        return;
+      }
+      if (summary.saleQuantity === saleQuantity) {
+        // 不需要修改数量，直接返回
+        return;
+      }
+      const notifyData = {
+        'summary.saleQuantity': saleQuantity,
       };
-      // log.info('summary', summary);
-      this.setData({ summary });
-    },
-  },
-  methods: {
-    _initSalePrice: function () {
-      const { sku } = this.data;
-      let salePrice = 0;
-      sku.stockList?.forEach((stock) => {
-        if (salePrice < stock.salePrice) {
-          salePrice = stock.salePrice;
-        }
-      });
-      this.setData({
-        salePrice,
-      });
-    },
-
-    handleUpdateSalePrice: function (e) {
-      const { value: salePrice } = e.detail;
-      this.setData({
-        salePrice,
-      });
-    },
-
-    handleUpdateQuantity: function (e) {
-      const { value: stockSelected } = e.detail;
-      log.info('handleUpdateQuantity', stockSelected);
-      this.setData({
-        stockSelected,
-      });
-      // 根据用户选择的 stockSelected 数量来动态调整每个 stock 的选中数量。
-      //	1.	增加数量（total 小于 stockSelected）：从首位开始增加库存的选中数量，直到满足 stockSelected。
-      // 2.	减少数量（total 大于 stockSelected）：从末位开始减少库存的选中数量，直到满足 stockSelected。
-      const total = this._getTotalStock();
-      if (total === stockSelected) return;
-      const {
-        sku: { stockList },
-      } = this.data;
-      const changed = {};
-      if (total < stockSelected) {
-        let delta = stockSelected - total;
-        stockList.some((stock, index) => {
-          if (stock.stockSelected === undefined) {
-            stock.stockSelected = 0;
+      // summary的数量发生变化，需要修改所有已经加入cart的数量
+      // 根据用户选择的 saleQuantity 数量来动态调整每个 stock 的选中数量。
+      // 1.	增加数量: 从首位开始增加库存的选中数量，直到满足 stockSelected。
+      // 2.	减少数量: 从末位开始减少库存的选中数量，直到满足 stockSelected。
+      if (summary.saleQuantity < saleQuantity) {
+        let delta = saleQuantity - summary.saleQuantity;
+        sku.stockList?.some((stock, index) => {
+          if (stock.saleQuantity === undefined) {
+            stock.saleQuantity = 0;
           }
-          if (stock.stockSelected + delta <= stock.quantity) {
-            changed[`sku.stockList[${index}].stockSelected`] = stock.stockSelected + delta;
-            return true;
-          } else {
-            delta -= stock.quantity - stock.stockSelected;
-            changed[`sku.stockList[${index}].stockSelected`] = stock.quantity;
+          if (stock.saleQuantity + delta <= stock.quantity) {
+            const stockSaleQuantity = stock.saleQuantity + delta;
+            this.handleCartChange({
+              tag: 'summaryQuantityChange',
+              spuId,
+              skuId,
+              stockId: stock._id,
+              salePrice: stock.salePrice,
+              saleQuantity: stockSaleQuantity,
+            });
+            notifyData[`sku.stockList[${index}].saleQuantity`] = stockSaleQuantity;
+            delta = 0;
+          } else if (stock.saleQuantity !== stock.quantity) {
+            const stockSaleQuantity = stock.quantity;
+            this.handleCartChange({
+              tag: 'summaryQuantityChange',
+              spuId,
+              skuId,
+              stockId: stock._id,
+              salePrice: stock.salePrice,
+              saleQuantity: stock.quantity,
+            });
+            delta -= stock.quantity - stock.saleQuantity;
+            notifyData[`sku.stockList[${index}].saleQuantity`] = stock.quantity;
           }
+          return delta === 0;
         });
-      } else {
-        let delta = total - stockSelected;
-        stockList.reverse().some((stock, index) => {
-          if (stock.stockSelected === undefined || stock.stockSelected === 0) return false;
-          if (stock.stockSelected - delta >= 0) {
-            changed[`sku.stockList[${index}].stockSelected`] = stock.stockSelected - delta;
-            return true;
-          } else {
-            delta -= stock.stockSelected;
-            changed[`sku.stockList[${index}].stockSelected`] = 0;
+      } else if (summary.saleQuantity > saleQuantity) {
+        let delta = summary.saleQuantity - saleQuantity;
+        sku.stockList?.reverse().some((stock, index) => {
+          if (!stock.saleQuantity) {
+            return false;
           }
-        });
-      }
-      this.setData(changed);
-    },
-    handleUpdateStockQuantity: function (e) {
-      const { value: stockSelected } = e.detail;
-      const { index } = e.target.dataset;
-      this.setData({
-        [`sku.stockList[${index}].stockSelected`]: stockSelected,
-      });
-      // 更新总的库存
-      const total = this._getTotalStock();
-      if (total !== this.data.stockSelected) {
-        this.setData({
-          stockSelected: total,
+          if (stock.saleQuantity - delta >= 0) {
+            const stockSaleQuantity = stock.saleQuantity - delta;
+            this.handleCartChange({
+              tag: 'summaryQuantityChange',
+              spuId,
+              skuId,
+              stockId: stock._id,
+              salePrice: stock.salePrice,
+              saleQuantity: stockSaleQuantity,
+            });
+            notifyData[`sku.stockList[${index}].saleQuantity`] = stockSaleQuantity;
+            delta = 0;
+          } else if (stock.saleQuantity !== 0) {
+            const stockSaleQuantity = 0;
+            this.handleCartChange({
+              tag: 'summaryQuantityChange',
+              spuId,
+              skuId,
+              stockId: stock._id,
+              salePrice: stock.salePrice,
+              saleQuantity: stockSaleQuantity,
+            });
+            delta -= stock.saleQuantity;
+            notifyData[`sku.stockList[${index}].saleQuantity`] = 0;
+          }
+          return delta === 0;
         });
       }
-    },
-    _getTotalStock: function () {
-      const {
-        sku: { stockList },
-      } = this.data;
-      let total = 0;
-      stockList.forEach((stock) => {
-        if (stock.stockSelected !== undefined) {
-          total += stock.stockSelected;
-        }
-      });
-      return total;
+      this.setData(notifyData);
     },
   },
 });

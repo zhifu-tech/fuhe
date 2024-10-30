@@ -79,6 +79,7 @@
     originalPrice="{{ summary.originalPrice }}"
     saleQuantity="{{ summary.saleQuantity }}"
     originalQuantity="{{ summary.originalQuantity }}"
+    bind:cart-change="handleSummaryCartChangeEvent"
   />
 
   <!--库存清单-->
@@ -128,7 +129,7 @@
       originalPrice="{{ stock.originalPrice || 0 }}"
       saleQuantity="{{ stock.saleQuantity || 0 }}"
       originalQuantity="{{ stock.quantity || 0 }}"
-      data-stock="{{ stock }}"
+      data-stock-id="{{ stock._id }}"
       bind:cart-change="handleCartChangeEvent"
     />
     <t-divider class="divider3" />
