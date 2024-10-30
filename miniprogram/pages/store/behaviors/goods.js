@@ -21,7 +21,7 @@ module.exports = Behavior({
     },
   },
   methods: {
-    _initGoods: async function () {
+    _initGoods: function () {
       const { tag, goods, category } = this.data;
       if (this.isPageLoading()) {
         log.info(tag, '_initGoods', 'intercepted as being loading!');
@@ -34,7 +34,7 @@ module.exports = Behavior({
         pageNumber: 1,
       });
     },
-    loadMoreGoods: async function () {
+    loadMoreGoods: function () {
       const { tag, goods } = this.data;
       if (this.isPageLoading()) {
         log.info(tag, 'loadMoreGoods', 'intercepted as being loading!');
@@ -51,7 +51,7 @@ module.exports = Behavior({
         pageNumber: goods.pageNumber + 1,
       });
     },
-    pullDownRefresh: async function () {
+    pullDownRefresh: function () {
       const { tag, goods, category } = this.data;
       if (this.isPageLoading()) {
         log.info(tag, 'pullDownRefresh', 'intercepted as being loading!');
