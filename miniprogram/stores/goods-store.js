@@ -48,12 +48,12 @@ export default (function store() {
 
     /**  获取商品列表: 每次只能有一个请求，如果上次请求未结束，则取消请求. */
     fetchGoodsSpuList: action(function ({ tag, cId, pageNumber }) {
-      if (_fetchGoodsSpuListTask) {
-        _fetchGoodsSpuListTask.cancel();
+      if (this._fetchGoodsSpuListTask) {
+        this._fetchGoodsSpuListTask.cancel();
       }
       this.fetchGoodsSpuListStatus = { code: 'loading' };
-      _fetchGoodsSpuListTask = this._fetchGoodsSpuList({ tag, cId, pageNumber });
-      return _fetchGoodsSpuListTask;
+      this._fetchGoodsSpuListTask = this._fetchGoodsSpuList({ tag, cId, pageNumber });
+      return this._fetchGoodsSpuListTask;
     }),
 
     _fetchGoodsSpuList: flow(function* ({ tag, cId, pageNumber }) {
