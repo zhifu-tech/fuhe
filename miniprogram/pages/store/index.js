@@ -20,8 +20,6 @@ Component({
     require('@/common/page/page-status'),
     require('@/common/tab-bar/custom'),
     require('./behaviors/goods'),
-    require('./behaviors/goods-sku'),
-    require('./behaviors/goods-spu'),
     require('./behaviors/sidebar'),
     require('./behaviors/header'),
     require('./behaviors/category'),

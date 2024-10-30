@@ -5,7 +5,6 @@ import { observable, action, flow } from 'mobx-miniprogram';
 export default (function store() {
   const spuMap = new Map(); // map<spu._id, spu>
   const dataMap = new Map(); // map<cId, goodsSpuList>
-  let _fetchGoodsSpuListTask = null; // 记录当前正在进行的请求
 
   const defaultGoods = {
     cId: 0,
@@ -16,8 +15,6 @@ export default (function store() {
   };
 
   return observable({
-    selected: defaultGoods,
-
     //****************
     // [START] 商品
     // ****************
@@ -41,7 +38,9 @@ export default (function store() {
     //****************
     // [START] 商品列表
     // ****************
+    selected: defaultGoods,
     fetchGoodsSpuListStatus: { code: 'idle' }, // 'loading', 'success', 'error'
+    _fetchGoodsSpuListTask: null, // 记录当前正在进行的请求
 
     switchSelectedGoodsSpuList: action(function (cId) {
       this.selected = dataMap.get(cId) || defaultGoods;
