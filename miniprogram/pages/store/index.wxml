@@ -13,22 +13,20 @@
 
   <view class="content">
     <view class="{{ showSideBar ? 'side-bar-wrapper show': 'side-bar-wrapper hide' }}">
-      <t-side-bar class="side-bar" value="{{category.selected}}" bind:change="onSideBarChange">
+      <t-side-bar class="side-bar" value="{{ categorySelected }}" bind:change="onSideBarChange">
         <t-side-bar-item
-          wx:if="{{ category.items.length > 0 }}"
-          wx:for="{{category.items}}"
-          wx:for-item="item"
-          wx:for-index="index"
-          wx:key="value"
+          wx:if="{{ categoryExtList.length > 0 }}"
+          wx:for="{{ categoryExtList }}"
+          wx:for-item="category"
+          wx:key="_id"
           t-class="side-bar-item"
-          label="{{ _.formatSideBarLabel(item.label) }}"
-          data-id="{{item.value}}"
+          label="{{ _.formatSideBarLabel(category.title) }}"
+          data-id="{{ category._id }}"
+          value="{{ category._id }}"
           bind:longpress="onSideBarItemLongPress"
-          value="{{item.value}}"
-          badge-props="{{item.badgeProps}}"
         />
         <t-skeleton
-          wx:if="{{ pageStatus.isLoadingWithSkeleton && category.items.length === 0}}"
+          wx:if="{{ pageStatus.isLoadingWithSkeleton && categoryExtList.length === 0}}"
           wx:for="{{ 6 }}"
           wx:for-item="item"
           wx:for-index="index"
@@ -38,7 +36,7 @@
           loading
         />
       </t-side-bar>
-      <view wx:if="{{ category.items.length > 0 }}" class="side-bar-actions">
+      <view wx:if="{{ categoryExtList.length > 0 }}" class="side-bar-actions">
         <view class="side-bar-action" bind:tap="handleShowGoodsPopup">
           {{ _.formatSideBarLabel('新增商品')}}
         </view>
@@ -126,7 +124,7 @@
 <t-fab
   wx:if="{{!showSideBar}}"
   icon="menu-fold"
-  button-props="{{foldBtnProps}}"
+  button-props="{{ { theme: 'default', size: 'large',variant: 'text' } }}"
   draggable="true"
   usingCustomNavbar="true"
   style="left: unset; right: unset; bottom: calc(80px + env(safe-area-inset-bottom))"

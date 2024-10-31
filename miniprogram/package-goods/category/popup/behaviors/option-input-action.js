@@ -50,11 +50,11 @@ module.exports = Behavior({
         log.info(tag, 'onEditOptionEvent', title, option);
       } else {
         const id = ++this.data.optionAddedCount;
-        const added = services.spec.createSpecOptionObject({
+        const added = {
+          _id: `-${id}`,
           sId: spec._id,
-          id: `-${id}`,
           title,
-        });
+        };
         added.editable = true;
         spec.options = spec.options || [];
         spec.options.push(added);

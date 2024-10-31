@@ -1,113 +1,20 @@
 import log from '@/common/log/log';
-import services from '@/services/index';
 
 module.exports = Behavior({
+  behaviors: [require('miniprogram-computed').behavior],
   data: {
-    category: {
-      selected: '1',
-      items: [],
-    },
     categoryPopup: {
       enabled: false,
       options: null,
     },
   },
-  pageLifetimes: {
-    show: function () {
-      if (this._checkCategoryNeedInit()) {
-        this._initCategory();
-      }
-    },
-  },
-  methods: {
-    _checkCategoryNeedInit: function () {
-      return this.data.category.items.length === 0;
-    },
-    _initCategory: async function () {
-      services.spec.cache.reset();
-      services.category.cache.reset();
-      const { tag, saasId } = this.data;
-      const res = await this._fetchCategoryList({ tag, saasId, pageNumber: 1, refresh: false });
-      this.setData({
-        'category.items': res.items,
-        'category.selected': res.selected,
-      });
-    },
-    _fetchCategoryList: async function ({ tag, saasId, pageNumber, refresh }) {
-      try {
-        const { records, total } = await services.category.list({
-          tag,
-          saasId,
-          pageNumber,
-          loadFromCacheEnabled: !refresh,
-        });
-        const data = {
-          items: this._toCategoryItems(records),
-          total,
-          pageNumber: 1,
-        };
-        data.selected = data.items[0].value;
-        return data;
-      } catch (error) {
-        log.error(tag, 'fetchCategoryList', error);
-        throw error;
-      }
-    },
-    /**数据转换：将原始数据，转换为用来展示的items */
-    _toCategoryItems: (list) => {
-      const items = list.map((category) => ({
-        label: category.title,
-        value: category._id,
-        badgeProps: {},
-      }));
-      if (items.length > 1) {
-        items.unshift({
-          label: '所有商品',
-          value: services.category.allCategoryId,
-          badgeProps: {},
-        });
-      }
-      items.push({
-        label: '新增分类',
-        value: services.category.addCategoryId,
-        badgeProps: {},
-      });
-      return items;
-    },
-    addCategory: function (added) {
-      const {
-        category: { items },
-      } = this.data;
-      if (items.length === 1) {
-        items.unshift({
-          label: '所有商品',
-          value: services.category.allCategoryId,
-          badgeProps: {},
-        });
-      }
-      items.splice(1, 0, {
-        label: added.title,
-        value: added._id,
-        badgeProps: {},
-      });
-      this.setData({
-        'category.items': items,
-      });
-    },
-    updateCategory: function (updated) {
-      const {
-        category: { items },
-      } = this.data;
-      const index = items.findIndex((item) => item.value === updated._id);
-      if (index !== -1 && updated.isChanged) {
-        this.setData({
-          [`category.items[${index}].label`]: updated.title,
-        });
-      } else if (index !== -1 && updated.isDeleted) {
-        items.splice(index, 1);
-        this.setData({
-          'category.items': items,
-        });
+  watch: {
+    categorySelected: function (selected) {
+      log.info('category-2', 'watch', 'categorySelected', selected);
+      const { categoryList } = this.data;
+      if (categoryList.length === 0) {
+        // 未加载过分类列表时，先加载分类列表
+        this.fetchCategoryList({ tag: 'store-category' });
       }
     },
   },

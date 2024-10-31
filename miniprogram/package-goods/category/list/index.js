@@ -1,21 +1,33 @@
-const { default: services } = require('@/services/index');
-const { default: pages } = require('@/common/page/pages');
+import store from '@/stores/store';
 
 Component({
+  behaviors: [
+    require('mobx-miniprogram-bindings').storeBindingsBehavior,
+    require('miniprogram-computed').behavior,
+  ],
   options: {
     pureDataPattern: /^_/,
   },
   data: {
     _tag: 'category-list',
-    _categoryList: [],
     list: [],
     indexList: [],
     stickyOffset: 0,
   },
+  storeBindings: {
+    store,
+    fields: {
+      categoryList: () => store.category.categoryList,
+    },
+  },
   lifetimes: {
     attached: function () {
       this._calStickyOffset();
-      this._fetchCategoryList();
+    },
+  },
+  watch: {
+    categoryList: function (categoryList) {
+      this._updateCategoryIndexList(categoryList);
     },
   },
   methods: {
@@ -24,7 +36,7 @@ Component({
     },
     handleSelect: function (e) {
       const { category } = e.target.dataset;
-      pages.currentPage().getOpenerEventChannel().emit('pickedCategory', category);
+      this.getOpenerEventChannel().emit('pickedCategory', category);
       wx.navigateBack();
     },
     _calStickyOffset: function () {
@@ -35,8 +47,7 @@ Component({
         this.setData({ stickyOffset: height });
       });
     },
-    _fetchCategoryList: async function () {
-      const { records: categoryList } = await services.category.all({ tag: this.data._tag });
+    _updateCategoryIndexList: async function (categoryList) {
       const indexList = [];
       const list = [];
       let lastList = [];
@@ -57,7 +68,6 @@ Component({
       this.setData({
         list,
         indexList,
-        _categoryList: categoryList,
       });
     },
   },

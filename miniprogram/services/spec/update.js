@@ -1,6 +1,4 @@
-import cache from './cache';
-import log from '../../common/log/log';
-import services from '../index';
+import log from '@/common/log/log';
 
 export async function update({ tag, cId, id, title }) {
   try {
@@ -18,8 +16,12 @@ export async function update({ tag, cId, id, title }) {
     if (spec) {
       spec.title = title;
     } else {
-      spec = services.spec.createSpecObject({ id, cId, title });
-      cache.setSpec(id, spec);
+      spec = {
+        _id: id,
+        cId,
+        title,
+        options: [],
+      };
     }
     log.info(tag, 'spec-update', title, data, spec);
     return spec;

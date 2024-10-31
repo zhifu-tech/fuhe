@@ -1,30 +1,23 @@
-import log from '../../common/log/log';
-import cache from './cache';
+import log from '@/common/log/log';
 
-export default async function ({ tag, saasId, id, loadFromCacheEnabled = true }) {
-  if (loadFromCacheEnabled) {
-    const cached = cache.getCategory(saasId, id);
-    if (cached) {
-      log.info(tag, 'category-get', 'hit cached', cached);
-      return cached;
-    }
-  }
+export default async function ({ tag, _id }) {
   try {
     const { data } = await wx.cloud.models.fh_category.get({
       data: {
         _id: true,
-        saasId: true,
         title: true,
       },
       filter: {
         where: {
-          _id: { $eq: id },
+          _id: { $eq: _id },
         },
       },
     });
-    log.info(tag, 'category-get', 'load from cloud', data);
-    cache.setCategory(saasId, id, data);
-    return data;
+    log.info(tag, 'category-get', data);
+    return {
+      _id: data._id,
+      title: data.title,
+    };
   } catch (error) {
     log.error(tag, 'category-get', error);
     throw error;

@@ -1,8 +1,79 @@
 
 import { DataModelMethods } from "@cloudbase/wx-cloud-client-sdk";
-interface IModalFhGoodsSpec {}
+interface IModalFhGoodsSku {
+  /**
+   * 销售价格
+   * 没有库存时，依据此价格来显示‘销售价格’
+   */
+  salePrice?: number;
+  /**
+   * spuId
+   *
+   */
+  spuId?: string;
+  /**
+   * optionIdList
+   *
+   */
+  optionIdList?: string[];
+  /**
+   * 图片
+   *
+   */
+  imageList?: string[];
+}
 
-interface IModalFhGoodsCategory {}
+interface IModalFhGoodsSpu {
+  /**
+   * saasId
+   *
+   */
+  saasId: string;
+  /**
+   * 名称
+   *
+   */
+  title: string;
+  /**
+   * 分类
+   *
+   */
+  cId?: string;
+  /**
+   * 描述
+   *
+   */
+  desc?: string;
+}
+
+interface IModalFhSpecOption {
+  /**
+   * 名称
+   *
+   */
+  title: string;
+  /**
+   * 规格
+   *
+   */
+  sId: string;
+}
+
+interface IModalFhSaas {
+  /**
+   * 标识
+   *
+   */
+  id?: string;
+}
+
+interface IModalFhOrderItem {
+  /**
+   * 数量
+   *
+   */
+  quantity?: number;
+}
 
 interface IModalFhLabel {
   /**
@@ -39,6 +110,11 @@ interface IModalFhEntity {
 
 interface IModalFhOrder {
   /**
+   * 订单编号
+   *
+   */
+  dd_id?: string;
+  /**
    * 类型
    * 0=入库单
    * 1=出库单
@@ -53,27 +129,45 @@ interface IModalFhOrder {
   status?: number;
 }
 
-interface IModalFhCategorySpec {}
-
 interface IModalFhStock {
+  /**
+   * 位置
+   *
+   */
+  locaiton?: string;
   /**
    * 数量
    *
    */
   quantity?: number;
   /**
-   * 指导价格
+   * 原价
    *
    */
-  guide_price?: number;
+  originalPrice?: number;
+  /**
+   * 销售价格
+   *
+   */
+  salePrice?: number;
   /**
    * 成本价格
    *
    */
-  cost_price?: number;
+  costPrice?: string;
+  /**
+   * skuId
+   *
+   */
+  skuId?: string;
 }
 
 interface IModalFhGoods {
+  /**
+   * 商品编号
+   *
+   */
+  sp_id?: string;
   /**
    * 商品名称
    *
@@ -91,28 +185,38 @@ interface IModalFhUnit {
 
 interface IModalFhSpec {
   /**
-   * 规格名称
+   * 标识
    *
    */
-  name: string;
+  id?: string;
+  /**
+   * 名称
+   *
+   */
+  title: string;
+  /**
+   * 分类
+   *
+   */
+  cId?: string;
 }
 
 interface IModalFhCategory {
   /**
-   * 是否启用
+   * saasId
    *
    */
-  is_enabled?: boolean;
+  saasId?: string;
   /**
-   * 类型编号
+   * 禁用
    *
    */
-  lx_id?: string;
+  disabled?: number;
   /**
-   * 分类名称
+   * 名称
    *
    */
-  name: string;
+  title: string;
 }
 
 interface IModalDmxLvuok3K {}
@@ -124,14 +228,29 @@ interface IModalSysUser {}
 interface IModels {
 
     /**
-    * 数据模型：福和商品规格
+    * 数据模型：福和商品SKU
     */ 
-    fh_goods_spec: DataModelMethods<IModalFhGoodsSpec>;
+    fh_goods_sku: DataModelMethods<IModalFhGoodsSku>;
 
     /**
-    * 数据模型：福和商品分类
+    * 数据模型：福和商品SPU
     */ 
-    fh_goods_category: DataModelMethods<IModalFhGoodsCategory>;
+    fh_goods_spu: DataModelMethods<IModalFhGoodsSpu>;
+
+    /**
+    * 数据模型：福和规格选项
+    */ 
+    fh_spec_option: DataModelMethods<IModalFhSpecOption>;
+
+    /**
+    * 数据模型：福和Saas
+    */ 
+    fh_saas: DataModelMethods<IModalFhSaas>;
+
+    /**
+    * 数据模型：福和订单条目
+    */ 
+    fh_order_item: DataModelMethods<IModalFhOrderItem>;
 
     /**
     * 数据模型：福和标签
@@ -152,11 +271,6 @@ interface IModels {
     * 数据模型：福和订单
     */ 
     fh_order: DataModelMethods<IModalFhOrder>;
-
-    /**
-    * 数据模型：福和分类规格
-    */ 
-    fh_category_spec: DataModelMethods<IModalFhCategorySpec>;
 
     /**
     * 数据模型：福和库存

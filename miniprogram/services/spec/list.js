@@ -1,14 +1,6 @@
-import cache from './cache';
-import log from '../../common/log/log';
+import log from '@/common/log/log';
 
-export default async function ({ tag, cId, loadFromCacheEnabled = true }) {
-  if (loadFromCacheEnabled) {
-    const cached = cache.getList(cId);
-    if (cached) {
-      log.info(tag, 'spec-list', 'hit cached', cached);
-      return cached;
-    }
-  }
+export default async function ({ tag, cId }) {
   try {
     const { data } = await wx.cloud.models.fh_spec.list({
       select: {
@@ -30,7 +22,6 @@ export default async function ({ tag, cId, loadFromCacheEnabled = true }) {
       pageNumber: 1,
       pageSize: 200,
     });
-    cache.setList(cId, data);
     log.info(tag, 'spec-list', data);
     return data;
   } catch (error) {

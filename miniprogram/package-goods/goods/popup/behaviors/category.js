@@ -15,7 +15,6 @@ module.exports = Behavior({
       const { records: specList } = await services.spec.list({
         tag: 'goods-spu-category',
         cId: category._id,
-        loadFromCacheEnabled: true,
       });
       // 3. 更新关联信息
       const { spu, sku } = this.data;

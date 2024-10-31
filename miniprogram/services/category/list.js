@@ -1,14 +1,6 @@
-import log from '../../common/log/log';
-import cache from './cache';
+import log from '@/common/log/log';
 
-export async function list({ tag, saasId, pageNumber, loadFromCacheEnabled = true }) {
-  if (loadFromCacheEnabled) {
-    const cached = cache.getList(saasId, pageNumber);
-    if (cached) {
-      log.info(tag, 'category-list', 'hit cached');
-      return cached;
-    }
-  }
+export async function list({ tag, saasId, pageNumber }) {
   try {
     const { data } = await wx.cloud.models.fh_category.list({
       select: {
@@ -32,9 +24,7 @@ export async function list({ tag, saasId, pageNumber, loadFromCacheEnabled = tru
       pageNumber,
       pageSize: 200,
     });
-    // 保存结果到缓存中
-    cache.setList({ saasId, data });
-    log.info(tag, 'category-list', 'load from cloud', data);
+    log.info(tag, 'category-list', data);
     return data;
   } catch (e) {
     log.error(tag, 'category-list', e);
@@ -42,14 +32,14 @@ export async function list({ tag, saasId, pageNumber, loadFromCacheEnabled = tru
   }
 }
 
-export async function all({ tag, saasId, loadFromCacheEnabled = true }) {
+export async function all({ tag, saasId }) {
   try {
     let pageNumber = 0;
     let results = [];
     let totals = 0;
     do {
       ++pageNumber;
-      const { records, total } = await list({ tag, saasId, pageNumber, loadFromCacheEnabled });
+      const { records, total } = await list({ tag, saasId, pageNumber });
       totals = total;
       results = [...results, ...records];
     } while (results.length < totals);

@@ -1,6 +1,4 @@
-import cache from '../spec/cache';
-import log from '../../common/log/log';
-import services from '../index';
+import log from '@/common/log/log';
 
 export async function deleteOption({ tag, sId, id }) {
   try {
@@ -11,7 +9,6 @@ export async function deleteOption({ tag, sId, id }) {
         },
       },
     });
-    cache.deleteSpecOption({ sId, id });
     log.info(tag, 'spec-option-delete', data);
     return data;
   } catch (error) {

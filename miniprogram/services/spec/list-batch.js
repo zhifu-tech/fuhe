@@ -1,4 +1,4 @@
-import log from '../../common/log/log';
+import log from '@/common/log/log';
 
 /**
  * Fetches a batch of product records based on the provided category IDs and a tag.

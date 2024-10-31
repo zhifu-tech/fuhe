@@ -5,12 +5,6 @@ Component({
     pureDataPattern: /^_/,
   },
   behaviors: [
-    ...require('@/common/debug/debug').behaviors({
-      tag: 'store',
-      debug: true,
-      debugLifecycle: true,
-      debugPageLifecycle: true,
-    }),
     require('mobx-miniprogram-bindings').storeBindingsBehavior,
     require('miniprogram-computed').behavior,
     require('@/common/picker/simple'),
@@ -26,15 +20,21 @@ Component({
   ],
   data: {
     tag: 'storePage',
-    saasId: '666666',
   },
   storeBindings: {
     store,
     fields: {
+      categoryList: () => store.category.categoryList,
+      categoryExtList: () => store.category.categoryExtList,
+      categorySelected: () => store.category.selected,
+      fetchCategoryListStatus: () => store.category.fetchCategoryListStatus,
       goods: () => store.goods.selected,
       fetchGoodsSpuListStatus: () => store.goods.fetchGoodsSpuListStatus,
     },
     actions: {
+      fetchCategoryList: 'fetchCategoryList',
+      switchSelectedCategory: 'switchSelectedCategory',
+
       fetchGoodsSpuList: 'fetchGoodsSpuList',
       switchSelectedGoodsSpuList: 'switchSelectedGoodsSpuList',
     },

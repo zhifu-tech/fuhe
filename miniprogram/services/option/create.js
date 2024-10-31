@@ -1,5 +1,4 @@
-import cache from '../spec/cache';
-import log from '../../common/log/log';
+import log from '@/common/log/log';
 import services from '../index';
 
 export async function create({ tag, sId, title }) {
@@ -13,9 +12,11 @@ export async function create({ tag, sId, title }) {
         },
       },
     });
-    const { id } = data;
-    const option = services.spec.createSpecOptionObject({ id, sId, title });
-    cache.setSpecOption({ sId, option });
+    const option = {
+      _id: data.id,
+      sId,
+      title,
+    };
     log.info(tag, 'spec-option-create', title, data, option);
     return option;
   } catch (error) {
@@ -44,7 +45,7 @@ export async function createMany({ tag, infoList }) {
     const { idList } = data;
     const options = idList.map((id, index) => {
       const { sId, title } = infoList[index];
-      const option = services.spec.createSpecOptionObject({ id, sId, title });
+      const option = { _id: id, sId, title };
       cache.setSpecOption({ sId, option });
       return option;
     });

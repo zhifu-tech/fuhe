@@ -2,14 +2,6 @@ import log from '@/common/log/log';
 
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
-  observers: {
-    'category.selected': function () {
-      const { goods, category } = this.data;
-      if (goods.cId !== category.selected) {
-        this.switchSelectedGoodsSpuList(category.selected);
-      }
-    },
-  },
   watch: {
     goods: function (goods) {
       if (goods.isDefault) {
@@ -19,10 +11,15 @@ module.exports = Behavior({
     fetchGoodsSpuListStatus: function (status) {
       this._updatePageStatus(status);
     },
+    categorySelected: function (categorySelected) {
+      if (this.data.goods.cId !== categorySelected) {
+        this.switchSelectedGoodsSpuList(categorySelected);
+      }
+    },
   },
   methods: {
     _initGoods: function () {
-      const { tag, goods, category } = this.data;
+      const { tag, goods, categorySelected } = this.data;
       if (this.isPageLoading()) {
         log.info(tag, '_initGoods', 'intercepted as being loading!');
         return;
@@ -30,12 +27,12 @@ module.exports = Behavior({
       this.showPageLoadingWithSkeleton();
       this.fetchGoodsSpuList({
         tag,
-        cId: category.selected,
+        cId: categorySelected,
         pageNumber: 1,
       });
     },
     loadMoreGoods: function () {
-      const { tag, goods } = this.data;
+      const { tag, goods, categorySelected } = this.data;
       if (this.isPageLoading()) {
         log.info(tag, 'loadMoreGoods', 'intercepted as being loading!');
         return;
@@ -47,12 +44,12 @@ module.exports = Behavior({
       this.showPageLoadingWithMore();
       this.fetchGoodsSpuList({
         tag,
-        cId: category.selected,
+        cId: categorySelected,
         pageNumber: goods.pageNumber + 1,
       });
     },
     pullDownRefresh: function () {
-      const { tag, goods, category } = this.data;
+      const { tag, goods, categorySelected } = this.data;
       if (this.isPageLoading()) {
         log.info(tag, 'pullDownRefresh', 'intercepted as being loading!');
         return;
@@ -60,7 +57,7 @@ module.exports = Behavior({
       this.showPageLoadingWithPullDown();
       this.fetchGoodsSpuList({
         tag,
-        cId: category.selected,
+        cId: categorySelected,
         pageNumber: 1,
       });
     },

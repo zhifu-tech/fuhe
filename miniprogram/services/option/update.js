@@ -1,6 +1,4 @@
-import cache from '../spec/cache';
-import log from '../../common/log/log';
-import services from '../index';
+import log from '@/common/log/log';
 
 export async function update({ tag, sId, id, title }) {
   try {
@@ -14,15 +12,8 @@ export async function update({ tag, sId, id, title }) {
         },
       },
     });
-    let option = cache.getSpecOption({ sId, id });
-    if (option) {
-      option.title = title;
-    } else {
-      option = services.spec.createSpecOptionObject({ id, sId, title });
-      cache.setSpecOption(id, option);
-    }
-    log.info(tag, 'spec-option-update', title, data, option);
-    return option;
+    log.info(tag, 'spec-option-update', data);
+    return data;
   } catch (error) {
     log.error(tag, 'spec-option-update', error);
     throw error;

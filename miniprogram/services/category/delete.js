@@ -1,17 +1,19 @@
-import log from '../../common/log/log';
-import cache from './cache';
+import log from '@/common/log/log';
 
-export default async function ({ tag, saasId, id }) {
+export default async function ({ tag, _id }) {
   try {
     const { data } = await wx.cloud.models.fh_category.delete({
       filter: {
         where: {
-          _id: { $eq: id },
+          $and: [
+            {
+              _id: { $eq: _id },
+            },
+          ],
         },
       },
     });
     log.info(tag, 'category-delete', data);
-    cache.deleteCategory(saasId, id);
     return data;
   } catch (error) {
     log.error(tag, 'category-delete', error);

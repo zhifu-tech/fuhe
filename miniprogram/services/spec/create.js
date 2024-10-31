@@ -1,6 +1,4 @@
-import cache from './cache';
-import log from '../../common/log/log';
-import services from '../index';
+import log from '@/common/log/log';
 
 export async function create({ tag, cId, title }) {
   try {
@@ -10,10 +8,13 @@ export async function create({ tag, cId, title }) {
         title,
       },
     });
-    const { id } = data;
-    const spec = services.spec.createSpecObject({ id, cId, title });
-    cache.setSpec(id, spec);
-    log.info(tag, 'spec-create', title, data, spec);
+    const spec = {
+      _id: data.id,
+      cId,
+      title,
+      options: [],
+    };
+    log.info(tag, 'spec-create', data, spec);
     return spec;
   } catch (error) {
     log.error(tag, 'spec-create', error);
@@ -38,8 +39,12 @@ export async function createMany({ tag, cId, titles }) {
     const { idList } = data;
     const specs = idList.map((id, index) => {
       const title = titles[index];
-      const spec = services.spec.createSpecObject({ id, cId, title });
-      cache.setSpec(id, spec);
+      const spec = {
+        _id: id,
+        cId,
+        title,
+        options: [],
+      };
       return spec;
     });
     log.info(tag, 'spec-createMany', titles, data, specs);

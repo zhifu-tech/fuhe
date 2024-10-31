@@ -1,5 +1,4 @@
-import cache from './cache';
-import log from '../../common/log/log';
+import log from '@/common/log/log';
 
 export async function deleteSpec({ tag, id }) {
   try {
@@ -10,7 +9,6 @@ export async function deleteSpec({ tag, id }) {
         },
       },
     });
-    cache.deleteSpec(id);
     log.info(tag, 'spec-delete', data);
     return data;
   } catch (error) {

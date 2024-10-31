@@ -36,7 +36,6 @@ module.exports = Behavior({
           option._id = res[index]._id;
           option.sId = res[index].sId;
         });
-        this.setHasChanged();
       }
     },
     handleSpecOptionsUpdate: async function () {
@@ -63,7 +62,6 @@ module.exports = Behavior({
           infoList: list,
         });
         log.info(tag, 'handleSpecOptionsUpdate', res);
-        this.setHasChanged();
       }
     },
     handleSpecOptionsDelete: async function () {
@@ -97,7 +95,6 @@ module.exports = Behavior({
           ids: list,
         });
         log.info(tag, 'handleSpecOptionsDelete', res);
-        this.setHasChanged();
       }
     },
   },

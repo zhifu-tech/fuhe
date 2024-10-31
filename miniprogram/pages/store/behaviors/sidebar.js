@@ -1,14 +1,9 @@
-import services from '@/services/index';
 import log from '@/common/log/log';
+import store from '@/stores/store';
 
 module.exports = Behavior({
   data: {
     showSideBar: true,
-    foldBtnProps: {
-      theme: 'default',
-      size: 'large',
-      variant: 'text',
-    },
   },
   lifetimes: {
     attached: function () {
@@ -28,50 +23,30 @@ module.exports = Behavior({
     },
     onSideBarChange: function (e) {
       const { value: selected } = e.detail;
-      if (selected === services.category.addCategoryId) {
+      if (selected === store.category.categoryAdd._id) {
         require('@/package-goods/category/popup/popup.js', (popup) => {
-          popup.show(this, {
-            close: ({ hasChanged, category: added }) => {
-              if (hasChanged) {
-                this.addCategory(added);
-              }
-            },
-          });
+          popup.show(this, {});
         }, ({ mod, errMsg }) => {
           console.error(`path: ${mod}, ${errMsg}`);
         });
       } else {
-        this.setData({
-          'category.selected': selected,
-        });
+        this.switchSelectedCategory(selected);
       }
     },
     onSideBarItemLongPress: async function (e) {
-      const { tag, saasId } = this.data;
+      const { tag } = this.data;
       const { id: cId } = e.currentTarget.dataset;
-      if (cId === services.category.allCategoryId) {
-        log.info(tag, 'all category is not support long press');
-      } else {
-        const args = {
-          close: ({ hasChanged, category: updated }) => {
-            if (hasChanged) {
-              this.updateCategory(updated);
-            }
-          },
-        };
-        try {
-          const [categoryRes, specsRes] = await Promise.all([
-            services.category.get({ tag, saasId, id: cId }),
-            services.spec.list({ tag, saasId, cId }),
-          ]);
-          args.category = categoryRes;
-          args.specs = specsRes.records;
-        } catch (error) {
-          log.error(tag, 'showPopup', error);
-          return;
-        }
+      if (cId === store.category.categoryAdd._id) {
         require('@/package-goods/category/popup/popup.js', (popup) => {
-          popup.show(this, args);
+          popup.show(this, {});
+        }, ({ mod, errMsg }) => {
+          console.error(`path: ${mod}, ${errMsg}`);
+        });
+      } else if (cId === store.category.categoryAll._id) {
+        this.switchSelectedCategory(cId);
+      } else {
+        require('@/package-goods/category/popup/popup.js', (popup) => {
+          popup.show(this, { cId });
         }, ({ mod, errMsg }) => {
           console.error(`path: ${mod}, ${errMsg}`);
         });

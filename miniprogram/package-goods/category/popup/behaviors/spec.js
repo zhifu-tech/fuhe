@@ -4,8 +4,6 @@ import services from '@/services/index';
 /** 新增规格 */
 module.exports = Behavior({
   data: {
-    specs: [],
-    _specs: [],
     specsChanged: false,
     specInputVisible: false,
   },
@@ -96,7 +94,6 @@ module.exports = Behavior({
           spec._id = specRes._id;
           spec.cId = specRes.cId;
         });
-        this.setHasChanged();
       }
     },
     _handleSpecsUpdate: async function () {
@@ -118,7 +115,6 @@ module.exports = Behavior({
       if (list.length > 0) {
         const res = await services.spec.updateMany({ tag, cId, infoList: list });
         log.info(tag, '_handleSpecsUpdate', res);
-        this.setHasChanged();
       }
     },
     _handleSpecsDelete: async function () {
@@ -131,7 +127,6 @@ module.exports = Behavior({
       if (list.length > 0) {
         const res = await services.spec.deleteMany({ tag, ids: list });
         log.info(tag, '_handleSpecsDelete', res);
-        this.setHasChanged();
       }
     },
     handleSpecDeleteAll: async function () {
@@ -149,7 +144,6 @@ module.exports = Behavior({
       if (sIds.length === 0 && oIds.length === 0) {
         return Promise.resolve();
       }
-      this.setHasChanged();
       const promises = [];
       if (sIds.length > 0) {
         promises.push(

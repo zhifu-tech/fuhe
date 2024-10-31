@@ -13,7 +13,6 @@ module.exports = Behavior({
   },
   watch: {
     cartSkuSumInfo: function (info) {
-      log.info('watch cartSkuSumInfo', info);
       this.updateSummary(info);
     },
   },
@@ -64,7 +63,6 @@ module.exports = Behavior({
         notifyData['summary.originalQuantity'] = originalQuantity;
       }
       this.setData(notifyData);
-      log.info(tag, 'updateSummary', sumInfo, notifyData);
     },
     handleSummaryCartChangeEvent: function (e) {
       log.info('handleSummaryCartChangeEvent', e);

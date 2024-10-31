@@ -36,11 +36,11 @@ module.exports = Behavior({
         log.info(tag, 'onEditSpecEvent', title, spec);
       } else {
         this.data.specsAddedCount++;
-        const added = services.spec.createSpecObject({
-          id: `-${this.data.specsAddedCount}`,
+        const added = {
+          _id: `-${this.data.specsAddedCount}`,
           cId: category._id,
           title,
-        });
+        };
         added.editable = true;
         specs.push(added);
         this.setData({

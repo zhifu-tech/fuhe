@@ -1,11 +1,11 @@
 import log from '@/common/log/log';
+import { saasId } from '@/common/saas/saas';
 import services from '@/services/index';
+import store from '@/stores/store';
 
 /** 分类共有行为 */
 module.exports = Behavior({
   data: {
-    category: {},
-    _category: {},
     categoryChanged: false,
   },
   observers: {
@@ -32,46 +32,27 @@ module.exports = Behavior({
     },
     /** 处理 catgory 改变的数据 */
     handleCategoryChanged: async function () {
-      const { tag, saasId, category, _category } = this.data;
-      // 新增分类
-      if (category._id === '0') {
-        const categoryAdd = await services.category.create({
+      const { tag, category } = this.data;
+      if (category._id === store.category.categoryAdd._id) {
+        await services.category.createCategory({
           tag,
-          saasId,
-          title: category.title,
+          draft: category,
         });
-        category._id = categoryAdd._id;
-        category.isAdded = true;
-        // 更新原始数据
-        _category = { ...category };
-        this.setHasChanged();
         return category;
-      }
-      // 修改分类
-      else {
-        const result = await services.category.update({
+      } else {
+        await services.category.updateCategory({
           tag,
-          saasId,
-          id: category._id,
-          title: category.title,
+          category,
         });
-        category.isChanged = true;
-        // 更新原始数据
-        _category.title = category.title;
-        this.setHasChanged();
         return category;
       }
     },
     handleCategoryDelete: async function () {
-      const { tag, saasId, category, _category } = this.data;
+      const { tag, category } = this.data;
       await services.category.deleteCategory({
         tag,
-        saasId,
-        id: category._id,
+        category,
       });
-      category.isDeleted = true;
-      _category.isDeleted = true;
-      this.setHasChanged();
       return category;
     },
   },

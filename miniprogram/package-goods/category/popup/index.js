@@ -1,15 +1,11 @@
 import log from '@/common/log/log';
 const { saasId } = require('@/common/saas/saas');
 import pages from '@/common/page/pages';
+import store from '@/stores/store';
 
 Component({
   behaviors: [
-    ...require('@/common/debug/debug').behaviors({
-      tag: 'category-popup',
-      debug: true,
-      debugLifecycle: true,
-      debugPageLifecycle: true,
-    }),
+    require('mobx-miniprogram-bindings').storeBindingsBehavior,
     require('./behaviors/header'),
     require('./behaviors/category'),
     require('./behaviors/category-delete'),
@@ -36,25 +32,72 @@ Component({
   },
   data: {
     tag: 'category-popup',
-    saasId: '',
-    _hasChanged: false,
-    _close: () => null,
+  },
+  storeBindings: {
+    store,
+    fields: {
+      _category: function () {
+        // 记录原始信息，不可修改
+        const { cId } = this.properties.options;
+        if (cId) {
+          const category = store.category.getCategory(cId);
+          return category || {};
+        } else {
+          return {};
+        }
+      },
+      category: function () {
+        // 为传入数据的拷贝，可以修改，最后提交
+        const { cId } = this.properties.options;
+        if (cId) {
+          const category = store.category.getCategory(cId) || {};
+          return { ...category };
+        } else {
+          return {};
+        }
+      },
+      _specs: function () {
+        // 记录原始信息，不可修改
+        const { cId } = this.properties.options;
+        if (cId) {
+          const specs = store.spec.getSpecList(cId);
+          if (!specs) {
+            store.spec.fetchSpecList(cId);
+          }
+          return specs || [];
+        } else {
+          return [];
+        }
+      },
+      specs: function () {
+        // 为传入数据的拷贝，可以修改，最后提交
+        const { cId } = this.properties.options;
+        if (cId) {
+          const specList = store.spec.getSpecList(cId) || [];
+          return [...specList];
+        } else {
+          return [];
+        }
+      },
+    },
+    actions: {
+      addCategory: 'addCategory',
+      deleteCategory: 'deleteCategory',
+      updateCategory: 'updateCategory',
+      getSpecList: 'getSpecList',
+    },
   },
   observers: {
     options: function (options) {
-      this.show(options);
+      if (!options.destroy) {
+        this.show(options);
+      }
     },
   },
   methods: {
-    show: function ({ category, specs, close }) {
+    show: function () {
       this.setData({
         saasId: saasId(),
-        _category: category ?? {}, // 记录原始信息，不可修改
-        category: category ? { ...category } : {}, // 需要浅拷贝，可以修改
-        _specs: specs ?? [], // 记录原始信息，不可修改
-        specs: specs ? [...specs] : [], // 需要浅拷贝，可以修改
-        _hasChanged: false,
-        _close: close ?? (() => null),
       });
       this._popup((popup) => {
         popup.setData({
@@ -73,24 +116,11 @@ Component({
             visible: false,
           });
         }
-        const { _close, _hasChanged, _category } = this.data;
-        _close({
-          hasChanged: _hasChanged,
-          category: _category,
-        });
+        this.data.options?.close?.();
         this.setData({
-          category: {},
-          _category: {},
-          specs: [],
-          _specs: [],
-          saasId: null,
-          _hasChanged: false,
-          _close: () => null,
+          options: { destroy: true },
         });
       });
-    },
-    setHasChanged() {
-      this.data._hasChanged = true;
     },
     _popup(callback) {
       callback(this.selectComponent('#popup'));
