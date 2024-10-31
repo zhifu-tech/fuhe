@@ -1,4 +1,5 @@
 import log from '@/common/log/log';
+import store from '@/stores/store';
 
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
@@ -10,11 +11,10 @@ module.exports = Behavior({
   },
   watch: {
     categorySelected: function (selected) {
-      log.info('category-2', 'watch', 'categorySelected', selected);
       const { categoryList } = this.data;
       if (categoryList.length === 0) {
         // 未加载过分类列表时，先加载分类列表
-        this.fetchCategoryList({ tag: 'store-category' });
+        store.category.fetchCategoryList({ tag: 'store-category' });
       }
     },
   },

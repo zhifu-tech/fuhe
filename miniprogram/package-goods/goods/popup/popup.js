@@ -5,27 +5,26 @@ export function showGoodsAddSpuPopup(context, { callback }) {
   });
 }
 
-export function showGoodsEditSpuPopup(context, { spu, callback }) {
+export function showGoodsEditSpuPopup(context, { spuId, callback }) {
   show(context, {
     isModeEditSpu: true,
-    spu,
+    spuId,
     callback,
   });
 }
 
-export function showGoodsAddSkuPopup(context, { spu, sku }) {
+export function showGoodsAddSkuPopup(context, { spuId }) {
   show(context, {
     isModeAddSku: true,
-    spu,
-    sku,
+    spuId,
   });
 }
 
-export function showGoodsEditSkuPopup(context, { spu, sku, callback }) {
+export function showGoodsEditSkuPopup(context, { spuId, skuId, callback }) {
   show(context, {
     isModeEditSku: true,
-    spu,
-    sku,
+    spuId,
+    skuId,
     callback,
   });
 }

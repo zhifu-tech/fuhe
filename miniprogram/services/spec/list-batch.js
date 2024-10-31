@@ -43,9 +43,16 @@ export default async function ({ tag, cIdList }) {
       totals = total;
       results = [...results, ...records];
     } while (results.length < totals);
-    log.info(tag, 'spec-list-batch', totals, totals === results.length);
 
-    return { records: results, total: results.length };
+    // 将连续的results，按照cId进行分段，并添加到 map中
+    const specListMap = new Map();
+    for (let i = 0, j = 0; j < results.length; i = j) {
+      const cId = results[i].cId;
+      while (j < results.length && results[j].cId === cId) j++;
+      specListMap.set(cId, results.slice(i, j));
+    }
+    log.info(tag, 'spec-list-batch', totals, specListMap);
+    return specListMap;
   } catch (error) {
     log.error(tag, 'spec-list-batch', error);
     throw error;

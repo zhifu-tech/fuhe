@@ -1,4 +1,4 @@
-const { default: services } = require('@/services/index');
+import services from '@/services/index';
 
 module.exports = Behavior({
   methods: {
@@ -12,7 +12,7 @@ module.exports = Behavior({
     },
     _handleUpdateSpuCategory: async function (category) {
       // 2. 加载规格信息
-      const { records: specList } = await services.spec.list({
+      const { records: specList } = await services.spec.getSpecList({
         tag: 'goods-spu-category',
         cId: category._id,
       });

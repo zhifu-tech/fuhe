@@ -1,4 +1,5 @@
 import log from '@/common/log/log';
+import store from '@/stores/store';
 
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
@@ -13,7 +14,7 @@ module.exports = Behavior({
     },
     categorySelected: function (categorySelected) {
       if (this.data.goods.cId !== categorySelected) {
-        this.switchSelectedGoodsSpuList(categorySelected);
+        store.goods.switchSelectedGoodsSpuList(categorySelected);
       }
     },
   },
@@ -25,7 +26,7 @@ module.exports = Behavior({
         return;
       }
       this.showPageLoadingWithSkeleton();
-      this.fetchGoodsSpuList({
+      store.goods.fetchGoodsSpuList({
         tag,
         cId: categorySelected,
         pageNumber: 1,
@@ -42,7 +43,7 @@ module.exports = Behavior({
         return;
       }
       this.showPageLoadingWithMore();
-      this.fetchGoodsSpuList({
+      store.goods.fetchGoodsSpuList({
         tag,
         cId: categorySelected,
         pageNumber: goods.pageNumber + 1,
@@ -55,7 +56,7 @@ module.exports = Behavior({
         return;
       }
       this.showPageLoadingWithPullDown();
-      this.fetchGoodsSpuList({
+      store.goods.fetchGoodsSpuList({
         tag,
         cId: categorySelected,
         pageNumber: 1,

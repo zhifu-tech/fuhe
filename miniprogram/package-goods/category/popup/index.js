@@ -1,7 +1,7 @@
 import log from '@/common/log/log';
-const { saasId } = require('@/common/saas/saas');
 import pages from '@/common/page/pages';
 import store from '@/stores/store';
+import services from '@/services/index';
 
 Component({
   behaviors: [
@@ -62,7 +62,7 @@ Component({
         if (cId) {
           const specs = store.spec.getSpecList(cId);
           if (!specs) {
-            store.spec.fetchSpecList(cId);
+            services.spec.getSpecList({ tag: 'category-popup', cId });
           }
           return specs || [];
         } else {
@@ -80,12 +80,6 @@ Component({
         }
       },
     },
-    actions: {
-      addCategory: 'addCategory',
-      deleteCategory: 'deleteCategory',
-      updateCategory: 'updateCategory',
-      getSpecList: 'getSpecList',
-    },
   },
   observers: {
     options: function (options) {
@@ -95,10 +89,8 @@ Component({
     },
   },
   methods: {
-    show: function () {
-      this.setData({
-        saasId: saasId(),
-      });
+    show: function (options) {
+      this.setData({ ...options });
       this._popup((popup) => {
         popup.setData({
           visible: true,

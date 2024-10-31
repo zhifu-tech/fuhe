@@ -1,51 +1,84 @@
 import log from '@/common/log/log';
-import services from '@/services/index';
-import { saasId } from '@/common/saas/saas';
-import { observable, action, flow } from 'mobx-miniprogram';
+import { observable, action } from 'mobx-miniprogram';
 
 export default (function store() {
   return observable({
-    //*****************
-    // [START] 规格列表
-    //*****************
     specListMap: new Map(), // map<cId, specList>
 
-    fetchSpecListStatus: { code: 'idle' }, // 'loading', 'success', 'error'
-    _fetchSpecListTask: null, // 记录当前正在进行的请求
-
-    fetchSpecList: action(function (cId) {
-      if (this._fetchSpecListTask) {
-        this._fetchSpecListTask.cancel();
-      }
-      this.fetchSpecListStatus = { code: 'loading' };
-      this._fetchSpecListTask = this._fetchSpecList(cId);
-      return this._fetchSpecListTask;
-    }),
-    _fetchSpecList: flow(function* (cId) {
-      try {
-        const { records: specList } = yield services.spec.list({
-          cId,
-          saasId: saasId(),
-        });
-
-        this.specListMap.set(cId, specList);
-        this.fetchSpecListStatus = { code: 'success' };
-
-        log.info('spec-store', '_fetchSpecList result', specList);
-      } catch (error) {
-        log.error(error);
-        this.fetchSpecListStatus = { code: 'error' };
-      }
-    }),
-    //*****************
-    // [END] 规格列表
-    //*****************
-
-    //*****************
-    // [START] 规格操作
-    //*****************
     getSpecList: function (cId) {
       return this.specListMap.get(cId);
     },
+    setSpecList: action(function (cId, specList) {
+      this.specListMap.set(cId, specList);
+    }),
+    addSpecList: action(function (cId, specList) {
+      const list = this.specListMap.get(cId) || [];
+      list.push(...specList);
+      this.specListMap.set(cId, list);
+    }),
+    updateSpecList: action(function (cId, specList) {
+      const list = this.specListMap.get(cId) || [];
+      list.forEach((spec) => {
+        const updated = specList.find(({ _id }) => _id === spec._id);
+        spec.title = (updated && updated.title) || spec.title;
+      });
+      this.specListMap.set(cId, list);
+    }),
+    deleteSpecList: action(function (cId, specIdList) {
+      const list = this.specListMap.get(cId);
+      if (!list) return;
+      specIdList.forEach((specId) => {
+        const index = list.findIndex((spec) => spec._id === specId);
+        if (index !== -1) {
+          list.splice(index, 1);
+        }
+      });
+      this.specListMap.set(cId, list);
+    }),
+
+    addSpecOptionList: action(function ({ cId, optionList }) {
+      const specList = this.specListMap.get(cId);
+      if (!specList) return;
+      optionList.forEach((option) => {
+        const spec = specList.find((it) => it._id === option.sId);
+        if (!spec) return;
+        spec.optionList = spec.optionList || [];
+        const index = spec.optionList.findIndex(({ _id }) => _id === option._id) || -1;
+        if (index !== -1) {
+          spec.optionList[index] = option;
+        } else {
+          spec.optionList.push(option);
+        }
+      });
+      this.specListMap.set(cId, specList);
+    }),
+    updateSpecOptionList: action(function ({ cId, optionList }) {
+      const specList = this.specListMap.get(cId);
+      if (!specList) return;
+      optionList.forEach((option) => {
+        const spec = specList.find((it) => it._id === option.sId);
+        if (!spec) return;
+        spec.optionList = spec.optionList || [];
+        const index = spec.optionList.findIndex(({ _id }) => _id === option.oId) || -1;
+        if (index !== -1) {
+          spec.optionList[index] = option;
+        } else {
+          spec.optionList.push(option);
+        }
+      });
+      this.specListMap.set(cId, specList);
+    }),
+    deleteSpecOptionList: action(function ({ cId, specOptionIdList }) {
+      const specList = this.specListMap.get(cId);
+      if (!specList) return;
+      specOptionIdList.forEach(({ sId, oId }) => {
+        const sIndex = specList.findIndex(({ _id }) => _id === sId);
+        if (sIndex === -1) return;
+        const oIndex = specList[sIndex].optionList?.findIndex(({ _id }) => _id === oId) || -1;
+        if (oIndex === -1) return;
+        specList[sIndex].optionList.splice(oIndex, 1);
+      });
+      this.specListMap.set(cId, specList);
+    }),
   });
 })();

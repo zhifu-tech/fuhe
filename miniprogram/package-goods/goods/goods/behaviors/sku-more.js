@@ -47,9 +47,9 @@ module.exports = Behavior({
     },
     _handleEditSpu: function () {
       require('@/package-goods/goods/popup/popup.js', (popup) => {
-        const { spu } = this.data;
+        const { spu, spuId } = this.data;
         popup.showGoodsEditSpuPopup(pages.currentPage(), {
-          spu,
+          spuId,
           callback: () => {
             this.setData({
               spu,
@@ -61,11 +61,11 @@ module.exports = Behavior({
       });
     },
     _handleEditSku: function () {
-      const { spu, sku } = this.data;
+      const { spu, sku, spuId, skuId } = this.data;
       require('@/package-goods/goods/popup/popup.js', (popup) => {
         popup.showGoodsEditSkuPopup(pages.currentPage(), {
-          spu,
-          sku,
+          spuId,
+          skuId,
           callback: () => {
             this.setData({
               sku,
@@ -77,10 +77,10 @@ module.exports = Behavior({
       });
     },
     _handleAddSku: function () {
-      const { spu } = this.data;
+      const { spu, spuId } = this.data;
       require('@/package-goods/goods/popup/popup.js', (popup) => {
         popup.showGoodsAddSkuPopup(pages.currentPage(), {
-          spu,
+          spuId,
           callback: () => {
             this.setData({
               spu,

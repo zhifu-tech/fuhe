@@ -88,7 +88,7 @@
           catch:action="onSpecInputAction"
         />
         <view class="options">
-          <block wx:for="{{spec.options}}" wx:for-item="option" wx:key="_id">
+          <block wx:for="{{spec.optionList}}" wx:for-item="option" wx:key="_id">
             <t-tag
               data-option="{{option}}"
               closable

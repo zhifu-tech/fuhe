@@ -16,6 +16,8 @@ module.exports = Behavior({
       const { sku, _sku } = this.data;
       // 如果数据发生变化，则开启提交
       const submitDisabled =
+        sku.imageList &&
+        _sku.imageList &&
         sku.imageList.length === _sku.imageList.length &&
         sku.imageList.every((img, index) => {
           const srcImage = _sku.imageList[index];

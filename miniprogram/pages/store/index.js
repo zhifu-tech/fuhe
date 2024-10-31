@@ -31,12 +31,5 @@ Component({
       goods: () => store.goods.selected,
       fetchGoodsSpuListStatus: () => store.goods.fetchGoodsSpuListStatus,
     },
-    actions: {
-      fetchCategoryList: 'fetchCategoryList',
-      switchSelectedCategory: 'switchSelectedCategory',
-
-      fetchGoodsSpuList: 'fetchGoodsSpuList',
-      switchSelectedGoodsSpuList: 'switchSelectedGoodsSpuList',
-    },
   },
 });

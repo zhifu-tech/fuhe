@@ -1,11 +1,11 @@
 import log from '@/common/log/log';
 
-export async function deleteSpec({ tag, id }) {
+export async function deleteSpec({ tag, _id }) {
   try {
     const { data } = await wx.cloud.models.fh_spec.delete({
       filter: {
         where: {
-          _id: { $eq: id },
+          _id: { $eq: _id },
         },
       },
     });
@@ -16,16 +16,14 @@ export async function deleteSpec({ tag, id }) {
     throw error;
   }
 }
-export async function deleteMany({ tag, ids }) {
-  if (ids.length === 1) {
-    log.info(tag, 'spec-deleteMany', 'use delete instead');
-    const id = ids[0];
-    const res = this.deleteSpec({ tag, id });
+export async function deleteMany({ tag, _ids }) {
+  if (_ids.length === 1) {
+    const res = deleteSpec({ tag, _id: _ids[0] });
     return [res];
   }
   try {
-    const res = await Promise.all(ids.map((id) => this.deleteSpec({ tag, id })));
-    log.info(tag, 'spec-deleteMany', ids, res);
+    const res = await Promise.all(_ids.map((_id) => deleteSpec({ tag, _id })));
+    log.info(tag, 'spec-deleteMany', _ids, res);
     return res;
   } catch (error) {
     log.error(tag, 'spec-deleteMany', error);

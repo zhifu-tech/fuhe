@@ -1,5 +1,6 @@
-const { default: log } = require('@/common/log/log');
-const { default: pages } = require('@/common/page/pages');
+import store from '@/stores/store';
+import log from '@/common/log/log';
+import pages from '@/common/page/pages';
 
 Component({
   options: {
@@ -12,6 +13,8 @@ Component({
       debug: true,
       debugLifecycle: true,
     }),
+    require('mobx-miniprogram-bindings').storeBindingsBehavior,
+    require('miniprogram-computed').behavior,
     require('./behaviors/submit'),
     require('./behaviors/spu'),
     require('./behaviors/spu-submit-add'),
@@ -41,12 +44,62 @@ Component({
     isModeEditSku: false,
     isModeEditStock: false,
     isModeEditStockSuper: false,
-    _close: () => null,
-    _callback: () => null,
+  },
+  storeBindings: {
+    store,
+    fields: {
+      _spu: function () {
+        const { spuId } = this.properties.options;
+        if (spuId) {
+          return store.goods.getSpu(spuId) || {};
+        }
+        return {};
+      },
+      spu: function () {
+        const { spuId } = this.properties.options;
+        if (spuId) {
+          const spu = store.goods.getSpu(spuId) || {};
+          return { ...spu };
+        }
+        return {};
+      },
+      _sku: function () {
+        const { spuId, skuId } = this.properties.options;
+        if (spuId && skuId) {
+          return store.goods.getSku(spuId, skuId) || {};
+        }
+        return {};
+      },
+      sku: function () {
+        const { spuId, skuId } = this.properties.options;
+        if (spuId && skuId) {
+          const sku = store.goods.getSku(spuId, skuId) || {};
+          return { ...sku };
+        }
+        return {};
+      },
+      _stock: function () {
+        const { spuId, skuId, stockId } = this.properties.options;
+        if (spuId && skuId && stockId) {
+          return store.goods.getStock(spuId, skuId, stockId) || {};
+        }
+        return {};
+      },
+      stock: function () {
+        const { spuId, skuId, stockId } = this.properties.options;
+        if (spuId && skuId && stockId) {
+          const stock = store.goods.getStock(spuId, skuId, stockId) || {};
+          return { ...stock };
+        }
+        return {};
+      },
+    },
   },
   observers: {
     options: function (options) {
-      this.show(options);
+      if (!options.destroy) {
+        this.show(options);
+      }
     },
   },
   methods: {
@@ -57,27 +110,27 @@ Component({
       isModeEditSku = false,
       isModeEditStock = false,
       isModeEditStockSuper = false,
-      spu,
-      sku,
-      stock,
-      close,
-      callback,
+      // spu,
+      // sku,
+      // stock,
+      // close,
+      // callback,
     }) {
-      log.info('goods-popup show', {
-        isModeAddSpu,
-        isModeEditSpu,
-        isModeAddSku,
-        isModeEditSku,
-        isModeEditStock,
-        isModeEditStockSuper,
-        spu,
-        sku,
-        stock,
-      });
-      this.initSpu(spu);
-      this.initSku(sku);
-      this.initStock(stock ?? {});
-      this.initOptions();
+      // log.info('goods-popup show', {
+      //   isModeAddSpu,
+      //   isModeEditSpu,
+      //   isModeAddSku,
+      //   isModeEditSku,
+      //   isModeEditStock,
+      //   isModeEditStockSuper,
+      //   spu,
+      //   sku,
+      //   stock,
+      // });
+      // this.initSpu(spu);
+      // this.initSku(sku);
+      // this.initStock(stock ?? {});
+      // this.initOptions();
       this.setData({
         isModeAddSpu,
         isModeEditSpu,
@@ -85,11 +138,11 @@ Component({
         isModeEditSku,
         isModeEditStock,
         isModeEditStockSuper,
-        spu: this.data.spu,
-        sku: this.data.sku,
-        stock: this.data.stock,
-        _close: close ?? (() => null),
-        _callback: callback ?? (() => null),
+        // spu: this.data.spu,
+        // sku: this.data.sku,
+        // stock: this.data.stock,
+        // _close: close ?? (() => null),
+        // _callback: callback ?? (() => null),
       });
       this._popup((popup) => {
         popup.setData({
@@ -104,28 +157,17 @@ Component({
     hide: function () {
       this._popup((popup) => {
         if (popup.data.visible) {
-          popup.setData({
-            visible: false,
-          });
+          popup.setData({ visible: false });
         }
-        this.data._close();
+        this.data.options?.close?.();
         this.setData({
-          isModeAddSpu: false,
-          isModeEditSpu: false,
-          isModeAddSku: false,
-          isModeEditSku: false,
-          isModeEditStock: false,
-          isModeEditStockSuper: false,
-          spu: {},
-          sku: {},
-          stock: {},
-          _close: () => null,
-          _callback: () => null,
+          options: { destroy: true },
         });
       });
     },
     notify: function () {
-      this.data._callback();
+      this.options?.callback?.();
+      // this.data._callback();
     },
     _popup: function (callback) {
       callback(this.selectComponent('#popup'));

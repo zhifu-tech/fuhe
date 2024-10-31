@@ -30,7 +30,7 @@ module.exports = Behavior({
           console.error(`path: ${mod}, ${errMsg}`);
         });
       } else {
-        this.switchSelectedCategory(selected);
+        store.category.switchSelectedCategory(selected);
       }
     },
     onSideBarItemLongPress: async function (e) {
@@ -43,7 +43,7 @@ module.exports = Behavior({
           console.error(`path: ${mod}, ${errMsg}`);
         });
       } else if (cId === store.category.categoryAll._id) {
-        this.switchSelectedCategory(cId);
+        store.category.switchSelectedCategory(cId);
       } else {
         require('@/package-goods/category/popup/popup.js', (popup) => {
           popup.show(this, { cId });

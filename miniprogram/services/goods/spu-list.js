@@ -1,6 +1,6 @@
 import log from '@/common/log/log';
 import store from '@/stores/store';
-import services from '../index';
+import services from '@/services/index';
 
 export default async function ({ tag, cId, pageNumber, pageSize }) {
   const params = {
@@ -59,24 +59,9 @@ const _handleSpuSpecList = async function (tag, spuList) {
     if (cId) cIdSet.add(cId);
   });
   const cIdList = Array.from(cIdSet);
-  const { records: specList } = await services.spec.listBatch({
-    tag,
-    cIdList,
-  });
+  const cIdSpecListMap = await services.spec.getSpecListBatch({ tag, cIdList });
   spuList.forEach((spu) => {
-    spu.specList = [];
-    let index = 0;
-    // 遍历找到第一个匹配的 cId
-    while (index < specList.length && specList[index].cId !== spu.cId) index++;
-    if (index >= specList.length) return;
-    const startIndex = index;
-    // 添加所有匹配的规格记录
-    while (index < specList.length && specList[index].cId === spu.cId) {
-      spu.specList.push(specList[index]);
-      index++;
-    }
-    // 移除已经添加的记录
-    cIdList.splice(startIndex, index - startIndex);
+    spu.specList = cIdSpecListMap.get(spu.cId) || [];
   });
 };
 

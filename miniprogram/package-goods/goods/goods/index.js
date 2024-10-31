@@ -41,9 +41,5 @@ Component({
         return store.cart.getCartSkuSumInfo(this.properties.skuId) || {};
       },
     },
-    actions: {
-      getStock: 'getStock',
-      handleCartChange: 'handleCartChange',
-    },
   },
 });

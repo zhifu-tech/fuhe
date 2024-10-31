@@ -9,27 +9,7 @@ configure({
 });
 export default {
   category,
-  // actions
-  fetchCategoryList: category.fetchCategoryList.bind(category),
-  switchSelectedCategory: category.switchSelectedCategory.bind(category),
-  addCategory: category.addCategory.bind(category),
-  deleteCategory: category.deleteCategory.bind(category),
-  updateCategory: category.updateCategory.bind(category),
-
   spec,
-  // actions
-  fetchSpecList: spec.fetchSpecList.bind(spec),
-
   goods,
-  // actions
-  getSpu: goods.getSpu.bind(goods),
-  getSku: goods.getSku.bind(goods),
-  getStock: goods.getStock.bind(goods),
-  fetchGoodsSpuList: goods.fetchGoodsSpuList.bind(goods),
-  switchSelectedGoodsSpuList: goods.switchSelectedGoodsSpuList.bind(goods),
-
   cart,
-  // actions
-  handleCartChange: cart.handleCartChange.bind(cart),
-  getCartSkuSumInfo: cart.getCartSkuSumInfo.bind(cart),
 };

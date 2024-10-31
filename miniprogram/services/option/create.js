@@ -1,5 +1,4 @@
 import log from '@/common/log/log';
-import services from '../index';
 
 export async function create({ tag, sId, title }) {
   try {
@@ -12,13 +11,8 @@ export async function create({ tag, sId, title }) {
         },
       },
     });
-    const option = {
-      _id: data.id,
-      sId,
-      title,
-    };
-    log.info(tag, 'spec-option-create', title, data, option);
-    return option;
+    log.info(tag, 'spec-option-create', data);
+    return data.id;
   } catch (error) {
     log.error(tag, 'spec-option-create', error);
     throw error;
@@ -27,10 +21,9 @@ export async function create({ tag, sId, title }) {
 
 export async function createMany({ tag, infoList }) {
   if (infoList.length === 1) {
-    log.info(tag, 'spec-option-createMany', 'use create instead');
     const { sId, title } = infoList[0];
-    const spec = await this.create({ tag, sId, title });
-    return [spec];
+    const id = await create({ tag, sId, title });
+    return [id];
   }
   try {
     const { data } = await wx.cloud.models.fh_spec_option.createMany({
@@ -42,15 +35,8 @@ export async function createMany({ tag, infoList }) {
         },
       })),
     });
-    const { idList } = data;
-    const options = idList.map((id, index) => {
-      const { sId, title } = infoList[index];
-      const option = { _id: id, sId, title };
-      cache.setSpecOption({ sId, option });
-      return option;
-    });
-    log.info(tag, 'spec-option-createMany', infoList, data, options);
-    return options;
+    log.info(tag, 'spec-option-createMany', data);
+    return data.idList;
   } catch (error) {
     log.error(tag, 'spec-option-createMany', error);
     throw error;

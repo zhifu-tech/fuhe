@@ -1,13 +1,13 @@
-export function show(context, options) {
-  const close = options.close;
-  options.close = (args) => {
-    close?.(args);
-    setTimeout(() => hide(context), 300);
-  };
+export function show(context, { cId }) {
   context.setData({
     categoryPopup: {
       enabled: true,
-      options,
+      options: {
+        cId,
+        close: (args) => {
+          setTimeout(() => hide(context), 300);
+        },
+      },
     },
   });
 }

@@ -1,6 +1,6 @@
 import log from '@/common/log/log';
 
-export async function update({ tag, cId, id, title }) {
+export async function update({ tag, _id, title }) {
   try {
     const { data } = await wx.cloud.models.fh_spec.update({
       data: {
@@ -8,42 +8,32 @@ export async function update({ tag, cId, id, title }) {
       },
       filter: {
         where: {
-          _id: { $eq: id },
+          _id: { $eq: _id },
         },
       },
     });
-    let spec = cache.getSpec(id);
-    if (spec) {
-      spec.title = title;
-    } else {
-      spec = {
-        _id: id,
-        cId,
-        title,
-        options: [],
-      };
-    }
-    log.info(tag, 'spec-update', title, data, spec);
-    return spec;
+    log.info(tag, 'spec-update', data);
+    return data;
   } catch (error) {
     log.error(tag, 'spec-update', error);
     throw error;
   }
 }
 
-export async function updateMany({ tag, cId, infoList }) {
-  if (infoList.length === 1) {
-    log.info(tag, 'spec-updateMany', 'use update instead');
-    const { id, title } = infoList[0];
-    const specs = await this.update({ tag, cId, id, title });
-    return [specs];
+export async function updateMany({ tag, specList }) {
+  if (specList.length === 1) {
+    const { _id, title } = specList[0];
+    await update({ tag, _id, title });
+    return;
   }
   try {
-    const specs = await Promise.all(
-      infoList.map(({ id, title }) => this.update({ tag, id, title })),
+    await Promise.all(
+      specList.map(({ _id, title }) => {
+        return update({ tag, _id, title });
+      }),
     );
-    log.info(tag, 'spec-updateMany', specs);
-    return specs;
+    log.info(tag, 'spec-updateMany');
+    return;
   } catch (error) {
     log.error(tag, 'spec-updateMany', error);
     throw error;

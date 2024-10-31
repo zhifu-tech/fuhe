@@ -8,14 +8,8 @@ export async function create({ tag, cId, title }) {
         title,
       },
     });
-    const spec = {
-      _id: data.id,
-      cId,
-      title,
-      options: [],
-    };
-    log.info(tag, 'spec-create', data, spec);
-    return spec;
+    log.info(tag, 'spec-create', data);
+    return data.id;
   } catch (error) {
     log.error(tag, 'spec-create', error);
     throw error;
@@ -23,32 +17,23 @@ export async function create({ tag, cId, title }) {
 }
 
 export async function createMany({ tag, cId, titles }) {
-  if (titles.length === 1) {
-    log.info(tag, 'spec-createMany', 'use create instead');
-    const { title } = titles[0];
-    const spec = await this.create({ tag, cId, title });
-    return [spec];
-  }
+  log.info(
+    tag,
+    'spec-createMany',
+    titles.map((title) => ({
+      cId,
+      title: title,
+    })),
+  );
   try {
     const { data } = await wx.cloud.models.fh_spec.createMany({
-      data: titles.map(({ title }) => ({
+      data: titles.map((title) => ({
         cId,
         title,
       })),
     });
-    const { idList } = data;
-    const specs = idList.map((id, index) => {
-      const title = titles[index];
-      const spec = {
-        _id: id,
-        cId,
-        title,
-        options: [],
-      };
-      return spec;
-    });
-    log.info(tag, 'spec-createMany', titles, data, specs);
-    return specs;
+    log.info(tag, 'spec-createMany', titles, data);
+    return data.idList;
   } catch (error) {
     log.error(tag, 'spec-createMany', error);
     throw error;

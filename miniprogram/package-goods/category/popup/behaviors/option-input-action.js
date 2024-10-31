@@ -20,7 +20,7 @@ module.exports = Behavior({
         return;
       }
       // 重复性校验
-      const dupOption = spec.options?.find((it) => it.title === title);
+      const dupOption = spec.optionList?.find((it) => it.title === title);
       if (dupOption) {
         showToastError({ message: `已经存在选项 ${title}` });
         log.info(tag, 'option', `已经存在选项 ${title}`);
@@ -30,13 +30,13 @@ module.exports = Behavior({
       spec = this.checkSpecEditable(specs, spec);
       // 编辑选项
       if (optionEdit) {
-        let option = spec.options.find((it) => it._id === optionEdit._id);
+        let option = spec.optionList.find((it) => it._id === optionEdit._id);
         if (!option) {
           showToastError({ message: '未知错误' });
           log.info(tag, 'option', '未知错误,选项状态错误');
           return;
         }
-        option = this.checkOptionEditable(spec.options, option);
+        option = this.checkOptionEditable(spec.optionList, option);
         option.title = title;
         this.setData({
           specs,
@@ -56,8 +56,8 @@ module.exports = Behavior({
           title,
         };
         added.editable = true;
-        spec.options = spec.options || [];
-        spec.options.push(added);
+        spec.optionList = spec.optionList || [];
+        spec.optionList.push(added);
         this.setData({
           specs,
         });

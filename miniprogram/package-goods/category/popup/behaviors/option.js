@@ -15,11 +15,11 @@ module.exports = Behavior({
     },
     handleSpecOptionsAdd: async function () {
       const { tag, specs } = this.data;
-      const list = [];
+      const infoList = [];
       specs.forEach((spec) => {
-        spec.options?.forEach((option) => {
+        spec.optionList?.forEach((option) => {
           if (option._id.startsWith('-')) {
-            list.push({
+            infoList.push({
               option,
               sId: spec._id,
               title: option.title,
@@ -27,64 +27,67 @@ module.exports = Behavior({
           }
         });
       });
-      if (list.length > 0) {
-        const res = await services.option.createMany({
+      if (infoList.length > 0) {
+        await services.option.createOptionMany({
           tag,
-          infoList: list,
+          infoList,
         });
-        list.forEach(({ option }, index) => {
-          option._id = res[index]._id;
-          option.sId = res[index].sId;
-        });
+        log.info(tag, 'handleSpecOptionsAdd');
       }
     },
     handleSpecOptionsUpdate: async function () {
       const { tag, specs, _specs } = this.data;
-      const list = [];
+      const infoList = [];
       specs.forEach((spec) => {
-        // 更新的必须是clone来的，省去不必要的判定
         if (!spec.editable) return;
-        if (!spec.options || spec.options.length === 0) return;
+        if (!spec.optionList || spec.optionList.length === 0) return;
         const src = _specs.find((it) => it._id === spec._id);
         if (!src) return;
-        if (spec.options == src.options) return;
-        spec.options.forEach((option) => {
+        if (spec.optionList == src.optionList) return;
+        spec.optionList.forEach((option) => {
           if (!option.editable) return;
-          const srcOption = src.options.find((it) => it._id === option._id);
+          const srcOption = src.optionList.find((it) => it._id === option._id);
           if (srcOption && srcOption.title !== option.title) {
-            list.push({ spec, sId: spec._id, option, id: option._id, title: option.title });
+            infoList.push({
+              spec,
+              sId: spec._id,
+              option,
+              _id: option._id,
+              title: option.title,
+            });
           }
         });
       });
-      if (list.length > 0) {
-        const res = await services.option.updateMany({
+      if (infoList.length > 0) {
+        await services.option.updateOptionMany({
           tag,
-          infoList: list,
+          infoList,
         });
-        log.info(tag, 'handleSpecOptionsUpdate', res);
+        log.info(tag, 'handleSpecOptionsUpdate');
       }
     },
     handleSpecOptionsDelete: async function () {
-      const { tag, specs, _specs } = this.data;
+      const { tag, category, specs, _specs } = this.data;
+      const cId = category._id;
       const list = [];
       _specs.forEach((src) => {
-        if (!src.options || src.options.length === 0) return;
+        if (!src.optionList || src.optionList.length === 0) return;
         const dst = specs.find((it) => it._id === src._id);
         // 规格被删除，需要删除所有非本地选项
         if (!dst) {
-          src.options?.forEach((option) => {
+          src.optionList?.forEach((option) => {
             if (option._id.startsWith('-')) return;
-            list.push({ sId: option.sId, id: option._id });
+            list.push({ sId: option.sId, oId: option._id });
           });
         }
         // 数据未发生变化，保持不变
-        else if (dst.options == src.options) {
+        else if (dst.optionList == src.optionList) {
           return;
         } else {
-          src.options.forEach((srcOption) => {
-            const dstOption = dst.options.find((it) => it._id === srcOption._id);
+          src.optionList.forEach((srcOption) => {
+            const dstOption = dst.optionList.find((it) => it._id === srcOption._id);
             if (!dstOption) {
-              list.push({ sId: src._id, id: srcOption._id });
+              list.push({ sId: src._id, oId: srcOption._id });
             }
           });
         }
@@ -92,7 +95,8 @@ module.exports = Behavior({
       if (list.length > 0) {
         const res = await services.option.deleteMany({
           tag,
-          ids: list,
+          cId,
+          specOptionIdList: list,
         });
         log.info(tag, 'handleSpecOptionsDelete', res);
       }

@@ -47,7 +47,7 @@ module.exports = Behavior({
       if (editable.options) {
         editable.options = [...editable.options];
       } else {
-        cloned.options = [];
+        editable.options = [];
       }
       const index = specs.findIndex((it) => it._id === spec._id);
       if (index === -1) {
@@ -78,67 +78,52 @@ module.exports = Behavior({
     _handleSpecsAdd: async function () {
       const { tag, category, specs } = this.data;
       const cId = category._id;
-      const list = [];
-      specs.forEach((spec) => {
-        if (spec._id.startsWith('-')) {
-          list.push({
-            spec,
-            title: spec.title,
-          });
-        }
-      });
-      if (list.length > 0) {
-        const specsRes = await services.spec.createMany({ tag, cId, titles: list });
-        list.forEach(({ spec }, index) => {
-          const specRes = specsRes[index];
-          spec._id = specRes._id;
-          spec.cId = specRes.cId;
-        });
+      const specList = specs.filter((it) => it._id.startsWith('-'));
+      if (specList.length > 0) {
+        await services.spec.creatSpecMany({ tag, cId, specList });
+        log.info(tag, '_handleSpecsAdd', specList);
       }
     },
     _handleSpecsUpdate: async function () {
       const { tag, category, specs, _specs } = this.data;
       const cId = category._id;
-      const list = [];
-      specs.forEach((spec) => {
-        // 更新的必须是clone来的，省去不必要的判定
-        if (!spec.editable) return;
+      const specList = specs.filter((spec) => {
+        if (!spec.editable) return false;
         const src = _specs.find((it) => it._id === spec._id);
-        if (src && src.title !== spec.title) {
-          list.push({
-            spec,
-            id: spec._id,
-            title: spec.title,
-          });
-        }
+        return src && src.title !== spec.title;
       });
-      if (list.length > 0) {
-        const res = await services.spec.updateMany({ tag, cId, infoList: list });
-        log.info(tag, '_handleSpecsUpdate', res);
+      if (specList.length > 0) {
+        await services.spec.updateSpecMany({ tag, cId, specList });
+        log.info(tag, '_handleSpecsUpdate', specList);
       }
     },
     _handleSpecsDelete: async function () {
-      const { tag, specs, _specs } = this.data;
-      const list = [];
-      _specs.forEach((src) => {
+      const { tag, category, specs, _specs } = this.data;
+      const cId = category._id;
+      const specList = _specs.filter((src) => {
         const dst = specs.find((it) => it._id === src._id);
-        if (!dst) list.push(src._id);
+        return !dst;
       });
-      if (list.length > 0) {
-        const res = await services.spec.deleteMany({ tag, ids: list });
-        log.info(tag, '_handleSpecsDelete', res);
+      if (specList.length > 0) {
+        await services.spec.deleteSpecMany({
+          tag,
+          cId,
+          specIdList: specList.map((it) => it._id),
+        });
+        log.info(tag, '_handleSpecsDelete', specList);
       }
     },
     handleSpecDeleteAll: async function () {
-      const { tag, _specs } = this.data;
+      const { tag, category, _specs } = this.data;
+      const cId = category._id;
       const sIds = [];
       const oIds = [];
       _specs.forEach((spec) => {
         if (spec._id.startsWith('-')) return;
         sIds.push(spec._id);
-        spec.options?.forEach((option) => {
+        spec.optionList?.forEach((option) => {
           if (option._id.startsWith('-')) return;
-          oIds.push({ sId: spec._id, id: option._id });
+          oIds.push({ sId: spec._id, oId: option._id });
         });
       });
       if (sIds.length === 0 && oIds.length === 0) {
@@ -147,17 +132,19 @@ module.exports = Behavior({
       const promises = [];
       if (sIds.length > 0) {
         promises.push(
-          services.spec.deleteMany({
+          services.spec.deleteSpecMany({
             tag,
-            ids: sIds,
+            cId,
+            specIdList: sIds,
           }),
         );
       }
       if (oIds.length > 0) {
         promises.push(
-          services.option.deleteMany({
+          services.option.deleteOptionMany({
             tag,
-            ids: oIds,
+            cId,
+            specOptionIdList: oIds,
           }),
         );
       }
