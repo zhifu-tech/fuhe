@@ -1,6 +1,4 @@
-const { default: store } = require('@/stores/store');
-const { computed } = require('mobx-miniprogram');
-const { default: log } = require('../../../common/log/log');
+import store from '@/stores/store';
 
 Component({
   behaviors: [
