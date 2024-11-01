@@ -1,6 +1,6 @@
 import log from '@/common/log/log';
 
-export async function update({ tag, sId, _id, title }) {
+export async function update({ tag, _id, title }) {
   try {
     const { data } = await wx.cloud.models.fh_spec_option.update({
       data: {
@@ -12,7 +12,7 @@ export async function update({ tag, sId, _id, title }) {
         },
       },
     });
-    log.info(tag, 'spec-option-update', data);
+    log.info(tag, 'spec-option-update', data, title);
     return data;
   } catch (error) {
     log.error(tag, 'spec-option-update', error);
@@ -21,13 +21,13 @@ export async function update({ tag, sId, _id, title }) {
 }
 export async function updateMany({ tag, infoList }) {
   if (infoList.length === 1) {
-    const { sId, _id, title } = infoList[0];
-    const data = await update({ tag, sId, _id, title });
+    const { _id, title } = infoList[0];
+    const data = await update({ tag, _id, title });
     return [data];
   }
   try {
     const data = await Promise.all(
-      infoList.map(({ sId, _id, title }) => this.update({ tag, sId, _id, title })),
+      infoList.map(({ _id, title }) => this.update({ tag, _id, title })),
     );
     log.info(tag, 'spec-opton-updateMany', data);
     return data;

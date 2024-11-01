@@ -27,13 +27,13 @@ module.exports = Behavior({
         if (a == b) continue;
         if (a._id !== b._id) return true;
         if (a.title !== b.title) return true;
-        if (a.options == b.options) continue;
-        if (a.options && !b.options) return true;
-        if (!a.options && b.options) return true;
-        if (a.options.length !== b.options.length) return true;
-        for (let j = 0; j < a.options.length; j++) {
-          const aa = a.options[j];
-          const bb = b.options[j];
+        if (a.optionList == b.optionList) continue;
+        if (a.optionList && !b.optionList) return true;
+        if (!a.optionList && b.optionList) return true;
+        if (a.optionList.length !== b.optionList.length) return true;
+        for (let j = 0; j < a.optionList.length; j++) {
+          const aa = a.optionList[j];
+          const bb = b.optionList[j];
           if (aa == bb) continue;
           if (aa._id !== bb._id) return true;
           if (aa.title !== bb.title) return true;
@@ -44,10 +44,10 @@ module.exports = Behavior({
     checkSpecEditable: function (specs, spec) {
       if (spec.editable) return spec;
       const editable = { ...spec, editable: true };
-      if (editable.options) {
-        editable.options = [...editable.options];
+      if (editable.optionList) {
+        editable.optionList = [...editable.optionList];
       } else {
-        editable.options = [];
+        editable.optionList = [];
       }
       const index = specs.findIndex((it) => it._id === spec._id);
       if (index === -1) {

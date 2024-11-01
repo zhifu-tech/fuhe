@@ -3,18 +3,24 @@ const { default: log } = require('@/common/log/log');
 
 module.exports = Behavior({
   methods: {
-    checkOptionEditable: function (options, option) {
+    checkOptionEditable: function (optionList, option) {
       if (option.editable) return option;
       const editable = { ...option, editable: true };
-      const index = options.findIndex((it) => it._id === option._id);
+      const index = optionList.findIndex((it) => it._id === option._id);
       if (index === -1) {
+        log.info(tag, 'handleSpecOptionsAdd', 'optionList not found');
         return editable;
       }
-      options[index] = editable;
+      optionList[index] = editable;
       return editable;
     },
     handleSpecOptionsAdd: async function () {
-      const { tag, specs } = this.data;
+      const {
+        tag,
+        category: { _id: cId },
+        specs,
+      } = this.data;
+
       const infoList = [];
       specs.forEach((spec) => {
         spec.optionList?.forEach((option) => {
@@ -30,13 +36,20 @@ module.exports = Behavior({
       if (infoList.length > 0) {
         await services.option.createOptionMany({
           tag,
+          cId,
           infoList,
         });
         log.info(tag, 'handleSpecOptionsAdd');
       }
     },
     handleSpecOptionsUpdate: async function () {
-      const { tag, specs, _specs } = this.data;
+      const {
+        tag,
+        category: { _id: cId },
+        specs,
+        _specs,
+      } = this.data;
+
       const infoList = [];
       specs.forEach((spec) => {
         if (!spec.editable) return;
@@ -61,44 +74,56 @@ module.exports = Behavior({
       if (infoList.length > 0) {
         await services.option.updateOptionMany({
           tag,
+          cId,
           infoList,
         });
         log.info(tag, 'handleSpecOptionsUpdate');
       }
     },
     handleSpecOptionsDelete: async function () {
-      const { tag, category, specs, _specs } = this.data;
-      const cId = category._id;
-      const list = [];
+      const {
+        tag,
+        category: { _id: cId },
+        specs,
+        _specs,
+      } = this.data;
+      const infoList = [];
       _specs.forEach((src) => {
         if (!src.optionList || src.optionList.length === 0) return;
         const dst = specs.find((it) => it._id === src._id);
-        // 规格被删除，需要删除所有非本地选项
         if (!dst) {
+          // 规格被删除，需要删除所有非本地选项
           src.optionList?.forEach((option) => {
             if (option._id.startsWith('-')) return;
-            list.push({ sId: option.sId, oId: option._id });
+            infoList.push({
+              option,
+              sId: option.sId,
+              _id: option._id,
+            });
           });
-        }
-        // 数据未发生变化，保持不变
-        else if (dst.optionList == src.optionList) {
+        } else if (dst.optionList == src.optionList) {
+          // 数据未发生变化，保持不变
           return;
         } else {
           src.optionList.forEach((srcOption) => {
             const dstOption = dst.optionList.find((it) => it._id === srcOption._id);
             if (!dstOption) {
-              list.push({ sId: src._id, oId: srcOption._id });
+              infoList.push({
+                option: srcOption,
+                sId: src._id,
+                _id: srcOption._id,
+              });
             }
           });
         }
       });
-      if (list.length > 0) {
-        const res = await services.option.deleteMany({
+      if (infoList.length > 0) {
+        await services.option.deleteOptionMany({
           tag,
           cId,
-          specOptionIdList: list,
+          infoList,
         });
-        log.info(tag, 'handleSpecOptionsDelete', res);
+        log.info(tag, 'handleSpecOptionsDelete');
       }
     },
   },

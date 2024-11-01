@@ -11,11 +11,11 @@ module.exports = Behavior({
       const { tag, category } = this.data;
       showConfirmDialog({
         title: '是否确认删除',
-        content: `如果存在与分类「${category.title}」关联的作品，将导致分类不可用！`,
+        content: `如果存在与分类「${category.title}」关联的商品，将导致分类不可用！`,
         confirmBtn: '确认删除',
         cancelBtn: '取消',
         confirm: () => {
-          log.info(tag, 'category-delete', 'confirm');
+          log.info(tag, 'category-delete', 'confirm', category);
           this._deleteCategory();
         },
         cancel: (error) => {

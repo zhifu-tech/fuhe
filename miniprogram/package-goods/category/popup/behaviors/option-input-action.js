@@ -20,7 +20,8 @@ module.exports = Behavior({
         return;
       }
       // 重复性校验
-      const dupOption = spec.optionList?.find((it) => it.title === title);
+      spec.optionList = spec.optionList || [];
+      const dupOption = spec.optionList.find((it) => it.title === title);
       if (dupOption) {
         showToastError({ message: `已经存在选项 ${title}` });
         log.info(tag, 'option', `已经存在选项 ${title}`);

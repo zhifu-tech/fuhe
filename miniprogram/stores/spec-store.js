@@ -5,6 +5,7 @@ export default (function store() {
   return observable({
     specListMap: new Map(), // map<cId, specList>
 
+    //***************** 规格 **********************
     getSpecList: function (cId) {
       return this.specListMap.get(cId);
     },
@@ -36,6 +37,7 @@ export default (function store() {
       this.specListMap.set(cId, list);
     }),
 
+    //***************** 选项 **********************
     addSpecOptionList: action(function ({ cId, optionList }) {
       const specList = this.specListMap.get(cId);
       if (!specList) return;
@@ -59,7 +61,7 @@ export default (function store() {
         const spec = specList.find((it) => it._id === option.sId);
         if (!spec) return;
         spec.optionList = spec.optionList || [];
-        const index = spec.optionList.findIndex(({ _id }) => _id === option.oId) || -1;
+        const index = spec.optionList.findIndex(({ _id }) => _id === option._id) || -1;
         if (index !== -1) {
           spec.optionList[index] = option;
         } else {
@@ -68,15 +70,17 @@ export default (function store() {
       });
       this.specListMap.set(cId, specList);
     }),
-    deleteSpecOptionList: action(function ({ cId, specOptionIdList }) {
+    deleteSpecOptionList: action(function ({ cId, optionList }) {
       const specList = this.specListMap.get(cId);
       if (!specList) return;
-      specOptionIdList.forEach(({ sId, oId }) => {
-        const sIndex = specList.findIndex(({ _id }) => _id === sId);
-        if (sIndex === -1) return;
-        const oIndex = specList[sIndex].optionList?.findIndex(({ _id }) => _id === oId) || -1;
-        if (oIndex === -1) return;
-        specList[sIndex].optionList.splice(oIndex, 1);
+      optionList.forEach((option) => {
+        const spec = specList.find((it) => it._id === option.sId);
+        if (!spec) return;
+        spec.optionList = spec.optionList || [];
+        const index = spec.optionList.findIndex(({ _id }) => _id === option._id) || -1;
+        if (index !== -1) {
+          spec.optionList.splice(index, 1);
+        }
       });
       this.specListMap.set(cId, specList);
     }),

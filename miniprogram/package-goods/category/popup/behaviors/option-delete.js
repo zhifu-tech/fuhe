@@ -12,7 +12,10 @@ module.exports = Behavior({
         content: `如果存在与规格「${option.title}」关联的商品，将不可用！`,
         confirmBtn: '确认删除',
         cancelBtn: '取消',
-        conifrm: () => this._deleteSepcOption(option),
+        confirm: () => {
+          log.info(tag, 'category-delte', 'confirm', option);
+          this._deleteSepcOption(option);
+        },
         cancel: (error) => {
           log.info(tag, 'category-delte', 'cancel', error);
           if (error) {

@@ -16,15 +16,20 @@ export async function deleteOption({ tag, _id }) {
     throw error;
   }
 }
-export async function deleteMany({ tag, _idList }) {
-  if (ids.length === 1) {
-    const res = await this.deleteOption({ tag, _id: _idList[0] });
-    return [res];
+export async function deleteMany({ tag, infoList }) {
+  if (infoList.length === 1) {
+    const { _id } = infoList[0];
+    const data = await deleteOption({ tag, _id });
+    return [data];
   }
   try {
-    const res = await Promise.all(_idList.map((_id) => this.deleteOption({ tag, _id })));
-    log.info(tag, 'spec-option-deleteMany', _idList, res);
-    return res;
+    const data = await Promise.all(
+      infoList.map(({ _id }) => {
+        return deleteOption({ tag, _id });
+      }),
+    );
+    log.info(tag, 'spec-option-deleteMany', data);
+    return data;
   } catch (error) {
     log.error(tag, 'spec-deleteMany', error);
   }
