@@ -39,7 +39,7 @@
     </view>
   </view>
 
-  <view wx:if="{{ showSpecList }}" class="specs">
+  <view wx:if="{{ showSpecList }}" class="specList">
     <block wx:for="{{ spu.specList }}" wx:for-item="spec" wx:key="_id">
       <view class="label">{{ spec.title }}</view>
       <view class="options">

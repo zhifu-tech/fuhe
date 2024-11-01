@@ -63,8 +63,8 @@
       />
       <t-divider t-class="divider" wx:if="{{!specAddShow}}" />
     </view>
-    <scroll-view scroll-y scroll-into-view="{{scrollIntoView}}" class="section specs">
-      <block wx:for="{{specs}}" wx:for-item="spec" wx:key="_id">
+    <scroll-view scroll-y scroll-into-view="{{scrollIntoView}}" class="section specList">
+      <block wx:for="{{specList}}" wx:for-item="spec" wx:key="_id">
         <!-- 这scorllview 索引时必须以字母开头 -->
         <view id="id-{{spec._id}}" class="label-container">
           <view class="label">{{spec.title}}</view>

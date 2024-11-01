@@ -45,7 +45,7 @@ module.exports = Behavior({
         }
         if (specsChanged) {
           await this.handleSpecsChanged();
-          log.info(tag, 'confirmed', 'specs changed!');
+          log.info(tag, 'confirmed', 'specList changed!');
         }
       } catch (error) {
         log.error(tag, 'confirmed', error);

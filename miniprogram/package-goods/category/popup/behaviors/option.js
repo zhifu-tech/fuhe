@@ -18,11 +18,11 @@ module.exports = Behavior({
       const {
         tag,
         category: { _id: cId },
-        specs,
+        specList,
       } = this.data;
 
       const infoList = [];
-      specs.forEach((spec) => {
+      specList.forEach((spec) => {
         spec.optionList?.forEach((option) => {
           if (option._id.startsWith('-')) {
             infoList.push({
@@ -46,15 +46,15 @@ module.exports = Behavior({
       const {
         tag,
         category: { _id: cId },
-        specs,
-        _specs,
+        specList,
+        _specList,
       } = this.data;
 
       const infoList = [];
-      specs.forEach((spec) => {
+      specList.forEach((spec) => {
         if (!spec.editable) return;
         if (!spec.optionList || spec.optionList.length === 0) return;
-        const src = _specs.find((it) => it._id === spec._id);
+        const src = _specList.find((it) => it._id === spec._id);
         if (!src) return;
         if (spec.optionList == src.optionList) return;
         spec.optionList.forEach((option) => {
@@ -84,13 +84,13 @@ module.exports = Behavior({
       const {
         tag,
         category: { _id: cId },
-        specs,
-        _specs,
+        specList,
+        _specList,
       } = this.data;
       const infoList = [];
-      _specs.forEach((src) => {
+      _specList.forEach((src) => {
         if (!src.optionList || src.optionList.length === 0) return;
-        const dst = specs.find((it) => it._id === src._id);
+        const dst = specList.find((it) => it._id === src._id);
         if (!dst) {
           // 规格被删除，需要删除所有非本地选项
           src.optionList?.forEach((option) => {

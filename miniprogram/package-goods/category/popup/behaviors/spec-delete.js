@@ -22,19 +22,19 @@ module.exports = Behavior({
       });
     },
     _deleteSpec: async function (spec) {
-      const { tag, specs } = this.data;
-      const index = specs.findIndex((it) => it._id === spec._id);
+      const { tag, specList } = this.data;
+      const index = specList.findIndex((it) => it._id === spec._id);
       if (index != -1) {
-        specs.splice(index, 1);
+        specList.splice(index, 1);
         this.setData({
-          specs,
+          specList,
         });
       } else {
         log.info(tag, 'spec-delete', `不存在删除的 ${spec}`);
       }
       showToastSuccess({ message: '删除成功！' });
       this.setData({
-        specs,
+        specList,
       });
     },
   },

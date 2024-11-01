@@ -4,7 +4,7 @@ Component({
   behaviors: [
     require('mobx-miniprogram-bindings').storeBindingsBehavior,
     require('miniprogram-computed').behavior,
-    require('./behaviors/specs'),
+    require('./behaviors/spec-list'),
     require('./behaviors/stock'),
     require('./behaviors/stock-more'),
     require('./behaviors/sku-summary'),

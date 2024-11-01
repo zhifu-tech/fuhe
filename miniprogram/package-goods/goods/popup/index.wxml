@@ -74,7 +74,7 @@
         wx:if="{{ isModeAddSpu || isModeAddSku || isModeEditSku || isModeEditStock || isModeEditStockSuper }}"
       >
         <t-divider t-class="divider" content="规格信息" />
-        <view class="specs">
+        <view class="specList">
           <block wx:for="{{ spu.specList }}" wx:for-item="spec" wx:key="_id">
             <view class="label">{{spec.title}}</view>
             <view class="options">

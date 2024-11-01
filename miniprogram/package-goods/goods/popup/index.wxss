@@ -55,20 +55,20 @@
   background-color: var(--td-bg-color-secondarycontainer);
 }
 
-.specs {
+.specList {
   display: flex;
   flex-direction: column;
   margin-left: var(--td-spacer-2);
 }
-.specs .label {
+.specList .label {
   margin-top: var(--td-spacer-1);
 }
-.specs .options {
+.specList .options {
   display: flex;
   flex-wrap: wrap;
   margin-left: var(--td-spacer-3);
 }
-.specs .options .option {
+.specList .options .option {
   margin-top: var(--td-spacer);
   margin-right: var(--td-spacer);
 }

@@ -56,20 +56,20 @@ Component({
           return {};
         }
       },
-      _specs: function () {
+      _specList: function () {
         // 记录原始信息，不可修改
         const { cId } = this.properties.options;
         if (cId) {
-          const specs = store.spec.getSpecList(cId);
-          if (!specs) {
+          const specList = store.spec.getSpecList(cId);
+          if (!specList) {
             services.spec.getSpecList({ tag: 'category-popup', cId });
           }
-          return specs || [];
+          return specList || [];
         } else {
           return [];
         }
       },
-      specs: function () {
+      specList: function () {
         // 为传入数据的拷贝，可以修改，最后提交
         const { cId } = this.properties.options;
         if (cId) {

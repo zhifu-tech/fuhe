@@ -8,7 +8,7 @@ module.exports = Behavior({
     specInputVisible: false,
   },
   observers: {
-    'specs.length': function (a1) {
+    'specList.length': function (a1) {
       const changed = this.checkSpecsChanged();
       if (this.data.specsChanged !== changed) {
         this.setData({
@@ -19,11 +19,11 @@ module.exports = Behavior({
   },
   methods: {
     checkSpecsChanged: function () {
-      const { _specs, specs } = this.data;
-      if (_specs.length !== specs.length) return true;
-      for (let i = 0; i < specs.length; i++) {
-        const a = specs[i];
-        const b = _specs[i];
+      const { _specList, specList } = this.data;
+      if (_specList.length !== specList.length) return true;
+      for (let i = 0; i < specList.length; i++) {
+        const a = specList[i];
+        const b = _specList[i];
         if (a == b) continue;
         if (a._id !== b._id) return true;
         if (a.title !== b.title) return true;
@@ -41,7 +41,7 @@ module.exports = Behavior({
       }
       return false;
     },
-    checkSpecEditable: function (specs, spec) {
+    checkSpecEditable: function (specList, spec) {
       if (spec.editable) return spec;
       const editable = { ...spec, editable: true };
       if (editable.optionList) {
@@ -49,11 +49,11 @@ module.exports = Behavior({
       } else {
         editable.optionList = [];
       }
-      const index = specs.findIndex((it) => it._id === spec._id);
+      const index = specList.findIndex((it) => it._id === spec._id);
       if (index === -1) {
         return editable;
       }
-      specs[index] = editable;
+      specList[index] = editable;
       return editable;
     },
 
@@ -76,49 +76,57 @@ module.exports = Behavior({
       ]);
     },
     _handleSpecsAdd: async function () {
-      const { tag, category, specs } = this.data;
+      const { tag, category, specList } = this.data;
       const cId = category._id;
-      const specList = specs.filter((it) => it._id.startsWith('-'));
-      if (specList.length > 0) {
-        await services.spec.creatSpecMany({ tag, cId, specList });
-        log.info(tag, '_handleSpecsAdd', specList);
+      const list = specList.filter((it) => it._id.startsWith('-'));
+      if (list.length > 0) {
+        await services.spec.creatSpecMany({
+          tag,
+          cId,
+          specList: list,
+        });
+        log.info(tag, '_handleSpecsAdd', list);
       }
     },
     _handleSpecsUpdate: async function () {
-      const { tag, category, specs, _specs } = this.data;
+      const { tag, category, specList, _specList } = this.data;
       const cId = category._id;
-      const specList = specs.filter((spec) => {
+      const list = specList.filter((spec) => {
         if (!spec.editable) return false;
-        const src = _specs.find((it) => it._id === spec._id);
+        const src = _specList.find((it) => it._id === spec._id);
         return src && src.title !== spec.title;
       });
-      if (specList.length > 0) {
-        await services.spec.updateSpecMany({ tag, cId, specList });
-        log.info(tag, '_handleSpecsUpdate', specList);
+      if (list.length > 0) {
+        await services.spec.updateSpecMany({
+          tag,
+          cId,
+          specList: list,
+        });
+        log.info(tag, '_handleSpecsUpdate', list);
       }
     },
     _handleSpecsDelete: async function () {
-      const { tag, category, specs, _specs } = this.data;
+      const { tag, category, specList, _specList } = this.data;
       const cId = category._id;
-      const specList = _specs.filter((src) => {
-        const dst = specs.find((it) => it._id === src._id);
+      const list = _specList.filter((src) => {
+        const dst = specList.find((it) => it._id === src._id);
         return !dst;
       });
-      if (specList.length > 0) {
+      if (list.length > 0) {
         await services.spec.deleteSpecMany({
           tag,
           cId,
-          specIdList: specList.map((it) => it._id),
+          specIdList: list.map((it) => it._id),
         });
-        log.info(tag, '_handleSpecsDelete', specList);
+        log.info(tag, '_handleSpecsDelete', list);
       }
     },
     handleSpecDeleteAll: async function () {
-      const { tag, category, _specs } = this.data;
+      const { tag, category, _specList } = this.data;
       const cId = category._id;
       const sIds = [];
       const oIds = [];
-      _specs.forEach((spec) => {
+      _specList.forEach((spec) => {
         if (spec._id.startsWith('-')) return;
         sIds.push(spec._id);
         spec.optionList?.forEach((option) => {

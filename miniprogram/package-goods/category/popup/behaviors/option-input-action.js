@@ -10,10 +10,10 @@ module.exports = Behavior({
     onOptionInputAction: function (e) {
       const { value: title, callback } = e.detail;
       const { specId: sId } = e.target.dataset;
-      const { tag, specs, optionEdit } = this.data;
+      const { tag, specList, optionEdit } = this.data;
       log.info(tag, 'option', title, e);
       // 查找绑定的spec
-      let spec = specs.find((it) => it._id === sId);
+      let spec = specList.find((it) => it._id === sId);
       if (!spec) {
         showToastError({ message: '未知错误' });
         log.info(tag, 'option', '未知错误');
@@ -28,7 +28,7 @@ module.exports = Behavior({
         return;
       }
       // 校验和clone数据，用来判断是否修改
-      spec = this.checkSpecEditable(specs, spec);
+      spec = this.checkSpecEditable(specList, spec);
       // 编辑选项
       if (optionEdit) {
         let option = spec.optionList.find((it) => it._id === optionEdit._id);
@@ -40,7 +40,7 @@ module.exports = Behavior({
         option = this.checkOptionEditable(spec.optionList, option);
         option.title = title;
         this.setData({
-          specs,
+          specList,
         });
         callback({
           value: '',
@@ -60,7 +60,7 @@ module.exports = Behavior({
         spec.optionList = spec.optionList || [];
         spec.optionList.push(added);
         this.setData({
-          specs,
+          specList,
         });
         callback({
           value: '',

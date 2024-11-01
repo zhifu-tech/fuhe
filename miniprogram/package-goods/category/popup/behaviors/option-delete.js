@@ -25,14 +25,14 @@ module.exports = Behavior({
       });
     },
     _deleteSepcOption: function (option) {
-      const { specs } = this.data;
-      let spec = specs.find((it) => it._id === option.sId);
+      const { specList } = this.data;
+      let spec = specList.find((it) => it._id === option.sId);
       const index = spec?.optionList?.findIndex((it) => it._id === option._id) ?? -1;
       if (index !== -1) {
-        spec = this.checkSpecEditable(specs, spec);
+        spec = this.checkSpecEditable(specList, spec);
         spec.optionList.splice(index, 1);
         this.setData({
-          specs,
+          specList,
         });
         showToastSuccess({ message: '删除成功！' });
       } else {

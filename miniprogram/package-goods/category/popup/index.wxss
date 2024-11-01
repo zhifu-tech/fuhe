@@ -49,7 +49,7 @@
 .input {
   margin-left: var(--td-spacer-2);
 }
-.specs {
+.specList {
   flex: 1;
   overflow: auto; /* 确保内容超出时可滚动 */
 }

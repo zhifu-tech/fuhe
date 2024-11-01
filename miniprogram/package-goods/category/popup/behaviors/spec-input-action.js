@@ -12,21 +12,21 @@ module.exports = Behavior({
     onSpecInputAction: function (e) {
       const { value: title, callback } = e.detail;
       const { specId } = e.target.dataset;
-      const { tag, category, specs } = this.data;
-      const dupSpec = specs.find((it) => it.title === title);
+      const { tag, category, specList } = this.data;
+      const dupSpec = specList.find((it) => it.title === title);
       if (dupSpec) {
         showToastError({ messsage: `已经存在规格 ${title}` });
         log.info(tag, 'spec', `已经存在规格 ${title}`);
         return;
       }
       // 有附加spec为编辑信息；否则为新增信息
-      let spec = specs.find((it) => it._id === specId);
+      let spec = specList.find((it) => it._id === specId);
       if (spec) {
         // 数据修改之前，需要进行拷贝处理
-        spec = this.checkSpecEditable(specs, spec);
+        spec = this.checkSpecEditable(specList, spec);
         spec.title = title;
         this.setData({
-          specs,
+          specList,
         });
         // 编辑完成之后，关闭编辑输入
         callback({
@@ -42,9 +42,9 @@ module.exports = Behavior({
           title,
         };
         added.editable = true;
-        specs.push(added);
+        specList.push(added);
         this.setData({
-          specs,
+          specList,
           // 需要定位到新增加的规格
           scrollIntoView: 'id-' + added._id,
         });
