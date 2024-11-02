@@ -27,13 +27,11 @@ module.exports = Behavior({
       });
     },
     _deleteSku: async function () {
-      const { tag, spu, sku } = this.data;
-      await services.goods.skuDelete({
+      const { tag, spuId, skuId } = this.data;
+      await services.goods.deleteGoodsSku({
         tag,
-        id: sku._id,
-      });
-      this.triggerEvent('sku-delete', {
-        sku,
+        spuId,
+        skuId,
       });
     },
   },

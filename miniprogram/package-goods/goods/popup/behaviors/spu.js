@@ -1,22 +1,7 @@
 import { showToastError } from '@/common/toast/simples';
 
 module.exports = Behavior({
-  // data: {
-  //   // _spu: {}, // 输入spu信息
-  //   // spu: {
-  //   //   // title: '',
-  //   //   // desc: '',
-  //   //   // category: {}, // 商品分类
-  //   //   // supplier: {}, // 供应商
-  //   //   // specList: [],
-  //   //   // skuList: [],
-  //   // },
-  // },
   methods: {
-    // initSpu: function (spu) {
-    //   this.data._spu = spu || {};
-    //   this.data.spu = (spu && { ...spu }) ?? {};
-    // },
     handleUpdateSpuTitle: function (e) {
       const { value: title } = e.detail;
       this.setData({

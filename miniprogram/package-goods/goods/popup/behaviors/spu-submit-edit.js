@@ -24,16 +24,12 @@ module.exports = Behavior({
       const { tag, spu, _spu } = this.data;
       showToastLoading({});
       try {
-        await services.goods.spuUpdate({
+        await services.goods.updateGoodsSpu({
           tag,
-          spuId: spu._id,
+          spu,
           title: spu.title !== _spu.title ? spu.title : undefined,
           desc: spu.desc !== _spu.desc ? spu.desc : undefined,
         });
-        // 更新之后的信息到_spu
-        _spu.title = spu.title;
-        _spu.desc = spu.desc;
-        this.notify();
         hideToastLoading();
       } catch (error) {
         log.error(tag, 'update spu error', error);

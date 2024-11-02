@@ -1,20 +1,7 @@
 import { showToastError } from '@/common/toast/simples';
 
 module.exports = Behavior({
-  data: {
-    _stock: {},
-    stock: {
-      // quantity: '', // 库存数量
-      // costPrice: '', // 成本价格
-      // originalPrice: '', // 销售定价
-      // salePrice: '', // 销售价格，在具体销售时指定
-    },
-  },
   methods: {
-    initStock: function (stock) {
-      this.data._stock = stock;
-      this.data.stock = { ...stock };
-    },
     handleUpdateStockCostPrice: function (e) {
       const { value: costPrice } = e.detail;
       this.setData({

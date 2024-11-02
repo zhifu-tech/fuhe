@@ -1,4 +1,4 @@
-import { uploadSpuImageList } from './images';
+import { uploadSpuImageList } from '@/common/image/images';
 import log from '@/common/log/log';
 import services from '@/services/index';
 import { showToastError, hideToastLoading } from '@/common/toast/simples';

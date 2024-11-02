@@ -38,12 +38,6 @@ Component({
   },
   data: {
     tag: 'goods-popup',
-    isModeAddSpu: false,
-    isModeEditSpu: false,
-    isModeAddSku: false,
-    isModeEditSku: false,
-    isModeEditStock: false,
-    isModeEditStockSuper: false,
   },
   storeBindings: {
     store,
@@ -103,47 +97,9 @@ Component({
     },
   },
   methods: {
-    show: function ({
-      isModeAddSpu = false,
-      isModeEditSpu = false,
-      isModeAddSku = false,
-      isModeEditSku = false,
-      isModeEditStock = false,
-      isModeEditStockSuper = false,
-      // spu,
-      // sku,
-      // stock,
-      // close,
-      // callback,
-    }) {
-      // log.info('goods-popup show', {
-      //   isModeAddSpu,
-      //   isModeEditSpu,
-      //   isModeAddSku,
-      //   isModeEditSku,
-      //   isModeEditStock,
-      //   isModeEditStockSuper,
-      //   spu,
-      //   sku,
-      //   stock,
-      // });
-      // this.initSpu(spu);
-      // this.initSku(sku);
-      // this.initStock(stock ?? {});
-      // this.initOptions();
-      this.setData({
-        isModeAddSpu,
-        isModeEditSpu,
-        isModeAddSku,
-        isModeEditSku,
-        isModeEditStock,
-        isModeEditStockSuper,
-        // spu: this.data.spu,
-        // sku: this.data.sku,
-        // stock: this.data.stock,
-        // _close: close ?? (() => null),
-        // _callback: callback ?? (() => null),
-      });
+    show: function (options) {
+      this.setData(options);
+      log.info(this.data.tag, 'show', this.data);
       this._popup((popup) => {
         popup.setData({
           visible: true,
@@ -167,7 +123,6 @@ Component({
     },
     notify: function () {
       this.options?.callback?.();
-      // this.data._callback();
     },
     _popup: function (callback) {
       callback(this.selectComponent('#popup'));

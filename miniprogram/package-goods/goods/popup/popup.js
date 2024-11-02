@@ -1,15 +1,13 @@
-export function showGoodsAddSpuPopup(context, { callback }) {
+export function showGoodsAddSpuPopup(context) {
   show(context, {
     isModeAddSpu: true,
-    callback,
   });
 }
 
-export function showGoodsEditSpuPopup(context, { spuId, callback }) {
+export function showGoodsEditSpuPopup(context, { spuId }) {
   show(context, {
     isModeEditSpu: true,
     spuId,
-    callback,
   });
 }
 

@@ -1,4 +1,4 @@
-import spec from '@/stores/spec-store';
+import specStore from '@/stores/spec-store';
 import { createMany as _createMany } from './create';
 import { updateMany as _updateMany } from './update';
 import { deleteMany as _deleteMany } from './delete';
@@ -12,7 +12,7 @@ export default {
     infoList.forEach(({ option }, index) => {
       option._id = idList[index];
     });
-    spec.addSpecOptionList({
+    specStore.addSpecOptionList({
       cId,
       optionList: infoList.map((it) => it.option),
     });
@@ -22,7 +22,7 @@ export default {
       tag,
       infoList,
     });
-    spec.updateSpecOptionList({
+    specStore.updateSpecOptionList({
       cId,
       optionList: infoList.map((it) => it.option),
     });
@@ -32,7 +32,7 @@ export default {
       tag,
       infoList,
     });
-    spec.deleteSpecOptionList({
+    specStore.deleteSpecOptionList({
       cId,
       optionList: infoList.map((it) => it.option),
     });

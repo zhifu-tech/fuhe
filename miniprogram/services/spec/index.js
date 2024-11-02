@@ -1,4 +1,6 @@
-import spec from '@/stores/spec-store';
+import log from '@/common/log/log';
+import specStore from '@/stores/spec-store';
+import categoryStore from '@/stores/category-store';
 
 import _list from './list';
 import _listBatch from './list-batch';
@@ -8,36 +10,39 @@ import { deleteMany as _deleteMany } from './delete';
 
 export default {
   getSpecList: async function ({ tag, cId }) {
-    const storeSpecList = spec.getSpecList(cId);
+    const storeSpecList = specStore.getSpecList(cId);
     if (storeSpecList) {
       return storeSpecList;
     }
     const { records: specList } = await _list({ tag, cId });
-    spec.setSpecList(cId, specList);
+    specStore.setSpecList(cId, specList);
     return specList;
   },
+  /**
+   * 获取规格列表，如果缓存中存在则直接返回，否则从数据库获取并缓存
+   */
   getSpecListBatch: async function ({ tag, cIdList }) {
-    let specListMap = new Map();
-    // 过滤没有在store中的cId，并将存在的添加到map中
-    const cIdListUnstore = cIdList.filter((cId) => {
-      const specList = spec.getSpecList(cId);
+    const specListMap = new Map();
+    const cIdListUnstore = [];
+    // 遍历 cIdList 并构建 specListMap，同时收集未缓存的 cId
+    cIdList.forEach((cId) => {
+      const specList = specStore.getSpecList(cId);
       if (specList) {
         specListMap.set(cId, specList);
-        return false;
       } else {
-        return true;
+        cIdListUnstore.push(cId);
       }
     });
+
+    // 如果有未缓存的 cId，需要从 _listBatch 获取并更新 specListMap
     if (cIdListUnstore.length > 0) {
-      // 获取未在store中的cId的specList
       const map = await _listBatch({ tag, cIdList: cIdListUnstore });
-      // 将获取到的specList添加到store中
       map.forEach((specList, cId) => {
         specListMap.set(cId, specList);
+        specStore.setSpecList(cId, specList);
       });
-      // 将获取到的specList添加到map中
-      specListMap = new Map([...specListMap, ...map]);
     }
+
     return specListMap;
   },
   creatSpecMany: async function ({ tag, cId, specList }) {
@@ -50,15 +55,15 @@ export default {
       spec.cId = cId;
       spec._id = idList[index];
     });
-    spec.addSpecList(cId, specList);
+    specStore.addSpecList(cId, specList);
     return specList;
   },
   updateSpecMany: async function ({ tag, cId, specList }) {
     await _updateMany({ tag, specList });
-    spec.updateSpecList(cId, specList);
+    specStore.updateSpecList(cId, specList);
   },
   deleteSpecMany: async function ({ tag, cId, specIdList }) {
     await _deleteMany({ tag, cId, _ids: specIdList });
-    spec.deleteSpecList(cId, specIdList);
+    specStore.deleteSpecList(cId, specIdList);
   },
 };

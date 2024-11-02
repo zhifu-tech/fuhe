@@ -1,4 +1,6 @@
+import log from '@/common/log/log';
 import store from '@/stores/store';
+import spuList from '../../services/goods/spu-list';
 
 Component({
   options: {
@@ -28,7 +30,11 @@ Component({
       categoryExtList: () => store.category.categoryExtList,
       categorySelected: () => store.category.selected,
       fetchCategoryListStatus: () => store.category.fetchCategoryListStatus,
-      goods: () => store.goods.selected,
+      // goods: () => ({ ...store.goods.selected }),
+      goods: function () {
+        const goods = store.goods.selected;
+        return { ...goods };
+      },
       fetchGoodsSpuListStatus: () => store.goods.fetchGoodsSpuListStatus,
     },
   },

@@ -1,6 +1,3 @@
-const { default: log } = require('../../../../common/log/log');
-const { default: services } = require('../../../../services/index');
-
 module.exports = Behavior({
   data: {
     showSpecList: false, // 是否展示规格列表
@@ -8,8 +5,9 @@ module.exports = Behavior({
     optionListNeedReset: false,
   },
   observers: {
-    sku: function () {
+    sku: function (sku) {
       if (this.data.optionList === null) {
+        sku.optionList = sku.optionList || [];
         this.setData({
           optionList: [...this.data.sku.optionList],
         });

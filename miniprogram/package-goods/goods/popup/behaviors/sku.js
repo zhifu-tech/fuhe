@@ -1,24 +1,7 @@
 import { showToastError } from '@/common/toast/simples.js';
 
 module.exports = Behavior({
-  // data: {
-  //   _sku: {},
-  //   sku: {
-  //     // imageList: [], // 商品图片
-  //     // optionList:[], // 规格信息
-  //     // stockList:[], // 存储信息，每次入库生成一条记录
-  //   },
-  // },
   methods: {
-    // initSku: function (sku) {
-    //   const createSku = () => ({
-    //     imageList: [],
-    //     optionList: [],
-    //     stockList: [],
-    //   });
-    //   this.data._sku = sku ?? createSku();
-    //   this.data.sku = (sku && { ...sku }) ?? createSku();
-    // },
     checkSkuImageList: function (sku) {
       if (!sku.imageList || sku.imageList.length <= 0) {
         showToastError({ message: '至少添加一张图片' });

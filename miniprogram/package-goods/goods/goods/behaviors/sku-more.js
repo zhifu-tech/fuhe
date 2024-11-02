@@ -50,11 +50,6 @@ module.exports = Behavior({
         const { spu, spuId } = this.data;
         popup.showGoodsEditSpuPopup(pages.currentPage(), {
           spuId,
-          callback: () => {
-            this.setData({
-              spu,
-            });
-          },
         });
       }, ({ mod, errMsg }) => {
         console.error(`path: ${mod}, ${errMsg}`);

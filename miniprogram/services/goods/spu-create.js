@@ -14,7 +14,7 @@ export default async function ({ tag, saasId, cId, title, desc }) {
       },
     });
     log.info(tag, 'goods-spu-create', title, data);
-    return data;
+    return data.id;
   } catch (error) {
     log.error(tag, 'goods-spu-create', error);
     throw error;

@@ -12,14 +12,15 @@ module.exports = Behavior({
     },
     _handleUpdateSpuCategory: async function (category) {
       // 2. 加载规格信息
-      const { records: specList } = await services.spec.getSpecList({
+      const specList = await services.spec.getSpecList({
         tag: 'goods-spu-category',
         cId: category._id,
       });
       // 3. 更新关联信息
       const { spu, sku } = this.data;
+      spu.cId = category._id;
       spu.category = category;
-      spu.specList = specList;
+      spu.specList = specList || [];
       // 4. 商品类别发生变化，其对应的sku信息需要重置
       sku.optionList = this.promoteOptionList(spu);
       this.setData({

@@ -72,7 +72,6 @@
           <goods
             spuId="{{ spu._id }}"
             skuId="{{ sku._id }}"
-            bind:sku-delete="handleGoodsSkuDelete"
             bind:cart-change="handleCartChangeEvent"
           />
         </block>

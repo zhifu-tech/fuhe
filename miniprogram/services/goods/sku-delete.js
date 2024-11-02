@@ -1,15 +1,13 @@
 import log from '../../common/log/log';
 
-export default async function ({ tag, id }) {
+export default async function ({ tag, _id }) {
   try {
     const { data } = await wx.cloud.models.fh_goods_sku.delete({
       filter: {
         where: {
           $and: [
             {
-              _id: {
-                $eq: id,
-              },
+              _id: { $eq: _id },
             },
           ],
         },

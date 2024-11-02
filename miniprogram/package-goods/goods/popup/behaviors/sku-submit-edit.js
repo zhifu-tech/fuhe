@@ -1,4 +1,4 @@
-import { uploadSkuImageList, deleteImageFiles } from './images';
+import { uploadSkuImageList, deleteImageFiles } from '../../../../common/image/images';
 import log from '@/common/log/log';
 import services from '@/services/index';
 import { showToastError, hideToastLoading } from '@/common/toast/simples';

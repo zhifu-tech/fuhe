@@ -1,4 +1,5 @@
 import store from '@/stores/store';
+import log from '@/common/log/log';
 
 Component({
   behaviors: [
@@ -32,10 +33,20 @@ Component({
     store,
     fields: {
       spu: function () {
-        return store.goods.getSpu(this.properties.spuId);
+        const spu = store.goods.getSpu(this.properties.spuId);
+        // TRICKY: 返回一个新对象:
+        // 1. 当spu变化时，可以触发更新
+        // 2. 避免引用修改导致的不一致问题
+        return { ...spu } || {};
       },
       sku: function () {
-        return store.goods.getSku(this.properties.spuId, this.properties.skuId);
+        const { spuId, skuId } = this.properties;
+        if (spuId && skuId) {
+          const sku = store.goods.getSku(spuId, skuId);
+          return sku || {};
+        } else {
+          return {};
+        }
       },
       cartSkuSumInfo: function () {
         return store.cart.getCartSkuSumInfo(this.properties.skuId) || {};
