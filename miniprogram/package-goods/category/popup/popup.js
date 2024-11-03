@@ -3,7 +3,7 @@ export function show(context, { cId }) {
     categoryPopup: {
       enabled: true,
       options: {
-        cId,
+        ...(cId !== undefined && { cId }),
         close: (args) => {
           setTimeout(() => hide(context), 300);
         },

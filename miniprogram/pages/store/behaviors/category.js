@@ -13,7 +13,6 @@ module.exports = Behavior({
   },
   watch: {
     categorySelected: function (selected) {
-      log.info('category', 'watch', 'categorySelected', selected);
       if (selected === store.category.categoryAdd._id) {
         // 首次加载选中的是新增分类信息，需要加载分类列表
         services.category.fetchCategoryList({

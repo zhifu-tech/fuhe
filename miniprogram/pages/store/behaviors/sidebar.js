@@ -22,6 +22,7 @@ module.exports = Behavior({
       wx.setStorageSync('store.showSideBar', showSideBar);
     },
     onSideBarChange: function (e) {
+      const { tag } = this.data;
       const { value: selected } = e.detail;
       if (selected === store.category.categoryAdd._id) {
         require('@/package-goods/category/popup/popup.js', (popup) => {
@@ -30,7 +31,10 @@ module.exports = Behavior({
           console.error(`path: ${mod}, ${errMsg}`);
         });
       } else {
-        store.category.switchSelectedCategory(selected);
+        store.category.switchSelectedCategory({
+          tag,
+          cId: selected,
+        });
       }
     },
     onSideBarItemLongPress: async function (e) {
@@ -43,7 +47,10 @@ module.exports = Behavior({
           console.error(`path: ${mod}, ${errMsg}`);
         });
       } else if (cId === store.category.categoryAll._id) {
-        store.category.switchSelectedCategory(cId);
+        store.category.switchSelectedCategory({
+          tag,
+          cId,
+        });
       } else {
         require('@/package-goods/category/popup/popup.js', (popup) => {
           popup.show(this, { cId });
