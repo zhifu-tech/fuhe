@@ -15,18 +15,22 @@
     <view class="{{ showSideBar ? 'side-bar-wrapper show': 'side-bar-wrapper hide' }}">
       <t-side-bar class="side-bar" value="{{ categorySelected }}" bind:change="onSideBarChange">
         <t-side-bar-item
-          wx:if="{{ !pageStatus.isLoadingWithSkeleton && !showCategorySkeleton }}"
+          wx:if="{{ !showCategorySkeleton }}"
           wx:for="{{ categoryExtList }}"
           wx:for-item="category"
           wx:key="_id"
-          t-class="side-bar-item"
+          t-class="{{ categorySelected === category._id ? 'side-bar-item active': 'side-bar-item' }}"
           label="{{ _.formatSideBarLabel( category.title) }}"
           data-id="{{ category._id }}"
           value="{{ category._id }}"
           bind:longpress="onSideBarItemLongPress"
-        />
+        >
+          <block wx:if="{{ categorySelected === category._id }}">
+            <view>你好</view>
+          </block>
+        </t-side-bar-item>
         <t-skeleton
-          wx:if="{{ pageStatus.isLoadingWithSkeleton || showCategorySkeleton }}"
+          wx:if="{{ showCategorySkeleton }}"
           wx:for="{{ 8 }}"
           wx:for-item="item"
           wx:for-index="index"
@@ -36,10 +40,7 @@
           loading
         />
       </t-side-bar>
-      <view
-        wx:if="{{ !pageStatus.isLoadingWithSkeleton && !showCategorySkeleton }}"
-        class="side-bar-actions"
-      >
+      <view wx:if="{{ !showCategorySkeleton }}" class="side-bar-actions">
         <view class="side-bar-action" bind:tap="handleShowGoodsPopup">
           {{ _.formatSideBarLabel('新增商品')}}
         </view>

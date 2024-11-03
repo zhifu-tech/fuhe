@@ -70,6 +70,24 @@
   padding: var(--td-spacer-2) 0rpx;
   text-align: center;
 }
+.side-bar-item.active {
+  background: var(--td-bg-color-secondarycontainer);
+}
+/* TRICKY: 通过直接覆盖的方式,调整sidebar的样式，在active时，通过before增加一个背景 */
+.t-side-bar-item__suffix::before,
+.t-side-bar-item__prefix::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: var(--td-bg-color-secondarycontainer);
+}
+.t-side-bar-item__suffix::before,
+.t-side-bar-item__prefix::before,
+.t-side-bar-item__suffix::after,
+.t-side-bar-item__prefix::after {
+  position: absolute;
+}
 
 .scroll {
   flex: 1;
