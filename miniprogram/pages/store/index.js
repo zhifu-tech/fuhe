@@ -1,6 +1,5 @@
 import log from '@/common/log/log';
 import store from '@/stores/store';
-import spuList from '../../services/goods/spu-list';
 
 Component({
   options: {
@@ -26,15 +25,14 @@ Component({
   storeBindings: {
     store,
     fields: {
-      categoryList: () => store.category.categoryList,
-      categoryExtList: () => store.category.categoryExtList,
-      categorySelected: () => store.category.selected,
-      fetchCategoryListStatus: () => store.category.fetchCategoryListStatus,
-      // goods: () => ({ ...store.goods.selected }),
-      goods: function () {
-        const goods = store.goods.selected;
-        return { ...goods };
+      // categoryExtList: () => store.category.categoryExtList,
+      categoryExtList: function () {
+        log.info('categoryExtList', 'storePage');
+        return store.category.categoryExtList;
       },
+      fetchCategoryListStatus: () => store.category.fetchCategoryListStatus,
+      categorySelected: () => store.category.selected,
+      goods: () => ({ ...store.goods.selected }),
       fetchGoodsSpuListStatus: () => store.goods.fetchGoodsSpuListStatus,
     },
   },

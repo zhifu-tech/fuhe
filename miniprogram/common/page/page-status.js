@@ -1,7 +1,7 @@
 module.exports = Behavior({
   data: {
     pageStatus: {
-      isLoadingWithSkeleton: false,
+      isLoadingWithSkeleton: true,
       isLoadingWithMore: false,
       isLoadingWithPullDown: false,
 
