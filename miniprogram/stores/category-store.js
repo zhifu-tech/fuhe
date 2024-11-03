@@ -80,6 +80,17 @@ export default (function store() {
       if (index !== -1) {
         this.categoryList.splice(index, 1);
       }
+      // 如果删除的是当前选中的分类，需要重新选择
+      if (this.selected === cId) {
+        // 如果还有分类, 则选择第一个分类
+        if (this.categoryList.length > 0) {
+          this.selected = this.categoryList[0]._id;
+        }
+        // 否则，选择新增分类
+        else {
+          this.selected = categoryAdd._id;
+        }
+      }
     }),
   });
 })();
