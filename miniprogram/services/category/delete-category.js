@@ -1,15 +1,15 @@
 import log from '@/common/log/log';
-import store from '@/stores/store';
-import model from '@/models/index';
+import stores from '@/stores/index';
+import models from '@/models/index';
 
 export default async function ({ tag, category }) {
   try {
-    await model.category.deleteCategory({
+    await models.category.deleteCategory({
       tag,
       _id: category._id,
     });
     log.info(tag, 'category-delete', category);
-    store.category.deleteCategory(category);
+    stores.category.deleteCategory(category);
     return category;
   } catch (error) {
     log.error(tag, 'category-delete', error);

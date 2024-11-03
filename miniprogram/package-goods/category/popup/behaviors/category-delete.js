@@ -1,5 +1,5 @@
 import log from '@/common/log/log';
-import store from '@/stores/store';
+import stores from '@/stores/index';
 import services from '@/services/index';
 import { showToastSuccess, showToastError, showToastLoading } from '@/common/toast/simples';
 import { showConfirmDialog } from '@/common/dialog/simples';
@@ -29,7 +29,7 @@ module.exports = Behavior({
     _deleteCategory: async function () {
       const { tag, category } = this.data;
       // 删除本地未提交分类：重置为新增分类
-      if (category._id === store.category.addCategoryId) {
+      if (category._id === stores.category.addCategoryId) {
         this.hide();
       }
       // 删除分类的时候，需要级联删除规格和选项信息。

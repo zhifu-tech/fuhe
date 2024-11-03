@@ -1,4 +1,4 @@
-import store from '@/stores/store';
+import stores from '@/stores/index';
 import log from '@/common/log/log';
 
 Component({
@@ -30,10 +30,10 @@ Component({
     tag: 'goods',
   },
   storeBindings: {
-    store,
+    stores,
     fields: {
       spu: function () {
-        const spu = store.goods.getSpu(this.properties.spuId);
+        const spu = stores.goods.getSpu(this.properties.spuId);
         // TRICKY: 返回一个新对象:
         // 1. 当spu变化时，可以触发更新
         // 2. 避免引用修改导致的不一致问题
@@ -42,14 +42,14 @@ Component({
       sku: function () {
         const { spuId, skuId } = this.properties;
         if (spuId && skuId) {
-          const sku = store.goods.getSku(spuId, skuId);
+          const sku = stores.goods.getSku(spuId, skuId);
           return sku || {};
         } else {
           return {};
         }
       },
       cartSkuSumInfo: function () {
-        return store.cart.getCartSkuSumInfo(this.properties.skuId) || {};
+        return stores.cart.getCartSkuSumInfo(this.properties.skuId) || {};
       },
     },
   },

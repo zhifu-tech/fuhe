@@ -1,9 +1,9 @@
 import log from '@/common/log/log';
-import store from '@/stores/store';
+import stores from '@/stores/index';
 import services from '@/services/index';
 
 export default function ({ tag }) {
-  const categoryList = store.category.categoryList();
+  const categoryList = stores.category.categoryList();
   if (categoryList.length > 0) {
     log.info(tag, 'category-list', 'load from store', categoryList);
     return categoryList;

@@ -1,4 +1,4 @@
-import store from '@/stores/store';
+import stores from '@/stores/index';
 import log from '@/common/log/log';
 import pages from '@/common/page/pages';
 
@@ -40,19 +40,19 @@ Component({
     tag: 'goods-popup',
   },
   storeBindings: {
-    store,
+    stores,
     fields: {
       _spu: function () {
         const { spuId } = this.properties.options;
         if (spuId) {
-          return store.goods.getSpu(spuId) || {};
+          return stores.goods.getSpu(spuId) || {};
         }
         return {};
       },
       spu: function () {
         const { spuId } = this.properties.options;
         if (spuId) {
-          const spu = store.goods.getSpu(spuId) || {};
+          const spu = stores.goods.getSpu(spuId) || {};
           return { ...spu };
         }
         return {};
@@ -60,14 +60,14 @@ Component({
       _sku: function () {
         const { spuId, skuId } = this.properties.options;
         if (spuId && skuId) {
-          return store.goods.getSku(spuId, skuId) || {};
+          return stores.goods.getSku(spuId, skuId) || {};
         }
         return {};
       },
       sku: function () {
         const { spuId, skuId } = this.properties.options;
         if (spuId && skuId) {
-          const sku = store.goods.getSku(spuId, skuId) || {};
+          const sku = stores.goods.getSku(spuId, skuId) || {};
           return { ...sku };
         }
         return {};
@@ -75,14 +75,14 @@ Component({
       _stock: function () {
         const { spuId, skuId, stockId } = this.properties.options;
         if (spuId && skuId && stockId) {
-          return store.goods.getStock(spuId, skuId, stockId) || {};
+          return stores.goods.getStock(spuId, skuId, stockId) || {};
         }
         return {};
       },
       stock: function () {
         const { spuId, skuId, stockId } = this.properties.options;
         if (spuId && skuId && stockId) {
-          const stock = store.goods.getStock(spuId, skuId, stockId) || {};
+          const stock = stores.goods.getStock(spuId, skuId, stockId) || {};
           return { ...stock };
         }
         return {};

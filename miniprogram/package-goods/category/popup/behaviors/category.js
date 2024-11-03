@@ -1,7 +1,7 @@
 import log from '@/common/log/log';
 import { saasId } from '@/common/saas/saas';
 import services from '@/services/index';
-import store from '@/stores/store';
+import stores from '@/stores/index';
 
 /** 分类共有行为 */
 module.exports = Behavior({
@@ -33,7 +33,7 @@ module.exports = Behavior({
     /** 处理 catgory 改变的数据 */
     handleCategoryChanged: async function () {
       const { tag, category } = this.data;
-      if (category._id === store.category.categoryAdd._id) {
+      if (category._id === stores.category.categoryAdd._id) {
         await services.category.createCategory({
           tag,
           draft: category,

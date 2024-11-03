@@ -1,14 +1,14 @@
 import log from '@/common/log/log';
-import store from '@/stores/store';
-import model from '@/models/index';
+import stores from '@/stores/index';
+import models from '@/models/index';
 export default async function ({ tag, category }) {
   try {
-    await model.category.update({
+    await models.category.update({
       tag,
       _id: category._id,
       title: category.title,
     });
-    store.category.updateCategory({ tag, category });
+    stores.category.updateCategory({ tag, category });
     log.info(tag, 'category-update', category);
     return category;
   } catch (error) {

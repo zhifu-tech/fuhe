@@ -1,4 +1,4 @@
-import store from '@/stores/store';
+import stores from '@/stores/index';
 module.exports = Behavior({
   methods: {
     handleGoodsAdd: function () {
@@ -28,7 +28,7 @@ module.exports = Behavior({
       spu.skuList = [...spu.skuList, sku];
       stock._id = '-1';
       // 保存草稿，MobX需要手动触发更新
-      store.goods.setSpuDraft(spu._id, spu);
+      stores.goods.setSpuDraft(spu._id, spu);
 
       this.setData({
         'spu.skuList': spu.skuList,

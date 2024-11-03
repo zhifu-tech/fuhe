@@ -1,5 +1,5 @@
 import log from '@/common/log/log';
-import store from '@/stores/store';
+import stores from '@/stores/index';
 import services from '@/services/index';
 import { showToastLoading, hideToastLoading } from '@/common/toast/simples';
 
@@ -78,7 +78,7 @@ module.exports = Behavior({
 
       log.info(tag, tagExtra, 'goods submit', spu);
       // 添加信息到store中，并触发更新
-      store.goods.addGoodsSpu({ tag, spu });
+      stores.goods.addGoodsSpu({ tag, spu });
 
       hideToastLoading();
       this.hide();

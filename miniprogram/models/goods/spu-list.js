@@ -1,5 +1,5 @@
 import log from '@/common/log/log';
-import store from '@/stores/store';
+import stores from '@/stores/index';
 import services from '@/services/index';
 
 export default async function ({ tag, cId, pageNumber, pageSize }) {
@@ -28,7 +28,7 @@ export default async function ({ tag, cId, pageNumber, pageSize }) {
     pageNumber: pageNumber,
     pageSize: pageSize,
   };
-  if (cId && cId !== store.category.categoryAll._id) {
+  if (cId && cId !== stores.category.categoryAll._id) {
     params['filter'] = {
       where: {
         cId: { $eq: cId },

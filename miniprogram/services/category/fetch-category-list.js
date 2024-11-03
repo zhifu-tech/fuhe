@@ -1,7 +1,7 @@
 import log from '@/common/log/log';
 import { saasId } from '@/common/saas/saas';
-import store from '@/stores/store';
-import model from '@/models/index';
+import stores from '@/stores/index';
+import models from '@/models/index';
 
 let _fetchCategoryListTask = null; // 记录当前正在进行的请求
 
@@ -18,22 +18,22 @@ export default async function ({ tag, trigger }) {
 async function _fetchCategoryList({ tag, trigger }) {
   try {
     // 请求中，切换选中状态
-    store.category.setFetchCategoryListStatus({ code: 'loading', trigger });
+    stores.category.setFetchCategoryListStatus({ code: 'loading', trigger });
 
-    const { records: categoryList, total } = await model.category.all({
+    const { records: categoryList, total } = await models.category.all({
       tag,
       saasId: saasId(),
     });
 
     // 保存请求结果
-    store.category.setFetchCategoryListResult({ categoryList, total });
+    stores.category.setFetchCategoryListResult({ categoryList, total });
 
     // 请求成功，切换选中状态
-    store.category.setFetchCategoryListStatus({ code: 'success', trigger });
+    stores.category.setFetchCategoryListStatus({ code: 'success', trigger });
     log.info(tag, '_fetchCategoryList result', categoryList);
   } catch (error) {
     // 请求失败，切换选中状态
-    store.category.setFetchCategoryListStatus({ code: 'error', trigger });
+    stores.category.setFetchCategoryListStatus({ code: 'error', trigger });
     log.error(tag, '_fetchCategoryList error', error);
     throw error;
   } finally {

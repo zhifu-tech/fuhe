@@ -1,13 +1,13 @@
 import log from '@/common/log/log';
 import services from '@/services/index';
-import store from '@/stores/store';
+import stores from '@/stores/index';
 
 module.exports = Behavior({
   methods: {
     handleCartChangeEvent: function (e) {
       const { stockId } = e.target.dataset;
       const { tag, spuId, skuId } = this.data;
-      const stock = store.goods.getStock(spuId, skuId, stockId);
+      const stock = stores.goods.getStock(spuId, skuId, stockId);
       // 更新Stock的数据
       const { salePrice, saleQuantity } = e.detail;
       if (stock.salePrice !== salePrice) {
@@ -22,7 +22,7 @@ module.exports = Behavior({
         this._saveStockChanges(stock);
       }
       stock.saleQuantity = saleQuantity;
-      store.cart.handleCartChange({
+      stores.cart.handleCartChange({
         tag,
         spuId,
         skuId,

@@ -1,5 +1,6 @@
 import log from '@/common/log/log';
-import store from '@/stores/store';
+import stores from '@/stores/index';
+import services from '@/services/index';
 
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
@@ -8,7 +9,7 @@ module.exports = Behavior({
       const { goods, tag } = this.data;
       if (goods.cId !== categorySelected) {
         // 切换分类时，重新加载商品列表
-        store.goods.switchGoodsSpuList({
+        services.goods.switchGoodsSpuList({
           tag: this.data.tag,
           cId: categorySelected,
           trigger: 'switch',
@@ -31,7 +32,7 @@ module.exports = Behavior({
         return;
       }
       log.info(tag, 'loadMoreGoods');
-      store.goods.fetchGoodsSpuList({
+      services.goods.fetchGoodsSpuList({
         tag,
         cId: goods.cId,
         pageNumber: goods.pageNumber + 1,
@@ -45,7 +46,7 @@ module.exports = Behavior({
         return;
       }
       log.info(tag, 'pullDownRefresh');
-      store.goods.fetchGoodsSpuList({
+      services.goods.fetchGoodsSpuList({
         tag,
         cId: goods.cId,
         pageNumber: 1,

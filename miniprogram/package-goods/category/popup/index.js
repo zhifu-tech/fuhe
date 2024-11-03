@@ -1,6 +1,6 @@
 import log from '@/common/log/log';
 import pages from '@/common/page/pages';
-import store from '@/stores/store';
+import stores from '@/stores/index';
 import services from '@/services/index';
 
 Component({
@@ -34,13 +34,13 @@ Component({
     tag: 'category-popup',
   },
   storeBindings: {
-    store,
+    stores,
     fields: {
       _category: function () {
         // 记录原始信息，不可修改
         const { cId } = this.properties.options;
         if (cId) {
-          const category = store.category.getCategory(cId);
+          const category = stores.category.getCategory(cId);
           return category || {};
         } else {
           return {};
@@ -50,7 +50,7 @@ Component({
         // 为传入数据的拷贝，可以修改，最后提交
         const { cId } = this.properties.options;
         if (cId) {
-          const category = store.category.getCategory(cId) || {};
+          const category = stores.category.getCategory(cId) || {};
           return { ...category };
         } else {
           return {};
@@ -60,7 +60,7 @@ Component({
         // 记录原始信息，不可修改
         const { cId } = this.properties.options;
         if (cId) {
-          const specList = store.spec.getSpecList(cId);
+          const specList = stores.spec.getSpecList(cId);
           if (!specList) {
             services.spec.getSpecList({ tag: 'category-popup', cId });
           }
@@ -73,7 +73,7 @@ Component({
         // 为传入数据的拷贝，可以修改，最后提交
         const { cId } = this.properties.options;
         if (cId) {
-          const specList = store.spec.getSpecList(cId) || [];
+          const specList = stores.spec.getSpecList(cId) || [];
           return [...specList];
         } else {
           return [];

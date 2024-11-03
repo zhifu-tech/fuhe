@@ -1,5 +1,5 @@
 import log from '@/common/log/log';
-import store from '@/stores/store';
+import stores from '@/stores/index';
 import services from '@/services/index';
 
 module.exports = Behavior({
@@ -13,7 +13,7 @@ module.exports = Behavior({
   },
   watch: {
     categorySelected: function (selected) {
-      if (selected === store.category.categoryAdd._id) {
+      if (selected === stores.category.categoryAdd._id) {
         // 首次加载选中的是新增分类信息，需要加载分类列表
         services.category.fetchCategoryList({
           tag: 'store-category',
@@ -43,7 +43,7 @@ module.exports = Behavior({
             this.setData({ showCategorySkeleton: false });
             // 加载显示首个分类选项
             if (categoryExtList.length > 1) {
-              store.category.switchSelectedCategory({
+              stores.category.switchSelectedCategory({
                 tag,
                 cId: categoryExtList[0]._id,
               });

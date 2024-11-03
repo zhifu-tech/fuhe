@@ -1,16 +1,16 @@
 import log from '@/common/log/log';
-import store from '@/stores/store';
-import model from '@/models/index';
+import stores from '@/stores/index';
+import models from '@/models/index';
 
 export default async function ({ tag, cId }) {
-  const category = store.category.getCategory(cId);
+  const category = stores.category.getCategory(cId);
   if (category) {
     log.info(tag, 'category-get', 'load from store', category);
     return category;
   }
   try {
-    const data = await model.category.get({ tag, _id: cId });
-    store.category.setCategory(data);
+    const data = await models.category.get({ tag, _id: cId });
+    stores.category.setCategory(data);
     log.info(tag, 'category-get', 'load from server', data);
     return data;
   } catch (error) {

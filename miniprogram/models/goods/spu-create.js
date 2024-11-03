@@ -1,4 +1,4 @@
-import log from '../../common/log/log';
+import log from '@/common/log/log';
 
 export default async function ({ tag, saasId, cId, title, desc }) {
   try {

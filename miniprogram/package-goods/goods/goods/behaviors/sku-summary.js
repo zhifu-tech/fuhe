@@ -1,5 +1,5 @@
 import log from '@/common/log/log';
-import store from '@/stores/store';
+import stores from '@/stores/index';
 
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
@@ -78,7 +78,7 @@ module.exports = Behavior({
           log.info('handleSummaryCartChangeEvent', 'summaryPriceChange', index, stock);
           // if (stock.saleQuantity && stock.saleQuantity > 0) {
           // }
-          store.cart.handleCartChange({
+          stores.cart.handleCartChange({
             tag: 'summaryPriceChange',
             spuId,
             skuId,
@@ -111,7 +111,7 @@ module.exports = Behavior({
           }
           if (stock.saleQuantity + delta <= stock.quantity) {
             const stockSaleQuantity = stock.saleQuantity + delta;
-            store.cart.handleCartChange({
+            stores.cart.handleCartChange({
               tag: 'summaryQuantityChange',
               spuId,
               skuId,
@@ -123,7 +123,7 @@ module.exports = Behavior({
             delta = 0;
           } else if (stock.saleQuantity !== stock.quantity) {
             const stockSaleQuantity = stock.quantity;
-            store.cart.handleCartChange({
+            stores.cart.handleCartChange({
               tag: 'summaryQuantityChange',
               spuId,
               skuId,
@@ -144,7 +144,7 @@ module.exports = Behavior({
           }
           if (stock.saleQuantity - delta >= 0) {
             const stockSaleQuantity = stock.saleQuantity - delta;
-            store.cart.handleCartChange({
+            stores.cart.handleCartChange({
               tag: 'summaryQuantityChange',
               spuId,
               skuId,
@@ -156,7 +156,7 @@ module.exports = Behavior({
             delta = 0;
           } else if (stock.saleQuantity !== 0) {
             const stockSaleQuantity = 0;
-            store.cart.handleCartChange({
+            stores.cart.handleCartChange({
               tag: 'summaryQuantityChange',
               spuId,
               skuId,

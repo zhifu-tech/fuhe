@@ -1,4 +1,4 @@
-import store from '@/stores/store';
+import stores from '@/stores/index';
 
 Component({
   behaviors: [
@@ -15,9 +15,9 @@ Component({
     stickyOffset: 0,
   },
   storeBindings: {
-    store,
+    stores,
     fields: {
-      categoryList: () => store.category.categoryList,
+      categoryList: () => stores.category.categoryList,
     },
   },
   lifetimes: {

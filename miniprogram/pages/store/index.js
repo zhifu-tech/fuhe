@@ -1,5 +1,5 @@
 import log from '@/common/log/log';
-import store from '@/stores/store';
+import stores from '@/stores/index';
 
 Component({
   options: {
@@ -23,17 +23,17 @@ Component({
     tag: 'storePage',
   },
   storeBindings: {
-    store,
+    stores,
     fields: {
-      // categoryExtList: () => store.category.categoryExtList,
+      // categoryExtList: () => stores.category.categoryExtList,
       categoryExtList: function () {
         log.info('categoryExtList', 'storePage');
-        return store.category.categoryExtList;
+        return stores.category.categoryExtList;
       },
-      fetchCategoryListStatus: () => store.category.fetchCategoryListStatus,
-      categorySelected: () => store.category.selected,
-      goods: () => ({ ...store.goods.selected }),
-      fetchGoodsSpuListStatus: () => store.goods.fetchGoodsSpuListStatus,
+      fetchCategoryListStatus: () => stores.category.fetchCategoryListStatus,
+      categorySelected: () => stores.category.selected,
+      goods: () => ({ ...stores.goods.selected }),
+      fetchGoodsSpuListStatus: () => stores.goods.fetchGoodsSpuListStatus,
     },
   },
 });
