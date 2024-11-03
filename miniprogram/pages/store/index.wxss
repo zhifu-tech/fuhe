@@ -89,18 +89,30 @@
   position: absolute;
 }
 
-.scroll {
+.content-container {
   flex: 1;
-  padding-bottom: calc(60px + env(safe-area-inset-bottom));
+  position: relative;
+}
+
+.scroll {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  height: unset;
-  max-height: unset;
+  height: unset !important;
+  max-height: unset !important;
 }
 
 .empty {
   justify-content: center;
+}
+.scroll,
+.empty {
+  position: absolute;
+  padding-bottom: calc(60px + env(safe-area-inset-bottom));
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .sk-goods-container {

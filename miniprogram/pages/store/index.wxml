@@ -55,56 +55,58 @@
       </view>
     </view>
 
-    <t-pull-down-refresh
-      value="{{ pageStatus.isLoadingWithPullDown }}"
-      loadingTexts="{{['下拉刷新', '松手刷新', '正在刷新', '刷新完成']}}"
-      class="scroll"
-      type="list"
-      scroll-y
-      bind:refresh="pullDownRefresh"
-      bind:scrolltolower="loadMoreGoods"
-      scroll-with-animation
-      enable-flex="true"
-    >
-      <block
-        wx:if="{{ !pageStatus.isLoadingWithSkeleton }}"
-        wx:for="{{ goods.spuList }}"
-        wx:for-item="spu"
-        wx:key="_id"
+    <view class="content-container">
+      <t-pull-down-refresh
+        value="{{ pageStatus.isLoadingWithPullDown }}"
+        loadingTexts="{{['下拉刷新', '松手刷新', '正在刷新', '刷新完成']}}"
+        class="scroll"
+        type="list"
+        scroll-y
+        bind:refresh="pullDownRefresh"
+        bind:scrolltolower="loadMoreGoods"
+        scroll-with-animation
+        enable-flex="true"
       >
-        <block wx:for="{{ spu.skuList }}" wx:for-item="sku" wx:key="_id">
-          <goods
-            spuId="{{ spu._id }}"
-            skuId="{{ sku._id }}"
-            bind:cart-change="handleCartChangeEvent"
-          />
+        <block
+          wx:if="{{ !pageStatus.isLoadingWithSkeleton }}"
+          wx:for="{{ goods.spuList }}"
+          wx:for-item="spu"
+          wx:key="_id"
+        >
+          <block wx:for="{{ spu.skuList }}" wx:for-item="sku" wx:key="_id">
+            <goods
+              spuId="{{ spu._id }}"
+              skuId="{{ sku._id }}"
+              bind:cart-change="handleCartChangeEvent"
+            />
+          </block>
         </block>
-      </block>
-      <block wx:if="{{ pageStatus.isLoadingWithSkeleton }}" wx:for="{{ 6 }}" wx:key="*this">
-        <view class="sk-goods-container">
-          <view class="sk-goods-header">
-            <t-skeleton
-              rowCol="{{ [{ size:'72px', type:'rect' }] }}"
-              animation="gradient"
-              loading
-            />
-            <t-skeleton
-              class="sk-goods-header-right"
-              rowCol="{{ [1, 1, { width: '61%' }] }}"
-              animation="gradient"
-              loading
-            />
+        <block wx:if="{{ pageStatus.isLoadingWithSkeleton }}" wx:for="{{ 6 }}" wx:key="*this">
+          <view class="sk-goods-container">
+            <view class="sk-goods-header">
+              <t-skeleton
+                rowCol="{{ [{ size:'72px', type:'rect' }] }}"
+                animation="gradient"
+                loading
+              />
+              <t-skeleton
+                class="sk-goods-header-right"
+                rowCol="{{ [1, 1, { width: '61%' }] }}"
+                animation="gradient"
+                loading
+              />
+            </view>
           </view>
-        </view>
-      </block>
-      <page-load-more
-        showLoading="{{ pageStatus.isLoadingWithMore }}"
-        showNoMore="{{ pageStatus.showNoMore }}"
-        showHasMore="{{ pageStatus.showHasMore }}"
-        showRetry="{{ pageStatus.showRetry }}"
-        bind:more="loadMoreGoods"
-        bind:retry="loadMoreGoods"
-      />
+        </block>
+        <page-load-more
+          showLoading="{{ pageStatus.isLoadingWithMore }}"
+          showNoMore="{{ pageStatus.showNoMore }}"
+          showHasMore="{{ pageStatus.showHasMore }}"
+          showRetry="{{ pageStatus.showRetry }}"
+          bind:more="loadMoreGoods"
+          bind:retry="loadMoreGoods"
+        />
+      </t-pull-down-refresh>
       <t-empty
         wx:if="{{ pageStatus.showEmpty }}"
         class="empty"
@@ -121,7 +123,7 @@
           >新增商品
         </t-button>
       </t-empty>
-    </t-pull-down-refresh>
+    </view>
   </view>
 </view>
 <t-fab
