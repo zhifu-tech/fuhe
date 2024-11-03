@@ -69,59 +69,6 @@ export default (function store() {
         data.spuList.replace([...data.spuList, ...spuList]);
       }
     }),
-    // /**  获取商品列表: 每次只能有一个请求，如果上次请求未结束，则取消请求. */
-    // fetchGoodsSpuList: action(function ({ tag, cId, pageNumber, trigger }) {
-    //   // 目前只支持的单一tab的显示和处理，所以需要取消上一次的请求
-    //   if (_fetchGoodsSpuListTask) {
-    //     _fetchGoodsSpuListTask.cancel();
-    //   }
-    //   _fetchGoodsSpuListTask = this._fetchGoodsSpuList({
-    //     tag,
-    //     cId,
-    //     pageNumber,
-    //     trigger,
-    //   });
-    //   return _fetchGoodsSpuListTask;
-    // }),
-    // _fetchGoodsSpuList: flow(function* ({ tag, cId, pageNumber, trigger }) {
-    //   log.info(tag, '_fetchGoodsSpuList', trigger, cId, pageNumber);
-    //   try {
-    //     // 请求中，切换选中状态
-    //     this.fetchGoodsSpuListStatus = { code: 'loading', trigger };
-    //     const { records: spuList, total } = yield services.goods.spuList({
-    //       tag,
-    //       cId,
-    //       pageNumber,
-    //       pageSize: 10,
-    //     });
-    //     // 保存数据到map中，后面数据更新可能会用到
-    //     this._setSpuList(spuList);
-
-    //     // 此时 data 和selected 一致的，指向同一个对象
-    //     const data = dataMap.get(cId) || {};
-    //     // 保存请求结果
-    //     if (pageNumber === 1) {
-    //       data.total = total;
-    //       data.pageNumber = 1;
-    //       data.spuList.replace(spuList);
-    //     } else {
-    //       data.total = total;
-    //       data.pageNumber = pageNumber;
-    //       data.spuList.replace([...data.spuList, ...spuList]);
-    //     }
-
-    //     // 请求成功，切换选中状态
-    //     this.fetchGoodsSpuListStatus = { code: 'success', trigger };
-    //     log.info(tag, '_fetchGoodsSpuList result', data);
-    //   } catch (error) {
-    //     // 请求失败，切换选中状态
-    //     this.fetchGoodsSpuListStatus = { code: 'error', trigger };
-    //     log.error(tag, '_fetchGoodsSpuList', error);
-    //   } finally {
-    //     // 重置任务状态
-    //     _fetchGoodsSpuListTask = null;
-    //   }
-    // }),
 
     //********************************
     // [Start] SPU & SKU & STOCK

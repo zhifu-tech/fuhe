@@ -7,6 +7,6 @@ export default function ({ tag, cId, trigger }) {
   const needFetch = stores.goods.setSelectedCategory({ tag, cId, trigger });
   if (needFetch) {
     log.info(tag, 'switchGoodsSpuList needFetch');
-    services.goods.fetchGoodsSpuList({ tag, cId, trigger });
+    services.goods.fetchGoodsSpuList({ tag, cId, trigger, pageNumber: 1 });
   }
 }
