@@ -1,6 +1,6 @@
 import log from '@/common/log/log';
-import cartStore from '../stores/index';
-import cartModels from '../models/index';
+import cartStore from '../../stores/index';
+import cartModels from '../../models/index';
 import { flow } from 'mobx-miniprogram';
 import { saasId } from '@/common/saas/saas';
 
