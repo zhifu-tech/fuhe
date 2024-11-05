@@ -7,7 +7,6 @@ export default (function store() {
   // p.s. dataMap和spuMap需要确保spu是一致的
   const dataMap = observable.map(); // map<cId, goods-object >
   const spuMap = observable.map(); // map<spu._id, spu>
-  let _fetchGoodsSpuListTask = null; // 记录当前正在进行的请求
 
   return observable({
     selected_cId: '0',
@@ -29,7 +28,7 @@ export default (function store() {
       error: null,
       trigger: '',
     },
-    setSelectedCategory: action(function ({ tag, cId, trigger }) {
+    setSelectedCategory: action(function ({ tag, cId }) {
       const data = dataMap.get(cId);
       if (data) {
         // 有请求数据，直接切换
@@ -46,14 +45,7 @@ export default (function store() {
     setFetchGoodsSpuListStatus: action(function ({ code, error, trigger }) {
       this.fetchGoodsSpuListStatus = { code, error, trigger };
     }),
-    setFetchGoodsSpuListResult: action(function ({
-      tag,
-      cId,
-      spuList,
-      total,
-      pageNumber,
-      trigger,
-    }) {
+    setFetchGoodsSpuListResult: action(function ({ cId, spuList, total, pageNumber }) {
       // 保存数据到map中，后面数据更新可能会用到
       this._setSpuList(spuList);
       // 此时 data 和selected 一致的，指向同一个对象

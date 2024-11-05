@@ -1,4 +1,3 @@
-import log from '@/common/log/log';
 import stores from '@/stores/index';
 
 Component({
@@ -27,7 +26,6 @@ Component({
     fields: {
       // categoryExtList: () => stores.category.categoryExtList,
       categoryExtList: function () {
-        log.info('categoryExtList', 'storePage');
         return stores.category.categoryExtList;
       },
       fetchCategoryListStatus: () => stores.category.fetchCategoryListStatus,

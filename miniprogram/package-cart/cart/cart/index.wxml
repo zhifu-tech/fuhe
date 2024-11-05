@@ -1,15 +1,16 @@
 <!-- 购物车悬浮入口 -->
 <t-fab
-  wx:if="{{ mode === 'fab' }}"
+  wx:if="{{ mode === 'fab' &&  recordList.length > 0 }}"
   id="cart-fab"
   icon="cart"
-  button-props="{{ { theme:'default', size:'large', variant:'text' } }}"
+  button-props="{{ fabBtnProps }}"
   draggable
   usingCustomNavbar
-  style="left: unset; right: var(--td-spacer); bottom: calc(80px + env(safe-area-inset-bottom))"
+  style="{{ fabStyle }}"
   bind:click="handleSwitchMode"
   aria-label="增加"
 />
+
 <!-- 购物车展开面板 -->
 <t-popup
   wx:if="{{ mode === 'popup' }}"

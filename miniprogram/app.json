@@ -30,6 +30,14 @@
         "entity/list/index",
         "category/list/index"
       ]
+    },
+    {
+      "root": "package-goods-2",
+      "pages": []
+    },
+    {
+      "root": "package-cart",
+      "pages": []
     }
   ],
   "tabBar": {

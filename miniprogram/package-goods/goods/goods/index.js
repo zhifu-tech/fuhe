@@ -1,5 +1,5 @@
-import stores from '@/stores/index';
 import log from '@/common/log/log';
+import stores from '@/stores/index';
 
 Component({
   behaviors: [

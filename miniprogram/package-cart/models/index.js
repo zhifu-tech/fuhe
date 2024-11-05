@@ -1,14 +1,15 @@
 import create from './create';
 import list, { all } from './list';
+import deleteMany from './delete';
 import get from './get';
-import update from './update';
-import deleteCategory from './delete';
+import update, { updateMany } from './update';
 
 export default {
   create,
-  list,
   get,
+  list,
   all,
+  deleteMany,
   update,
-  deleteCategory,
+  updateMany,
 };

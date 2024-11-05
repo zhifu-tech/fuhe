@@ -5,7 +5,7 @@
     "category-popup": "/package-goods/category/popup/index",
     "goods-popup": "/package-goods/goods/popup/index",
     "goods": "/package-goods/goods/goods/index",
-    "cart": "/package-goods/cart/cart/index",
+    "cart": "/package-cart/cart/cart/index",
     "price-quantity-popup": "/package-goods/goods/price-quantity-popup/index",
     "page-load-more": "/common/page/page-load-more/index",
     "t-action-sheet": "tdesign-miniprogram/action-sheet/action-sheet",

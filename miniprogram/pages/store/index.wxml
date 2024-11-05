@@ -24,11 +24,7 @@
           data-id="{{ category._id }}"
           value="{{ category._id }}"
           bind:longpress="onSideBarItemLongPress"
-        >
-          <block wx:if="{{ categorySelected === category._id }}">
-            <view>你好</view>
-          </block>
-        </t-side-bar-item>
+        />
         <t-skeleton
           wx:if="{{ showCategorySkeleton }}"
           wx:for="{{ 8 }}"
@@ -74,11 +70,7 @@
           wx:key="_id"
         >
           <block wx:for="{{ spu.skuList }}" wx:for-item="sku" wx:key="_id">
-            <goods
-              spuId="{{ spu._id }}"
-              skuId="{{ sku._id }}"
-              bind:cart-change="handleCartChangeEvent"
-            />
+            <goods spuId="{{ spu._id }}" skuId="{{ sku._id }}" />
           </block>
         </block>
         <block wx:if="{{ pageStatus.isLoadingWithSkeleton }}" wx:for="{{ 6 }}" wx:key="*this">

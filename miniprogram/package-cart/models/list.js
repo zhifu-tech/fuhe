@@ -1,16 +1,16 @@
 export default async function list({ saasId, pageNumber }) {
-  const { data } = await wx.cloud.models.fh_category.list({
+  const { data } = await wx.cloud.models.fh_cart.list({
     select: {
       _id: true,
-      saasId: true,
-      title: true,
+      spuId: true,
+      skuId: true,
+      stockId: true,
+      salePrice: true,
+      saleQuantity: true,
     },
     filter: {
       where: {
         $and: [
-          {
-            disabled: { $eq: 0 },
-          },
           {
             saasId: { $eq: saasId },
           },
@@ -21,6 +21,7 @@ export default async function list({ saasId, pageNumber }) {
     pageNumber,
     pageSize: 200,
   });
+
   return data;
 }
 

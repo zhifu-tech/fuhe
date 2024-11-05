@@ -1,5 +1,5 @@
 import log from '@/common/log/log';
-import { observable, action, computed } from 'mobx-miniprogram';
+import { observable, action } from 'mobx-miniprogram';
 export default (function store() {
   const cart = {
     cartSpuList: [
@@ -177,5 +177,27 @@ export default (function store() {
         this._cartSkuSumInfo.set(skuId, cur);
       }
     }),
+
+    /** cart总的价格和数量
+     * sumInfo: {
+     *   spu
+     * }
+     */
+    get cartSumInfo() {
+      const sum = {
+        sumPrice: 0,
+        sumQuantity: 0,
+      };
+      this._cartSkuSumInfo.forEach((cur) => {
+        sum.sumPrice += cur.sumPrice;
+        sum.sumQuantity += cur.sumQuantity;
+      });
+      return sum;
+    },
+
+    getCategoryCartSumInfo: function (categoryExtList) {
+      categoryExtList.map((category) => {});
+      this._cartSkuSumInfo.forEach((cur, skuId) => {});
+    },
   });
 })();

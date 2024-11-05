@@ -30,6 +30,17 @@ module.exports = Behavior({
         salePrice: salePrice,
         saleQuantity: saleQuantity,
       });
+      // FOR-TEST
+      services.runInCart((cart) => {
+        cart.updateCartRecord({
+          tag,
+          spuId,
+          skuId,
+          stockId: stock._id,
+          salePrice: stock.salePrice,
+          saleQuantity: stock.saleQuantity,
+        });
+      });
     },
     _saveStockChanges: async function (stock) {
       try {
