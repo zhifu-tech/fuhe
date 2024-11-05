@@ -3,6 +3,12 @@ import services from '@/services/index';
 import stores from '@/stores/index';
 
 module.exports = Behavior({
+  behaviors: [require('miniprogram-computed').behavior],
+  watch: {
+    skuCartData: function (data) {
+      // log.info(this.data.tag, 'watch-skuCartData', data);
+    },
+  },
   methods: {
     handleCartChangeEvent: function (e) {
       const { stockId } = e.target.dataset;

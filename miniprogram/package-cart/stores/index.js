@@ -13,7 +13,7 @@ export default (function () {
     //   salePrice,
     //   saleQuantity,
     // },
-    dataList: [],
+    dataList: observable.array([]),
 
     // 数据映射，对应不同的层级
     // 1. spuId -> data-record
@@ -28,7 +28,11 @@ export default (function () {
     // 1. 对于某类spu, 记录其数量、价格总和（用来判定价格是否发生变化）
     // 2. 对于某类sku, 记录其数量、价格总和
     // 3. 对于某类stock, 记录其数量、价格总和
-    dataMap: new Map(),
+    dataMap: observable.map(),
+
+    getSkuCartData: function (skuId) {
+      return this.dataMap.get(skuId);
+    },
 
     /** 更新拉取的数据到store中 */
     setFetchCartData: action(function ({ tag, records, total }) {
@@ -90,39 +94,61 @@ export default (function () {
       this._removeDataRecord({ record });
     }),
     updateCartRecord: action(function ({ tag, record, salePrice, saleQuantity }) {
-      log.info(tag, tagStore, 'updateCartRecord', record);
+      log.info(
+        tag,
+        tagStore,
+        'updateCartRecord',
+        salePrice,
+        saleQuantity,
+        record.salePrice,
+        record.saleQuantity,
+      );
+      const preSalePrice = record.salePrice;
+      const preSaleQuantity = record.saleQuantity;
+
+      // 更新 record
       record.salePrice = salePrice;
       record.saleQuantity = saleQuantity;
+      // 手动强制触发更新
+      this.dataList.replace(this.dataList);
+
+      // 更新data-record
+      this._updateDataRecord({ record, preSalePrice, preSaleQuantity });
     }),
 
     //****** 私有方法 ***
     _addDataRecord: action(function ({ record }) {
       const { spuId, skuId, stockId } = record;
       const totalPrice = record.salePrice * record.saleQuantity;
-      const _update = (id) => {
-        const r = this._getOrCreateDataRecord(id, true);
-        r.list.push(record);
-        r.sumPrices += totalPrice;
-        r.sumQuantities += record.saleQuantity;
+      const _add = (id) => {
+        const dataRecord = this._getOrCreateDataRecord(id, true);
+        dataRecord.list.push(record);
+        dataRecord.sumPrices += totalPrice;
+        dataRecord.sumQuantities += record.saleQuantity;
       };
       // 1. spuId -> data-record
-      _update(spuId);
+      _add(spuId);
       // 2. skuId -> data-record
-      _update(skuId);
+      _add(skuId);
       // 3. stockId -> data-record
-      _update(stockId);
+      _add(stockId);
     }),
     _removeDataRecord: action(function ({ record }) {
       const { spuId, skuId, stockId, salePrice, saleQuantity } = record;
       const totalPrice = salePrice * saleQuantity;
       const _remove = (id) => {
-        const r = this._getOrCreateDataRecord(id, false);
-        const i = r.list.findIndex((r) => r._id === _id);
+        const dataRecord = this._getOrCreateDataRecord(id, false);
+        if (!dataRecord) return;
+        const i = dataRecord.list.findIndex((r) => r._id === record._id);
         if (i >= 0) {
-          r.list.splice(i, 1);
+          dataRecord.list.splice(i, 1);
+          // 如果记录为空，删除data-record
+          if (dataRecord.list.length === 0) {
+            this.dataMap.delete(id);
+          }
         }
-        r.sumPrices -= totalPrice;
-        r.sumQuantities -= saleQuantity;
+        dataRecord.sumPrices -= totalPrice;
+        dataRecord.sumQuantities -= saleQuantity;
       };
       // 1. spuId -> data-record
       _remove(spuId);
@@ -131,15 +157,38 @@ export default (function () {
       // 3. stockId -> data-record
       _remove(stockId);
     }),
+    _updateDataRecord: action(function ({ record, preSalePrice, preSaleQuantity }) {
+      const { spuId, skuId, stockId, salePrice, saleQuantity } = record;
+      const deletaPrices =
+        salePrice * saleQuantity - // 新记录
+        preSalePrice * preSaleQuantity; // 旧记录
+      const deltaQuantities = saleQuantity - preSaleQuantity;
+
+      const _update = (id) => {
+        const dr = this._getOrCreateDataRecord(id, false);
+        if (dr) {
+          dr.sumPrices += deletaPrices;
+          dr.sumQuantities += deltaQuantities;
+          // 强制更新
+          this.dataMap.set(id, { ...dr });
+        }
+      };
+      // 1. spuId -> data-record
+      _update(spuId);
+      // 2. skuId -> data-record
+      _update(skuId);
+      // 3. stockId -> data-record
+      _update(stockId);
+    }),
     _getOrCreateDataRecord: action(function (id, enableCreate = true) {
       let dataRecord = this.dataMap.get(id);
       if (!dataRecord && enableCreate) {
-        dataRecord = {
+        this.dataMap.set(id, {
           list: [],
           sumPrices: 0,
           sumQuantities: 0,
-        };
-        this.dataMap.set(id, dataRecord);
+        });
+        dataRecord = this.dataMap.get(id);
       }
       return dataRecord;
     }),

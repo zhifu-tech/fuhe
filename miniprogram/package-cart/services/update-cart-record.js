@@ -16,7 +16,7 @@ export default async function updateCartRecord({
   salePrice,
   saleQuantity,
 }) {
-  log.info(tag, 'updateCartRecord', spuId, skuId, stockId, salePrice, saleQuantity);
+  log.info(tag, 'updateCartRecord', salePrice, saleQuantity);
   if (
     salePrice === undefined || // 价格为undefined，删除记录
     saleQuantity === undefined || // 数量为undefined 或 0，删除记录

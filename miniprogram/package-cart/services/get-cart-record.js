@@ -16,7 +16,7 @@ export default async function getCardRecord({ tag, _id, useStore = true }) {
     const data = await cartModels.get({ _id });
     // 将拉取的数据保存到store中
     cartStore.addCartRecord({ tag, record: data });
-    log.info(tag, 'getCardRecord', 'get from cloud', data);
+    log.info(tag, 'getCardRecord', 'get from cloud');
     return data;
   } catch (error) {
     log.info(tag, 'getCardRecord', 'error', error);

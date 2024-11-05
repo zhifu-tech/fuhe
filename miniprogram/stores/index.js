@@ -32,7 +32,7 @@ export default (function () {
           console.error(`path: ${mod}, ${errMsg}`);
         });
       }
-      return _cart.data || {};
+      return _cart.data || null;
     },
   };
 })();
