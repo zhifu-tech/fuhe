@@ -53,15 +53,15 @@ Component({
       skuCartData: function () {
         const { spuId, skuId } = this.properties;
         if (spuId && skuId) {
-          const data = stores.cart2?.getSkuCartData(skuId);
+          const data = stores.cart.getSkuCartData(skuId);
           log.info(this.data.tag, 'cartSkuInfo', data);
           return (data && { ...data }) || {};
         }
         return {};
       },
-      cartSkuSumInfo: function () {
-        return stores.cart.getCartSkuSumInfo(this.properties.skuId) || {};
-      },
+      // cartSkuSumInfo: function () {
+      //   return stores.cart.getCartSkuSumInfo(this.properties.skuId) || {};
+      // },
     },
   },
 });

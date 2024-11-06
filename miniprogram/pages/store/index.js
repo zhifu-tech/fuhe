@@ -41,6 +41,9 @@ Component({
 
         stores.fetchGoods(),
         services.fetchGoods(),
+
+        stores.fetchCart(),
+        services.fetchCart(),
       ]);
 
       this._storeBindings = createStoreBindings(this, {

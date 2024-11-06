@@ -1,6 +1,6 @@
 import log from '@/common/log/log';
-import cartStore from '../../stores/index';
-import cartModels from '../../models/index';
+import cartStore from '../../stores/cart/index';
+import cartModels from '../../models/cart/index';
 
 export default async function getCardRecord({ tag, _id, useStore = true }) {
   // 如果 useStore 为 true，则从store中获取数据

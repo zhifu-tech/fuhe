@@ -55,22 +55,24 @@ export default (function () {
       return _goods;
     },
 
-    get cart() {
-      return cart;
-    },
-
     // get cart() {
-    //   if (!_cart) {
-    //     log.error('cart is not ready, should call fetchCart first!');
-    //     this.fetchCart();
-    //   }
-    //   return _cart || {};
+    //   return cart;
     // },
-    // fetchCart: async function () {
-    //   if (!_cart) {
-    //     _cart = await require.async('@/package-cart/stores/index.js').then((mod) => mod.default);
-    //   }
-    //   return _cart;
-    // },
+
+    get cart() {
+      if (!_cart) {
+        log.error('cart is not ready, should call fetchCart first!');
+        this.fetchCart();
+      }
+      return _cart || {};
+    },
+    fetchCart: async function () {
+      if (!_cart) {
+        _cart = await require
+          .async('@/package-cart/stores/cart/index.js')
+          .then((mod) => mod.default);
+      }
+      return _cart;
+    },
   };
 })();

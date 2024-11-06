@@ -1,5 +1,5 @@
 import log from '@/common/log/log';
-import cartServices from '../../../services/index';
+import cartServices from '../../../services/cart/index';
 
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],

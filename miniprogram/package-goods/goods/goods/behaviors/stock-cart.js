@@ -6,7 +6,7 @@ module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
   watch: {
     skuCartData: function (data) {
-      // log.info(this.data.tag, 'watch-skuCartData', data);
+      log.info(this.data.tag, 'watch-skuCartData', data);
     },
   },
   methods: {
@@ -28,14 +28,14 @@ module.exports = Behavior({
         this._saveStockChanges(stock);
       }
       stock.saleQuantity = saleQuantity;
-      stores.cart.handleCartChange({
-        tag,
-        spuId,
-        skuId,
-        stockId: stock._id,
-        salePrice: salePrice,
-        saleQuantity: saleQuantity,
-      });
+      // stores.cart.handleCartChange({
+      //   tag,
+      //   spuId,
+      //   skuId,
+      //   stockId: stock._id,
+      //   salePrice: salePrice,
+      //   saleQuantity: saleQuantity,
+      // });
       // FOR-TEST
       services.cart.updateCartRecord({
         tag,

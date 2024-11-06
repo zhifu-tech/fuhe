@@ -1,6 +1,6 @@
 import log from '@/common/log/log';
 import stores from '@/stores/index';
-import cartStore from '../../stores/index';
+import cartStore from '../../stores/cart/index';
 
 Component({
   behaviors: [

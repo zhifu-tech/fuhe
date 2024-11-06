@@ -1,6 +1,6 @@
 import log from '@/common/log/log';
-import cartStore from '../../stores/index';
-import cartModels from '../../models/index';
+import cartStore from '../../stores/cart/index';
+import cartModels from '../../models/cart/index';
 
 export default async function deleteCartRecord({ tag, spuId, skuId, stockId }) {
   // 由于数量变更引起的减少，需要查找具有相同{spuId, skuId, stockId, salePrice}的记录

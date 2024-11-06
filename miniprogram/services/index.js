@@ -74,7 +74,7 @@ export default (function () {
     fetchCart: async function () {
       if (!_cart) {
         _cart = await require
-          .async('@/package-cart/services/index.js')
+          .async('@/package-cart/services/cart/index.js')
           .then((mod) => mod.default || mod)
           .catch(({ mod, errMsg }) => {
             log.error('services', `加载分包 ${mod} 失败`, errMsg);
@@ -83,22 +83,8 @@ export default (function () {
       }
       return _cart;
     },
-
     runInCart: function (action) {
-      this.cart2.then(action);
-    },
-
-    get cart2() {
-      _cart2 =
-        _cart2 ||
-        require
-          .async('@/package-cart/services/index.js')
-          .then((mod) => mod.default || mod)
-          .catch(({ mod, errMsg }) => {
-            log.error('services', `加载分包 ${mod} 失败`, errMsg);
-            return null;
-          });
-      return _cart;
+      this.fetchCart().then(action);
     },
   };
 })();
