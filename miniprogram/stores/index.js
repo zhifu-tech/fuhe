@@ -1,38 +1,76 @@
 import log from '@/common/log/log';
-import { configure, observable } from 'mobx-miniprogram';
-import { default as goods } from './goods-store';
-import { default as cart } from './cart-store';
-import { default as category } from './category-store';
-import { default as spec } from './spec-store';
+import cart from './cart-store';
 
-configure({
-  enforceActions: true, // 不允许在动作之外进行状态修改
-});
 export default (function () {
-  let _cart = observable({
-    needLoad: true,
-    data: null,
-  });
-  let _goods2 = observable({
-    needLoad: true,
-    data: null,
-  });
+  let _category = null;
+  let _spec = null;
+  let _goods = null;
+  let _cart = null;
 
   return {
-    category,
-    spec,
-    goods,
-    cart,
-    get cart2() {
-      if (_cart.needLoad) {
-        _cart.needLoad = false;
-        require('@/package-cart/stores/index.js', (cart) => {
-          _cart.data = cart.default || cart;
-        }, ({ mod, errMsg }) => {
-          console.error(`path: ${mod}, ${errMsg}`);
-        });
+    get category() {
+      if (!_category) {
+        log.error('category is not ready, should call fetchCategory first!');
+        this.fetchCategory();
       }
-      return _cart.data || null;
+      return _category || {};
     },
+    fetchCategory: async function () {
+      if (!_category) {
+        _category = await require
+          .async('@/package-cso/stores/category/index.js')
+          .then((mod) => mod.default);
+      }
+      return _category;
+    },
+    get spec() {
+      if (!_spec) {
+        log.error('spec is not ready, should call fetchSpec first!');
+        this.fetchSpec();
+      }
+      return _spec || {};
+    },
+    fetchSpec: async function () {
+      if (!_spec) {
+        _spec = await require
+          .async('@/package-cso/stores/spec/index.js')
+          .then((mod) => mod.default);
+      }
+      return _spec;
+    },
+
+    get goods() {
+      if (!_goods) {
+        log.error('goods is not ready, should call fetchGoods first!');
+        this.fetchGoods();
+      }
+      return _goods;
+    },
+    fetchGoods: async function () {
+      if (!_goods) {
+        _goods = await require
+          .async('@/package-goods/stores/goods/index.js')
+          .then((mod) => mod.default);
+      }
+      return _goods;
+    },
+
+    get cart() {
+      return cart;
+    },
+
+    // get cart() {
+    //   if (!_cart) {
+    //     log.error('cart is not ready, should call fetchCart first!');
+    //     this.fetchCart();
+    //   }
+    //   return _cart || {};
+    // },
+    // fetchCart: async function () {
+    //   if (!_cart) {
+    //     _cart = await require.async('@/package-cart/stores/index.js').then((mod) => mod.default);
+    //   }
+    //   return _cart;
+    // },
   };
 })();

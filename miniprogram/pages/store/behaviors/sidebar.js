@@ -25,7 +25,7 @@ module.exports = Behavior({
       const { tag } = this.data;
       const { value: selected } = e.detail;
       if (selected === stores.category.categoryAdd._id) {
-        require('@/package-goods/category/popup/popup.js', (popup) => {
+        require('@/package-cso/category/popup/popup.js', (popup) => {
           popup.show(this, {});
         }, ({ mod, errMsg }) => {
           console.error(`path: ${mod}, ${errMsg}`);
@@ -41,7 +41,7 @@ module.exports = Behavior({
       const { tag } = this.data;
       const { id: cId } = e.currentTarget.dataset;
       if (cId === stores.category.categoryAdd._id) {
-        require('@/package-goods/category/popup/popup.js', (popup) => {
+        require('@/package-cso/category/popup/popup.js', (popup) => {
           popup.show(this, {});
         }, ({ mod, errMsg }) => {
           console.error(`path: ${mod}, ${errMsg}`);
@@ -52,7 +52,7 @@ module.exports = Behavior({
           cId,
         });
       } else {
-        require('@/package-goods/category/popup/popup.js', (popup) => {
+        require('@/package-cso/category/popup/popup.js', (popup) => {
           popup.show(this, { cId });
         }, ({ mod, errMsg }) => {
           console.error(`path: ${mod}, ${errMsg}`);

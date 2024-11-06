@@ -43,7 +43,7 @@ module.exports = Behavior({
             this.setData({ showCategorySkeleton: false });
             // 加载显示首个分类选项
             if (categoryExtList.length > 1) {
-              stores.category.switchSelectedCategory({
+              services.category.switchSelectedCategory({
                 tag,
                 cId: categoryExtList[0]._id,
               });

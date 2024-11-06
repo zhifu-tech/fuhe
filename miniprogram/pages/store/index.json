@@ -2,7 +2,7 @@
   "navigationBarTitleText": "小店",
   "component": true,
   "usingComponents": {
-    "category-popup": "/package-goods/category/popup/index",
+    "category-popup": "/package-cso/category/popup/index",
     "goods-popup": "/package-goods/goods/popup/index",
     "goods": "/package-goods/goods/goods/index",
     "cart": "/package-cart/cart/cart/index",

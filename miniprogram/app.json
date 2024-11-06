@@ -26,14 +26,19 @@
   "subpackages": [
     {
       "root": "package-goods",
+      "pages": []
+    },
+    {
+      "root": "package-mix",
       "pages": [
-        "entity/list/index",
-        "category/list/index"
+        "entity/list/index"
       ]
     },
     {
-      "root": "package-goods-2",
-      "pages": []
+      "root": "package-cso",
+      "pages": [
+        "category/list/index"
+      ]
     },
     {
       "root": "package-cart",
