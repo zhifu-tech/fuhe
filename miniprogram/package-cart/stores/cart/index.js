@@ -4,7 +4,8 @@ import { action, observable } from 'mobx-miniprogram';
 export default (function () {
   const tagStore = 'cart-store';
   return observable({
-    // 数据列表，对应原始数据
+    // 数据列表，对应原始数据, store中只应该存在一份儿record，
+    // 其它地方如map不应该保存记录，否则，在数据更新时，需要修改多个地方
     // {
     //   _id,
     //   spuId,
@@ -20,7 +21,6 @@ export default (function () {
     // 2. skuId -> data-record
     // 3. stockId -> data-record
     // data-record: {
-    //  list: [], // 数据列表中，包含spuId/skuId/stockId的数据条目
     //  sumPrices: 0,
     //  sumQuantities: 0,
     // }
@@ -32,6 +32,9 @@ export default (function () {
 
     getSkuCartData: function (skuId) {
       return this.dataMap.get(skuId);
+    },
+    getStockCartData: function (stockId) {
+      return this.dataMap.get(stockId);
     },
 
     /** 更新拉取的数据到store中 */
@@ -122,7 +125,6 @@ export default (function () {
       const totalPrice = record.salePrice * record.saleQuantity;
       const _add = (id) => {
         const dataRecord = this._getOrCreateDataRecord(id, true);
-        dataRecord.list.push(record);
         dataRecord.sumPrices += totalPrice;
         dataRecord.sumQuantities += record.saleQuantity;
       };
@@ -139,14 +141,6 @@ export default (function () {
       const _remove = (id) => {
         const dataRecord = this._getOrCreateDataRecord(id, false);
         if (!dataRecord) return;
-        const i = dataRecord.list.findIndex((r) => r._id === record._id);
-        if (i >= 0) {
-          dataRecord.list.splice(i, 1);
-          // 如果记录为空，删除data-record
-          if (dataRecord.list.length === 0) {
-            this.dataMap.delete(id);
-          }
-        }
         dataRecord.sumPrices -= totalPrice;
         dataRecord.sumQuantities -= saleQuantity;
       };
@@ -184,7 +178,6 @@ export default (function () {
       let dataRecord = this.dataMap.get(id);
       if (!dataRecord && enableCreate) {
         this.dataMap.set(id, {
-          list: [],
           sumPrices: 0,
           sumQuantities: 0,
         });

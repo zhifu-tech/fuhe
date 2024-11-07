@@ -1,6 +1,6 @@
 import log from '@/common/log/log';
 
-export default async function ({ tag, stockId, quantity, costPrice, originalPrice, salePrice }) {
+export default async function ({ tag, _id, quantity, costPrice, originalPrice, salePrice }) {
   try {
     const pData = {};
     if (quantity) pData.quantity = quantity;
@@ -14,7 +14,7 @@ export default async function ({ tag, stockId, quantity, costPrice, originalPric
           $and: [
             {
               _id: {
-                $eq: stockId,
+                $eq: _id,
               },
             },
           ],

@@ -1,5 +1,4 @@
 import log from '@/common/log/log';
-import cart from './cart-store';
 
 export default (function () {
   let _category = null;
@@ -54,10 +53,6 @@ export default (function () {
       }
       return _goods;
     },
-
-    // get cart() {
-    //   return cart;
-    // },
 
     get cart() {
       if (!_cart) {

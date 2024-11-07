@@ -34,7 +34,6 @@ Component({
     fields: {
       spu: function () {
         const spu = stores.goods.getSpu(this.properties.spuId);
-        log.info(this.data.tag, 'spu', spu);
         // TRICKY: 返回一个新对象:
         // 1. 当spu变化时，可以触发更新
         // 2. 避免引用修改导致的不一致问题
@@ -44,7 +43,6 @@ Component({
         const { spuId, skuId } = this.properties;
         if (spuId && skuId) {
           const sku = stores.goods.getSku(spuId, skuId);
-          log.info(this.data.tag, 'sku', sku);
           return sku || {};
         } else {
           return {};
@@ -54,14 +52,10 @@ Component({
         const { spuId, skuId } = this.properties;
         if (spuId && skuId) {
           const data = stores.cart.getSkuCartData(skuId);
-          log.info(this.data.tag, 'cartSkuInfo', data);
           return (data && { ...data }) || {};
         }
         return {};
       },
-      // cartSkuSumInfo: function () {
-      //   return stores.cart.getCartSkuSumInfo(this.properties.skuId) || {};
-      // },
     },
   },
 });
