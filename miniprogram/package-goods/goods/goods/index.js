@@ -51,10 +51,9 @@ Component({
         }
         return {};
       },
-      spuTitle2: function () {
+      spuTitle: function () {
         log.info(this.data.tag, 'spuTitle changed');
-        this.setData({ spuTitle: this.data.spu?.title || '' });
-        return {};
+        return this.data.spu?.title || '';
       },
 
       // sku及相关子对象
@@ -70,16 +69,16 @@ Component({
       skuStockList2: function () {
         const skuStockList = this.data.sku?.stockList || [];
         log.info(this.data.tag, 'skuStockList changed', skuStockList?.length);
-        this.setData({ skuStockList: skuStockList || [] });
+        this.setData({ skuStockList });
         return {};
       },
 
       // cart 监听数据变化
       skuCartData2: function () {
         const { skuId } = this.properties;
-        const data = stores.cart.getSkuCartData(skuId);
-        log.info(this.data.tag, 'skuCartData', data);
-        this.setData({ skuCartData: data || null });
+        const skuCartData = stores.cart.getSkuCartData(skuId);
+        log.info(this.data.tag, 'skuCartData change');
+        this.setData({ skuCartData });
         return {};
       },
     },
