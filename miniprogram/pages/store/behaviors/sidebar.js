@@ -23,9 +23,11 @@ module.exports = Behavior({
       wx.setStorageSync('stores.showSideBar', showSideBar);
     },
     onSideBarChange: function (e) {
-      const { tag } = this.data;
+      const { tag, categorySelected } = this.data;
       const { value: selected } = e.detail;
       if (selected === stores.category.categoryAdd._id) {
+        // 解决状态错乱的问题，选中add时，重新选中之前的分类
+        this.setData({ categorySelected });
         require('@/package-cso/category/popup/popup.js', (popup) => {
           popup.show(this, {});
         }, ({ mod, errMsg }) => {
