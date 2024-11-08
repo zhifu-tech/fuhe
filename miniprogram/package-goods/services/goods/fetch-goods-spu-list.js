@@ -48,7 +48,7 @@ const _fetchGoodsSpuList = flow(function* ({ tag, cId, pageNumber, trigger, call
 
     // 请求成功，切换选中状态
     callback({ code: 'success', trigger, spuList, total });
-    log.info(tag, '_fetchGoodsSpuList result', spuList);
+    log.info(tag, '_fetchGoodsSpuList result', spuList.length);
   } catch (error) {
     // 判断任务是否被取消
     if (error.message === 'FLOW_CANCELLED') {

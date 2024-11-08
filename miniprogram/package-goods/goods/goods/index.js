@@ -46,13 +46,11 @@ Component({
         if (!this.data.spu) {
           const { spuId } = this.properties;
           const spu = stores.goods.getSpu(spuId);
-          log.info(this.data.tag, 'spu changed', spu?.title);
           this.setData({ spu });
         }
         return {};
       },
       spuTitle: function () {
-        log.info(this.data.tag, 'spuTitle changed');
         return this.data.spu?.title || '';
       },
 
@@ -61,14 +59,12 @@ Component({
         if (!this.data.sku) {
           const { spuId, skuId } = this.properties;
           const sku = stores.goods.getSku(spuId, skuId);
-          log.info(this.data.tag, 'sku changed', this.data.spu?.title);
           this.setData({ sku });
         }
         return {};
       },
       skuStockList2: function () {
         const skuStockList = this.data.sku?.stockList || [];
-        log.info(this.data.tag, 'skuStockList changed', skuStockList?.length);
         this.setData({ skuStockList });
         return {};
       },
@@ -76,8 +72,7 @@ Component({
       // cart 监听数据变化
       skuCartData2: function () {
         const { skuId } = this.properties;
-        const skuCartData = stores.cart.getSkuCartData(skuId);
-        log.info(this.data.tag, 'skuCartData change');
+        const skuCartData = stores.cart.getSkuCartData(skuId) || {};
         this.setData({ skuCartData });
         return {};
       },

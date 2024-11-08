@@ -47,21 +47,18 @@ Component({
       ]);
 
       this._storeBindings = createStoreBindings(this, {
-        store: stores,
+        stores,
         fields: {
-          categoryExtList: function () {
-            const list = stores.category.categoryExtList;
-            log.info(this.data.tag, 'categoryExtList', list.length);
-            return (list && [...list]) || [];
+          categoryExtList2: function () {
+            const categoryExtList = stores.category.categoryExtList || [];
+            this.setData({ categoryExtList });
+            return [];
           },
           categorySelected: function () {
-            const selected = stores.category.selected;
-            log.info(this.data.tag, 'categorySelected', selected);
-            return selected || '';
+            return stores.category.selected;
           },
           goods2: function () {
             const selected = stores.goods.selected;
-            log.info(this.data.tag, 'goodsSelected', selected);
             this.setData({ goods: selected });
             return {};
           },

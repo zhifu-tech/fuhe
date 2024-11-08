@@ -33,7 +33,7 @@ export default async function ({ tag, skuIdList }) {
       totals = total;
       results = [...results, ...records];
     } while (results.length < totals);
-    log.info(tag, 'stock-list-batch', results, totals === results.length);
+    log.info(tag, 'stock-list-batch', totals === results.length);
 
     return { records: results, total: results.length };
   } catch (error) {

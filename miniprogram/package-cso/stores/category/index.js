@@ -54,13 +54,13 @@ export default (function store() {
     getCategoryWithTitle: function (title) {
       return this.categoryList.find((item) => item.title === title);
     },
-    setCategory: action(function (category) {
+    setCategory: action(function ({ tag, category }) {
       const index = this.categoryList.findIndex(({ _id }) => _id === category._id);
       if (index !== -1) {
         this.categoryList[index] = category;
         log.info('setCategory', category);
       } else {
-        this.addCategory(category);
+        this.addCategory({ tag, category });
         log.info('addCategory', category);
       }
     }),
@@ -77,7 +77,6 @@ export default (function store() {
       }
       // 更新category相关信息
       if (updated.title) category.title = updated.title;
-      this.categoryList.replace(this.categoryList);
     }),
     deleteCategory: action(function ({ _id: cId }) {
       const index = this.categoryList.findIndex(({ _id }) => _id === cId);

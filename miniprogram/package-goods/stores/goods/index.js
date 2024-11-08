@@ -106,12 +106,12 @@ export default (function store() {
       // 加入到对应分类列表的首位
       let data = dataMap.get(spu.cId);
       if (data) {
-        data.spuList.replace([spu, ...data.spuList]);
+        data.spuList.unshift(spu);
         log.info(tag, tagStore, 'addGoodsSpu', 'add by cId');
       }
       data = dataMap.get('1'); // 所有分类
       if (data) {
-        data.spuList.replace([spu, ...data.spuList]);
+        data.spuList.unshift(spu);
         log.info(tag, tagStore, 'addGoodsSpu', 'add by all');
       }
     }),

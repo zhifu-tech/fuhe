@@ -11,12 +11,12 @@ export default async function ({ tag, cId, useStore = true }) {
     }
   }
   try {
-    const data = await categoryModel.get({ tag, _id: cId });
-    categroyStore.setCategory(data);
-    log.info(tag, 'category-get', data.title, 'load from server');
-    return data;
+    const category = await categoryModel.get({ tag, _id: cId });
+    categroyStore.setCategory({ tag, category });
+    log.info(tag, 'category-get', category.title, 'load from server');
+    return category;
   } catch (error) {
-    log.error(tag, 'category-get', data.title, error);
+    log.error(tag, 'category-get', error);
     throw error;
   }
 }

@@ -5,17 +5,17 @@ import categoryService from './index';
 
 export default async function ({ tag, draft }) {
   try {
-    const data = await categoryModel.create({
+    const id = await categoryModel.create({
       tag,
       saasId: saasId(),
       title: draft.title,
     });
-    draft._id = data.id;
+    draft._id = id;
 
     // 新建分类，需要重新获取分类数据
-    const newCategory = categoryService.getCategory({
+    const newCategory = await categoryService.getCategory({
       tag,
-      id: data.id,
+      cId: id,
       useStore: false,
     });
     log.info(tag, 'category-create', draft.title);

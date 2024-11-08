@@ -31,6 +31,9 @@ const _fetchCategoryList = flow(function* ({ tag, trigger, callback }) {
       saasId: saasId(),
     });
 
+    // 增加pinyin支持
+    _postCategoryList(categoryList);
+
     // 保存请求结果
     categroyStore.setCategoryList({ categoryList, total });
 

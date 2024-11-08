@@ -6,7 +6,7 @@ import { isObservable, action, runInAction } from 'mobx-miniprogram';
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
   watch: {
-    'skuCartData.**': function () {
+    skuCartData: function () {
       const { tag, spuId, skuId, sku } = this.data;
       runInAction(() => {
         sku?.stockList?.forEach((stock) => {
@@ -19,21 +19,13 @@ module.exports = Behavior({
             const { salePrice, saleQuantity } = list[0];
             if (salePrice && stock.salePrice !== salePrice) {
               stock.salePrice = salePrice;
-              log.info(tag, 'skuCartData change, salePrice:= ', salePrice);
             }
             if (saleQuantity && stock.saleQuantity !== saleQuantity) {
               stock.saleQuantity = saleQuantity;
-              log.info(
-                tag,
-                'skuCartData change, saleQuantity:= ',
-                saleQuantity,
-                isObservable(stock),
-              );
             }
           }
         });
       });
-      log.info(tag, 'skuCartData change applied');
     },
   },
   methods: {
