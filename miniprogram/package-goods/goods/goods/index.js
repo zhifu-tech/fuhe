@@ -37,30 +37,50 @@ Component({
   storeBindings: {
     stores,
     fields: {
+      // spu 及相关子对象
       spu2: function () {
         // 在 mobx-miniprogram 中，通过 storeBindings 将 observable 对象绑定到小程序组件的 data 上时，
         // 会将这些 observable 的属性值复制到组件的 data 中，而不是直接将 observable 对象本身提供给组件。
         // 这会导致通过 this.data.obj 访问到的对象是一个普通的 JavaScript 对象，而不是 observable。
         // 这里为了绕过这个限制，这里增加一个字段，然后通过setData更新。
-        const { spuId } = this.properties;
-        const spu = stores.goods.getSpu(spuId);
-        log.info(this.data.tag, 'spu changed');
-        this.setData({ spu });
-        return spu || {};
+        if (!this.data.spu) {
+          const { spuId } = this.properties;
+          const spu = stores.goods.getSpu(spuId);
+          log.info(this.data.tag, 'spu changed', spu?.title);
+          this.setData({ spu });
+        }
+        return {};
       },
+      spuTitle2: function () {
+        log.info(this.data.tag, 'spuTitle changed');
+        this.setData({ spuTitle: this.data.spu?.title || '' });
+        return {};
+      },
+
+      // sku及相关子对象
       sku2: function () {
-        const { spuId, skuId } = this.properties;
-        const sku = stores.goods.getSku(spuId, skuId);
-        log.info(this.data.tag, 'sku changed', this.data.spu?.title);
-        this.setData({ sku });
-        return sku || {};
+        if (!this.data.sku) {
+          const { spuId, skuId } = this.properties;
+          const sku = stores.goods.getSku(spuId, skuId);
+          log.info(this.data.tag, 'sku changed', this.data.spu?.title);
+          this.setData({ sku });
+        }
+        return {};
       },
+      skuStockList2: function () {
+        const skuStockList = this.data.sku?.stockList || [];
+        log.info(this.data.tag, 'skuStockList changed', skuStockList?.length);
+        this.setData({ skuStockList: skuStockList || [] });
+        return {};
+      },
+
+      // cart 监听数据变化
       skuCartData2: function () {
-        const { spuId, skuId } = this.properties;
+        const { skuId } = this.properties;
         const data = stores.cart.getSkuCartData(skuId);
-        log.info(this.data.tag, 'skuCartData', this.data.spu?.title);
-        this.setData({ skuCartData: data });
-        return data || {};
+        log.info(this.data.tag, 'skuCartData', data);
+        this.setData({ skuCartData: data || null });
+        return {};
       },
     },
   },

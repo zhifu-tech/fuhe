@@ -161,8 +161,6 @@ export default (function () {
         if (dr) {
           dr.sumPrices += deletaPrices;
           dr.sumQuantities += deltaQuantities;
-          // 强制更新
-          // this.dataMap.set(id, { ...dr });
         }
       };
       // 1. spuId -> data-record

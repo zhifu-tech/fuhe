@@ -14,7 +14,7 @@
     <view class="right">
       <view class="title-container">
         <view class="title-wrapper">
-          <view class="title">{{ _.getTitle(spu, sku) }}</view>
+          <view class="title">{{ _.getTitle(spuTitle, sku) }}</view>
         </view>
         <t-button
           class="more"
@@ -67,14 +67,14 @@
 
   <!--库存清单-->
   <t-divider />
-  <block wx:for="{{ sku.stockList }}" wx:for-item="stock" wx:for-index="index" wx:key="_id">
+  <block wx:for="{{ skuStockList }}" wx:for-item="stock" wx:for-index="index" wx:key="_id">
     <view class="stock-date-wrapper">
       <view class="stock-date">{{ stock.createdAtFormatted }} 入库</view>
       <t-button
         class="more"
         icon="more"
         disabled="{{ !editable }}"
-        data-stock="{{ stock }}"
+        data-stock-id="{{ stock._id }}"
         data-index="{{ index }}"
         theme="default"
         variant="text"

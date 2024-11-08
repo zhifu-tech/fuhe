@@ -69,6 +69,10 @@ export default (function store() {
       }
       return spu;
     },
+    getSpuSpecList: function (spuId) {
+      const spu = spuMap.get(spuId);
+      return spu.specList;
+    },
     getSku: function (spuId, skuId) {
       const spu = this.getSpu(spuId);
       return spu?.skuList?.find((sku) => sku._id === skuId);

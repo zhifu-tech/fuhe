@@ -1,10 +1,13 @@
 import pages from '@/common/page/pages';
 import { showSimpleActionSheet } from '@/common/action-sheet/simples';
+import stores from '@/stores/index';
 
 module.exports = Behavior({
   methods: {
     showStockActionMore: function (e) {
-      const { stock, index } = e.target.dataset;
+      const { spuId, skuId } = this.data;
+      const { stockId, index } = e.target.dataset;
+      const stock = stores.goods.getStock(spuId, skuId, stockId);
       showSimpleActionSheet({
         items: [
           {

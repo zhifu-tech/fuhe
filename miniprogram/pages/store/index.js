@@ -59,10 +59,11 @@ Component({
             log.info(this.data.tag, 'categorySelected', selected);
             return selected || '';
           },
-          goods: function () {
+          goods2: function () {
             const selected = stores.goods.selected;
             log.info(this.data.tag, 'goodsSelected', selected);
-            return (selected && { ...selected }) || {};
+            this.setData({ goods: selected });
+            return {};
           },
         },
       });

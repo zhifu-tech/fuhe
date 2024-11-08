@@ -1,5 +1,7 @@
 import log from '@/common/log/log';
-import cartServices from '../../../services/cart/index';
+import cartStore from '../../../stores/cart/index';
+import cartService from '../../../services/cart/index';
+import { autorun } from 'mobx-miniprogram';
 
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
@@ -8,23 +10,28 @@ module.exports = Behavior({
       'left: unset; right: var(--td-spacer); bottom: calc(80px + env(safe-area-inset-bottom))',
     fabBtnProps: { theme: 'default', size: 'large', variant: 'text' },
 
-    cartList: [], // 购物车数据
+    dataList: [], // 购物车数据
     _dataList: [], // 购物车数据
     _needFechGoods: true,
   },
   watch: {
-    recordList: function () {
-      this.showCartList();
-    },
     mode: function (mode) {
       const { tag, _needFechGoods } = this.data;
-      if (mode === 'popup' && _needFechGoods) {
-        this.fetchCartGoodsTask?.dispose();
-        this.fetchCartGoodsTask = cartServices.fetchCartGodds({
-          tag,
-          trigger: 'cart-popup',
-          callback: this.handleFetchCartGoods.bind(this),
-        });
+      if (mode === 'popup') {
+        if (_needFechGoods) {
+          // 首次运行，拉取数据
+          this.fetchCartGoodsTask?.dispose();
+          this.fetchCartGoodsTask = cartService.fetchCartGodds({
+            tag,
+            trigger: 'cart-popup',
+            callback: this.handleFetchCartGoods.bind(this),
+          });
+        } else {
+          this.showCartList();
+        }
+      } else {
+        // 隐藏时，清空数据
+        setTimeout(() => this.setData({ dataList: [] }), 300);
       }
     },
   },
@@ -36,12 +43,10 @@ module.exports = Behavior({
   },
   methods: {
     handleFetchCartGoods: function (status) {
-      const { code, error, trigger } = status;
+      const { code } = status;
       switch (code) {
-        case 'loading': {
-          break;
-        }
         case 'success': {
+          this.data._needFechGoods = false;
           const { dataExtList } = status;
           this.data._dataList = dataExtList;
           this.showCartList();
@@ -53,16 +58,10 @@ module.exports = Behavior({
       }
     },
     showCartList: function () {
-      const { tag, mode, recordList, _dataList, _needFechGoods } = this.data;
-      // 当购物车数据发生变化时，重新获取购物车商品数据
-      this.data._needFechGoods = true;
+      const { mode, _dataList } = this.data;
       // 当正在显示时，需要更新数据
       if (mode === 'popup' && _dataList != null) {
-        // recordList为原始购物车数据，dataList为处理后的购物车数据
-        // 当数据变化时，需要重新获取dataList，但是显示的购物车数据，如果已经获取，则不需要重新获取
-        this.setData({
-          cartList: recordList,
-        });
+        this.setData({ dataList: cartStore.dataList });
       }
     },
   },

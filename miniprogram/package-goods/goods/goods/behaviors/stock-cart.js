@@ -6,10 +6,10 @@ import { isObservable, action, runInAction } from 'mobx-miniprogram';
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
   watch: {
-    skuCartData: function () {
+    'skuCartData.**': function () {
       const { tag, spuId, skuId, sku } = this.data;
       runInAction(() => {
-        sku.stockList.forEach((stock) => {
+        sku?.stockList?.forEach((stock) => {
           const list = stores.cart.getCartRecordList({
             spuId,
             skuId,
@@ -19,9 +19,16 @@ module.exports = Behavior({
             const { salePrice, saleQuantity } = list[0];
             if (salePrice && stock.salePrice !== salePrice) {
               stock.salePrice = salePrice;
+              log.info(tag, 'skuCartData change, salePrice:= ', salePrice);
             }
             if (saleQuantity && stock.saleQuantity !== saleQuantity) {
               stock.saleQuantity = saleQuantity;
+              log.info(
+                tag,
+                'skuCartData change, saleQuantity:= ',
+                saleQuantity,
+                isObservable(stock),
+              );
             }
           }
         });
@@ -56,38 +63,36 @@ module.exports = Behavior({
         return;
       }
       const promises = [];
-      let needUpdateCartRecord = false;
+
       runInAction(() => {
         if (salePrice && stock.salePrice !== salePrice) {
           // 库存价格被修改，更新stock的售价
           stock.salePrice = salePrice;
-          needUpdateCartRecord = true;
+
           // 销售价格，需要持久化保存
           promises.push(this._saveStockChanges(stock));
         }
         if (saleQuantity && stock.saleQuantity !== saleQuantity) {
           // 销售数量变更
           stock.saleQuantity = saleQuantity;
-          needUpdateCartRecord = true;
         } else if (!saleQuantity && stock.saleQuantity !== 0) {
           // 被删除，需要清空销售数量
           stock.saleQuantity = 0;
-          needUpdateCartRecord = true;
         }
       });
-      if (needUpdateCartRecord) {
-        // 更新store中的数据
-        promises.push(
-          services.cart.updateCartRecord({
-            tag,
-            spuId,
-            skuId,
-            stockId,
-            salePrice,
-            saleQuantity,
-          }),
-        );
-      }
+
+      // 更新store中的数据
+      promises.push(
+        services.cart.updateCartRecord({
+          tag,
+          spuId,
+          skuId,
+          stockId,
+          salePrice,
+          saleQuantity,
+        }),
+      );
+
       if (promises.length > 0) {
         await Promise.all(promises);
       }

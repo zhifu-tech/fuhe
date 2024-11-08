@@ -16,14 +16,4 @@ Component({
   data: {
     tag: 'cart-cart',
   },
-  storeBindings: {
-    stores,
-    fields: {
-      recordList: function () {
-        const recordList = cartStore.dataList;
-        log.info(this.data.tag, 'recordList', recordList.length);
-        return [...recordList];
-      },
-    },
-  },
 });
