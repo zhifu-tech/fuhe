@@ -66,6 +66,8 @@ module.exports = Behavior({
     },
     _updatePageStatus: function (status) {
       const { code, error, trigger } = status;
+      const { tag, goods } = this.data;
+
       switch (code) {
         case 'loading': {
           if (trigger === 'switch') {
@@ -78,10 +80,10 @@ module.exports = Behavior({
           break;
         }
         case 'success': {
-          const { spuList, total } = status;
-          if (spuList.length === 0) {
+          const { total } = status;
+          if (goods.spuList.length === 0) {
             this.showPageEmpty();
-          } else if (spuList.length >= total) {
+          } else if (goods.spuList.length >= total) {
             this.showPageNoMore();
           } else {
             this.showPageHasMore();
