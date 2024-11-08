@@ -1,6 +1,5 @@
 import log from '@/common/log/log';
-import services from '@/services/index';
-import { observable, action, flow, get, set } from 'mobx-miniprogram';
+import { observable, action } from 'mobx-miniprogram';
 
 export default (function store() {
   const tagStore = 'goods-store';

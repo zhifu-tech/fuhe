@@ -70,7 +70,7 @@
           wx:key="_id"
         >
           <block wx:for="{{ spu.skuList }}" wx:for-item="sku" wx:key="_id">
-            <goods spuId="{{ spu._id }}" skuId="{{ sku._id }}" />
+            <goods spuId="{{ spu._id }}" skuId="{{ sku._id }}" tagSuffix="store" />
           </block>
         </block>
         <block wx:if="{{ pageStatus.isLoadingWithSkeleton }}" wx:for="{{ 6 }}" wx:key="*this">

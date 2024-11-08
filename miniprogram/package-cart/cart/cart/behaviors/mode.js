@@ -11,6 +11,7 @@ module.exports = Behavior({
     ready: function () {
       const { tag, _needFetchData } = this.data;
       if (_needFetchData) {
+        this.fetchCartDataTask?.dispose();
         this.fetchCartDataTask = cartServices.fetchCartData({
           tag,
           trigger: 'init',
@@ -19,7 +20,7 @@ module.exports = Behavior({
       }
     },
     detached: function () {
-      this.fetchCartDataTask?.cancel();
+      this.fetchCartDataTask?.dispose();
       this.fetchCartDataTask = null;
     },
   },

@@ -1,107 +1,90 @@
 import log from '@/common/log/log';
 import services from '@/services/index';
 import stores from '@/stores/index';
+import { isObservable, action, runInAction } from 'mobx-miniprogram';
 
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
   watch: {
     skuCartData: function () {
       const { tag, spuId, skuId, sku } = this.data;
-      const notifyData = {};
-      sku.stockList?.forEach((stock, index) => {
-        const list = stores.cart.getCartRecordList({
-          spuId,
-          skuId,
-          stockId: stock._id,
+      runInAction(() => {
+        sku.stockList.forEach((stock) => {
+          const list = stores.cart.getCartRecordList({
+            spuId,
+            skuId,
+            stockId: stock._id,
+          });
+          if (list && list.length > 0) {
+            const { salePrice, saleQuantity } = list[0];
+            if (salePrice && stock.salePrice !== salePrice) {
+              stock.salePrice = salePrice;
+            }
+            if (saleQuantity && stock.saleQuantity !== saleQuantity) {
+              stock.saleQuantity = saleQuantity;
+            }
+          }
         });
-        if (!list || list.length === 0) return;
-        // 对于某个stock，按照首条记录进行更新
-        const salePrice = list[0].salePrice;
-        const saleQuantity = list[0].saleQuantity;
-        if (salePrice && stock.salePrice !== salePrice) {
-          notifyData[`sku.stockList[${index}].salePrice`] = salePrice;
-          stock.salePrice = salePrice;
-        }
-        if (saleQuantity && stock.saleQuantity !== saleQuantity) {
-          notifyData[`sku.stockList[${index}].saleQuantity`] = saleQuantity;
-          stock.saleQuantity = saleQuantity;
-        }
       });
-      if (Object.keys(notifyData).length > 0) {
-        this.setData(notifyData);
-      }
-      this.updateSummary();
+      log.info(tag, 'skuCartData change applied');
     },
   },
   methods: {
-    handleCartChangeEvent: function (e) {
-      const { stockId, index } = e.target.dataset;
-      const { tag, spuId, skuId } = this.data;
-      const stock = stores.goods.getStock(spuId, skuId, stockId);
-      if (!stock) return;
+    handleCartChangeEvent: async function (e) {
       // 更新Stock的数据
-      const { salePrice, saleQuantity } = e.detail;
-      this.handleCartChange({
-        tag: tag + '-cart-event',
-        stock,
-        index,
-        salePrice,
-        saleQuantity,
-      });
-    },
-    handleCartChange: async function ({ tag, stock, index, salePrice, saleQuantity }) {
       // 这里的调用比价频繁，需要增加一个机制，避免高频调用。这增加一个队列，
       // 1. 每次处理一次变更，上一个处理结束，下一个处理开始
       // 2. 如果新增加的 变更，正在处理中，则取消执行。
-      log.info(tag, 'handleCartChange', index, salePrice, saleQuantity);
-      if (stock.saleQuantity === saleQuantity && stock.salePrice === salePrice) {
-        return;
-      }
-      services.cart.cartChange({
-        tag,
-        stock,
-        index,
-        salePrice,
-        saleQuantity,
+      const { stockId, index } = e.target.dataset;
+      const { salePrice, saleQuantity } = e.detail;
+      services.cart.enqueueCartChange({
+        options: {
+          stockId,
+          index,
+          salePrice,
+          saleQuantity,
+        },
         executeFn: this.executeCartChange.bind(this),
       });
     },
-    executeCartChange: async function (task) {
-      const { tag, stock, index, salePrice, saleQuantity } = task;
+    executeCartChange: async function ({ stockId, index, salePrice, saleQuantity }) {
+      const { tag, spuId, skuId } = this.data;
+      const stock = stores.goods.getStock(spuId, skuId, stockId);
       log.info(tag, 'executeCartChange', index, salePrice, saleQuantity);
-      const notifyData = {};
+      // 判断是否需要更新
+      if (!stock || (stock.saleQuantity === saleQuantity && stock.salePrice === salePrice)) {
+        return;
+      }
       const promises = [];
-      if (salePrice && stock.salePrice !== salePrice) {
-        // 记录被调整之前的价格，用来判定价格是否被调整过
-        if (!stock.originalSalePrice) {
-          stock.originalSalePrice = stock.salePrice;
-        } else if (stock.originalSalePrice === salePrice) {
-          stock.originalSalePrice = undefined;
+      let needUpdateCartRecord = false;
+      runInAction(() => {
+        if (salePrice && stock.salePrice !== salePrice) {
+          // 库存价格被修改，更新stock的售价
+          stock.salePrice = salePrice;
+          needUpdateCartRecord = true;
+          // 销售价格，需要持久化保存
+          promises.push(this._saveStockChanges(stock));
         }
-        notifyData[`sku.stockList[${index}].salePrice`] = salePrice;
-
-        // 库存价格被修改，更新stock的售价
-        promises.push(this._saveStockChanges(stock));
-      }
-      if (saleQuantity && stock.saleQuantity !== saleQuantity) {
-        // 销售数量变更
-        notifyData[`sku.stockList[${index}].saleQuantity`] = saleQuantity;
-      } else if (!saleQuantity && stock.saleQuantity !== 0) {
-        // 被删除，需要清空销售数量
-        notifyData[`sku.stockList[${index}].saleQuantity`] = 0;
-      }
-      if (Object.keys(notifyData).length > 0) {
-        this.setData(notifyData);
+        if (saleQuantity && stock.saleQuantity !== saleQuantity) {
+          // 销售数量变更
+          stock.saleQuantity = saleQuantity;
+          needUpdateCartRecord = true;
+        } else if (!saleQuantity && stock.saleQuantity !== 0) {
+          // 被删除，需要清空销售数量
+          stock.saleQuantity = 0;
+          needUpdateCartRecord = true;
+        }
+      });
+      if (needUpdateCartRecord) {
         // 更新store中的数据
-        const { spuId, skuId } = this.data;
         promises.push(
           services.cart.updateCartRecord({
             tag,
             spuId,
             skuId,
-            stockId: stock._id,
-            salePrice: salePrice,
-            saleQuantity: saleQuantity,
+            stockId,
+            salePrice,
+            saleQuantity,
           }),
         );
       }

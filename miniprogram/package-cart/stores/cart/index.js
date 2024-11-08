@@ -112,8 +112,6 @@ export default (function () {
       // 更新 record
       record.salePrice = salePrice;
       record.saleQuantity = saleQuantity;
-      // 手动强制触发更新
-      this.dataList.replace(this.dataList);
 
       // 更新data-record
       this._updateDataRecord({ record, preSalePrice, preSaleQuantity });
@@ -164,7 +162,7 @@ export default (function () {
           dr.sumPrices += deletaPrices;
           dr.sumQuantities += deltaQuantities;
           // 强制更新
-          this.dataMap.set(id, { ...dr });
+          // this.dataMap.set(id, { ...dr });
         }
       };
       // 1. spuId -> data-record

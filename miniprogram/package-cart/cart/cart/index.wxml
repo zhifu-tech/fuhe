@@ -25,8 +25,13 @@
       <view class="title">{{ '购物车' }}</view>
     </view>
     <scroll-view scroll-y class="content" type="" list>
-      <block wx:for="{{ dataList }}" wx:for-item="item" wx:key="_id">
-        <goods spuId="{{ item.spuId }}" skuId="{{ item.skuId }}" stockId="{{ item.stockId }}" />
+      <block wx:for="{{ cartList }}" wx:for-item="item" wx:key="_id">
+        <goods
+          spuId="{{ item.spuId }}"
+          skuId="{{ item.skuId }}"
+          editable="{{ false }}"
+          tagSuffix="cart"
+        />
       </block>
     </scroll-view>
 

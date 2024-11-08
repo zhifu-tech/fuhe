@@ -30,6 +30,10 @@ export async function spuListByIdList({ tag, idList, pageNumber = 1, pageSize = 
   };
   try {
     const { data } = await wx.cloud.models.fh_goods_spu.list(params);
+    data.records.forEach((spu) => {
+      spu.skuList = spu.skuList || [];
+      spu.category = spu.category || {};
+    });
     log.info(tag, 'goods-spu-list-by-id-list', data);
     return data;
   } catch (error) {

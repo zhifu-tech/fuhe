@@ -2,36 +2,42 @@ import log from '@/common/log/log';
 import stockModel from '../../models/stock/index';
 
 export default async function fetchStockList({ tag, spuList }) {
-  log.info(tag, 'fetchSkuStockList', spuList?.length);
-  if (!spuList || spuList.length <= 0) return;
-
-  const skuIdList = [];
-  spuList.forEach((spu) => {
-    spu.skuList.forEach((sku) => {
-      skuIdList.push(sku._id);
+  try {
+    const skuList = spuList.flatMap((spu) => spu.skuList);
+    const { records: stockList } = await stockModel.listBatch({
+      tag,
+      skuIdList: skuList.map((sku) => sku._id),
     });
-  });
 
-  const { records: stockList } = await stockModel.listBatch({
-    tag,
-    skuIdList: skuIdList,
-  });
+    const dayjs = require('dayjs');
+    stockList.forEach((stock) => {
+      // 1. 格式化所有的库存时间
+      stock.createdAtFormatted = stock.createdAt
+        ? dayjs(stock.createdAt).format('YYYY-MM-DD HH:mm')
+        : '';
+      // 2. 纠正属性
+      stock.salePrice = stock.salePrice || 0;
+      stock.saleQuantity = stock.saleQuantity || 0;
+      stock.costPrice = stock.costPrice || 0;
+      stock.originalPrice = stock.originalPrice || 0;
+      stock.quantity = stock.quantity || 0;
+    });
 
-  spuList.forEach((spu) => {
-    spu.skuList.forEach((sku) => {
+    skuList.forEach((sku) => {
       sku.stockList = [];
       let index = 0;
       // 遍历找到第一个匹配的 skuId
       while (index < stockList.length && stockList[index].skuId !== sku._id) index++;
       if (index >= stockList.length) return;
-      const startIndex = index;
       // 添加所有匹配的库存记录
       while (index < stockList.length && stockList[index].skuId === sku._id) {
         sku.stockList.push(stockList[index]);
         index++;
       }
-      // 移除已经添加的记录
-      skuIdList.splice(startIndex, index - startIndex);
     });
-  });
+    log.info(tag, 'fetchSkuStockList', stockList.length);
+  } catch (error) {
+    log.error(tag, 'fetchSkuStockList', error);
+    throw error;
+  }
 }

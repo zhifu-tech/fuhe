@@ -65,32 +65,9 @@
     </view>
   </t-divider>
 
-  <!-- <view class="stock-wrapper">
-    <view class="stock" bind:tap="handleShowStockList">
-      <view class="label">库存</view>
-      <view class="value">{{ stockTotals }}</view>
-      <view class="unit">{{ '件' }}</view>
-    </view>
-  </view> -->
-
-  <!-- <price-quantity
-    wx:if="{{ summary.enabled }}"
-    salePrice="{{ summary.salePrice }}"
-    originalPrice="{{ summary.originalPrice }}"
-    saleQuantity="{{ summary.saleQuantity }}"
-    originalQuantity="{{ summary.originalQuantity }}"
-    bind:cart-change="handleSummaryCartChangeEvent"
-  /> -->
-
   <!--库存清单-->
   <t-divider />
-  <block
-    wx:if="{{ true || showStockList }}"
-    wx:for="{{ sku.stockList }}"
-    wx:for-item="stock"
-    wx:for-index="index"
-    wx:key="_id"
-  >
+  <block wx:for="{{ sku.stockList }}" wx:for-item="stock" wx:for-index="index" wx:key="_id">
     <view class="stock-date-wrapper">
       <view class="stock-date">{{ stock.createdAtFormatted }} 入库</view>
       <t-button
@@ -134,10 +111,4 @@
       bind:cart-change="handleCartChangeEvent"
     />
   </block>
-  <t-divider wx:if="{{ showStockList }}" bind:tap="handleShowStockList">
-    <view slot="content" class="divider-content">
-      <t-icon name="chevron-up-double" size="20px" />
-      <view>收起库存清单</view>
-    </view>
-  </t-divider>
 </view>
