@@ -13,23 +13,14 @@ module.exports = Behavior({
           {
             label: '补货',
             value: '0',
+            selectedFn: this._handleEditStock.bind(this, stock, index),
           },
           {
             label: '补货或修改价格',
             value: '1',
+            selectedFn: this._handleEditStockSuper.bind(this, stock, index),
           },
         ],
-        selected: (value) => {
-          switch (value) {
-            case '0': {
-              this._handleEditStock(stock, index);
-              break;
-            }
-            case '1': {
-              this._handleEditStockSuper(stock, index);
-            }
-          }
-        },
       });
     },
     _handleEditStock: function (stock, index) {

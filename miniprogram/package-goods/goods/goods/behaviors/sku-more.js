@@ -9,50 +9,24 @@ module.exports = Behavior({
           {
             label: '修改库存信息',
             value: '0',
+            selectedFn: this._handleEditSku.bind(this),
           },
           {
             label: '修改商品信息',
             value: '1',
+            selectedFn: this._handleEditSpu.bind(this),
           },
           {
             label: '新增库存',
             value: '2',
+            selectedFn: this._handleAddSku.bind(this),
           },
           {
             label: '删除库存',
             value: '3',
+            selectedFn: this._handleDeleteSku.bind(this),
           },
-        ],
-        selected: (value) => {
-          switch (value) {
-            case '0': {
-              this._handleEditSku();
-              break;
-            }
-            case '1': {
-              this._handleEditSpu();
-              break;
-            }
-            case '2': {
-              this._handleAddSku();
-              break;
-            }
-            case '3': {
-              this._handleDeleteSku();
-              break;
-            }
-          }
-        },
-      });
-    },
-    _handleEditSpu: function () {
-      require('@/package-goods/goods/popup/popup.js', (popup) => {
-        const { spu, spuId } = this.data;
-        popup.showGoodsEditSpuPopup(pages.currentPage(), {
-          spuId,
-        });
-      }, ({ mod, errMsg }) => {
-        console.error(`path: ${mod}, ${errMsg}`);
+        ]
       });
     },
     _handleEditSku: function () {
@@ -66,6 +40,16 @@ module.exports = Behavior({
               sku,
             });
           },
+        });
+      }, ({ mod, errMsg }) => {
+        console.error(`path: ${mod}, ${errMsg}`);
+      });
+    },
+    _handleEditSpu: function () {
+      require('@/package-goods/goods/popup/popup.js', (popup) => {
+        const { spu, spuId } = this.data;
+        popup.showGoodsEditSpuPopup(pages.currentPage(), {
+          spuId,
         });
       }, ({ mod, errMsg }) => {
         console.error(`path: ${mod}, ${errMsg}`);

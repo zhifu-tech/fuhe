@@ -1,5 +1,4 @@
 import pages from '@/common/page/pages';
-import log from '@/common/log/log';
 
 module.exports = Behavior({
   data: {
@@ -10,15 +9,17 @@ module.exports = Behavior({
     },
   },
   methods: {
-    showSimpleActionSheet: function ({ options, selected, close }) {
+    showSimpleActionSheet: function ({ items, theme = 'list', }) {
       this.setData({
         'simpleActionSheet.enabled': true,
-        'simpleActionSheet._selected': selected ?? (() => null),
-        'simpleActionSheet._close': close ?? (() => null),
+        'simpleActionSheet._selected': (value) => {
+          items.find((item) => item.value === value).selectedFn();
+        },
       });
       this._simpleActionSheet((actionSheet) => {
         actionSheet.setData({
-          ...options,
+          items,
+          theme,
           visible: true,
           popupProps: {
             zIndex: pages.zIndexIncr(),
@@ -34,17 +35,18 @@ module.exports = Behavior({
       this._simpleActionSheet((actionSheet) => {
         if (actionSheet.data.visible) {
           actionSheet.setData({
-            items: [],
-            visible: false,
+            visible: false
           });
         }
         setTimeout(() => {
+          actionSheet.setData({
+            items: [],
+          });
           this.setData({
             'simpleActionSheet.enabled': false,
-            'simpleActionSheet._close': () => null,
             'simpleActionSheet._selected': () => null,
           });
-        }, 300);
+        }, 500);
       });
     },
     _handleSimpleActionSheetSelected: function (e) {
