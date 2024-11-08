@@ -7,6 +7,7 @@ module.exports = Behavior({
   watch: {
     skuCartData: function () {
       const { tag, spuId, skuId, sku } = this.data;
+      const notifyData = {};
       sku.stockList?.forEach((stock, index) => {
         const list = stores.cart.getCartRecordList({
           spuId,
@@ -17,14 +18,19 @@ module.exports = Behavior({
         // 对于某个stock，按照首条记录进行更新
         const salePrice = list[0].salePrice;
         const saleQuantity = list[0].saleQuantity;
-        this.handleCartChange({
-          tag: tag + '-cart',
-          stock,
-          index,
-          salePrice,
-          saleQuantity,
-        });
+        if (salePrice && stock.salePrice !== salePrice) {
+          notifyData[`sku.stockList[${index}].salePrice`] = salePrice;
+          stock.salePrice = salePrice;
+        }
+        if (saleQuantity && stock.saleQuantity !== saleQuantity) {
+          notifyData[`sku.stockList[${index}].saleQuantity`] = saleQuantity;
+          stock.saleQuantity = saleQuantity;
+        }
       });
+      if (Object.keys(notifyData).length > 0) {
+        this.setData(notifyData);
+      }
+      this.updateSummary();
     },
   },
   methods: {
@@ -43,13 +49,28 @@ module.exports = Behavior({
         saleQuantity,
       });
     },
-    handleCartChange: function ({ tag, stock, index, salePrice, saleQuantity }) {
+    handleCartChange: async function ({ tag, stock, index, salePrice, saleQuantity }) {
+      // 这里的调用比价频繁，需要增加一个机制，避免高频调用。这增加一个队列，
+      // 1. 每次处理一次变更，上一个处理结束，下一个处理开始
+      // 2. 如果新增加的 变更，正在处理中，则取消执行。
       log.info(tag, 'handleCartChange', index, salePrice, saleQuantity);
       if (stock.saleQuantity === saleQuantity && stock.salePrice === salePrice) {
         return;
       }
-
+      services.cart.cartChange({
+        tag,
+        stock,
+        index,
+        salePrice,
+        saleQuantity,
+        executeFn: this.executeCartChange.bind(this),
+      });
+    },
+    executeCartChange: async function (task) {
+      const { tag, stock, index, salePrice, saleQuantity } = task;
+      log.info(tag, 'executeCartChange', index, salePrice, saleQuantity);
       const notifyData = {};
+      const promises = [];
       if (salePrice && stock.salePrice !== salePrice) {
         // 记录被调整之前的价格，用来判定价格是否被调整过
         if (!stock.originalSalePrice) {
@@ -58,8 +79,9 @@ module.exports = Behavior({
           stock.originalSalePrice = undefined;
         }
         notifyData[`sku.stockList[${index}].salePrice`] = salePrice;
+
         // 库存价格被修改，更新stock的售价
-        this._saveStockChanges(stock);
+        promises.push(this._saveStockChanges(stock));
       }
       if (saleQuantity && stock.saleQuantity !== saleQuantity) {
         // 销售数量变更
@@ -70,17 +92,21 @@ module.exports = Behavior({
       }
       if (Object.keys(notifyData).length > 0) {
         this.setData(notifyData);
-
         // 更新store中的数据
         const { spuId, skuId } = this.data;
-        services.cart.updateCartRecord({
-          tag,
-          spuId,
-          skuId,
-          stockId: stock._id,
-          salePrice: salePrice,
-          saleQuantity: saleQuantity,
-        });
+        promises.push(
+          services.cart.updateCartRecord({
+            tag,
+            spuId,
+            skuId,
+            stockId: stock._id,
+            salePrice: salePrice,
+            saleQuantity: saleQuantity,
+          }),
+        );
+      }
+      if (promises.length > 0) {
+        await Promise.all(promises);
       }
     },
     _saveStockChanges: async function (stock) {

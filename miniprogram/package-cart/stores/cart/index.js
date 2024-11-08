@@ -100,7 +100,7 @@ export default (function () {
       log.info(
         tag,
         tagStore,
-        'updateCartRecord',
+        'updateCartRecord-3',
         salePrice,
         saleQuantity,
         record.salePrice,

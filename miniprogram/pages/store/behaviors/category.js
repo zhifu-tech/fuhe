@@ -15,19 +15,22 @@ module.exports = Behavior({
     categorySelected: function (selected) {
       if (selected === stores.category.categoryAdd._id) {
         // 首次加载选中的是新增分类信息，需要加载分类列表
-        services.category.fetchCategoryList({
+        this.fetchCategoryListTask = services.category.fetchCategoryList({
           tag: 'store-category',
           trigger: 'init',
+          callback: this._fetchCategoryListCallback.bind(this),
         });
       }
     },
-    fetchCategoryListStatus: function (status) {
-      this._updateCategoryListStatus(status);
+  },
+  lifetimes: {
+    detached: function () {
+      this.fetchCategoryListTask?.dispose();
+      this.fetchCategoryListTask = undefined;
     },
   },
   methods: {
-    _updateCategoryListStatus: function (status) {
-      const { tag, categoryExtList } = this.data;
+    _fetchCategoryListCallback: function (status) {
       const { code, trigger } = status;
       switch (code) {
         case 'loading': {
@@ -41,13 +44,6 @@ module.exports = Behavior({
           if (trigger === 'init') {
             // 初始化时，显示加载中Skeleton
             this.setData({ showCategorySkeleton: false });
-            // 加载显示首个分类选项
-            if (categoryExtList.length > 1) {
-              services.category.switchSelectedCategory({
-                tag,
-                cId: categoryExtList[0]._id,
-              });
-            }
           }
           break;
         }

@@ -1,4 +1,4 @@
-import spuList from './spu-list';
+import spuList, { spuListByIdList } from './spu-list';
 import spuCreate from './spu-create';
 import spuUpdate from './spu-update';
 
@@ -15,6 +15,7 @@ import {
 export default {
   spuCreate,
   spuList,
+  spuListByIdList,
   spuUpdate,
 
   skuCreate,

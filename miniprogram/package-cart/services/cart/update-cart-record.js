@@ -16,7 +16,7 @@ export default async function updateCartRecord({
   salePrice,
   saleQuantity,
 }) {
-  log.info(tag, 'updateCartRecord', salePrice, saleQuantity);
+  log.info(tag, 'updateCartRecord-1', salePrice, saleQuantity);
   if (
     salePrice === undefined || // 价格为undefined，删除记录
     saleQuantity === undefined || // 数量为undefined 或 0，删除记录
@@ -58,10 +58,11 @@ export default async function updateCartRecord({
     });
 
     // 更新记录列表
+    log.info(tag, 'updateCartRecord-4', recordList);
     recordList.forEach((record) => {
       cartStore.updateCartRecord({ tag, record, salePrice, saleQuantity });
     });
-    log.info(tag, 'updateCartRecord', 'update success!', data);
+    log.info(tag, 'updateCartRecord-2', 'update success!', data);
     return data;
   } catch (error) {
     log.error(tag, 'updateCartRecord', 'update failed!', error);

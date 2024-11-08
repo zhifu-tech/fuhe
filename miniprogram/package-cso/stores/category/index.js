@@ -15,34 +15,38 @@ export default (function store() {
   return observable({
     categoryAdd,
     categoryAll,
-    selected: categoryAdd._id,
+    _selected: categoryAdd._id,
     categoryList: [],
     categoryTotal: 0,
 
     get categoryExtList() {
-      log.info(tagStore, 'categoryExtList', this.categoryList);
       if (this.categoryList.length > 1) {
         return [categoryAll, ...this.categoryList, categoryAdd];
       }
       return [...this.categoryList, categoryAdd];
     },
 
-    fetchCategoryListStatus: {
-      code: 'idle', // 'loading', 'success', 'error'
-      error: null,
-      trigger: '',
-    },
-    setFetchCategoryListStatus: action(function ({ code, error, trigger }) {
-      this.fetchCategoryListStatus = { code, error, trigger };
-    }),
-    setFetchCategoryListResult: action(function ({ categoryList, total }) {
+    setCategoryList: action(function ({ categoryList, total }) {
       this.categoryTotal = total;
       this.categoryList.replace(categoryList);
     }),
-    switchSelectedCategory: action(function ({ tag, cId }) {
-      log.info(tag, 'switchSelectedCategory', cId);
-      this.selected = cId;
-    }),
+
+    set selected(cId) {
+      this._selected = cId;
+    },
+    get selected() {
+      log.info(tagStore, 'categorySelected', this._selected);
+      // 如果当前选中的 `_selected` 与 `categoryAdd._id` 不同，
+      // 并且 `_selected` 存在于 `categoryExtList` 中，则直接返回 `_selected`
+      if (this._selected !== this.categoryAdd._id) {
+        const found = this.categoryExtList.some(({ _id }) => _id === this._selected);
+        if (found) return this._selected;
+      }
+      // 如果不满足以上条件，或者 `_selected` 不在 `categoryExtList` 中，
+      // 则重置为 `categoryExtList[0]._id`
+      this._selected = this.categoryExtList[0]?._id || null;
+      return this._selected;
+    },
 
     getCategory: function (cId) {
       return this.categoryList.find(({ _id }) => _id === cId);
@@ -79,17 +83,6 @@ export default (function store() {
       const index = this.categoryList.findIndex(({ _id }) => _id === cId);
       if (index !== -1) {
         this.categoryList.splice(index, 1);
-      }
-      // 如果删除的是当前选中的分类，需要重新选择
-      if (this.selected === cId) {
-        // 如果还有分类, 则选择第一个分类
-        if (this.categoryList.length > 0) {
-          this.selected = this.categoryList[0]._id;
-        }
-        // 否则，选择新增分类
-        else {
-          this.selected = categoryAdd._id;
-        }
       }
     }),
   });

@@ -1,5 +1,6 @@
 import log from '@/common/log/log';
 import stores from '@/stores/index';
+import services from '@/services/index';
 
 module.exports = Behavior({
   data: {
@@ -31,9 +32,10 @@ module.exports = Behavior({
           console.error(`path: ${mod}, ${errMsg}`);
         });
       } else {
-        stores.category.switchSelectedCategory({
+        services.category.switchSelectedCategory({
           tag,
           cId: selected,
+          trigger: 'sidebar-change',
         });
       }
     },
@@ -47,9 +49,10 @@ module.exports = Behavior({
           console.error(`path: ${mod}, ${errMsg}`);
         });
       } else if (cId === stores.category.categoryAll._id) {
-        stores.category.switchSelectedCategory({
+        services.category.switchSelectedCategory({
           tag,
           cId,
+          trigger: 'sidebar-longpress',
         });
       } else {
         require('@/package-cso/category/popup/popup.js', (popup) => {

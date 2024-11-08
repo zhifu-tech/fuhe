@@ -1,12 +1,11 @@
 import log from '@/common/log/log';
-import goodsService from '../../services/goods/index';
 import goodsStore from '../../stores/goods/index';
 
-export default function ({ tag, cId, trigger }) {
-  log.info(tag, 'switchGoodsSpuList', trigger, cId);
-  const needFetch = goodsStore.setSelectedCategory({ tag, cId, trigger });
-  if (needFetch) {
-    log.info(tag, 'switchGoodsSpuList needFetch');
-    goodsService.fetchGoodsSpuList({ tag, cId, trigger, pageNumber: 1 });
-  }
+export default function ({ tag, cId }) {
+  log.info(tag, 'switchGoodsSpuList', cId);
+  goodsStore.selected = cId;
+}
+
+export function checkNeedFetchedData({ tag, cId }) {
+  return goodsStore.checkNeedFetchedData({ tag, cId });
 }

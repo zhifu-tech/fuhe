@@ -1,6 +1,6 @@
 <!-- 购物车悬浮入口 -->
 <t-fab
-  wx:if="{{ mode === 'fab' &&  recordList.length > 0 }}"
+  wx:if="{{  recordList.length > 0 }}"
   id="cart-fab"
   icon="cart"
   button-props="{{ fabBtnProps }}"
@@ -16,17 +16,27 @@
   wx:if="{{ mode === 'popup' }}"
   id="cart-popup"
   placement="bottom"
-  close-btn
   using-custom-navbar
   bind:visible-change="handleSwitchMode"
 >
   <view class="container" slot="content">
+    <!-- header: 取消 + 标题 + 确定 -->
+    <view class="header">
+      <view class="title">{{ '购物车' }}</view>
+    </view>
+    <scroll-view scroll-y class="content" type="" list>
+      <block wx:for="{{ dataList }}" wx:for-item="item" wx:key="_id">
+        <goods spuId="{{ item.spuId }}" skuId="{{ item.skuId }}" stockId="{{ item.stockId }}" />
+      </block>
+    </scroll-view>
+
     <view class="block-button-wrapper">
       <t-button
+        block
         theme="primary"
         size="large"
         variant="outline"
-        content="{{ '去下单' }}"
+        content="{{ '下单' }}"
         bind:tap="handleGoodsAdd"
       />
     </view>

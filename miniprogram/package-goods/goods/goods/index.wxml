@@ -65,27 +65,27 @@
     </view>
   </t-divider>
 
-  <view class="stock-wrapper">
+  <!-- <view class="stock-wrapper">
     <view class="stock" bind:tap="handleShowStockList">
       <view class="label">库存</view>
       <view class="value">{{ stockTotals }}</view>
       <view class="unit">{{ '件' }}</view>
     </view>
-  </view>
+  </view> -->
 
-  <price-quantity
+  <!-- <price-quantity
     wx:if="{{ summary.enabled }}"
     salePrice="{{ summary.salePrice }}"
     originalPrice="{{ summary.originalPrice }}"
     saleQuantity="{{ summary.saleQuantity }}"
     originalQuantity="{{ summary.originalQuantity }}"
     bind:cart-change="handleSummaryCartChangeEvent"
-  />
+  /> -->
 
   <!--库存清单-->
-  <t-divider wx:if="{{ showStockList }}" />
+  <t-divider />
   <block
-    wx:if="{{ showStockList }}"
+    wx:if="{{ true || showStockList }}"
     wx:for="{{ sku.stockList }}"
     wx:for-item="stock"
     wx:for-index="index"
@@ -133,7 +133,6 @@
       data-index="{{ index }}"
       bind:cart-change="handleCartChangeEvent"
     />
-    <t-divider class="divider3" />
   </block>
   <t-divider wx:if="{{ showStockList }}" bind:tap="handleShowStockList">
     <view slot="content" class="divider-content">

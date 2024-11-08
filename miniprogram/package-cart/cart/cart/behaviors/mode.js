@@ -5,11 +5,27 @@ module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
   data: {
     mode: 'fab',
-    needFetchData: true,
+    _needFetchData: true,
+  },
+  lifetimes: {
+    ready: function () {
+      const { tag, _needFetchData } = this.data;
+      if (_needFetchData) {
+        this.fetchCartDataTask = cartServices.fetchCartData({
+          tag,
+          trigger: 'init',
+          callback: this.handleFetchCartData.bind(this),
+        });
+      }
+    },
+    detached: function () {
+      this.fetchCartDataTask?.cancel();
+      this.fetchCartDataTask = null;
+    },
   },
   methods: {
     handleSwitchMode: function () {
-      const { mode } = this.data;
+      const { tag, mode } = this.data;
       if (mode === 'fab') {
         this.setData({ mode: 'popup' });
         this.selectComponent('#cart-popup').setData({ visible: true });
@@ -18,18 +34,14 @@ module.exports = Behavior({
         setTimeout(() => this.setData({ mode: 'fab' }), 240);
       }
     },
-  },
-  lifetimes: {
-    ready: function () {
-      const { tag, needFetchData } = this.data;
-      if (needFetchData) {
-        cartServices.fetchCartData({ tag, trigger: 'init' });
+    handleFetchCartData: function (status) {
+      const { code, error, trigger } = status;
+      switch (code) {
+        case 'error': {
+          this.data._needFetchData = true;
+          break;
+        }
       }
-    },
-  },
-  watch: {
-    recordList: function (list) {
-      log.info('watch recordList', list);
     },
   },
 });

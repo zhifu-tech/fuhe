@@ -3,6 +3,8 @@ import fetchCartData from './fetch-cart-data';
 import getCartRecord from './get-cart-record';
 import updateCartRecord from './update-cart-record';
 import deleteCartRecord from './delete-cart-record';
+import fetchCartGodds from './fetch-cart-goods';
+import cartChange from './cart-change-handler';
 
 export default {
   addCartRecord,
@@ -10,4 +12,7 @@ export default {
   getCartRecord,
   updateCartRecord,
   deleteCartRecord,
+  fetchCartGodds,
+
+  cartChange,
 };

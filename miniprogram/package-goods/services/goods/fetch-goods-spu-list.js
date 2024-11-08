@@ -5,28 +5,28 @@ import goodsModel from '../../models/goods/index';
 import goodsStore from '../../stores/goods/index';
 import { flow } from 'mobx-miniprogram';
 
-let _fetchGoodsSpuListTask = null; // 记录当前正在进行的请求
+let _task = null; // 记录当前正在进行的请求
 
-export default function ({ tag, cId, pageNumber, trigger }) {
+export default function ({ tag, cId, pageNumber, trigger, callback = () => null }) {
   // 取消上一次的请求
-  if (_fetchGoodsSpuListTask) {
-    _fetchGoodsSpuListTask.cancel();
+  if (_task) {
+    _task.cancel();
   }
-
   // 发起新的请求并记录任务
-  _fetchGoodsSpuListTask = _fetchGoodsSpuList({
-    tag,
-    cId,
-    pageNumber,
-    trigger,
-  });
+  _task = _fetchGoodsSpuList({ tag, cId, pageNumber, trigger, callback });
+  return {
+    dispose: () => {
+      _task?.cancel();
+      _task = null;
+    },
+  };
 }
 
-const _fetchGoodsSpuList = flow(function* ({ tag, cId, pageNumber, trigger }) {
+const _fetchGoodsSpuList = flow(function* ({ tag, cId, pageNumber, trigger, callback }) {
   log.info(tag, '_fetchGoodsSpuList', trigger, cId, pageNumber);
   try {
     // 请求中，切换选中状态
-    goodsStore.setFetchGoodsSpuListStatus({ code: 'loading', trigger });
+    callback({ code: 'loading', trigger });
 
     const { records: spuList, total } = yield goodsModel.spuList({
       tag,
@@ -44,27 +44,28 @@ const _fetchGoodsSpuList = flow(function* ({ tag, cId, pageNumber, trigger }) {
     _handleSkuOptionList(spuList);
 
     // 更新结果到 store 中
-    goodsStore.setFetchGoodsSpuListResult({ tag, cId, pageNumber, spuList, total });
+    goodsStore.setGoodsSpuListResult({ tag, cId, pageNumber, spuList, total });
 
     // 请求成功，切换选中状态
-    goodsStore.setFetchGoodsSpuListStatus({ code: 'success', trigger });
+    callback({ code: 'success', trigger, spuList, total });
     log.info(tag, '_fetchGoodsSpuList result', spuList);
   } catch (error) {
     // 判断任务是否被取消
     if (error.message === 'FLOW_CANCELLED') {
+      callback({ code: 'cancelled', trigger });
       log.info(tag, '_fetchGoodsSpuList was cancelled');
     } else {
       // 请求失败，切换选中状态
-      goodsStore.setFetchGoodsSpuListStatus({ code: 'error', error, trigger });
+      callback({ code: 'error', error, trigger });
       log.error(tag, '_fetchGoodsSpuList error', error);
     }
   } finally {
     // 重置任务状态
-    _fetchGoodsSpuListTask = null;
+    _task = null;
   }
 });
 
-const _handleSpuSpecList = async function ({ tag, spuList }) {
+export const _handleSpuSpecList = async function ({ tag, spuList }) {
   if (!spuList || spuList.length <= 0) return;
   // 创建一个 Set 来保存所有的 cId，并去重
   const cIdSet = new Set();
@@ -78,7 +79,7 @@ const _handleSpuSpecList = async function ({ tag, spuList }) {
   });
 };
 
-const _handleSkuOptionList = function (spuList) {
+export const _handleSkuOptionList = function (spuList) {
   spuList.forEach((spu) => {
     spu.specList = spu.specList || [];
     if (!spu.skuList) return;

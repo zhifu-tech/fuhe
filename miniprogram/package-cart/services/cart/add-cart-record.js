@@ -23,8 +23,8 @@ export default async function addCardRecord({
     });
 
     // 拉取新增记录，并更新store
-    cartServices.getCartRecord({ tag, _id: id, useStore: false });
     log.info(tag, 'addCardRecord', 'create', id);
+    cartServices.getCartRecord({ tag, _id: id, useStore: false });
     return id;
   } catch (error) {
     log.error(tag, 'addCardRecord', error);

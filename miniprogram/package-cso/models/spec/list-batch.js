@@ -41,7 +41,7 @@ export default async function ({ tag, cIdList }) {
       while (j < results.length && results[j].cId === cId) j++;
       specListMap.set(cId, results.slice(i, j));
     }
-    log.info(tag, 'spec-list-batch', totals, specListMap);
+    log.info(tag, 'spec-list-batch', totals, specListMap.length);
     return specListMap;
   } catch (error) {
     log.error(tag, 'spec-list-batch', error);

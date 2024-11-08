@@ -10,6 +10,7 @@ export default (function store() {
 
   return observable({
     selected_cId: '0',
+
     get selected() {
       let selected = dataMap.get(this.selected_cId);
       if (!selected) {
@@ -23,29 +24,22 @@ export default (function store() {
       }
       return selected;
     },
-    fetchGoodsSpuListStatus: {
-      code: 'idle', // 'idle', 'loading', 'success', 'error'
-      error: null,
-      trigger: '',
+    set selected(cId) {
+      this.selected_cId = cId;
     },
-    setSelectedCategory: action(function ({ tag, cId }) {
+    checkNeedFetchedData: function ({ tag, cId }) {
       const data = dataMap.get(cId);
       if (data) {
         // 有请求数据，直接切换
         log.info(tag, 'switchGoodsSpuList', 'has data');
-        this.selected_cId = cId;
         return data.pageNumber === 0;
       } else {
         // 如果数据不存在，切换并且请求数据
         log.info(tag, 'switchGoodsSpuList', 'no data');
-        this.selected_cId = cId;
         return true;
       }
-    }),
-    setFetchGoodsSpuListStatus: action(function ({ code, error, trigger }) {
-      this.fetchGoodsSpuListStatus = { code, error, trigger };
-    }),
-    setFetchGoodsSpuListResult: action(function ({ cId, spuList, total, pageNumber }) {
+    },
+    setGoodsSpuListResult: action(function ({ tag, cId, spuList, total, pageNumber }) {
       // 保存数据到map中，后面数据更新可能会用到
       this._setSpuList(spuList);
       // 此时 data 和selected 一致的，指向同一个对象
@@ -60,6 +54,10 @@ export default (function store() {
         data.pageNumber = pageNumber;
         data.spuList.replace([...data.spuList, ...spuList]);
       }
+    }),
+    setGoodsSpuListResultByIdList: action(function ({ tag, spuList }) {
+      // 保存数据到map中，后面数据更新可能会用到
+      this._setSpuList(spuList);
     }),
 
     //********************************

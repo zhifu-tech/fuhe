@@ -7,7 +7,7 @@ Component({
     require('mobx-miniprogram-bindings').storeBindingsBehavior,
     require('miniprogram-computed').behavior,
     require('./behaviors/mode'),
-    require('./behaviors/fab'),
+    require('./behaviors/popup'),
   ],
   options: {
     virtualHost: true,
@@ -21,7 +21,7 @@ Component({
     fields: {
       recordList: function () {
         const recordList = cartStore.dataList;
-        log.info(this.data.tag, 'recordList', recordList);
+        log.info(this.data.tag, 'recordList', recordList.length);
         return [...recordList];
       },
     },

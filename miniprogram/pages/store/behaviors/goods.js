@@ -5,19 +5,30 @@ import services from '@/services/index';
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
   watch: {
-    categorySelected: function (categorySelected) {
+    categorySelected: function (cId) {
       const { goods, tag } = this.data;
-      if (goods.cId !== categorySelected) {
+      if (goods.cId !== cId) {
         // 切换分类时，重新加载商品列表
-        services.goods.switchGoodsSpuList({
-          tag: this.data.tag,
-          cId: categorySelected,
-          trigger: 'switch',
-        });
+        services.goods.switchGoodsSpuList({ tag, cId, trigger: 'init' });
+        if (services.goods.checkNeedFetchedData({ tag, cId })) {
+          log.info(tag, 'switchGoodsSpuList needFetch');
+          this.fetchGoodsTask = services.goods.fetchGoodsSpuList({
+            tag,
+            cId,
+            trigger: 'switch',
+            pageNumber: 1,
+            callback: this._updatePageStatus.bind(this),
+          });
+        }
       }
     },
-    fetchGoodsSpuListStatus: function (status) {
-      this._updatePageStatus(status);
+  },
+  lifetimes: {
+    detached: function () {
+      if (this.fetchGoodsTask) {
+        this.fetchGoodsTask.abort();
+        this.fetchGoodsTask = undefined;
+      }
     },
   },
   methods: {
@@ -31,12 +42,12 @@ module.exports = Behavior({
         log.info(tag, 'loadMoreGoods', 'intercepted as being no more!');
         return;
       }
-      log.info(tag, 'loadMoreGoods');
-      services.goods.fetchGoodsSpuList({
+      this.fetchGoodsTask = services.goods.fetchGoodsSpuList({
         tag,
         cId: goods.cId,
         pageNumber: goods.pageNumber + 1,
         trigger: 'more',
+        callback: this._updatePageStatus.bind(this),
       });
     },
     pullDownRefresh: function () {
@@ -45,16 +56,15 @@ module.exports = Behavior({
         log.info(tag, 'pullDownRefresh', 'intercepted as being loading!');
         return;
       }
-      log.info(tag, 'pullDownRefresh');
-      services.goods.fetchGoodsSpuList({
+      this.fetchGoodsTask = services.goods.fetchGoodsSpuList({
         tag,
         cId: goods.cId,
         pageNumber: 1,
         trigger: 'pullDown',
+        callback: this._updatePageStatus.bind(this),
       });
     },
     _updatePageStatus: function (status) {
-      const { tag, goods } = this.data;
       const { code, error, trigger } = status;
       switch (code) {
         case 'loading': {
@@ -68,9 +78,10 @@ module.exports = Behavior({
           break;
         }
         case 'success': {
-          if (goods.spuList.length === 0) {
+          const { spuList, total } = status;
+          if (spuList.length === 0) {
             this.showPageEmpty();
-          } else if (goods.spuList.length >= goods.total) {
+          } else if (spuList.length >= total) {
             this.showPageNoMore();
           } else {
             this.showPageHasMore();

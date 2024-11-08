@@ -12,12 +12,6 @@ module.exports = Behavior({
       originalQuantity: 0,
     },
   },
-  watch: {
-    skuCartData: function () {
-      // sku 记录发生变化时，更新汇总信息
-      this.updateSummary();
-    },
-  },
   methods: {
     updateSummary: function () {
       const { tag, sku, summary } = this.data;

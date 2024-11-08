@@ -100,7 +100,7 @@
         />
       </t-pull-down-refresh>
       <t-empty
-        wx:if="{{ pageStatus.showEmpty }}"
+        wx:if="{{ !pageStatus.isLoadingWithSkeleton && goods.spuList.length === 0 }}"
         class="empty"
         icon="info-circle-filled"
         description="暂无商品"

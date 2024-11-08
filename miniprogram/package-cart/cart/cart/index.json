@@ -6,6 +6,10 @@
     "t-divider": "tdesign-miniprogram/divider/divider",
     "t-empty": "tdesign-miniprogram/empty/empty",
     "t-fab": "tdesign-miniprogram/fab/fab",
-    "t-popup": "tdesign-miniprogram/popup/popup"
+    "t-popup": "tdesign-miniprogram/popup/popup",
+    "goods": "/package-goods/goods/goods/index"
+  },
+  "componentPlaceholder": {
+    "goods": "view"
   }
 }

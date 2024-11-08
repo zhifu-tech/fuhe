@@ -51,13 +51,8 @@ Component({
         fields: {
           categoryExtList: function () {
             const list = stores.category.categoryExtList;
-            log.info(this.data.tag, 'categoryExtList', list);
+            log.info(this.data.tag, 'categoryExtList', list.length);
             return (list && [...list]) || [];
-          },
-          fetchCategoryListStatus: function () {
-            const status = stores.category.fetchCategoryListStatus;
-            log.info(this.data.tag, 'fetchCategoryListStatus', status);
-            return status || {};
           },
           categorySelected: function () {
             const selected = stores.category.selected;
@@ -68,11 +63,6 @@ Component({
             const selected = stores.goods.selected;
             log.info(this.data.tag, 'goodsSelected', selected);
             return (selected && { ...selected }) || {};
-          },
-          fetchGoodsSpuListStatus: function () {
-            const status = stores.goods.fetchGoodsSpuListStatus;
-            log.info(this.data.tag, 'fetchGoodsSpuListStatus', status);
-            return status || {};
           },
         },
       });

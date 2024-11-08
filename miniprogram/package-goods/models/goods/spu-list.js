@@ -3,7 +3,43 @@ import stores from '@/stores/index';
 import services from '@/services/index';
 
 export default async function ({ tag, cId, pageNumber, pageSize }) {
-  const params = {
+  const params = _createParams({ pageNumber, pageSize });
+  if (cId && cId !== stores.category.categoryAll._id) {
+    params['filter'] = {
+      where: {
+        cId: { $eq: cId },
+      },
+    };
+  }
+  try {
+    const { data } = await wx.cloud.models.fh_goods_spu.list(params);
+    log.info(tag, 'goods-spu-list', data);
+    return data;
+  } catch (error) {
+    log.error(tag, 'goods-spu-list', error);
+    throw error;
+  }
+}
+
+export async function spuListByIdList({ tag, idList, pageNumber = 1, pageSize = 200 }) {
+  const params = _createParams({ pageNumber, pageSize });
+  params['filter'] = {
+    where: {
+      _id: { $in: idList },
+    },
+  };
+  try {
+    const { data } = await wx.cloud.models.fh_goods_spu.list(params);
+    log.info(tag, 'goods-spu-list-by-id-list', data);
+    return data;
+  } catch (error) {
+    log.error(tag, 'goods-spu-list-by-id-list', error);
+    throw error;
+  }
+}
+
+function _createParams({ pageNumber, pageSize }) {
+  return {
     select: {
       _id: true,
       cId: true,
@@ -25,22 +61,7 @@ export default async function ({ tag, cId, pageNumber, pageSize }) {
       { createdAt: 'desc' }, // 创建时间升序排列
     ],
     getCount: true,
-    pageNumber: pageNumber,
-    pageSize: pageSize,
+    pageNumber,
+    pageSize,
   };
-  if (cId && cId !== stores.category.categoryAll._id) {
-    params['filter'] = {
-      where: {
-        cId: { $eq: cId },
-      },
-    };
-  }
-  try {
-    const { data } = await wx.cloud.models.fh_goods_spu.list(params);
-    log.info(tag, 'goods-spu-list', data);
-    return data;
-  } catch (error) {
-    log.error(tag, 'goods-spu-list', error);
-    throw error;
-  }
 }
