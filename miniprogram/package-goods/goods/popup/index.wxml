@@ -64,7 +64,12 @@
           <t-divider t-class="divider" content="库存商品" />
           <view class="skus">
             <block wx:for="{{spu.skuList}}" wx:for-item="sku" wx:key="id">
-              <goods spuId="{{ spu._id }}" skuId="{{ sku._id }}" editable="{{false}}" />
+              <goods
+                spuId="{{ spu._id }}"
+                skuId="{{ sku._id }}"
+                editable="{{false}}"
+                tagSuffix="popup"
+              />
             </block>
           </view>
         </block>

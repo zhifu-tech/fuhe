@@ -1,6 +1,6 @@
-function getImage(sku) {
-  if (sku && sku.imageList && sku.imageList.length > 0) {
-    var image = sku.imageList[0];
+function getImage(imageList) {
+  if (imageList && imageList.length > 0) {
+    var image = imageList[0];
     if (typeof image === 'string') {
       return image;
     } else if (typeof image === 'object') {

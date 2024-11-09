@@ -1,5 +1,6 @@
 import log from '@/common/log/log';
 import spu from './spu';
+import sku from './sku';
 import { observable, action } from 'mobx-miniprogram';
 
 export default (function store() {
@@ -9,8 +10,9 @@ export default (function store() {
   const spuMap = observable.map(); // map<spu._id, spu>
 
   return observable({
-    selected_cId: '0',
     spu,
+    sku,
+    selected_cId: '0',
     get selected() {
       let selected = dataMap.get(this.selected_cId);
       if (!selected) {

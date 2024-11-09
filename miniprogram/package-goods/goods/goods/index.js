@@ -1,5 +1,6 @@
 import log from '@/common/log/log';
 import stores from '@/stores/index';
+import { toJS } from 'mobx-miniprogram';
 
 Component({
   behaviors: [
@@ -66,6 +67,13 @@ Component({
       skuStockList2: function () {
         const skuStockList = this.data.sku?.stockList || [];
         this.setData({ skuStockList });
+        return {};
+      },
+      skuImageList2: function () {
+        const skuImageList = this.data.sku?.imageList;
+        if (skuImageList != null) {
+          this.setData({ skuImageList: toJS(skuImageList) });
+        }
         return {};
       },
 

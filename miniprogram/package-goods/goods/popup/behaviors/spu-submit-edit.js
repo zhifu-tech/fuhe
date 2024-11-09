@@ -20,6 +20,12 @@ module.exports = Behavior({
       });
     },
   },
+  lifetimes: {
+    detached: function () {
+      this.disposer?.();
+      this.disposer = null;
+    },
+  },
   methods: {
     _submitEditSpu: async function () {
       const { tag, spu, _spu } = this.data;
