@@ -73,24 +73,8 @@
             <goods spuId="{{ spu._id }}" skuId="{{ sku._id }}" tagSuffix="store" />
           </block>
         </block>
-        <block wx:if="{{ pageStatus.isLoadingWithSkeleton }}" wx:for="{{ 6 }}" wx:key="*this">
-          <view class="sk-goods-container">
-            <view class="sk-goods-header">
-              <t-skeleton
-                rowCol="{{ [{ size:'72px', type:'rect' }] }}"
-                animation="gradient"
-                loading
-              />
-              <t-skeleton
-                class="sk-goods-header-right"
-                rowCol="{{ [1, 1, { width: '61%' }] }}"
-                animation="gradient"
-                loading
-              />
-            </view>
-          </view>
-        </block>
         <page-load-more
+          wx:if="{{ !pageStatus.isLoadingWithSkeleton && goodsSpuList.length > 0 }}"
           showLoading="{{ pageStatus.isLoadingWithMore }}"
           showNoMore="{{ pageStatus.showNoMore }}"
           showHasMore="{{ pageStatus.showHasMore }}"
@@ -99,6 +83,7 @@
           bind:retry="loadMoreGoods"
         />
       </t-pull-down-refresh>
+
       <t-empty
         wx:if="{{ !pageStatus.isLoadingWithSkeleton && goodsSpuList.length === 0 }}"
         class="empty"
@@ -115,6 +100,24 @@
           >新增商品
         </t-button>
       </t-empty>
+
+      <view wx:if="{{ pageStatus.isLoadingWithSkeletonDelay }}" class="sk">
+        <view class="sk-goods-container" wx:for="{{ 6 }}" wx:key="*this">
+          <view class="sk-goods-header">
+            <t-skeleton
+              rowCol="{{ [{ size:'72px', type:'rect' }] }}"
+              animation="gradient"
+              loading
+            />
+            <t-skeleton
+              class="sk-goods-header-right"
+              rowCol="{{ [1, 1, { width: '61%' }] }}"
+              animation="gradient"
+              loading
+            />
+          </view>
+        </view>
+      </view>
     </view>
   </view>
 </view>

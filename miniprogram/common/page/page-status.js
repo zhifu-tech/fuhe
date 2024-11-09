@@ -2,6 +2,7 @@ module.exports = Behavior({
   data: {
     pageStatus: {
       isLoadingWithSkeleton: true,
+      isLoadingWithSkeletonDelay: true,
       isLoadingWithMore: false,
       isLoadingWithPullDown: false,
 
@@ -27,11 +28,17 @@ module.exports = Behavior({
       this.setData({
         ...this.hidePageLoadMore(),
         'pageStatus.isLoadingWithSkeleton': true,
+        'pageStatus.isLoadingWithSkeletonDelay': true,
       });
     },
     hidePageLoadigWithSkeleton: function () {
       const { pageStatus } = this.data;
       if (pageStatus.isLoadingWithSkeleton) {
+        setTimeout(() => {
+          this.setData({
+            'pageStatus.isLoadingWithSkeletonDelay': false,
+          });
+        }, 300);
         return {
           'pageStatus.isLoadingWithSkeleton': false,
         };

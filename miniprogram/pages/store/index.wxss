@@ -71,7 +71,8 @@
   text-align: center;
 }
 .side-bar-item.active {
-  background: var(--td-bg-color-secondarycontainer);
+  /* background: var(--td-bg-color-secondarycontainer); */
+  background: var(--td-bg-color-page);
 }
 /* TRICKY: 通过直接覆盖的方式,调整sidebar的样式，在active时，通过before增加一个背景 */
 .t-side-bar-item__suffix::before,
@@ -80,7 +81,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  background-color: var(--td-bg-color-secondarycontainer);
+  background-color: var(--td-bg-color-page);
 }
 .t-side-bar-item__suffix::before,
 .t-side-bar-item__prefix::before,
@@ -93,6 +94,16 @@
   flex: 1;
   position: relative;
 }
+.sk,
+.scroll,
+.empty {
+  position: absolute;
+  margin-bottom: calc(60px + env(safe-area-inset-bottom));
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 
 .scroll {
   overflow-y: auto;
@@ -100,19 +111,18 @@
   flex-direction: column;
   height: unset !important;
   max-height: unset !important;
+  z-index: 1;
 }
-
 .empty {
+  margin-bottom: calc((60px + env(safe-area-inset-bottom)) * 2);
   justify-content: center;
+  z-index: 2;
 }
-.scroll,
-.empty {
+.sk {
+  background-color: var(--td-bg-color-page);
   position: absolute;
-  padding-bottom: calc(60px + env(safe-area-inset-bottom));
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  z-index: 99;
 }
 
 .sk-goods-container {
