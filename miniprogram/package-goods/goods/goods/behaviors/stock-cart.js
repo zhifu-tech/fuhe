@@ -93,7 +93,7 @@ module.exports = Behavior({
       try {
         await services.stock.updateStockInfo({
           tag: 'stockPricesChange',
-          stockId: stock._id,
+          stock,
           salePrice: stock.salePrice,
         });
       } catch (error) {

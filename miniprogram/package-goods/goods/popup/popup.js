@@ -27,23 +27,30 @@ export function showGoodsEditSkuPopup(context, { spuId, skuId, callback }) {
   });
 }
 
-export function showGoodsEditStockPopup(context, { spu, sku, stock, callback }) {
+export function showGoodsEditStockPopup(context, { spuId, skuId, stockId }) {
   show(context, {
     isModeEditStock: true,
-    spu,
-    sku,
-    stock,
-    callback,
+    spuId,
+    skuId,
+    stockId,
   });
 }
 
-export function showGoodsEditStockSuperPopup(context, { spu, sku, stock, callback }) {
+export function showGoodsEditStockSuperPopup(context, { spuId, skuId, stockId }) {
   show(context, {
     isModeEditStockSuper: true,
+    spuId,
+    skuId,
+    stockId,
+  });
+}
+
+export function showGoodsAddStockPopup(context, { spu, sku, stock }) {
+  show(context, {
+    isModeAddStock: true,
     spu,
     sku,
     stock,
-    callback,
   });
 }
 

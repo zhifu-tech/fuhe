@@ -7,7 +7,7 @@ module.exports = Behavior({
       showSimpleActionSheet({
         items: [
           {
-            label: '修改库存信息',
+            label: '修改商品规格',
             value: '0',
             selectedFn: this._handleEditSku.bind(this),
           },
@@ -17,12 +17,12 @@ module.exports = Behavior({
             selectedFn: this._handleEditSpu.bind(this),
           },
           {
-            label: '新增库存',
+            label: '新增商品规格',
             value: '2',
             selectedFn: this._handleAddSku.bind(this),
           },
           {
-            label: '删除库存',
+            label: '删除商品规格',
             value: '3',
             selectedFn: this._handleDeleteSku.bind(this),
           },

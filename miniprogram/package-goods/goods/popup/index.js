@@ -1,6 +1,7 @@
 import stores from '@/stores/index';
 import log from '@/common/log/log';
 import pages from '@/common/page/pages';
+import { observable, toJS } from 'mobx-miniprogram';
 
 Component({
   options: {
@@ -42,48 +43,87 @@ Component({
   storeBindings: {
     stores,
     fields: {
-      _spu: function () {
+      _spu2: function () {
         const { spuId } = this.properties.options;
         if (spuId) {
-          return stores.goods.getSpu(spuId) || {};
+          const _spu = stores.goods.getSpu(spuId) || {};
+          log.info(this.data.tag, '_spu-observable', _spu);
+          this.setData({ _spu });
         }
         return {};
       },
-      spu: function () {
-        const { spuId } = this.properties.options;
-        if (spuId) {
-          const spu = stores.goods.getSpu(spuId) || {};
-          return { ...spu };
+      spu2: function () {
+        if (!this.data.spu) {
+          const { spuId } = this.properties.options;
+          if (spuId) {
+            const spu = stores.goods.getSpu(spuId);
+            log.info(this.data.tag, 'spu-observable', spu);
+            const spuJs = spu && toJS(spu);
+            log.info(this.data.tag, 'spu-js', spuJs);
+            const spuJsObservable = spuJs && observable(spuJs);
+            log.info(this.data.tag, 'spu-js-observable', spuJsObservable, spuJsObservable === spu);
+            // 这里的spu的改动，不对外发布，所以只是在模块内的observable
+            this.setData({ spu: spuJsObservable || observable({}) });
+          } else {
+            this.setData({ spu: observable({}) });
+          }
         }
         return {};
       },
-      _sku: function () {
+      _sku2: function () {
         const { spuId, skuId } = this.properties.options;
         if (spuId && skuId) {
-          return stores.goods.getSku(spuId, skuId) || {};
+          const _sku = stores.goods.getSku(spuId, skuId) || {};
+          log.info(this.data.tag, '_sku-observable', _sku);
+          this.setData({ _sku });
         }
         return {};
       },
-      sku: function () {
-        const { spuId, skuId } = this.properties.options;
-        if (spuId && skuId) {
-          const sku = stores.goods.getSku(spuId, skuId) || {};
-          return { ...sku };
+      sku2: function () {
+        if (!this.data.sku) {
+          const { spuId, skuId } = this.properties.options;
+          if (spuId && skuId) {
+            const sku = stores.goods.getSku(spuId, skuId);
+            log.info(this.data.tag, 'sku', sku);
+            const skuJs = sku && toJS(sku);
+            log.info(this.data.tag, 'sku-js', skuJs);
+            const skuJsObservable = observable(skuJs);
+            log.info(this.data.tag, 'sku-js-observable', skuJsObservable, skuJsObservable === sku);
+            this.setData({ sku: skuJsObservable || observable({}) });
+          } else {
+            this.setData({ sku: observable({}) });
+          }
         }
         return {};
       },
-      _stock: function () {
+      _stock2: function () {
         const { spuId, skuId, stockId } = this.properties.options;
         if (spuId && skuId && stockId) {
-          return stores.goods.getStock(spuId, skuId, stockId) || {};
+          const _stock = stores.goods.getStock(spuId, skuId, stockId) || {};
+          log.info(this.data.tag, '_stock-observable', _stock);
+          this.setData({ _stock });
         }
         return {};
       },
-      stock: function () {
-        const { spuId, skuId, stockId } = this.properties.options;
-        if (spuId && skuId && stockId) {
-          const stock = stores.goods.getStock(spuId, skuId, stockId) || {};
-          return { ...stock };
+      stock2: function () {
+        if (!this.data.stock) {
+          const { spuId, skuId, stockId } = this.properties.options;
+          if (spuId && skuId && stockId) {
+            const stock = stores.goods.getStock(spuId, skuId, stockId);
+            log.info(this.data.tag, 'stock', stock);
+            const stockJs = stock && toJS(stock);
+            log.info(this.data.tag, 'stock-js', stockJs);
+            const stockJsObservable = stockJs && observable(stockJs);
+            log.info(
+              this.data.tag,
+              'stock-js-observable',
+              stockJsObservable,
+              stockJsObservable === stock,
+            );
+            this.setData({ stock: stockJsObservable || observable({}) });
+          } else {
+            this.setData({ stock: observable({}) });
+          }
         }
         return {};
       },
@@ -91,9 +131,11 @@ Component({
   },
   observers: {
     options: function (options) {
-      if (!options.destroy) {
-        this.show(options);
-      }
+      setTimeout(() => {
+        if (!options.destroy) {
+          this.show(options);
+        }
+      }, 300);
     },
   },
   methods: {

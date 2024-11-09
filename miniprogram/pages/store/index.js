@@ -36,7 +36,7 @@ Component({
         stores.fetchSpec(),
         services.fetchSpec(),
 
-        // stores.fetchStock(),
+        stores.fetchStock(),
         services.fetchStock(),
 
         stores.fetchGoods(),

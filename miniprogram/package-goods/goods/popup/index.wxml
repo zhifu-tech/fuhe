@@ -32,13 +32,13 @@
           value="{{ spu.title || '' }}"
           tips="{{ spu.titleTips || '' }}"
           status="{{ spu.titleStatus || 'default' }}"
-          bind:blur="handleUpdateSpuTitle"
+          bind:change="handleUpdateSpuTitle"
         />
         <t-input
           placeholder="输入商品描述，选填"
           label="商品描述"
           value="{{spu.desc || ''}}"
-          bind:blur="handleUpdateSpuDesc"
+          bind:change="handleUpdateSpuDesc"
         />
       </block>
       <block wx:if="{{ isModeAddSpu }}">
@@ -102,20 +102,22 @@
         <t-input
           placeholder="输入成本价格，必填"
           label="成本价格"
+          type="number"
           disabled="{{ isModeEditStock }}"
           value="{{ stock.costPrice || '' }}"
           tips="{{ stock.costPriceTips || ''}}"
           status="{{ stock.costPriceStatus || 'default'}}"
-          bind:blur="handleUpdateStockCostPrice"
+          bind:change="handleUpdateStockCostPrice"
         />
         <t-input
           placeholder="预计出售时的价格，必填"
           label="商品定价"
+          type="number"
           disabled="{{ isModeEditStock }}"
           value="{{ stock.originalPrice || '' }}"
           tips="{{ stock.originalPriceTips || ''}}"
-          status="{{ stock.originalPriceTips || 'default'}}"
-          bind:blur="handleUpdateStockOriginalPrice"
+          status="{{ stock.originalPriceStatus || 'default'}}"
+          bind:change="handleUpdateStockOriginalPrice"
         />
         <t-input
           placeholder="输入库存数量，必填"
@@ -124,7 +126,7 @@
           value="{{ stock.quantity || '' }}"
           tips="{{ stock.quantityTips || ''}}"
           status="{{ stock.quantityStatus || 'default'}}"
-          bind:blur="handleUpdateStockQuantity"
+          bind:change="handleUpdateStockQuantity"
         />
       </block>
 

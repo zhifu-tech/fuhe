@@ -4,13 +4,17 @@ import goodsStore from '../../stores/goods/index';
 
 export default async function ({ tag, spu, title, desc }) {
   try {
+    const fileds = {};
+    if (title != null) fileds.title = title;
+    if (desc != null) fileds.desc = desc;
+
     await goodsModel.spuUpdate({
       tag,
       spuId: spu._id,
-      title,
-      desc,
+      ...fileds,
     });
-    goodsStore.updateGoodsSpu({ tag, spu });
+
+    goodsStore.spu.updateSpuInfo({ spu, ...fileds });
     log.info(tag, 'update spu success');
   } catch (error) {
     log.error(tag, 'update spu error', error);

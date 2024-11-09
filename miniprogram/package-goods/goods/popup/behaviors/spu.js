@@ -1,22 +1,23 @@
+import stores from '@/stores/index';
 import { showToastError } from '@/common/toast/simples';
 
 module.exports = Behavior({
   methods: {
     handleUpdateSpuTitle: function (e) {
       const { value: title } = e.detail;
-      this.setData({
-        'spu.title': title,
-      });
+      const { tag, spu } = this.data;
+      stores.goods.spu.updateSpuInfo({ tag, spu, title });
     },
     handleUpdateSpuDesc: function (e) {
       const { value: desc } = e.detail;
-      this.setData({
-        'spu.desc': desc,
-      });
+      const { tag, spu } = this.data;
+      stores.goods.spu.updateSpuInfo({ tag, spu, desc });
     },
-    checkSpuTitle: function (spu) {
+    checkSpuTitle: function (spu, useToast = true) {
       if (!spu.title) {
-        showToastError({ message: '请输入商品名称！' });
+        if (useToast) {
+          showToastError({ message: '请输入商品名称！' });
+        }
         this.setData({
           'spu.titleTips': '商品名称为必填项',
           'spu.titleStatus': 'error',

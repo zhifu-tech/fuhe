@@ -1,4 +1,5 @@
 import log from '@/common/log/log';
+import spu from './spu';
 import { observable, action } from 'mobx-miniprogram';
 
 export default (function store() {
@@ -9,7 +10,7 @@ export default (function store() {
 
   return observable({
     selected_cId: '0',
-
+    spu,
     get selected() {
       let selected = dataMap.get(this.selected_cId);
       if (!selected) {
@@ -114,22 +115,6 @@ export default (function store() {
         data.spuList.unshift(spu);
         log.info(tag, tagStore, 'addGoodsSpu', 'add by all');
       }
-    }),
-    updateGoodsSpu: action(function ({ tag, spu: updated }) {
-      const spu = spuMap.get(updated._id);
-      if (!spu) {
-        log.info(tag, tagStore, 'updateGoodsSpu', 'no spu');
-        return;
-      }
-      // 如果spu和updated一样，说明是同一个对象，不需要更新
-      if (spu === updated) {
-        log.info(tag, tagStore, 'updateGoodsSpu', 'same spu');
-        return;
-      }
-      // 更新spu相关信息
-      if (updated.title) spu.title = updated.title;
-      if (updated.desc) spu.desc = updated.desc;
-      log.info(tag, tagStore, 'updateGoodsSpu', spu);
     }),
     deleteGoodsSku: action(function ({ spuId, skuId }) {
       const spu = spuMap.get(spuId);

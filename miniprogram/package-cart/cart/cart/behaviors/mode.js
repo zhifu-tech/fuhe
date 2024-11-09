@@ -12,7 +12,7 @@ module.exports = Behavior({
   lifetimes: {
     attached: function () {
       let isFirstRun = true;
-      this.carrDisposer = autorun(() => {
+      this.cartDisposer = autorun(() => {
         const dataList = cartStore.dataList;
         // 1. 无数据，首次运行，拉取数据
         if (dataList.length === 0 && isFirstRun) {
@@ -32,6 +32,9 @@ module.exports = Behavior({
       });
     },
     detached: function () {
+      this.cartDisposer?.();
+      this.cartDisposer = null;
+
       this.fetchCartDataTask?.dispose();
       this.fetchCartDataTask = null;
     },

@@ -5,6 +5,7 @@ export default (function () {
   let _spec = null;
   let _goods = null;
   let _cart = null;
+  let _stock = null;
 
   return {
     get category() {
@@ -52,6 +53,22 @@ export default (function () {
           .then((mod) => mod.default);
       }
       return _goods;
+    },
+
+    get stock() {
+      if (!_stock) {
+        log.error('stock is not ready, should call fetchStock first!');
+        this.fetchStock();
+      }
+      return _stock || {};
+    },
+    fetchStock: async function () {
+      if (!_stock) {
+        _stock = await require
+          .async('@/package-mix/stores/stock/index.js')
+          .then((mod) => mod.default);
+      }
+      return _stock;
     },
 
     get cart() {
