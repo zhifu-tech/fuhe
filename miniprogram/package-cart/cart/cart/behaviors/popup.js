@@ -7,7 +7,7 @@ module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
   data: {
     fabStyle:
-      'left: unset; right: var(--td-spacer); bottom: calc(80px + env(safe-area-inset-bottom))',
+      'z-index:66; left: unset; right: var(--td-spacer); bottom: calc(80px + env(safe-area-inset-bottom))',
     fabBtnProps: { theme: 'default', size: 'large', variant: 'text' },
 
     dataList: [], // 购物车数据

@@ -127,7 +127,7 @@
   button-props="{{ { theme: 'default', size: 'large',variant: 'text' } }}"
   draggable="true"
   usingCustomNavbar="true"
-  style="left: unset; right: unset; bottom: calc(80px + env(safe-area-inset-bottom))"
+  style="z-index: 66; left: unset; right: unset; bottom: calc(80px + env(safe-area-inset-bottom))"
   bind:click="handleSideBarFold"
   aria-label="增加"
 />
