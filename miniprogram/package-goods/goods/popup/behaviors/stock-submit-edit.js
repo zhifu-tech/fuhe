@@ -8,12 +8,16 @@ module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
   watch: {
     isModeEditStock: function () {
+      // 绑定提交按钮的函数
+      this.data._submitFn = this._submitEditStock.bind(this);
+      // 监听数据的变化
       this.disposer = autorun(() => {
         const { stock, _stock } = this.data;
+        if (!stock || !_stock) return;
         const submitDisabled =
           stock.quantity === _stock.quantity ||
           // 有效性校验
-          !this.checkStockQuantity(stock, true);
+          !this.checkStockQuantity(stock, false);
 
         if (submitDisabled !== this.data.submitDisabled) {
           this.setData({ submitDisabled });
@@ -21,6 +25,9 @@ module.exports = Behavior({
       });
     },
     isModeEditStockSuper: function () {
+      // 绑定提交按钮的函数
+      this.data._submitFn = this._submitEditStock.bind(this);
+      // 监听数据的变化
       this.disposer = autorun(() => {
         const { stock, _stock } = this.data;
         const submitDisabled =
@@ -72,9 +79,6 @@ module.exports = Behavior({
       } finally {
         this.hide();
       }
-    },
-    _submitEditStockSuper: async function () {
-      this._submitEditStock();
     },
   },
 });

@@ -1,4 +1,5 @@
 import log from '@/common/log/log';
+import stores from '@/stores/index';
 import services from '@/services/index';
 import { autorun } from 'mobx-miniprogram';
 import { showToastError, showToastLoading, hideToastLoading } from '@/common/toast/simples';
@@ -6,18 +7,19 @@ import { showToastError, showToastLoading, hideToastLoading } from '@/common/toa
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
   watch: {
-    isModeEditSpu: function () {
+    isModeAddStock: function () {
       // 绑定提交按钮的函数
-      this.data._submitFn = this._submitEditSpu.bind(this);
+      this.data._submitFn = this._submitAddStock.bind(this);
       // 监听数据的变化
       this.disposer = autorun(() => {
-        const { spu, _spu } = this.data;
-        if (!spu || !_spu) return;
+        const { stock } = this.data;
+        if (!stock) return;
         const submitDisabled =
-          (spu.title === _spu.title && //
-            spu.desc === _spu.desc) ||
           // 有效性校验
-          !this.checkSpuTitle(spu, false);
+          !this.checkStockCostPrice(stock, false) ||
+          !this.checkStockOriginalPrice(stock, false) ||
+          !this.checkStockQuantity(stock, false);
+
         if (submitDisabled !== this.data.submitDisabled) {
           this.setData({ submitDisabled });
         }
@@ -31,27 +33,22 @@ module.exports = Behavior({
     },
   },
   methods: {
-    _submitEditSpu: async function () {
-      const { tag, spu, _spu } = this.data;
+    _submitAddStock: async function () {
+      const { tag, sku, _sku, stock, _stock } = this.data;
       showToastLoading({});
       try {
-        const fields = {};
-        if (spu.title !== _spu.title) {
-          fields.title = spu.title;
-        }
-        if (spu.desc !== _spu.desc) {
-          fields.desc = spu.desc;
-        }
-        await services.goods.updateGoodsSpu({
+        stock.skuId = sku._id;
+        await services.stock.createStockInfo({
           tag,
-          spu: _spu,
-          ...fields,
+          sku: _sku,
+          draft: stock,
         });
 
         hideToastLoading();
+        log.info(tag, 'submitAddStock success');
       } catch (error) {
-        log.error(tag, 'update spu error', error);
         showToastError({ message: '未知错误，稍后重试!' });
+        log.error(tag, 'submitAddStock error', error);
       } finally {
         this.hide();
       }

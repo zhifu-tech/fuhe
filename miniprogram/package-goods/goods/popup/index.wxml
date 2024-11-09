@@ -12,7 +12,7 @@
         bind:tap="hide"
         >取消
       </t-button>
-      <view class="title">{{ spu.title || '新增商品' }}</view>
+      <view class="title">{{ title || spu.title }}</view>
       <t-button
         theme="primary"
         variant="text"
@@ -59,13 +59,14 @@
       </block>
 
       <!-- 已加商品信息 -->
-      <block wx:if="{{ isModeAddSku || isModeAddSku }}">
-        <block wx:if="{{ spu.skuList.length > 0 }}">
+      <block wx:if="{{ isModeAddSpu || isModeAddSku || isModeAddSku }}">
+        <block wx:if="{{ skuList.length > 0 }}">
           <t-divider t-class="divider" content="库存商品" />
           <view class="skus">
-            <block wx:for="{{spu.skuList}}" wx:for-item="sku" wx:key="id">
+            <block wx:for="{{skuList}}" wx:for-item="sku" wx:key="id">
+              <!-- spuId的获取：sku中的spuId 优先级更高 -->
               <goods
-                spuId="{{ spu._id }}"
+                spuId="{{ sku.spuId || spu._id }}"
                 skuId="{{ sku._id }}"
                 editable="{{false}}"
                 tagSuffix="popup"
@@ -76,7 +77,7 @@
       </block>
 
       <block
-        wx:if="{{ isModeAddSpu || isModeAddSku || isModeEditSku || isModeEditStock || isModeEditStockSuper }}"
+        wx:if="{{ isModeAddSpu || isModeAddSku || isModeEditSku || isModeEditStock || isModeEditStockSuper || isModeAddStock }}"
       >
         <t-divider t-class="divider" content="规格信息" />
         <view class="specList">
@@ -88,7 +89,7 @@
                   class="option"
                   shape="round"
                   size="large"
-                  disabled="{{ isModeEditSku || isModeEditStock || isModeEditStockSuper }}"
+                  disabled="{{ isModeEditSku || isModeEditStock || isModeEditStockSuper || isModeAddStock }}"
                   variant="outline"
                   default-checked="{{_.isOptionChecked(sku, option)}}"
                   checked="{{_.isOptionChecked(sku, option)}}"
@@ -103,7 +104,9 @@
         <t-divider t-class="divider" />
       </block>
 
-      <block wx:if="{{ isModeAddSpu || isModeAddSku || isModeEditStock || isModeEditStockSuper }}">
+      <block
+        wx:if="{{ isModeAddSpu || isModeAddSku || isModeEditStock || isModeEditStockSuper || isModeAddStock }}"
+      >
         <t-input
           placeholder="输入成本价格，必填"
           label="成本价格"
@@ -141,7 +144,7 @@
         </view>
         <t-upload
           mediaType="{{['image']}}"
-          files="{{ _.getUploadImageFile( sku.imageList||[] ) }}"
+          files="{{ _.getUploadImageFile( skuImageList || [] ) }}"
           draggable="true"
           bind:add="handleAddImage"
           bind:remove="handleRemoveImage"

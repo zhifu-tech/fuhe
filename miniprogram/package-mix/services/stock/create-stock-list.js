@@ -1,7 +1,7 @@
 import log from '@/common/log/log';
 import stockModel from '../../models/stock/index';
 
-export default async function ({ tag, spu }) {
+export default async function createStockList({ tag, spu }) {
   const tagExtra = `createStockList-${spu.title}`;
   log.info(tag, tagExtra, 'start create stock');
   // 更新库存信息

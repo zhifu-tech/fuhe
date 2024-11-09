@@ -6,8 +6,8 @@ module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
   watch: {
     categorySelected: function (cId) {
-      const { goods, tag } = this.data;
-      if (goods.cId !== cId) {
+      const { tag, goodsSelected } = this.data;
+      if (goodsSelected && goodsSelected.cId !== cId) {
         // 切换分类时，重新加载商品列表
         services.goods.switchGoodsSpuList({ tag, cId, trigger: 'init' });
         if (services.goods.checkNeedFetchedData({ tag, cId })) {
@@ -33,7 +33,7 @@ module.exports = Behavior({
   },
   methods: {
     loadMoreGoods: function () {
-      const { tag, goods } = this.data;
+      const { tag, goodsSelected } = this.data;
       if (this.isPageLoading()) {
         log.info(tag, 'loadMoreGoods', 'intercepted as being loading!');
         return;
@@ -42,23 +42,24 @@ module.exports = Behavior({
         log.info(tag, 'loadMoreGoods', 'intercepted as being no more!');
         return;
       }
+
       this.fetchGoodsTask = services.goods.fetchGoodsSpuList({
         tag,
-        cId: goods.cId,
-        pageNumber: goods.pageNumber + 1,
+        cId: goodsSelected.cId,
+        pageNumber: goodsSelected.pageNumber + 1,
         trigger: 'more',
         callback: this._updatePageStatus.bind(this),
       });
     },
     pullDownRefresh: function () {
-      const { tag, goods } = this.data;
+      const { tag, goodsSelected } = this.data;
       if (this.isPageLoading()) {
         log.info(tag, 'pullDownRefresh', 'intercepted as being loading!');
         return;
       }
       this.fetchGoodsTask = services.goods.fetchGoodsSpuList({
         tag,
-        cId: goods.cId,
+        cId: goodsSelected.cId,
         pageNumber: 1,
         trigger: 'pullDown',
         callback: this._updatePageStatus.bind(this),
@@ -66,7 +67,7 @@ module.exports = Behavior({
     },
     _updatePageStatus: function (status) {
       const { code, error, trigger } = status;
-      const { tag, goods } = this.data;
+      const { tag, goodsSelected } = this.data;
 
       switch (code) {
         case 'loading': {
@@ -81,9 +82,9 @@ module.exports = Behavior({
         }
         case 'success': {
           const { total } = status;
-          if (goods.spuList.length === 0) {
+          if (goodsSelected.spuList.length === 0) {
             this.showPageEmpty();
-          } else if (goods.spuList.length >= total) {
+          } else if (goodsSelected.spuList.length >= total) {
             this.showPageNoMore();
           } else {
             this.showPageHasMore();
@@ -98,7 +99,9 @@ module.exports = Behavior({
     },
     handleShowGoodsPopup: function () {
       require('@/package-goods/goods/popup/popup.js', (popup) => {
-        popup.showGoodsAddSpuPopup(this, {});
+        popup.showGoodsAddSpuPopup(this, {
+          title: '添加商品',
+        });
       }, ({ mod, errMsg }) => {
         console.error(`path: ${mod}, ${errMsg}`);
       });

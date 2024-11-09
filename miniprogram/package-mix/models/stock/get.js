@@ -1,8 +1,8 @@
 import log from '@/common/log/log';
 
-export default async function ({ tag, skuId }) {
+export default async function ({ tag, _id }) {
   try {
-    const { data } = await wx.cloud.models.fh_stock.list({
+    const { data } = await wx.cloud.models.fh_stock.get({
       select: {
         _id: true,
         skuId: true,
@@ -15,18 +15,14 @@ export default async function ({ tag, skuId }) {
       },
       filter: {
         where: {
-          $and: [{ skuId: { $eq: skuId } }],
+          $and: [{ _id: { $eq: _id } }],
         },
       },
-      orderBy: [{ createdAt: 'asc' }, { costPrice: 'asc' }],
-      getCount: true,
-      pageNumber: 1,
-      pageSize: 200,
     });
-    log.info(tag, 'stock-list', data);
+    log.info(tag, 'stock-get', data);
     return data;
   } catch (error) {
-    log.error(tag, 'stock-list', error);
+    log.error(tag, 'stock-get', error);
     throw error;
   }
 }

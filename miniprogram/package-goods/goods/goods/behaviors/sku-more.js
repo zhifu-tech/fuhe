@@ -26,7 +26,7 @@ module.exports = Behavior({
             value: '3',
             selectedFn: this._handleDeleteSku.bind(this),
           },
-        ]
+        ],
       });
     },
     _handleEditSku: function () {
@@ -35,11 +35,7 @@ module.exports = Behavior({
         popup.showGoodsEditSkuPopup(pages.currentPage(), {
           spuId,
           skuId,
-          callback: () => {
-            this.setData({
-              sku,
-            });
-          },
+          title: '修改商品规格',
         });
       }, ({ mod, errMsg }) => {
         console.error(`path: ${mod}, ${errMsg}`);
@@ -50,6 +46,7 @@ module.exports = Behavior({
         const { spu, spuId } = this.data;
         popup.showGoodsEditSpuPopup(pages.currentPage(), {
           spuId,
+          title: '修改商品信息',
         });
       }, ({ mod, errMsg }) => {
         console.error(`path: ${mod}, ${errMsg}`);
@@ -60,11 +57,7 @@ module.exports = Behavior({
       require('@/package-goods/goods/popup/popup.js', (popup) => {
         popup.showGoodsAddSkuPopup(pages.currentPage(), {
           spuId,
-          callback: () => {
-            this.setData({
-              spu,
-            });
-          },
+          title: '新增商品规格',
         });
       }, ({ mod, errMsg }) => {
         console.error(`path: ${mod}, ${errMsg}`);

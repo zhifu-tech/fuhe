@@ -20,7 +20,7 @@ export async function create({ tag, param }) {
       data: paramToData(param),
     });
     log.info(tag, 'stock-create', data);
-    return data;
+    return data.id;
   } catch (error) {
     log.error(tag, 'stock-create', error);
     throw error;

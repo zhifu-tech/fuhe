@@ -12,6 +12,8 @@ import {
   updateSaleInfo as skuUpdateSaleInfo,
 } from './sku-update';
 
+import skuDelete from './sku-delete';
+
 export default {
   spuCreate,
   spuList,
@@ -22,4 +24,5 @@ export default {
   skuCreateMany,
   skuUpdateImageList,
   skuUpdateSaleInfo,
+  skuDelete,
 };

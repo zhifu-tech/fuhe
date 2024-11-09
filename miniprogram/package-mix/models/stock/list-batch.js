@@ -22,7 +22,7 @@ export default async function ({ tag, skuIdList }) {
         },
         filter: {
           where: {
-            $and: [{ skuId: { $in: skuIdList } }, { quantity: { $gt: 0 } }],
+            $and: [{ skuId: { $in: skuIdList } }],
           },
         },
         orderBy: [{ skuId: 'asc' }, { createdAt: 'asc' }, { costPrice: 'asc' }],

@@ -3,7 +3,7 @@ const { default: log } = require('@/common/log/log');
 module.exports = Behavior({
   methods: {
     // initOptions: function () {
-    //   // 未指定规格信息，通过推荐指定
+    //   // 未指定规格信息，通过推荐指定 FIXME:
     //   const { spu, sku } = this.data;
     //   if (!sku.optionList) {
     //     sku.optionList = this.promoteOptionList(spu);

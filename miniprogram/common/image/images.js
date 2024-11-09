@@ -90,7 +90,7 @@ function _uploadFile({ id, filePath }) {
 }
 /** 替换所有本地地址为服务端地址 */
 function _replaceSkuImageFile(sku, imageList, imageUrls) {
-  sku.imageList.forEach((image, i) => {
+  sku.imageList?.forEach((image, i) => {
     if (!_isUploadImage(image)) return;
     const url = image.url;
     const k = imageList.findIndex((it) => it === url);

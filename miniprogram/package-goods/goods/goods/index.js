@@ -60,6 +60,7 @@ Component({
         if (!this.data.sku) {
           const { spuId, skuId } = this.properties;
           const sku = stores.goods.getSku(spuId, skuId);
+          log.info(this.data.tag, 'sku-init', sku, skuId, spuId);
           this.setData({ sku });
         }
         return {};

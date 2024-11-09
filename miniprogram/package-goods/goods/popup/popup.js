@@ -1,69 +1,74 @@
-export function showGoodsAddSpuPopup(context) {
+export function showGoodsAddSpuPopup(context, { title }) {
   show(context, {
     isModeAddSpu: true,
+    title,
   });
 }
 
-export function showGoodsEditSpuPopup(context, { spuId }) {
+export function showGoodsEditSpuPopup(context, { spuId, title }) {
   show(context, {
     isModeEditSpu: true,
     spuId,
+    title,
   });
 }
 
-export function showGoodsAddSkuPopup(context, { spuId }) {
+export function showGoodsAddSkuPopup(context, { spuId, optionIdList, title }) {
   show(context, {
     isModeAddSku: true,
     spuId,
+    optionIdList,
+    title,
   });
 }
 
-export function showGoodsEditSkuPopup(context, { spuId, skuId, callback }) {
+export function showGoodsEditSkuPopup(context, { spuId, skuId, title }) {
   show(context, {
     isModeEditSku: true,
     spuId,
     skuId,
-    callback,
+    title,
   });
 }
 
-export function showGoodsEditStockPopup(context, { spuId, skuId, stockId }) {
+export function showGoodsEditStockPopup(context, { spuId, skuId, stockId, title }) {
   show(context, {
     isModeEditStock: true,
     spuId,
     skuId,
     stockId,
+    title,
   });
 }
 
-export function showGoodsEditStockSuperPopup(context, { spuId, skuId, stockId }) {
+export function showGoodsEditStockSuperPopup(context, { spuId, skuId, stockId, title }) {
   show(context, {
     isModeEditStockSuper: true,
     spuId,
     skuId,
     stockId,
+    title,
   });
 }
 
-export function showGoodsAddStockPopup(context, { spu, sku, stock }) {
+export function showGoodsAddStockPopup(context, { spuId, skuId, title }) {
   show(context, {
     isModeAddStock: true,
-    spu,
-    sku,
-    stock,
+    spuId,
+    skuId,
   });
 }
 
 export function show(context, options) {
-  const close = options.close;
-  options.close = (args) => {
-    close?.(args);
-    setTimeout(() => hide(context), 300);
-  };
   context.setData({
     goodsPopup: {
       enabled: true,
-      options,
+      options: {
+        ...options,
+        close: () => {
+          setTimeout(() => hide(context), 300);
+        },
+      },
     },
   });
 }

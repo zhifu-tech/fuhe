@@ -34,6 +34,7 @@ module.exports = Behavior({
             spuId,
             skuId,
             stockId,
+            title: '补货',
           },
           ({ mod, errMsg }) => {
             console.error(`path: ${mod}, ${errMsg}`);
@@ -50,6 +51,7 @@ module.exports = Behavior({
             spuId,
             skuId,
             stockId,
+            title: '补货或修改价格',
           },
           ({ mod, errMsg }) => {
             console.error(`path: ${mod}, ${errMsg}`);
@@ -65,7 +67,6 @@ module.exports = Behavior({
           {
             spuId,
             skuId,
-            stockId,
           },
           ({ mod, errMsg }) => {
             console.error(`path: ${mod}, ${errMsg}`);

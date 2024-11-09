@@ -5,7 +5,11 @@ import { observable, action } from 'mobx-miniprogram';
 
 export default (function store() {
   const tagStore = 'goods-store';
-  // p.s. dataMap和spuMap需要确保spu是一致的
+  // dataMap为列表数据的存储，spuMap为所有spu的存储。
+  // 1. dataMap和spuMap需要确保spu是一致的。
+  // 2. 在列表中，以dataMap中的数据为基准;
+  // 3. spuMap是app内所有spu的集合，是全集；dataMap中的spu时子集。
+  // 4. 如果修改spuMap中的数据，在spu中修改，一定会生效dataMap中的spu
   const dataMap = observable.map(); // map<cId, goods-object >
   const spuMap = observable.map(); // map<spu._id, spu>
 
@@ -42,8 +46,6 @@ export default (function store() {
       }
     },
     setGoodsSpuListResult: action(function ({ tag, cId, spuList, total, pageNumber }) {
-      // 保存数据到map中，后面数据更新可能会用到
-      this._setSpuList(spuList);
       // 此时 data 和selected 一致的，指向同一个对象
       const data = this.selected;
       // 保存请求结果
@@ -56,25 +58,30 @@ export default (function store() {
         data.pageNumber = pageNumber;
         data.spuList.replace([...data.spuList, ...spuList]);
       }
+      // 保存数据到全局的spu map中
+      this._setSpuList({
+        tag,
+        spuList: data.spuList,
+        updateList: false,
+      });
     }),
     setGoodsSpuListResultByIdList: action(function ({ tag, spuList }) {
       // 保存数据到map中，后面数据更新可能会用到
-      this._setSpuList(spuList);
+      this._setSpuList({
+        tag,
+        spuList,
+        updateList: true,
+      });
     }),
 
     //********************************
     // [Start] SPU & SKU & STOCK
     // ********************************
     getSpu: function (spuId) {
-      const spu = spuMap.get(spuId);
-      if (spu && spu.hasDraft) {
-        return spuMap.get(`-${spuId}`) || spu;
-      }
-      return spu;
+      return spuMap.get(spuId);
     },
     getSpuSpecList: function (spuId) {
-      const spu = spuMap.get(spuId);
-      return spu.specList;
+      return spuMap.get(spuId)?.specList || [];
     },
     getSku: function (spuId, skuId) {
       const spu = this.getSpu(spuId);
@@ -84,41 +91,74 @@ export default (function store() {
       const sku = this.getSku(spuId, skuId);
       return sku?.stockList?.find((stock) => stock._id === stockId);
     },
-    _setSpuList: action(function (spuList) {
+    _setSpuList: action(function ({ tag, spuList, updateList }) {
       spuList.forEach((spu) => {
-        spuMap.set(spu._id, spu);
+        this.setGoodsSpu({ tag, spu, updateList });
       });
     }),
-    setSpuDraft: action(function (spuId, draft) {
-      const spu = this.getSpu(spuId);
-      if (!spu || spu.hasDraft || !draft) return;
-      spu.hasDraft = true;
-      spuMap.set(`-${spuId}`, draft);
-    }),
-    cleanSpuDraft: action(function (spuId) {
-      const spu = this.getSpu(spuId);
-      if (!spu || !spu.hasDraft) return;
-      spu.hasDraft = false;
-      spuMap.delete(`-${spuId}`);
-    }),
 
-    addGoodsSpu: action(function ({ tag, spu }) {
+    setGoodsSpu: action(function ({ tag, spu, updateList }) {
+      // 加入到spu-map中
+      spuMap.set(spu._id, spu);
+      if (updateList) {
+        // 查找对应分类是否存在
+        let data = dataMap.get(spu.cId);
+        if (data) {
+          // 查找对应分类是否存在
+          const index = data.spuList.findIndex(({ _id }) => spu._id === spu._id);
+          if (index !== -1) {
+            data.spuList[index] = spu;
+          }
+        }
+        data = dataMap.get('1'); // 所有分类
+        if (data) {
+          const index = data.spuList.findIndex(({ _id }) => _id === spu._id);
+          if (index !== -1) {
+            data.spuList[index] = spu;
+          }
+        }
+      }
+    }),
+    addGoodsSpu: action(function ({ tag, spu, addToList = true }) {
       log.info(tag, tagStore, 'addGoodsSpu', spu.title);
       // 加入到spu-map中
       spuMap.set(spu._id, spu);
+      if (!addToList) {
+        // 不加入列表
+        return;
+      }
       // 加入到对应分类列表的首位
       let data = dataMap.get(spu.cId);
       if (data) {
         data.spuList.unshift(spu);
         log.info(tag, tagStore, 'addGoodsSpu', 'add by cId');
       }
-      data = dataMap.get('1'); // 所有分类
+      // 所有分类
+      data = dataMap.get('1');
       if (data) {
         data.spuList.unshift(spu);
         log.info(tag, tagStore, 'addGoodsSpu', 'add by all');
       }
     }),
-    deleteGoodsSku: action(function ({ spuId, skuId }) {
+    deleteGoodsSpu: action(function ({ tag, spuId }) {
+      const res = spuMap.delete(spuId);
+      log.info(tag, tagStore, 'deleteGoodsSpu', spuId, res);
+      let data = dataMap.get(spu.cId);
+      if (data) {
+        const index = data.spuList.findIndex((spu) => spu._id === spuId);
+        if (index !== -1) {
+          data.spuList.splice(index, 1);
+        }
+      }
+      data = dataMap.get('1'); // 所有分类
+      if (data) {
+        const index = data.spuList.findIndex((spu) => spu._id === spuId);
+        if (index !== -1) {
+          data.spuList.splice(index, 1);
+        }
+      }
+    }),
+    deleteGoodsSku: action(function ({ tag, spuId, skuId }) {
       const spu = spuMap.get(spuId);
       if (!spu) {
         log.info(tag, tagStore, 'deleteGoodsSku', 'no spu');

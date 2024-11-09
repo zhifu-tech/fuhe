@@ -1,81 +1,75 @@
-import { uploadSpuImageList } from '@/common/image/images';
 import log from '@/common/log/log';
+import stores from '@/stores/index';
 import services from '@/services/index';
-import { showToastError, hideToastLoading } from '@/common/toast/simples';
+import { autorun } from 'mobx-miniprogram';
+import { showToastError, showToastLoading, hideToastLoading } from '@/common/toast/simples';
 
 module.exports = Behavior({
-  observers: {
-    'spu.skuList': function () {
-      if (this.data.isModeAddSku) {
-        this._checkSubmitAddSkuEnabled();
-      }
+  behaviors: [require('miniprogram-computed').behavior],
+  watch: {
+    isModeAddSku: function () {
+      // 绑定提交按钮的函数
+      this.data._submitFn = this._submitAddSku.bind(this);
+      // 监听数据的变化
+      this.disposer = autorun(() => {
+        const { spu, _spu } = this.data;
+        if (!spu || !_spu) return;
+        // 如果数据发生变化，则开启提交
+        const submitDisabled = spu.skuList.length === _spu.skuList.length;
+        if (submitDisabled !== this.data.submitDisabled) {
+          this.setData({
+            submitDisabled,
+          });
+        }
+      });
+    },
+  },
+  lifetimes: {
+    detached: function () {
+      this.disposer?.();
+      this.disposer = null;
     },
   },
   methods: {
-    _checkSubmitAddSkuEnabled: function () {
-      const { spu, _spu } = this.data;
-      // 如果数据发生变化，则开启提交
-      const submitDisabled = spu.skuList.length === _spu.skuList.length;
-      if (submitDisabled !== this.data.submitDisabled) {
-        this.setData({
-          submitDisabled,
-        });
-      }
-    },
     _submitAddSku: async function () {
       const { tag, spu } = this.data;
-      try {
-        this._submitAddSkuList(tag, spu);
+      const tagExtra = `_submitAddSku-${spu.title}`;
 
-        this.notify();
-        hideToastLoading();
-      } catch (error) {
-        log.error(tag, 'update spu error', error);
-        showToastError({ message: '未知错误，稍后重试!' });
-      } finally {
-        this.hide();
-      }
-    },
-    _submitAddSkuList: async function (tag, spu) {
-      // 计算新增的sku
-      const newSkuList = spu.skuList.filter((sku) => sku._id.startsWith('-'));
-      // 上传新增的图片
-      await uploadSpuImageList(newSkuList);
+      // 显示加载中
+      showToastLoading({ message: '更新中' });
 
       // 提交商品Sku信息
-      const skuIdList = await services.goods.skuCreateMany({
+      try {
+        await services.goods.createGoodsSkuList({ tag, spu });
+        log.info(tag, tagExtra, 'createGoodsSkuList success');
+      } catch (e) {
+        log.error(tag, tagExtra, 'createGoodsSkuList error', e);
+        showToastError({ message: '未知错误，稍后重试!' });
+        return;
+      }
+
+      // 提交库存信息
+      try {
+        await services.stock.createStockList({ tag, spu });
+        log.info(tag, tagExtra, 'createStockList success');
+      } catch (e) {
+        log.error(tag, tagExtra, 'createStockList error', e);
+        showToastError({ message: '未知错误，稍后重试!' });
+        return;
+      }
+
+      // 删除草稿信息
+      stores.goods.deleteGoodsSpu({ tag, spuId: spu._id });
+
+      // 拉取最新的商品信息，并且替换
+      await services.goods.fetchGoodsSpuListByIdList({
         tag,
-        paramList: newSkuList.map((sku) => {
-          // 提取销售价格
-          const { salePrice } = sku.stockList[0];
-          return {
-            salePrice,
-            imageList: sku.imageList,
-            optionIdList: sku.optionList.map((it) => it._id),
-            spuId: spu._id,
-          };
-        }),
-      });
-      skuIdList.forEach(({ id }, index) => {
-        newSkuList[index]._id = id;
+        idList: [spu._id.replace(/^-/, '')],
+        trigger: 'submitAddSku',
       });
 
-      // 提交商品SKU的Stock信息
-      const stockIdList = await services.stock.createMany({
-        tag,
-        paramList: newSkuList.map((sku) => {
-          const { quantity, costPrice, salePrice } = sku.stockList[0];
-          return {
-            quantity,
-            costPrice,
-            salePrice,
-            skuId: sku._id,
-          };
-        }),
-      });
-      newSkuList.forEach((sku, index) => {
-        sku.stockList[0]._id = stockIdList[index];
-      });
+      hideToastLoading();
+      this.hide();
     },
   },
 });

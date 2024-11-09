@@ -1,22 +1,44 @@
 import log from '@/common/log/log';
 import stores from '@/stores/index';
 import services from '@/services/index';
-import { showToastLoading, hideToastLoading } from '@/common/toast/simples';
+import { autorun } from 'mobx-miniprogram';
+import { showToastError, showToastLoading, hideToastLoading } from '@/common/toast/simples';
 
 module.exports = Behavior({
-  observers: {
-    'spu.skuList': function () {
-      if (this.data.isModeAddSpu) {
-        this._checkSubmitAddSpuEnabled();
-      }
+  behaviors: [require('miniprogram-computed').behavior],
+  watch: {
+    isModeAddSpu: function () {
+      // 绑定提交按钮的函数
+      this.data._submitFn = this._submitAddSpu.bind(this);
+      // 监听数据的变化
+      this.disposer = autorun(() => {
+        const { spu } = this.data;
+        if (!spu || !spu.skuList) return;
+        // 有新增的sku，则开启提交按钮
+        const submitDisabled = spu.skuList.length == 0;
+        if (submitDisabled != this.data.submitDisabled) {
+          this.setData({
+            submitDisabled,
+          });
+        }
+      });
+    },
+  },
+  lifetimes: {
+    detached: function () {
+      this.disposer?.();
+      this.disposer = null;
     },
   },
   methods: {
     _checkSubmitAddSpuEnabled: function () {
-      const {
-        spu: { skuList = [] },
-      } = this.data;
-      const submitDisabled = skuList.length == 0;
+      const { spu } = this.data;
+      const submitDisabled =
+        this.spu.skuList.length == 0 || // 至少包含一个sku
+        !this.checkSpuTitle(spu, false) || // 标题是可以修改的，所以提交之前需要检查
+        !this.checkSpuCategory(spu, true) || // 有分类信息
+        !this.checkSpuSpecList(spu, true); // 规格列表不能为空
+
       if (submitDisabled != this.data.submitDisabled) {
         this.setData({
           submitDisabled,
@@ -28,33 +50,22 @@ module.exports = Behavior({
       const { tag, spu } = this.data;
       const tagExtra = `_submitAddSpu-${spu.title}`;
 
-      // 数据完整性校验
-      if (!this.checkSpuTitle(spu)) {
-        log.info(tag, tagExtra, 'checkSpuTitle failed!');
-        return;
-      }
-      if (!this.checkSpuCategory(spu)) {
-        log.info(tag, tagExtra, 'checkSpuCategory failed!');
-        return;
-      }
-      if (!this.checkSpuSpecList(spu)) {
-        log.info(tag, tagExtra, 'checkSpuSpecList failed!');
-        return;
-      }
-
       // 显示加载中
       showToastLoading({ message: '更新中' });
 
       // 提交商品Spu信息
       if (spu._id.startsWith('-')) {
+        // 增加判定，防止提交失败之后之后，重复提交
         try {
           await services.goods.createGoodsSpu({ tag, spu });
           log.info(tag, tagExtra, 'createGoodsSpu success');
         } catch (e) {
           log.info(tag, tagExtra, 'createGoodsSpu error', e);
-          hideToastLoading();
+          showToastError({ message: '未知错误，稍后重试!' });
           return;
         }
+      } else {
+        log.info(tag, tagExtra, 'updateGoodsSpu', 'spu has updated before, do nothing!');
       }
 
       // 提交商品Sku信息
@@ -63,16 +74,17 @@ module.exports = Behavior({
         log.info(tag, tagExtra, 'createGoodsSkuList success');
       } catch (e) {
         log.error(tag, tagExtra, 'createGoodsSkuList error', e);
-        hideToastLoading();
+        showToastError({ message: '未知错误，稍后重试!' });
         return;
       }
 
       // 提交库存信息
       try {
         await services.stock.createStockList({ tag, spu });
+        log.info(tag, tagExtra, 'createStockList success');
       } catch (e) {
         log.error(tag, tagExtra, 'createStockList error', e);
-        hideToastLoading();
+        showToastError({ message: '未知错误，稍后重试!' });
         return;
       }
 

@@ -1,3 +1,4 @@
+import stores from '@/stores/index.js';
 import { showToastError } from '@/common/toast/simples.js';
 
 module.exports = Behavior({
@@ -26,6 +27,25 @@ module.exports = Behavior({
         showToastError({ message: '规格信息重复！' });
       }
       return !hasSelected;
+    },
+
+    handleAddImage: function (e) {
+      const { sku } = this.data;
+      const { files } = e.detail;
+      const imageList = sku.imageList || [];
+      stores.goods.sku.updateSkuImageList({
+        sku,
+        imageList: [...imageList, ...files],
+      });
+    },
+    handleRemoveImage: function (e) {
+      const { index } = e.detail;
+      const { sku } = this.data;
+      const imageList = sku.imageList || [];
+      stores.goods.sku.updateSkuImageList({
+        sku,
+        imageList: imageList.toSpliced(index, 1),
+      });
     },
   },
 });

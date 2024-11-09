@@ -66,8 +66,9 @@
   </t-divider>
 
   <!--库存清单-->
-  <t-divider />
+
   <block wx:for="{{ skuStockList }}" wx:for-item="stock" wx:for-index="index" wx:key="_id">
+    <t-divider />
     <view class="stock-date-wrapper">
       <view class="stock-date">{{ stock.createdAtFormatted }} 入库</view>
       <t-button

@@ -5,4 +5,12 @@ export default {
   updateSkuImageList: action(function ({ sku, imageList }) {
     sku.imageList = imageList;
   }),
+  addStock: action(function ({ sku, stock }) {
+    sku.stockList = sku.stockList || [];
+    if (!stock._id) {
+      stock._id = `-${sku.stockList.length + 1}`;
+    }
+    stock.skuId = sku._id;
+    sku.stockList.unshift(stock);
+  }),
 };

@@ -1,5 +1,6 @@
 import log from '@/common/log/log';
 import stockModel from '../../models/stock/index';
+import dayjs from 'dayjs';
 
 export default async function fetchStockList({ tag, spuList }) {
   try {
@@ -9,18 +10,8 @@ export default async function fetchStockList({ tag, spuList }) {
       skuIdList: skuList.map((sku) => sku._id),
     });
 
-    const dayjs = require('dayjs');
     stockList.forEach((stock) => {
-      // 1. 格式化所有的库存时间
-      stock.createdAtFormatted = stock.createdAt
-        ? dayjs(stock.createdAt).format('YYYY-MM-DD HH:mm')
-        : '';
-      // 2. 纠正属性
-      stock.salePrice = stock.salePrice || 0;
-      stock.saleQuantity = stock.saleQuantity || 0;
-      stock.costPrice = stock.costPrice || 0;
-      stock.originalPrice = stock.originalPrice || 0;
-      stock.quantity = stock.quantity || 0;
+      formatStockInfo(stock);
     });
 
     skuList.forEach((sku) => {
@@ -40,4 +31,17 @@ export default async function fetchStockList({ tag, spuList }) {
     log.error(tag, 'fetchSkuStockList', error);
     throw error;
   }
+}
+
+export function formatStockInfo(stock) {
+  // 1. 格式化所有的库存时间
+  stock.createdAtFormatted = stock.createdAt
+    ? dayjs(stock.createdAt).format('YYYY-MM-DD HH:mm')
+    : '';
+  // 2. 纠正属性
+  stock.salePrice = stock.salePrice || 0;
+  stock.saleQuantity = stock.saleQuantity || 0;
+  stock.costPrice = stock.costPrice || 0;
+  stock.originalPrice = stock.originalPrice || 0;
+  stock.quantity = stock.quantity || 0;
 }

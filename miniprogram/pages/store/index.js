@@ -1,15 +1,13 @@
 import log from '@/common/log/log';
 import stores from '@/stores/index';
 import services from '@/services/index';
-
-import { createStoreBindings } from 'mobx-miniprogram-bindings';
+import { autorun } from 'mobx-miniprogram';
 
 Component({
   options: {
     pureDataPattern: /^_/,
   },
   behaviors: [
-    require('mobx-miniprogram-bindings').storeBindingsBehavior,
     require('miniprogram-computed').behavior,
     require('@/common/picker/simple'),
     require('@/common/action-sheet/simple'),
@@ -24,7 +22,6 @@ Component({
   ],
   data: {
     tag: 'storePage',
-    _storeBindings: null,
   },
   lifetimes: {
     attached: async function () {
@@ -46,27 +43,36 @@ Component({
         services.fetchCart(),
       ]);
 
-      this._storeBindings = createStoreBindings(this, {
-        stores,
-        fields: {
-          categoryExtList2: function () {
-            const categoryExtList = stores.category.categoryExtList || [];
-            this.setData({ categoryExtList });
-            return [];
-          },
-          categorySelected: function () {
-            return stores.category.selected;
-          },
-          goods2: function () {
-            const selected = stores.goods.selected;
-            this.setData({ goods: selected });
-            return {};
-          },
-        },
-      });
+      this.disposers = [
+        autorun(() => {
+          const selected = stores.category.selected;
+          if (this.data.categorySelected != selected) {
+            log.info(this.data.tag, 'categorySelected', selected);
+            this.setData({ categorySelected: selected });
+          }
+        }),
+        autorun(() => {
+          const categoryExtList = stores.category.categoryExtList || [];
+          log.info(this.data.tag, 'categoryExtList', categoryExtList);
+          this.setData({ categoryExtList });
+        }),
+        autorun(() => {
+          // 保存一个映射，方便后续使用
+          const goodsSelected = stores.goods.selected;
+          log.info(this.data.tag, 'goodsSelected', goodsSelected);
+          this.setData({ goodsSelected });
+        }),
+        autorun(() => {
+          const goodsSpuList = stores.goods.selected.spuList || [];
+          log.info(this.data.tag, 'goodsSpuList', goodsSpuList.length);
+          this.setData({ goodsSpuList });
+        }),
+      ];
     },
     detached: function () {
       this._storeBindings.destroyStoreBindings();
+      disposers?.every((disposer) => disposer());
+      disposers = null;
     },
   },
 });

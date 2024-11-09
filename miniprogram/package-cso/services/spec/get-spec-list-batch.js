@@ -25,7 +25,7 @@ export default async function ({ tag, cIdList }) {
         specStore.setSpecList(cId, specList);
       });
     }
-    log.info(tag, 'get-spec-list-batch');
+    log.info(tag, 'get-spec-list-batch', 'finished');
     return specListMap;
   } catch (error) {
     log.error(tag, 'get-spec-list-batch', error);

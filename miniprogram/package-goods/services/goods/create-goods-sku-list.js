@@ -2,7 +2,7 @@ import log from '@/common/log/log';
 import { uploadSpuImageList } from '@/common/image/images';
 import goodsModel from '../../models/goods/index';
 
-export default async function ({ tag, spu }) {
+export default async function createGoodsSkuList({ tag, spu }) {
   spu.skuList = spu.skuList || [];
   const tagExtra = `createGoodsSkuList-${spu.title}`;
   try {
@@ -27,7 +27,8 @@ export default async function ({ tag, spu }) {
             salePrice,
             imageList: sku.imageList,
             optionIdList: sku.optionList.map((it) => it._id),
-            spuId: spu._id,
+            // 如果spu._id以-开头，则移除-; 否则取 spu._id
+            spuId: spu._id.replace(/^-/, ''),
           };
         }),
       });

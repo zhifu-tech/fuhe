@@ -1,7 +1,7 @@
 import stores from '@/stores/index';
 import log from '@/common/log/log';
 import pages from '@/common/page/pages';
-import { observable, toJS } from 'mobx-miniprogram';
+import { autorun, observable, toJS } from 'mobx-miniprogram';
 
 Component({
   options: {
@@ -20,12 +20,11 @@ Component({
     require('./behaviors/spu'),
     require('./behaviors/spu-submit-add'),
     require('./behaviors/spu-submit-edit'),
-    require('./behaviors/spu-add-sku'),
     require('./behaviors/sku'),
-    require('./behaviors/sku-submit-edit'),
     require('./behaviors/sku-submit-add'),
-    require('./behaviors/sku-image'),
+    require('./behaviors/sku-submit-edit'),
     require('./behaviors/stock'),
+    require('./behaviors/stock-submit-add'),
     require('./behaviors/stock-submit-edit'),
     require('./behaviors/option'),
     require('./behaviors/category'),
@@ -40,102 +39,73 @@ Component({
   data: {
     tag: 'goods-popup',
   },
-  storeBindings: {
-    stores,
-    fields: {
-      _spu2: function () {
-        const { spuId } = this.properties.options;
-        if (spuId) {
-          const _spu = stores.goods.getSpu(spuId) || {};
-          log.info(this.data.tag, '_spu-observable', _spu);
-          this.setData({ _spu });
-        }
-        return {};
-      },
-      spu2: function () {
-        if (!this.data.spu) {
-          const { spuId } = this.properties.options;
-          if (spuId) {
-            const spu = stores.goods.getSpu(spuId);
-            log.info(this.data.tag, 'spu-observable', spu);
-            const spuJs = spu && toJS(spu);
-            log.info(this.data.tag, 'spu-js', spuJs);
-            const spuJsObservable = spuJs && observable(spuJs);
-            log.info(this.data.tag, 'spu-js-observable', spuJsObservable, spuJsObservable === spu);
-            // 这里的spu的改动，不对外发布，所以只是在模块内的observable
-            this.setData({ spu: spuJsObservable || observable({}) });
-          } else {
-            this.setData({ spu: observable({}) });
+  lifetimes: {
+    attached: function () {
+      this.disposers = [
+        autorun(() => {
+          if (!this.data._spu || !this.data.spu) {
+            const { spuId } = this.properties.options;
+            if (spuId) {
+              const _spu = stores.goods.getSpu(spuId);
+              const _spuJs = _spu && toJS(_spu);
+              const spu = _spuJs && observable(_spuJs);
+              this.data._spu = _spu;
+              this.data.spu = spu;
+            }
+            this.setData({
+              _spu: this.data._spu || {},
+              spu: this.data.spu || observable({}),
+            });
+            log.info(this.data.tag, 'spu-init');
           }
-        }
-        return {};
-      },
-      _sku2: function () {
-        const { spuId, skuId } = this.properties.options;
-        if (spuId && skuId) {
-          const _sku = stores.goods.getSku(spuId, skuId) || {};
-          log.info(this.data.tag, '_sku-observable', _sku);
-          this.setData({ _sku });
-        }
-        return {};
-      },
-      sku2: function () {
-        if (!this.data.sku) {
-          const { spuId, skuId } = this.properties.options;
-          if (spuId && skuId) {
-            const sku = stores.goods.getSku(spuId, skuId);
-            log.info(this.data.tag, 'sku', sku);
-            const skuJs = sku && toJS(sku);
-            log.info(this.data.tag, 'sku-js', skuJs);
-            const skuJsObservable = observable(skuJs);
-            log.info(this.data.tag, 'sku-js-observable', skuJsObservable, skuJsObservable === sku);
-            this.setData({ sku: skuJsObservable || observable({}) });
-          } else {
-            this.setData({ sku: observable({}) });
+        }),
+        autorun(() => {
+          if (!this.data._sku || !this.data.sku) {
+            const { spuId, skuId } = this.properties.options;
+            if (spuId && skuId) {
+              const _sku = stores.goods.getSku(spuId, skuId);
+              const _skuJs = _sku && toJS(_sku);
+              const sku = _skuJs && observable(_skuJs);
+              this.data._sku = _sku;
+              this.data.sku = sku;
+            }
+            this.setData({
+              _sku: this.data._sku || {},
+              sku: this.data.sku || observable({}),
+            });
+            log.info(this.data.tag, 'sku-init');
           }
-        }
-        return {};
-      },
-      _stock2: function () {
-        const { spuId, skuId, stockId } = this.properties.options;
-        if (spuId && skuId && stockId) {
-          const _stock = stores.goods.getStock(spuId, skuId, stockId) || {};
-          log.info(this.data.tag, '_stock-observable', _stock);
-          this.setData({ _stock });
-        }
-        return {};
-      },
-      stock2: function () {
-        if (!this.data.stock) {
-          const { spuId, skuId, stockId } = this.properties.options;
-          if (spuId && skuId && stockId) {
-            const stock = stores.goods.getStock(spuId, skuId, stockId);
-            log.info(this.data.tag, 'stock', stock);
-            const stockJs = stock && toJS(stock);
-            log.info(this.data.tag, 'stock-js', stockJs);
-            const stockJsObservable = stockJs && observable(stockJs);
-            log.info(
-              this.data.tag,
-              'stock-js-observable',
-              stockJsObservable,
-              stockJsObservable === stock,
-            );
-            this.setData({ stock: stockJsObservable || observable({}) });
-          } else {
-            this.setData({ stock: observable({}) });
+        }),
+        autorun(() => {
+          if (!this.data._stock || !this.data.stock) {
+            const { spuId, skuId, stockId } = this.properties.options;
+            if (spuId && skuId && stockId) {
+              const _stock = stores.goods.getStock(spuId, skuId, stockId);
+              const _stockJs = _stock && toJS(_stock);
+              const stock = _stockJs && observable(_stockJs);
+              this.data._stock = _stock;
+              this.data.stock = stock;
+            }
+            this.setData({
+              _stock: this.data._stock || {},
+              stock: this.data.stock || observable({}),
+            });
+            log.info(this.data.tag, 'stock-init');
           }
-        }
-        return {};
-      },
+        }),
+        autorun(() => {
+          const skuImageList = this.data.sku?.imageList || [];
+          this.setData({ skuImageList: toJS(skuImageList) });
+        }),
+        autorun(() => {
+          const skuList = this.data.spu?.skuList || [];
+          this.setData({ skuList: toJS(skuList) });
+        }),
+      ];
+      this.show(this.properties.options);
     },
-  },
-  observers: {
-    options: function (options) {
-      setTimeout(() => {
-        if (!options.destroy) {
-          this.show(options);
-        }
-      }, 300);
+    detached: function () {
+      this.disposers?.every((disposer) => disposer());
     },
   },
   methods: {
@@ -162,9 +132,6 @@ Component({
           options: { destroy: true },
         });
       });
-    },
-    notify: function () {
-      this.options?.callback?.();
     },
     _popup: function (callback) {
       callback(this.selectComponent('#popup'));
