@@ -1,6 +1,7 @@
 import log from '@/common/log/log';
 import categoryModel from '../../models/category/index';
 import categroyStore from '../../stores/category/index';
+import setCategoryPinyin from './set-category-pinyin.js';
 
 export default async function ({ tag, cId, useStore = true }) {
   if (useStore) {
@@ -12,6 +13,9 @@ export default async function ({ tag, cId, useStore = true }) {
   }
   try {
     const category = await categoryModel.get({ tag, _id: cId });
+    // 增加pinyin支持
+    setCategoryPinyin([category]);
+
     categroyStore.setCategory({ tag, category });
     log.info(tag, 'category-get', category.title, 'load from server');
     return category;

@@ -1,12 +1,16 @@
 import stores from '@/stores/index';
+import { autorun } from 'mobx-miniprogram';
+import { show as showCategoryPopup } from '../popup/popup';
 
 Component({
-  behaviors: [require('miniprogram-computed').behavior],
+  behaviors: [
+    require('miniprogram-computed').behavior, //
+    require('@/common/toast/simple'),
+  ],
   options: {
     pureDataPattern: /^_/,
   },
   data: {
-    _tag: 'category-list',
     list: [],
     indexList: [],
     stickyOffset: 0,
@@ -27,8 +31,9 @@ Component({
     },
   },
   methods: {
-    handleGoBack: function () {
-      wx.navigateBack();
+    handleGoBack: wx.navigateBack,
+    handleAddCategory: function () {
+      showCategoryPopup(this, {});
     },
     handleSelect: function (e) {
       const { category } = e.target.dataset;

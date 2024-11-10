@@ -1,4 +1,5 @@
 import services from '@/services/index';
+import { runInAction } from 'mobx-miniprogram';
 
 module.exports = Behavior({
   methods: {
@@ -18,15 +19,17 @@ module.exports = Behavior({
       });
       // 3. 更新关联信息
       const { spu, sku } = this.data;
-      spu.cId = category._id;
-      spu.category = category;
-      spu.specList = specList || [];
-      // 4. 商品类别发生变化，其对应的sku信息需要重置
-      sku.optionList = this.promoteOptionList(spu);
-      this.setData({
-        'spu.category': spu.category,
-        'spu.specList': spu.specList,
-        'sku.optionList': sku.optionList,
+      runInAction(() => {
+        spu.cId = category._id;
+        spu.category = category;
+        spu.specList = specList || [];
+        // 4. 商品类别发生变化，其对应的sku信息需要重置
+        sku.optionList = this.promoteOptionList(spu);
+        this.setData({
+          'spu.category': spu.category,
+          'spu.specList': spu.specList,
+          'sku.optionList': sku.optionList,
+        });
       });
     },
     promoteOptionList(spu) {

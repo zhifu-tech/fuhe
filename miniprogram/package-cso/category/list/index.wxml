@@ -7,6 +7,16 @@
   bind:go-back="handleGoBack"
 />
 <t-indexes index-list="{{indexList}}" sticky-offset="{{stickyOffset}}">
+  <t-indexes-anchor index="" />
+  <t-cell-group>
+    <t-cell
+      title="新增类别"
+      arrow
+      hover
+      note="{{ _.getSpuCategoryTitle(spu.category) }}"
+      bind:click="handleAddCategory"
+    />
+  </t-cell-group>
   <block wx:for="{{list}}" wx:for-item="item" wx:for-index="index" wx:key="index">
     <t-indexes-anchor index="{{item.index}}" />
     <t-cell-group>
@@ -21,3 +31,10 @@
     </t-cell-group>
   </block>
 </t-indexes>
+
+<category-popup
+  wx:if="{{ categoryPopup && categoryPopup.enabled }}"
+  options="{{ categoryPopup && categoryPopup.options }}"
+/>
+
+<include src="../../../common/toast/simple.wxml" />
