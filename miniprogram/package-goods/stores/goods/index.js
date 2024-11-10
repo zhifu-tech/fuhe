@@ -18,21 +18,24 @@ export default (function store() {
     sku,
     selected_cId: '0',
     get selected() {
-      let selected = dataMap.get(this.selected_cId);
-      if (!selected) {
-        selected = observable({
-          cId: this.selected_cId,
-          total: 0,
-          pageNumber: 0,
-          spuList: [],
-        });
-        dataMap.set(this.selected_cId, selected);
-      }
-      return selected;
+      return this._getOrCreateData(this.selected_cId);
     },
     set selected(cId) {
       this.selected_cId = cId;
     },
+    _getOrCreateData: action(function (cId) {
+      let data = dataMap.get(cId);
+      if (!data) {
+        data = observable({
+          cId,
+          total: 0,
+          pageNumber: 0,
+          spuList: [],
+        });
+        dataMap.set(cId, data);
+      }
+      return data;
+    }),
     checkNeedFetchedData: function ({ tag, cId }) {
       const data = dataMap.get(cId);
       if (data) {
@@ -47,7 +50,7 @@ export default (function store() {
     },
     setGoodsSpuListResult: action(function ({ tag, cId, spuList, total, pageNumber }) {
       // 此时 data 和selected 一致的，指向同一个对象
-      const data = this.selected;
+      const data = this._getOrCreateData(cId);
       // 保存请求结果
       if (pageNumber === 1) {
         data.total = total;
