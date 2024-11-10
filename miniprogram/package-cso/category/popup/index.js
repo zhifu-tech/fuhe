@@ -1,11 +1,10 @@
 import log from '@/common/log/log';
 import pages from '@/common/page/pages';
 import stores from '@/stores/index';
-import services from '@/services/index';
+import { autorun, observable, toJS } from 'mobx-miniprogram';
 
 Component({
   behaviors: [
-    require('mobx-miniprogram-bindings').storeBindingsBehavior,
     require('./behaviors/header'),
     require('./behaviors/category'),
     require('./behaviors/category-delete'),
@@ -30,62 +29,49 @@ Component({
       value: {},
     },
   },
-  data: {
-    tag: 'category-popup',
-  },
-  storeBindings: {
-    stores,
-    fields: {
-      _category: function () {
-        // 记录原始信息，不可修改
-        const { cId } = this.properties.options;
-        if (cId) {
-          const category = stores.category.getCategory(cId);
-          return category || {};
-        } else {
-          return {};
-        }
-      },
-      category: function () {
-        // 为传入数据的拷贝，可以修改，最后提交
-        const { cId } = this.properties.options;
-        if (cId) {
-          const category = stores.category.getCategory(cId) || {};
-          return { ...category };
-        } else {
-          return {};
-        }
-      },
-      _specList: function () {
-        // 记录原始信息，不可修改
-        const { cId } = this.properties.options;
-        if (cId) {
-          const specList = stores.spec.getSpecList(cId);
-          if (!specList) {
-            services.spec.getSpecList({ tag: 'category-popup', cId });
+  lifetimes: {
+    attached: function () {
+      this.data.tag = 'category-popup';
+      this.disposers = [
+        autorun(() => {
+          if (!this.data._category || !this.data.category) {
+            const { cId } = this.properties.options;
+            if (cId) {
+              const _category = stores.category.getCategory(cId);
+              const _categoryJs = _category && toJS(_category);
+              const category = _categoryJs && observable(_categoryJs);
+              this.data._category = _category;
+              this.data.category = category;
+            }
+            this.setData({
+              _category: this.data._category || {},
+              category: this.data.category || observable({}),
+            });
+            log.info(this.data.tag, 'category-init');
           }
-          return specList || [];
-        } else {
-          return [];
-        }
-      },
-      specList: function () {
-        // 为传入数据的拷贝，可以修改，最后提交
-        const { cId } = this.properties.options;
-        if (cId) {
-          const specList = stores.spec.getSpecList(cId) || [];
-          return [...specList];
-        } else {
-          return [];
-        }
-      },
+        }),
+        autorun(() => {
+          if (!this.data._specList || !this.data.specList) {
+            const { cId } = this.properties.options;
+            if (cId) {
+              const _specList = stores.spec.getSpecList(cId);
+              const _specListJs = _specList && toJS(_specList);
+              const specList = _specListJs && observable(_specListJs);
+              this.data._specList = _specList;
+              this.data.specList = specList;
+            }
+            this.setData({
+              _specList: this.data._specList || [],
+              specList: this.data.specList || observable([]),
+            });
+            log.info(this.data.tag, 'specList-init');
+          }
+        }),
+      ];
+      this.show(this.properties.options);
     },
-  },
-  observers: {
-    options: function (options) {
-      if (!options.destroy) {
-        this.show(options);
-      }
+    detached: function () {
+      this.disposers.forEach((disposer) => disposer());
     },
   },
   methods: {

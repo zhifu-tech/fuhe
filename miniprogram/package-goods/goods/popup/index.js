@@ -9,12 +9,6 @@ Component({
     pureDataPattern: /^_/,
   },
   behaviors: [
-    ...require('@/common/debug/debug').behaviors({
-      tag: 'goods-popup',
-      debug: true,
-      debugLifecycle: true,
-    }),
-    require('mobx-miniprogram-bindings').storeBindingsBehavior,
     require('miniprogram-computed').behavior,
     require('./behaviors/submit'),
     require('./behaviors/spu'),

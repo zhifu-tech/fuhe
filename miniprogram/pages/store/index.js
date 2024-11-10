@@ -70,7 +70,6 @@ Component({
       ];
     },
     detached: function () {
-      this._storeBindings.destroyStoreBindings();
       disposers?.every((disposer) => disposer());
       disposers = null;
     },

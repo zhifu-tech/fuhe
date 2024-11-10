@@ -1,10 +1,7 @@
 import stores from '@/stores/index';
 
 Component({
-  behaviors: [
-    require('mobx-miniprogram-bindings').storeBindingsBehavior,
-    require('miniprogram-computed').behavior,
-  ],
+  behaviors: [require('miniprogram-computed').behavior],
   options: {
     pureDataPattern: /^_/,
   },
@@ -14,20 +11,19 @@ Component({
     indexList: [],
     stickyOffset: 0,
   },
-  storeBindings: {
-    stores,
-    fields: {
-      categoryList: () => stores.category.categoryList,
-    },
-  },
+
   lifetimes: {
     attached: function () {
       this._calStickyOffset();
+      this.disposers = [
+        autorun(() => {
+          const categoryList = stores.category.categoryList;
+          this._updateCategoryIndexList(categoryList);
+        }),
+      ];
     },
-  },
-  watch: {
-    categoryList: function (categoryList) {
-      this._updateCategoryIndexList(categoryList);
+    detached: function () {
+      this.disposers.forEach((disposer) => disposer());
     },
   },
   methods: {

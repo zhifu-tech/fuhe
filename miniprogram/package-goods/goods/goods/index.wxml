@@ -49,9 +49,8 @@
             shape="round"
             size="large"
             variant="outline"
-            checked="{{_.isOptionChecked(optionList, option)}}"
+            checked="{{_.isOptionChecked(sku.optionList, option)}}"
             data-option="{{option}}"
-            bind:click="handleOptionSelected"
             content="{{ [option.title, option.title] }}"
           />
         </block>

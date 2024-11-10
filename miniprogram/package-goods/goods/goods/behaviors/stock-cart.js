@@ -1,7 +1,7 @@
 import log from '@/common/log/log';
 import services from '@/services/index';
 import stores from '@/stores/index';
-import { isObservable, action, runInAction } from 'mobx-miniprogram';
+import { runInAction } from 'mobx-miniprogram';
 
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
