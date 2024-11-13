@@ -28,11 +28,7 @@ module.exports = Behavior({
       if (selected === stores.category.categoryAdd._id) {
         // 解决状态错乱的问题，选中add时，重新选中之前的分类
         this.setData({ categorySelected });
-        require('@/package-cso/category/popup/popup.js', (popup) => {
-          popup.show(this, {});
-        }, ({ mod, errMsg }) => {
-          console.error(`path: ${mod}, ${errMsg}`);
-        });
+        this._showCategoryPopup();
       } else {
         services.category.switchSelectedCategory({
           tag,
@@ -45,11 +41,7 @@ module.exports = Behavior({
       const { tag } = this.data;
       const { id: cId } = e.currentTarget.dataset;
       if (cId === stores.category.categoryAdd._id) {
-        require('@/package-cso/category/popup/popup.js', (popup) => {
-          popup.show(this, {});
-        }, ({ mod, errMsg }) => {
-          console.error(`path: ${mod}, ${errMsg}`);
-        });
+        this._showCategoryPopup();
       } else if (cId === stores.category.categoryAll._id) {
         services.category.switchSelectedCategory({
           tag,
@@ -57,12 +49,15 @@ module.exports = Behavior({
           trigger: 'sidebar-longpress',
         });
       } else {
-        require('@/package-cso/category/popup/popup.js', (popup) => {
-          popup.show(this, { cId });
-        }, ({ mod, errMsg }) => {
-          console.error(`path: ${mod}, ${errMsg}`);
-        });
+        this._showCategoryPopup({ cId });
       }
+    },
+    _showCategoryPopup: function (args = {}) {
+      require('@/package-cso/category/popup/popup.js', (popup) => {
+        popup.show(this, args);
+      }, ({ mod, errMsg }) => {
+        console.error(`path: ${mod}, ${errMsg}`);
+      });
     },
   },
 });

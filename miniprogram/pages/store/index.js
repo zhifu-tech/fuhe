@@ -45,10 +45,10 @@ Component({
 
       this.disposers = [
         autorun(() => {
-          const selected = stores.category.selected;
-          if (this.data.categorySelected != selected) {
-            log.info(this.data.tag, 'categorySelected', selected);
-            this.setData({ categorySelected: selected });
+          const categorySelected = stores.category.selected;
+          if (this.data.categorySelected != categorySelected) {
+            log.info(this.data.tag, 'categorySelected', categorySelected);
+            this.setData({ categorySelected });
           }
         }),
         autorun(() => {
@@ -57,7 +57,6 @@ Component({
           this.setData({ categoryExtList });
         }),
         autorun(() => {
-          // 保存一个映射，方便后续使用
           const goodsSelected = stores.goods.selected;
           log.info(this.data.tag, 'goodsSelected', goodsSelected);
           this.setData({ goodsSelected });

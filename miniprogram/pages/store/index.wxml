@@ -7,10 +7,6 @@
     </view>
   </t-navbar>
 
-  <view wx:if="{{false}}" class="search-wrapper">
-    <t-search placeholder="输入tdesign，有预览结果" shape="round" bind:change="onChangeValue" />
-  </view>
-
   <view class="content">
     <view class="{{ showSideBar ? 'side-bar-wrapper show': 'side-bar-wrapper hide' }}">
       <t-side-bar class="side-bar" value="{{ categorySelected }}" bind:change="onSideBarChange">
