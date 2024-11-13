@@ -33,30 +33,6 @@ interface IModalFhCart {
   skuId: string;
 }
 
-interface IModalFhCartStock {
-  /**
-   * stockId
-   *
-   */
-  stockId: string;
-}
-
-interface IModalFhCartSku {
-  /**
-   * skuId
-   *
-   */
-  skuId?: string;
-}
-
-interface IModalFhCartSpu {
-  /**
-   * spuId
-   *
-   */
-  spuId: string;
-}
-
 interface IModalFhGoodsSku {
   /**
    * 销售价格
@@ -82,15 +58,25 @@ interface IModalFhGoodsSku {
 
 interface IModalFhGoodsSpu {
   /**
-   * saasId
+   * supplierName
    *
    */
-  saasId: string;
+  supplierName?: string;
+  /**
+   * supplierId
+   * 供应商
+   */
+  supplierId?: string;
   /**
    * 名称
    *
    */
   title: string;
+  /**
+   * saasId
+   *
+   */
+  saasId: string;
   /**
    * 分类
    *
@@ -149,20 +135,25 @@ interface IModalFhEntity {
    */
   signature?: string;
   /**
+   * 类型
+   *
+   */
+  type?: string;
+  /**
    * 名称
    *
    */
   name: string;
   /**
+   * saasId
+   *
+   */
+  saasId?: string;
+  /**
    * 电话
    *
    */
   tel?: string;
-  /**
-   * 类型
-   *
-   */
-  type?: string;
 }
 
 interface IModalFhOrder {
@@ -208,10 +199,10 @@ interface IModalFhStock {
    */
   salePrice?: number;
   /**
-   * 成本价格
+   * costPrice
    *
    */
-  costPrice?: string;
+  costPrice?: number;
   /**
    * skuId
    *
@@ -288,21 +279,6 @@ interface IModels {
     * 数据模型：福和库存
     */ 
     fh_cart: DataModelMethods<IModalFhCart>;
-
-    /**
-    * 数据模型：福和库存stock
-    */ 
-    fh_cart_stock: DataModelMethods<IModalFhCartStock>;
-
-    /**
-    * 数据模型：福和库存SKU
-    */ 
-    fh_cart_sku: DataModelMethods<IModalFhCartSku>;
-
-    /**
-    * 数据模型：福和库存SPU
-    */ 
-    fh_cart_spu: DataModelMethods<IModalFhCartSpu>;
 
     /**
     * 数据模型：福和商品SKU

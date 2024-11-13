@@ -41,6 +41,9 @@ Component({
 
         stores.fetchCart(),
         services.fetchCart(),
+
+        stores.fetchEntity(),
+        services.fetchEntity(),
       ]);
 
       this.disposers = [

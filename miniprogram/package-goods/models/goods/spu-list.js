@@ -58,6 +58,12 @@ function _createParams({ pageNumber, pageSize }) {
         imageList: true,
         optionIdList: true,
       },
+      supplierId: true,
+      supplierName: true,
+      supplier: {
+        _id: true,
+        name: true,
+      },
       createdAt: true, // 2024-10-12 08:17:42
       updatedAt: true, // 2024-10-12 08:17:42
     },

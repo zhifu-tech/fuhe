@@ -23,7 +23,6 @@ export default function fetchGetManager(moduleLoader, manager = {}) {
         return this._props[module] || {};
       },
     });
-    console.log('manager', manager);
     return manager;
   }, manager);
 }

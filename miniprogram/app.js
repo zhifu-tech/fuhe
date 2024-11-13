@@ -1,5 +1,5 @@
-const config = require('./cloud-config');
-const { init: initCloudClientSdk } = require('@cloudbase/wx-cloud-client-sdk');
+import { envId } from './cloud-config';
+import { init as initCloudClientSdk } from '@cloudbase/wx-cloud-client-sdk';
 
 App({
   globalData: {
@@ -16,7 +16,7 @@ App({
       console.error('请使用 2.2.3 或以上的基础库以使用云能力');
     } else {
       wx.cloud.init({
-        env: config.envId,
+        env: envId,
         traceUser: true,
       });
       initCloudClientSdk(wx.cloud);

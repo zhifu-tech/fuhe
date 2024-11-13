@@ -5,11 +5,9 @@ module.exports = Behavior({
   methods: {
     handleShowSpecList: function () {
       const showSpecList = !this.data.showSpecList;
-      if (showSpecList) {
-        this.setData({
-          showSpecList: true,
-        });
-      }
+      this.setData({
+        showSpecList: !this.data.showSpecList,
+      });
     },
   },
 });

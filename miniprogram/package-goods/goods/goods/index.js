@@ -46,6 +46,10 @@ Component({
           this.setData({ spuTitle });
         }),
         autorun(() => {
+          const supplierName = this.data.spu?.supplierName || '';
+          this.setData({ supplierName });
+        }),
+        autorun(() => {
           const skuImageList = this.data.sku.imageList || [];
           this.setData({ skuImageList });
         }),

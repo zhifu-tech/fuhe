@@ -9,13 +9,7 @@
 <t-indexes index-list="{{indexList}}" sticky-offset="{{stickyOffset}}">
   <t-indexes-anchor index="" />
   <t-cell-group>
-    <t-cell
-      title="新增类别"
-      arrow
-      hover
-      note="{{ _.getSpuCategoryTitle(spu.category) }}"
-      bind:click="handleAddCategory"
-    />
+    <t-cell title="新增类别" arrow hover bind:click="handleAddCategory" />
   </t-cell-group>
   <block wx:for="{{list}}" wx:for-item="item" wx:for-index="index" wx:key="index">
     <t-indexes-anchor index="{{item.index}}" />
@@ -24,7 +18,7 @@
         wx:for="{{item.children}}"
         wx:for-item="category"
         wx:key="_id"
-        data-category="{{ category }}"
+        data-category-id="{{ category._id }}"
         title="{{ category.title }}"
         bind:click="handleSelect"
       />

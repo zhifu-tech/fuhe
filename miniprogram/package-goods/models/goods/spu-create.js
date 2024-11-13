@@ -1,6 +1,6 @@
 import log from '@/common/log/log';
 
-export default async function ({ tag, saasId, cId, title, desc }) {
+export default async function ({ tag, saasId, cId, title, desc, supplierId, supplierName }) {
   try {
     const { data } = await wx.cloud.models.fh_goods_spu.create({
       data: {
@@ -10,6 +10,11 @@ export default async function ({ tag, saasId, cId, title, desc }) {
         cId,
         category: {
           _id: cId,
+        },
+        supplierId,
+        supplierName,
+        supplier: {
+          _id: supplierId,
         },
       },
     });

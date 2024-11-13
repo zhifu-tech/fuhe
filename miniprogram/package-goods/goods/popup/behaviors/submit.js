@@ -24,8 +24,7 @@ module.exports = Behavior({
       }
 
       if (!this.checkSkuSpecList(spu, sku)) return;
-      // FIXME: 临时先不校验图片
-      // if (!this.checkSkuImageList(sku)) return;
+      if (!this.checkSkuImageList(sku)) return;
 
       if (!this.checkStockCostPrice(stock)) return;
       if (!this.checkStockOriginalPrice(stock)) return;

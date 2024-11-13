@@ -28,6 +28,7 @@ Component({
     },
     detached: function () {
       this.disposers.forEach((disposer) => disposer());
+      this.disposers = [];
     },
   },
   methods: {
@@ -36,8 +37,8 @@ Component({
       showCategoryPopup(this, {});
     },
     handleSelect: function (e) {
-      const { category } = e.target.dataset;
-      this.getOpenerEventChannel().emit('pickedCategory', category);
+      const { categoryId } = e.target.dataset;
+      this.getOpenerEventChannel().emit('pickedCategory', categoryId);
       wx.navigateBack();
     },
     _calStickyOffset: function () {

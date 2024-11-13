@@ -26,12 +26,36 @@
           bind:tap="showActionMore"
         />
       </view>
-      <view class="tags" bind:tap="{{ editable ? 'handleShowSpecList' : '' }}">
-        <t-tag t-class="tag" size="medium" shape="round" icon="swap" variant="outline">
+      <view class="tags">
+        <t-tag
+          wx:if="{{ supplierName}}"
+          t-class="tag"
+          size="medium"
+          shape="round"
+          icon="user-business"
+          variant="outline"
+          bind:click="{{ editable ? 'handleShowSpecList' : '' }}"
+        >
+          {{ supplierName }}
+        </t-tag>
+        <t-tag
+          t-class="tag"
+          size="medium"
+          shape="round"
+          icon="swap"
+          variant="outline"
+          bind:click="{{ editable ? 'handleShowSpecList' : '' }}"
+        >
           {{ spu.category.title }}
         </t-tag>
         <block wx:for="{{ sku.optionList }}" wx:for-item="option" wx:key="_id">
-          <t-tag t-class="tag" size="medium" shape="round" variant="outline">
+          <t-tag
+            t-class="tag"
+            size="medium"
+            shape="round"
+            variant="outline"
+            bind:click="{{ editable ? 'handleShowSpecList' : '' }}"
+          >
             {{ option.title }}
           </t-tag>
         </block>

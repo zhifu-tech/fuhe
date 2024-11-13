@@ -1,2 +1,27 @@
-<!--package-mix/entity/list/index.wxml-->
-<text>package-mix/entity/list/index.wxml</text>
+<t-navbar
+  class="custom-navbar"
+  t-class-placeholder="t-navbar-placeholder"
+  t-class-content="t-navbar-content"
+  title="{{ title }}"
+  left-arrow
+  bind:go-back="handleGoBack"
+/>
+<t-indexes index-list="{{indexList}}" sticky-offset="{{stickyOffset}}">
+  <t-indexes-anchor index="" />
+  <t-cell-group>
+    <t-cell title="新增供应商" arrow hover bind:click="handleAddCategory" />
+  </t-cell-group>
+  <block wx:for="{{list}}" wx:for-item="item" wx:for-index="index" wx:key="index">
+    <t-indexes-anchor index="{{item.index}}" />
+    <t-cell-group>
+      <t-cell
+        wx:for="{{item.children}}"
+        wx:for-item="entity"
+        wx:key="_id"
+        data-entity-id="{{ entity._id }}"
+        title="{{ entity.signature || entity.name }}"
+        bind:click="handleSelect"
+      />
+    </t-cell-group>
+  </block>
+</t-indexes>

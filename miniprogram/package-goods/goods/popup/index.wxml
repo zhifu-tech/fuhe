@@ -46,7 +46,7 @@
           title="商品供应商"
           arrow
           hover
-          note="{{ supplier.picked && supplier.picked.name || '' }}"
+          note="{{ supplierName }}"
           bind:click="showSupplierPicker"
         />
         <t-cell

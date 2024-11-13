@@ -1,5 +1,7 @@
+import stores from '@/stores/index';
 import services from '@/services/index';
 import { runInAction } from 'mobx-miniprogram';
+import { showToastError } from '@/common/toast/simples';
 
 module.exports = Behavior({
   methods: {
@@ -11,7 +13,12 @@ module.exports = Behavior({
         },
       });
     },
-    _handleUpdateSpuCategory: async function (category) {
+    _handleUpdateSpuCategory: async function (categoryId) {
+      const category = stores.category.getCategory(categoryId);
+      if (!category) {
+        showToastError({ message: '分类不存在，请重新选择！' });
+        return;
+      }
       // 2. 加载规格信息
       const specList = await services.spec.getSpecList({
         tag: 'goods-spu-category',
