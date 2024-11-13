@@ -1,6 +1,7 @@
 import log from '@/common/log/log';
 import stores from '@/stores/index';
 import { autorun, runInAction, isObservable } from 'mobx-miniprogram';
+
 module.exports = Behavior({
   behaviors: [
     require('miniprogram-computed').behavior, //
@@ -8,8 +9,10 @@ module.exports = Behavior({
   ],
   watch: {
     spu: function () {
+      // 防止重复监听
+      if (this.disposers) return;
       // 等到spu被初始化之后，在开启监听，否则监听不到
-      this.disposers = [
+      this.addToAutoDispose(
         autorun(() => {
           this.setData({
             supplierName:
@@ -18,7 +21,7 @@ module.exports = Behavior({
               '',
           });
         }),
-      ];
+      );
     },
   },
   methods: {

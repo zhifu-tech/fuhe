@@ -5,16 +5,17 @@ import categoryModel from '../../models/category/index';
 import categroyStore from '../../stores/category/index';
 import setCategoryPinyin from './set-category-pinyin.js';
 
-let _task = null; // 记录当前正在进行的请求
-
 export default async function ({ tag, trigger, callback = () => null }) {
-  log.info(tag, 'fetchCategoryList', trigger);
-  if (_task) {
-    _task.cancel();
-  }
-
-  _task = _fetchCategoryList({ tag, trigger, callback });
+  let _task = _fetchCategoryList({
+    tag,
+    trigger,
+    callback,
+    _finally: () => {
+      _task = null;
+    },
+  });
   return {
+    key: 'fetchCategoryList',
     dispose: () => {
       _task?.cancel();
       _task = null;
@@ -22,11 +23,12 @@ export default async function ({ tag, trigger, callback = () => null }) {
   };
 }
 
-const _fetchCategoryList = flow(function* ({ tag, trigger, callback }) {
-  try {
-    // 请求中，切换选中状态
-    callback({ code: 'loading', trigger });
+const _fetchCategoryList = flow(function* ({ tag, trigger, callback, _finally }) {
+  // 请求中，切换选中状态
+  callback({ code: 'loading', trigger });
+  log.info(tag, '_fetchCategoryList', trigger);
 
+  try {
     const { records: categoryList, total } = yield categoryModel.all({
       tag,
       saasId: saasId(),
@@ -53,6 +55,6 @@ const _fetchCategoryList = flow(function* ({ tag, trigger, callback }) {
     }
     throw error;
   } finally {
-    _task = null;
+    _finally?.();
   }
 });

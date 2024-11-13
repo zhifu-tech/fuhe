@@ -10,6 +10,7 @@ Component({
   },
   behaviors: [
     require('miniprogram-computed').behavior,
+    require('@/common/mobx/auto-disposers'),
     require('./behaviors/submit'),
     require('./behaviors/spu'),
     require('./behaviors/spu-submit-add'),
@@ -35,7 +36,7 @@ Component({
   },
   lifetimes: {
     attached: function () {
-      this.disposers = [
+      this.addToAutoDisposable(
         autorun(() => {
           if (!this.data._spu || !this.data.spu) {
             const { spuId } = this.properties.options;
@@ -95,11 +96,8 @@ Component({
           const skuList = this.data.spu?.skuList || [];
           this.setData({ skuList: toJS(skuList) });
         }),
-      ];
+      );
       this.show(this.properties.options);
-    },
-    detached: function () {
-      this.disposers?.every((disposer) => disposer());
     },
   },
   methods: {

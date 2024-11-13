@@ -4,6 +4,21 @@ import { runInAction } from 'mobx-miniprogram';
 import { showToastError } from '@/common/toast/simples';
 
 module.exports = Behavior({
+  behaviors: [
+    require('miniprogram-computed').behavior, //
+    require('@/common/mobx/auto-disposers'),
+  ],
+  watch: {
+    spu: function (spu) {
+      this.disposers = [
+        autorun(() => {
+          this.setData({
+            categoryName: spu.category?.name || '',
+          });
+        }),
+      ];
+    },
+  },
   methods: {
     showCategoryPicker: function () {
       wx.navigateTo({

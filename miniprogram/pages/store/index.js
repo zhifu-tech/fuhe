@@ -9,6 +9,7 @@ Component({
   },
   behaviors: [
     require('miniprogram-computed').behavior,
+    require('@/common/mobx/auto-disposers'),
     require('@/common/picker/simple'),
     require('@/common/action-sheet/simple'),
     require('@/common/toast/simple'),
@@ -46,7 +47,7 @@ Component({
         services.fetchEntity(),
       ]);
 
-      this.disposers = [
+      this.addToAutoDisposable(
         autorun(() => {
           const categorySelected = stores.category.selected;
           if (this.data.categorySelected != categorySelected) {
@@ -69,11 +70,7 @@ Component({
           log.info(this.data.tag, 'goodsSpuList', goodsSpuList.length);
           this.setData({ goodsSpuList });
         }),
-      ];
-    },
-    detached: function () {
-      disposers?.every((disposer) => disposer());
-      disposers = null;
+      );
     },
   },
 });

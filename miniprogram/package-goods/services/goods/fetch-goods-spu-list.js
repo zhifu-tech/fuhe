@@ -8,13 +8,19 @@ import { flow } from 'mobx-miniprogram';
 let _task = null; // 记录当前正在进行的请求
 
 export default function ({ tag, cId, pageNumber, trigger, callback = () => null }) {
-  // 取消上一次的请求
-  if (_task) {
-    _task.cancel();
-  }
   // 发起新的请求并记录任务
-  _task = _fetchGoodsSpuList({ tag, cId, pageNumber, trigger, callback });
+  let _task = _fetchGoodsSpuList({
+    tag,
+    cId,
+    pageNumber,
+    trigger,
+    callback,
+    _finally: () => {
+      _task = null;
+    },
+  });
   return {
+    key: 'fetchGoodsSpuList',
     dispose: () => {
       _task?.cancel();
       _task = null;
@@ -22,12 +28,12 @@ export default function ({ tag, cId, pageNumber, trigger, callback = () => null 
   };
 }
 
-const _fetchGoodsSpuList = flow(function* ({ tag, cId, pageNumber, trigger, callback }) {
+const _fetchGoodsSpuList = flow(function* ({ tag, cId, pageNumber, trigger, callback, _finally }) {
+  // 请求中，切换选中状态
+  callback({ code: 'loading', trigger });
   log.info(tag, '_fetchGoodsSpuList', trigger, cId, pageNumber);
-  try {
-    // 请求中，切换选中状态
-    callback({ code: 'loading', trigger });
 
+  try {
     const { records: spuList, total } = yield goodsModel.spuList({
       tag,
       cId,
@@ -60,8 +66,7 @@ const _fetchGoodsSpuList = flow(function* ({ tag, cId, pageNumber, trigger, call
       log.error(tag, '_fetchGoodsSpuList error', error);
     }
   } finally {
-    // 重置任务状态
-    _task = null;
+    _finally?.();
   }
 });
 

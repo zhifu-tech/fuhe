@@ -9,6 +9,7 @@ Component({
   },
   behaviors: [
     require('miniprogram-computed').behavior,
+    require('@/common/mobx/auto-disposers'),
     require('./behaviors/spec-list'),
     require('./behaviors/stock-more'),
     require('./behaviors/stock-cart'),
@@ -28,7 +29,7 @@ Component({
   lifetimes: {
     attached: function () {
       this.data.tag = `goods-${this.properties.tagSuffix}`;
-      this.disposers = [
+      this.addToAutoDisposable(
         autorun(() => {
           if (!this.data.spu) {
             const spu = stores.goods.getSpu(this.properties.spuId);
@@ -61,10 +62,7 @@ Component({
           const skuCartData = stores.cart.getSkuCartData(this.properties.skuId) || {};
           this.setData({ skuCartData });
         }),
-      ];
-    },
-    detached: function () {
-      this.disposers.forEach((disposer) => disposer());
+      );
     },
   },
 });

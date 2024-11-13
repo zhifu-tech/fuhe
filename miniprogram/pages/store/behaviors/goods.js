@@ -3,7 +3,10 @@ import stores from '@/stores/index';
 import services from '@/services/index';
 
 module.exports = Behavior({
-  behaviors: [require('miniprogram-computed').behavior],
+  behaviors: [
+    require('miniprogram-computed').behavior, //
+    require('@/common/mobx/auto-disposers'),
+  ],
   watch: {
     categorySelected: function (cId) {
       const { tag, goodsSelected } = this.data;
@@ -12,22 +15,16 @@ module.exports = Behavior({
         services.goods.switchGoodsSpuList({ tag, cId, trigger: 'init' });
         if (services.goods.checkNeedFetchedData({ tag, cId })) {
           log.info(tag, 'switchGoodsSpuList needFetch');
-          this.fetchGoodsTask = services.goods.fetchGoodsSpuList({
-            tag,
-            cId,
-            trigger: 'switch',
-            pageNumber: 1,
-            callback: this._updatePageStatus.bind(this),
-          });
+          this.addToAutoDisposable(
+            services.goods.fetchGoodsSpuList({
+              tag,
+              cId,
+              trigger: 'switch',
+              pageNumber: 1,
+              callback: this._updatePageStatus.bind(this),
+            }),
+          );
         }
-      }
-    },
-  },
-  lifetimes: {
-    detached: function () {
-      if (this.fetchGoodsTask) {
-        this.fetchGoodsTask.abort();
-        this.fetchGoodsTask = undefined;
       }
     },
   },
@@ -42,14 +39,15 @@ module.exports = Behavior({
         log.info(tag, 'loadMoreGoods', 'intercepted as being no more!');
         return;
       }
-
-      this.fetchGoodsTask = services.goods.fetchGoodsSpuList({
-        tag,
-        cId: goodsSelected.cId,
-        pageNumber: goodsSelected.pageNumber + 1,
-        trigger: 'more',
-        callback: this._updatePageStatus.bind(this),
-      });
+      this.addToAutoDisposable(
+        services.goods.fetchGoodsSpuList({
+          tag,
+          cId: goodsSelected.cId,
+          pageNumber: goodsSelected.pageNumber + 1,
+          trigger: 'more',
+          callback: this._updatePageStatus.bind(this),
+        }),
+      );
     },
     pullDownRefresh: function () {
       const { tag, goodsSelected } = this.data;
@@ -57,13 +55,15 @@ module.exports = Behavior({
         log.info(tag, 'pullDownRefresh', 'intercepted as being loading!');
         return;
       }
-      this.fetchGoodsTask = services.goods.fetchGoodsSpuList({
-        tag,
-        cId: goodsSelected.cId,
-        pageNumber: 1,
-        trigger: 'pullDown',
-        callback: this._updatePageStatus.bind(this),
-      });
+      this.addToAutoDisposable(
+        services.goods.fetchGoodsSpuList({
+          tag,
+          cId: goodsSelected.cId,
+          pageNumber: 1,
+          trigger: 'pullDown',
+          callback: this._updatePageStatus.bind(this),
+        }),
+      );
     },
     _updatePageStatus: function (status) {
       const { code, error, trigger } = status;

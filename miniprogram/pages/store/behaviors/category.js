@@ -3,7 +3,10 @@ import stores from '@/stores/index';
 import services from '@/services/index';
 
 module.exports = Behavior({
-  behaviors: [require('miniprogram-computed').behavior],
+  behaviors: [
+    require('miniprogram-computed').behavior, //
+    require('@/common/mobx/auto-disposers'),
+  ],
   data: {
     showCategorySkeleton: true,
     categoryPopup: {
@@ -15,18 +18,14 @@ module.exports = Behavior({
     categorySelected: function (selected) {
       if (selected === stores.category.categoryAdd._id) {
         // 首次加载选中的是新增分类信息，需要加载分类列表
-        this.fetchCategoryListTask = services.category.fetchCategoryList({
-          tag: 'store-category',
-          trigger: 'init',
-          callback: this._fetchCategoryListCallback.bind(this),
-        });
+        this.addToAutoDisposable(
+          services.category.fetchCategoryList({
+            tag: 'store-category',
+            trigger: 'init',
+            callback: this._fetchCategoryListCallback.bind(this),
+          }),
+        );
       }
-    },
-  },
-  lifetimes: {
-    detached: function () {
-      this.fetchCategoryListTask?.dispose();
-      this.fetchCategoryListTask = undefined;
     },
   },
   methods: {
