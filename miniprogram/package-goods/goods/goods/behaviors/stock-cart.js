@@ -7,7 +7,8 @@ module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
   watch: {
     skuCartData: function () {
-      const { tag, spuId, skuId, sku } = this.data;
+      const { spuId, skuId, sku } = this.data;
+      // 当购物车数据变化时，需要同步stock更新数据
       runInAction(() => {
         sku?.stockList?.forEach((stock) => {
           const list = stores.cart.getCartRecordList({
@@ -72,7 +73,6 @@ module.exports = Behavior({
           stock.saleQuantity = 0;
         }
       });
-
       // 更新store中的数据
       promises.push(
         services.cart.updateCartRecord({

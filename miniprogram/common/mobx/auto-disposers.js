@@ -1,3 +1,5 @@
+import log from '@/common/log/log';
+
 module.exports = Behavior({
   data: {
     _disposers: [],
@@ -37,11 +39,13 @@ module.exports = Behavior({
           return d.dispose();
         } else if (typeof d.cancel === 'function') {
           return d.cancel();
+        } else if (typeof d.autorun === 'function') {
+          return d.autorun();
         } else {
           log.error('invalid disposer', d);
         }
       } catch (error) {
-        log.error('dispose error', error);
+        log.error('dispose error', error, d);
       }
     },
   },

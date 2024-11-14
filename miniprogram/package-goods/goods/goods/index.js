@@ -56,10 +56,12 @@ Component({
         }),
         autorun(() => {
           const skuStockList = this.data.sku?.stockList || [];
+          // log.info(this.data.tag, 'skuStockList', skuStockList.length);
           this.setData({ skuStockList });
         }),
         autorun(() => {
           const skuCartData = stores.cart.getSkuCartData(this.properties.skuId) || {};
+          log.info(this.data.tag, 'skuCartData', skuCartData);
           this.setData({ skuCartData });
         }),
       );

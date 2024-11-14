@@ -1,6 +1,6 @@
 import log from '@/common/log/log';
 
-export default function ({ options, executeFn }) {
+export default function enqueueCartChange({ options, executeFn }) {
   cartChangeHandler.enqueue(new CartChangeTask(options, executeFn));
 }
 
