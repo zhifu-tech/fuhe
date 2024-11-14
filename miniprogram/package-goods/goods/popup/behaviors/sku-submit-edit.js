@@ -13,32 +13,27 @@ module.exports = Behavior({
       // 绑定提交按钮的函数
       this.data._submitFn = this._submitEditSku.bind(this);
       // 监听数据的变化
-      this.disposer = autorun(() => {
-        const { sku, _sku } = this.data;
-        if (!sku || !_sku) return;
-        // 如果数据发生变化，则开启提交
-        const submitDisabled =
-          (sku.imageList &&
-            _sku.imageList &&
-            sku.imageList.length === _sku.imageList.length &&
-            sku.imageList.every((img, index) => {
-              const srcImage = _sku.imageList[index];
-              return srcImage == img;
-            })) ||
-          !this.checkSkuImageList(sku);
+      this.addToAutoDisposable(
+        autorun(() => {
+          const { sku, _sku } = this.data;
+          // 如果数据发生变化，则开启提交
+          const submitDisabled =
+            (sku.imageList &&
+              _sku.imageList &&
+              sku.imageList.length === _sku.imageList.length &&
+              sku.imageList.every((img, index) => {
+                const srcImage = _sku.imageList[index];
+                return srcImage == img;
+              })) ||
+            !this.checkSkuImageList(sku);
 
-        if (submitDisabled !== this.data.submitDisabled) {
-          this.setData({
-            submitDisabled,
-          });
-        }
-      });
-    },
-  },
-  lifetimes: {
-    detached: function () {
-      this.disposer?.();
-      this.disposer = null;
+          if (submitDisabled !== this.data.submitDisabled) {
+            this.setData({
+              submitDisabled,
+            });
+          }
+        }),
+      );
     },
   },
   methods: {

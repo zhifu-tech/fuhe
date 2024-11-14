@@ -1,14 +1,12 @@
 import log from '@/common/log/log';
 import stores from '@/stores/index';
 import services from '@/services/index';
-import { autorun } from 'mobx-miniprogram';
 
 Component({
   options: {
     pureDataPattern: /^_/,
   },
   behaviors: [
-    require('miniprogram-computed').behavior,
     require('@/common/mobx/auto-disposers'),
     require('@/common/picker/simple'),
     require('@/common/action-sheet/simple'),
@@ -46,31 +44,8 @@ Component({
         stores.fetchEntity(),
         services.fetchEntity(),
       ]);
-
-      this.addToAutoDisposable(
-        autorun(() => {
-          const categorySelected = stores.category.selected;
-          if (this.data.categorySelected != categorySelected) {
-            log.info(this.data.tag, 'categorySelected', categorySelected);
-            this.setData({ categorySelected });
-          }
-        }),
-        autorun(() => {
-          const categoryExtList = stores.category.categoryExtList || [];
-          log.info(this.data.tag, 'categoryExtList', categoryExtList);
-          this.setData({ categoryExtList });
-        }),
-        autorun(() => {
-          const goodsSelected = stores.goods.selected;
-          log.info(this.data.tag, 'goodsSelected', goodsSelected);
-          this.setData({ goodsSelected });
-        }),
-        autorun(() => {
-          const goodsSpuList = stores.goods.selected.spuList || [];
-          log.info(this.data.tag, 'goodsSpuList', goodsSpuList.length);
-          this.setData({ goodsSpuList });
-        }),
-      );
+      this.setData({ hostAttached: true });
+      log.info('hostAttached', 'attached');
     },
   },
 });

@@ -11,23 +11,18 @@ module.exports = Behavior({
       // 绑定提交按钮的函数
       this.data._submitFn = this._submitAddSku.bind(this);
       // 监听数据的变化
-      this.disposer = autorun(() => {
-        const { spu, _spu } = this.data;
-        if (!spu || !_spu) return;
-        // 如果数据发生变化，则开启提交
-        const submitDisabled = spu.skuList.length === _spu.skuList.length;
-        if (submitDisabled !== this.data.submitDisabled) {
-          this.setData({
-            submitDisabled,
-          });
-        }
-      });
-    },
-  },
-  lifetimes: {
-    detached: function () {
-      this.disposer?.();
-      this.disposer = null;
+      this.addToAutoDisposable(
+        autorun(() => {
+          const { spu, _spu } = this.data;
+          // 如果数据发生变化，则开启提交
+          const submitDisabled = spu.skuList.length === _spu.skuList.length;
+          if (submitDisabled !== this.data.submitDisabled) {
+            this.setData({
+              submitDisabled,
+            });
+          }
+        }),
+      );
     },
   },
   methods: {

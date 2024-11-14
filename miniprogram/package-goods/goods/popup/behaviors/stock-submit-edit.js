@@ -11,18 +11,20 @@ module.exports = Behavior({
       // 绑定提交按钮的函数
       this.data._submitFn = this._submitEditStock.bind(this);
       // 监听数据的变化
-      this.disposer = autorun(() => {
-        const { stock, _stock } = this.data;
-        if (!stock || !_stock) return;
-        const submitDisabled =
-          stock.quantity === _stock.quantity ||
-          // 有效性校验
-          !this.checkStockQuantity(stock, false);
+      this.addToAutoDisposable(
+        autorun(() => {
+          const { stock, _stock } = this.data;
+          if (!stock || !_stock) return;
+          const submitDisabled =
+            stock.quantity === _stock.quantity ||
+            // 有效性校验
+            !this.checkStockQuantity(stock, false);
 
-        if (submitDisabled !== this.data.submitDisabled) {
-          this.setData({ submitDisabled });
-        }
-      });
+          if (submitDisabled !== this.data.submitDisabled) {
+            this.setData({ submitDisabled });
+          }
+        }),
+      );
     },
     isModeEditStockSuper: function () {
       // 绑定提交按钮的函数
@@ -43,12 +45,6 @@ module.exports = Behavior({
           this.setData({ submitDisabled });
         }
       });
-    },
-  },
-  lifetimes: {
-    detached: function () {
-      this.disposer?.();
-      this.disposer = null;
     },
   },
   methods: {

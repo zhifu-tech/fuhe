@@ -1,7 +1,7 @@
 import stores from '@/stores/index';
 import log from '@/common/log/log';
 import pages from '@/common/page/pages';
-import { autorun, observable, toJS } from 'mobx-miniprogram';
+import { observable, toJS } from 'mobx-miniprogram';
 
 Component({
   options: {
@@ -21,7 +21,6 @@ Component({
     require('./behaviors/stock'),
     require('./behaviors/stock-submit-add'),
     require('./behaviors/stock-submit-edit'),
-    require('./behaviors/option'),
     require('./behaviors/category'),
     require('./behaviors/supplier'),
   ],
@@ -34,76 +33,39 @@ Component({
   data: {
     tag: 'goods-popup',
   },
-  lifetimes: {
-    attached: function () {
-      this.addToAutoDisposable(
-        autorun(() => {
-          if (!this.data._spu || !this.data.spu) {
-            const { spuId } = this.properties.options;
-            if (spuId) {
-              const _spu = stores.goods.getSpu(spuId);
-              const _spuJs = _spu && toJS(_spu);
-              const spu = _spuJs && observable(_spuJs);
-              this.data._spu = _spu;
-              this.data.spu = spu;
-            }
-            this.setData({
-              _spu: this.data._spu || {},
-              spu: this.data.spu || observable({}),
-            });
-            log.info(this.data.tag, 'spu-init');
-          }
-        }),
-        autorun(() => {
-          if (!this.data._sku || !this.data.sku) {
-            const { spuId, skuId } = this.properties.options;
-            if (spuId && skuId) {
-              const _sku = stores.goods.getSku(spuId, skuId);
-              const _skuJs = _sku && toJS(_sku);
-              const sku = _skuJs && observable(_skuJs);
-              this.data._sku = _sku;
-              this.data.sku = sku;
-            }
-            this.setData({
-              _sku: this.data._sku || {},
-              sku: this.data.sku || observable({}),
-            });
-            log.info(this.data.tag, 'sku-init');
-          }
-        }),
-        autorun(() => {
-          if (!this.data._stock || !this.data.stock) {
-            const { spuId, skuId, stockId } = this.properties.options;
-            if (spuId && skuId && stockId) {
-              const _stock = stores.goods.getStock(spuId, skuId, stockId);
-              const _stockJs = _stock && toJS(_stock);
-              const stock = _stockJs && observable(_stockJs);
-              this.data._stock = _stock;
-              this.data.stock = stock;
-            }
-            this.setData({
-              _stock: this.data._stock || {},
-              stock: this.data.stock || observable({}),
-            });
-            log.info(this.data.tag, 'stock-init');
-          }
-        }),
-        autorun(() => {
-          const skuImageList = this.data.sku?.imageList || [];
-          this.setData({ skuImageList: toJS(skuImageList) });
-        }),
-        autorun(() => {
-          const skuList = this.data.spu?.skuList || [];
-          this.setData({ skuList: toJS(skuList) });
-        }),
-      );
-      this.show(this.properties.options);
+  watch: {
+    options: function (options) {
+      log.info(this.data.tag, 'watch observer. function', options);
+      const { spuId, skuId, stockId } = this.properties.options;
+
+      const _spu = spuId && stores.goods.getSpu(spuId);
+      const spu = _spu && observable(toJS(_spu));
+
+      const _sku = skuId && stores.goods.getSku(spuId, skuId);
+      const sku = _sku && observable(toJS(_sku));
+
+      const _stock = stockId && stores.goods.getStock(spuId, skuId, stockId);
+      const stock = _stock && observable(toJS(_stock));
+
+      this.setData({
+        tag: 'goods-poup',
+        ...options, // 展开对象
+
+        _spu: _spu || observable({}),
+        spu: spu || observable({}),
+
+        _sku: _sku || observable({}),
+        sku: sku || observable({}),
+
+        _stock: _stock || observable({}),
+        stock: stock || observable({}),
+      });
+
+      this.show();
     },
   },
   methods: {
-    show: function (options) {
-      this.setData(options);
-      log.info(this.data.tag, 'show', this.data);
+    show: function () {
       this._popup((popup) => {
         popup.setData({
           visible: true,
@@ -120,9 +82,6 @@ Component({
           popup.setData({ visible: false });
         }
         this.data.options?.close?.();
-        this.setData({
-          options: { destroy: true },
-        });
       });
     },
     _popup: function (callback) {

@@ -1,8 +1,8 @@
 import log from '@/common/log/log';
 import stockModel from '../../models/stock/index';
 
-export default async function ({
-  tag, //
+export default async function updateStockInfo({
+  tag,
   stock,
   quantity,
   costPrice,

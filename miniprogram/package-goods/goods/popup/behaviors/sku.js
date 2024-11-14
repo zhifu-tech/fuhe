@@ -1,7 +1,20 @@
 import stores from '@/stores/index.js';
 import { showToastError } from '@/common/toast/simples.js';
+import { autorun } from 'mobx-miniprogram';
 
 module.exports = Behavior({
+  lifetimes: {
+    attached: function () {
+      this.addToAutoDisposable(
+        autorun(() => {
+          const { sku } = this.data;
+          this.setData({
+            skuImageList: sku.imageList || [],
+          });
+        }),
+      );
+    },
+  },
   methods: {
     checkSkuImageList: function (sku) {
       if (!sku.imageList || sku.imageList.length <= 0) {

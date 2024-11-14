@@ -1,18 +1,14 @@
-import log from '@/common/log/log';
 import stores from '@/stores/index';
-import { autorun, runInAction, isObservable } from 'mobx-miniprogram';
+import { autorun, runInAction } from 'mobx-miniprogram';
 
 module.exports = Behavior({
-  behaviors: [
-    require('miniprogram-computed').behavior, //
-    require('@/common/mobx/auto-disposers'),
-  ],
-  watch: {
-    spu: function () {
-      // 防止重复监听
-      if (this.disposers) return;
-      // 等到spu被初始化之后，在开启监听，否则监听不到
-      this.addToAutoDispose(
+  behaviors: [require('miniprogram-computed').behavior],
+  data: {
+    supplierName: '',
+  },
+  lifetimes: {
+    attached: function () {
+      this.addToAutoDisposable(
         autorun(() => {
           this.setData({
             supplierName:

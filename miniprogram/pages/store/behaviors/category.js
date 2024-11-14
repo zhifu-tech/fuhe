@@ -1,13 +1,13 @@
 import log from '@/common/log/log';
 import stores from '@/stores/index';
 import services from '@/services/index';
+import { autorun } from 'mobx-miniprogram';
 
 module.exports = Behavior({
-  behaviors: [
-    require('miniprogram-computed').behavior, //
-    require('@/common/mobx/auto-disposers'),
-  ],
+  behaviors: [require('miniprogram-computed').behavior],
   data: {
+    categoryExtList: [],
+    categorySelected: '',
     showCategorySkeleton: true,
     categoryPopup: {
       enabled: false,
@@ -15,6 +15,23 @@ module.exports = Behavior({
     },
   },
   watch: {
+    hostAttached: function () {
+      log.info('storePage category', 'attached');
+      this.addToAutoDisposable(
+        autorun(() => {
+          const categoryExtList = stores.category.categoryExtList || [];
+          log.info(this.data.tag, 'categoryExtList', categoryExtList);
+          this.setData({ categoryExtList });
+        }),
+        autorun(() => {
+          const categorySelected = stores.category.selected;
+          if (this.data.categorySelected != categorySelected) {
+            log.info(this.data.tag, 'categorySelected', categorySelected);
+            this.setData({ categorySelected });
+          }
+        }),
+      );
+    },
     categorySelected: function (selected) {
       if (selected === stores.category.categoryAdd._id) {
         // 首次加载选中的是新增分类信息，需要加载分类列表

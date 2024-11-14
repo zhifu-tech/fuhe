@@ -53,7 +53,7 @@
           title="商品类别"
           arrow
           hover
-          note="{{ _.getSpuCategoryTitle(spu.category) }}"
+          note="{{ categoryName }}"
           bind:click="showCategoryPicker"
         />
       </block>
@@ -81,7 +81,7 @@
       >
         <t-divider t-class="divider" content="规格信息" />
         <view class="specList">
-          <block wx:for="{{ spu.specList }}" wx:for-item="spec" wx:key="_id">
+          <block wx:for="{{ spuSpecList }}" wx:for-item="spec" wx:key="_id">
             <view class="label">{{spec.title}}</view>
             <view class="options">
               <block wx:for="{{spec.optionList}}" wx:for-item="option" wx:key="_id">
@@ -91,8 +91,8 @@
                   size="large"
                   disabled="{{ isModeEditSku || isModeEditStock || isModeEditStockSuper || isModeAddStock }}"
                   variant="outline"
-                  default-checked="{{_.isOptionChecked(sku, option)}}"
-                  checked="{{_.isOptionChecked(sku, option)}}"
+                  default-checked="{{_.isOptionChecked(skuOptionList, option)}}"
+                  checked="{{_.isOptionChecked(skuOptionList, option)}}"
                   data-option="{{option}}"
                   bind:click="handleOptionSelected"
                   content="{{ [option.title, option.title] }}"

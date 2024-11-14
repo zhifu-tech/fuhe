@@ -1,22 +1,35 @@
+import log from '@/common/log/log';
 import stores from '@/stores/index';
 import services from '@/services/index';
-import { runInAction } from 'mobx-miniprogram';
+import { runInAction, autorun, when } from 'mobx-miniprogram';
 import { showToastError } from '@/common/toast/simples';
 
 module.exports = Behavior({
-  behaviors: [
-    require('miniprogram-computed').behavior, //
-    require('@/common/mobx/auto-disposers'),
-  ],
-  watch: {
-    spu: function (spu) {
-      this.disposers = [
+  behaviors: [require('miniprogram-computed').behavior],
+  data: {
+    categoryName: '',
+    spuSpecList: [],
+    skuOptionList: [],
+  },
+  lifetimes: {
+    attached: function () {
+      this.addToAutoDisposable(
         autorun(() => {
+          const { tag, spu, sku } = this.data;
+          log.info(tag, 'categoryName', spu, sku);
           this.setData({
-            categoryName: spu.category?.name || '',
+            categoryName: spu.category?.title || '',
+            spuSpecList: spu.specList || [],
           });
         }),
-      ];
+        autorun(() => {
+          const { tag, spu, sku } = this.data;
+          log.info(tag, 'skuOptionList', spu, sku);
+          this.setData({
+            skuOptionList: sku.optionList || [],
+          });
+        }),
+      );
     },
   },
   methods: {
@@ -47,11 +60,6 @@ module.exports = Behavior({
         spu.specList = specList || [];
         // 4. 商品类别发生变化，其对应的sku信息需要重置
         sku.optionList = this.promoteOptionList(spu);
-        this.setData({
-          'spu.category': spu.category,
-          'spu.specList': spu.specList,
-          'sku.optionList': sku.optionList,
-        });
       });
     },
     promoteOptionList(spu) {
@@ -64,6 +72,20 @@ module.exports = Behavior({
       });
       const res = _findOptionList(spu.specList, selected);
       return res || [];
+    },
+    handleOptionSelected: function (e) {
+      const { tag, sku } = this.data;
+      const { option } = e.target.dataset;
+      log.info(tag, 'handleOptionSelected', option);
+      runInAction(() => {
+        sku.optionList = sku.optionList || [];
+        // 每种规格，只允许选中一个
+        const last = sku.optionList.findIndex(({ sId }) => sId === option.sId);
+        if (last != -1) {
+          sku.optionList.splice(last, 1);
+        }
+        sku.optionList.push(option);
+      });
     },
   },
 });

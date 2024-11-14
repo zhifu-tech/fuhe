@@ -1,10 +1,6 @@
-function getSpuCategoryTitle(category) {
-  return (category && category.title) || '';
-}
-function isOptionChecked(sku, option) {
-  if (!sku.optionList) return false;
-  for (var i = 0; i < sku.optionList.length; i++) {
-    if (sku.optionList[i]._id === option._id) {
+function isOptionChecked(skuOptionList, option) {
+  for (var i = 0; i < skuOptionList.length; i++) {
+    if (skuOptionList[i]._id === option._id) {
       return true;
     }
   }
@@ -28,7 +24,6 @@ function getUploadImageFile(files) {
 }
 
 module.exports = {
-  getSpuCategoryTitle: getSpuCategoryTitle,
   isOptionChecked: isOptionChecked,
   getUploadImageFile: getUploadImageFile,
 };

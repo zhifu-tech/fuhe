@@ -10,24 +10,19 @@ module.exports = Behavior({
       // 绑定提交按钮的函数
       this.data._submitFn = this._submitEditSpu.bind(this);
       // 监听数据的变化
-      this.disposer = autorun(() => {
-        const { spu, _spu } = this.data;
-        if (!spu || !_spu) return;
-        const submitDisabled =
-          (spu.title === _spu.title && //
-            spu.desc === _spu.desc) ||
-          // 有效性校验
-          !this.checkSpuTitle(spu, false);
-        if (submitDisabled !== this.data.submitDisabled) {
-          this.setData({ submitDisabled });
-        }
-      });
-    },
-  },
-  lifetimes: {
-    detached: function () {
-      this.disposer?.();
-      this.disposer = null;
+      this.addToAutoDisposable(
+        autorun(() => {
+          const { spu, _spu } = this.data;
+          const submitDisabled =
+            (spu.title === _spu.title && //
+              spu.desc === _spu.desc) ||
+            // 有效性校验
+            !this.checkSpuTitle(spu, false);
+          if (submitDisabled !== this.data.submitDisabled) {
+            this.setData({ submitDisabled });
+          }
+        }),
+      );
     },
   },
   methods: {

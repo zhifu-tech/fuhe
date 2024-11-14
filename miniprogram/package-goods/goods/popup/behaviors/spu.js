@@ -1,7 +1,18 @@
 import stores from '@/stores/index';
 import { showToastError } from '@/common/toast/simples';
+import { autorun } from 'mobx-miniprogram';
 
 module.exports = Behavior({
+  lifetimes: {
+    attached: function () {
+      this.addToAutoDisposable(
+        autorun(() => {
+          const skuList = this.data.spu?.skuList || [];
+          this.setData({ skuList });
+        }),
+      );
+    },
+  },
   methods: {
     handleUpdateSpuTitle: function (e) {
       const { value: title } = e.detail;

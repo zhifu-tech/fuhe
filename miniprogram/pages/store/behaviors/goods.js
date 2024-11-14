@@ -1,13 +1,29 @@
 import log from '@/common/log/log';
 import stores from '@/stores/index';
 import services from '@/services/index';
+import { autorun } from 'mobx-miniprogram';
 
 module.exports = Behavior({
-  behaviors: [
-    require('miniprogram-computed').behavior, //
-    require('@/common/mobx/auto-disposers'),
-  ],
+  behaviors: [require('miniprogram-computed').behavior],
+  data: {
+    goodsSelected: null,
+    goodsSpuList: [],
+  },
   watch: {
+    hostAttached: function () {
+      this.addToAutoDisposable(
+        autorun(() => {
+          const goodsSelected = stores.goods.selected;
+          log.info(this.data.tag, 'goodsSelected', goodsSelected);
+          this.setData({ goodsSelected });
+        }),
+        autorun(() => {
+          const goodsSpuList = stores.goods.selected.spuList || [];
+          log.info(this.data.tag, 'goodsSpuList', goodsSpuList.length);
+          this.setData({ goodsSpuList });
+        }),
+      );
+    },
     categorySelected: function (cId) {
       const { tag, goodsSelected } = this.data;
       if (goodsSelected && goodsSelected.cId !== cId) {

@@ -10,9 +10,7 @@ module.exports = Behavior({
   methods: {
     submit: function () {
       log.info(this.data.tag, 'submit');
-      if (this.data._submitFn) {
-        this.data._submitFn();
-      }
+      this.data._submitFn?.();
     },
 
     handleGoodsAdd: function () {
