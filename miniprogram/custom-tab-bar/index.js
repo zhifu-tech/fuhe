@@ -17,18 +17,6 @@ Component({
         value: 'order',
         pagePath: '/pages/order/index',
       },
-      {
-        icon: 'chart-analytics',
-        label: '统计',
-        value: 'chart',
-        pagePath: '/pages/cart/index',
-      },
-      {
-        icon: 'user',
-        label: '我的',
-        value: 'user',
-        pagePath: '/pages/user/index',
-      },
     ],
   },
   methods: {

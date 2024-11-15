@@ -5,6 +5,7 @@ import updateCartRecord from './update-cart-record';
 import deleteCartRecord from './delete-cart-record';
 import fetchCartGodds from './fetch-cart-goods';
 import enqueueCartChange from './enqueue-cart-change';
+import clearCart from './clear-cart';
 
 export default {
   addCartRecord,
@@ -13,6 +14,7 @@ export default {
   updateCartRecord,
   deleteCartRecord,
   fetchCartGodds,
+  clearCart,
 
   enqueueCartChange,
 };

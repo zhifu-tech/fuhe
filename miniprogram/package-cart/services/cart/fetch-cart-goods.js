@@ -2,31 +2,41 @@ import log from '@/common/log/log';
 import stores from '@/stores/index';
 import services from '@/services/index';
 import cartStore from '../../stores/cart/index';
-import Disposable from '@/common/disposable/index';
+import { flow } from 'mobx-miniprogram';
 
 export default function fetchCartGoods({ tag, trigger, callback }) {
-  log.info(tag, 'fetchCartGoods', trigger);
-
-  const disposable = new Disposable();
-
-  _fetchCartGoods({ tag, trigger, callback, disposable });
-  return disposable;
+  let _task = _fetchCartGoods({
+    tag,
+    trigger,
+    callback,
+    _finally: () => {
+      _task = null;
+    },
+  });
+  return {
+    key: 'fetchCartGoods',
+    dispose: () => {
+      _task?.cancel();
+      _task = null;
+    },
+  };
 }
 
-async function _fetchCartGoods({
-  tag, //
+const _fetchCartGoods = flow(function* ({
+  tag,
   trigger,
   disposable,
   callback = () => null,
+  _finally,
 }) {
   // 请求中，切换选中状态
   callback({ code: 'loading', trigger });
+  log.info(tag, 'fetchCartGoods', 'start');
 
   try {
     const dataList = cartStore.dataList;
-    const dataExtList = [...dataList];
     const unStoreSpu = [];
-    dataExtList.forEach(({ spuId, skuId, stockId }, index) => {
+    dataList.forEach(({ spuId, skuId, stockId }, index) => {
       const spu = stores.goods.getSpu(spuId);
       const sku = stores.goods.getSku(spuId, skuId);
       const stock = stores.goods.getStock(spuId, skuId, stockId);
@@ -34,14 +44,14 @@ async function _fetchCartGoods({
       if (!spu || !sku || !stock) {
         unStoreSpu.push({ spuId, index });
       } else {
-        dataExtList[index].spu = spu;
-        dataExtList[index].sku = sku;
-        dataExtList[index].stock = stock;
+        dataList[index].spu = spu;
+        dataList[index].sku = sku;
+        dataList[index].stock = stock;
       }
     });
     log.info(tag, 'fetchCartGoods', 'unstored spu size', unStoreSpu.length);
     if (unStoreSpu.length > 0) {
-      const spuList = await services.goods.fetchGoodsSpuListAsync({
+      yield services.goods.fetchGoodsSpuListAsync({
         tag,
         trigger,
         idList: unStoreSpu.map(({ spuId }) => spuId),
@@ -49,29 +59,31 @@ async function _fetchCartGoods({
       });
 
       // 再次教研信息是否存在，如果不存在，标记为不可用
-      unStoreSpu.forEach(({ spuId, index }) => {
-        const { skuId, stockId } = dataExtList[index];
+      unStoreSpu.reverse().forEach(({ spuId, index }) => {
+        const { skuId, stockId } = dataList[index];
         const spu = stores.goods.getSpu(spuId);
         const sku = stores.goods.getSku(spuId, skuId);
         const stock = stores.goods.getStock(spuId, skuId, stockId);
         if (!spu || !sku || !stock) {
-          dataExtList[index].unable = true;
+          dataList.splice(index, 1);
           log.info(tag, 'fetchCartGoods', 'unstored spu', spuId, !spu, !sku, !stock);
         } else {
-          dataExtList[index].spu = spu;
-          dataExtList[index].sku = sku;
-          dataExtList[index].stock = stock;
+          dataList[index].spu = spu;
+          dataList[index].sku = sku;
+          dataList[index].stock = stock;
         }
       });
     }
 
-    disposable.checkDisposed();
-
     // 请求成功，切换选中状态
-    callback({ code: 'success', trigger, dataExtList });
-    log.info(tag, 'fetchCartGoods result', dataExtList);
+    callback({
+      code: 'success',
+      trigger,
+      dataExtList: dataList,
+    });
+    log.info(tag, 'fetchCartGoods result');
   } catch (error) {
-    if (error.name === 'TASK_DISPOSABLED') {
+    if (error.name === 'TASK_CANCELLED') {
       // 判断任务是否被取消
       callback({ code: 'cancelled', trigger });
     } else {
@@ -79,5 +91,7 @@ async function _fetchCartGoods({
       callback({ code: 'error', error, trigger });
     }
     log.error(tag, '_fetchGoodsSpuListByIdList', error);
+  } finally {
+    _finally?.();
   }
-}
+});

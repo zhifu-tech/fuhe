@@ -1,0 +1,78 @@
+<view class="container">
+  <t-navbar>
+    <view class="search-wrapper" slot="left">
+      <t-search placeholder="输入tdesign，有预览结果" shape="round" bind:change="onChangeValue" />
+    </view>
+  </t-navbar>
+  <t-tabs
+    defaultValue="{{0}}"
+    bind:change="onTabsChange"
+    bind:click="onTabsClick"
+    t-class="custom-tabs"
+  >
+    <block wx:for="{{ 5 }}" wx:for-item="tab" wx:for-index="index" wx:key="value">
+      <t-tab-panel label="选项" value="{{ index }}" />
+    </block>
+  </t-tabs>
+
+  <view class="content-container">
+    <t-pull-down-refresh
+      value="{{ pageStatus.isLoadingWithPullDown }}"
+      class="content"
+      type="list"
+      scroll-y
+    >
+      <block wx:for="{{ dataList }}" wx:for-item="order" wx:key="_id">
+        <block wx:for="{{ order.itemList }}" wx:for-item="item" wx:key="_id">
+          <goods
+            spuId="{{ item.spuId }}"
+            skuId="{{ item.skuId }}"
+            editable="{{ false }}"
+            tagSuffix="order"
+          />
+        </block>
+      </block>
+
+      <page-load-more
+        wx:if="{{ !pageStatus.isLoadingWithSkeleton && goodsSpuList.length > 0 }}"
+        showLoading="{{ pageStatus.isLoadingWithMore }}"
+        showNoMore="{{ pageStatus.showNoMore }}"
+        showHasMore="{{ pageStatus.showHasMore }}"
+        showRetry="{{ pageStatus.showRetry }}"
+        bind:more="loadMoreGoods"
+        bind:retry="loadMoreGoods"
+      />
+    </t-pull-down-refresh>
+
+    <t-empty
+      wx:if="{{ !pageStatus.isLoadingWithSkeleton && goodsSpuList.length === 0 }}"
+      class="empty"
+      icon="info-circle-filled"
+      description="暂无商品"
+    >
+      <t-button
+        slot="action"
+        block
+        theme="primary"
+        variant="outline"
+        size="large"
+        bind:tap="handleShowGoodsPopup"
+        >新增商品
+      </t-button>
+    </t-empty>
+
+    <view wx:if="{{ pageStatus.isLoadingWithSkeletonDelay }}" class="sk">
+      <view class="sk-goods-container" wx:for="{{ 6 }}" wx:key="*this">
+        <view class="sk-goods-header">
+          <t-skeleton rowCol="{{ [{ size:'72px', type:'rect' }] }}" animation="gradient" loading />
+          <t-skeleton
+            class="sk-goods-header-right"
+            rowCol="{{ [1, 1, { width: '61%' }] }}"
+            animation="gradient"
+            loading
+          />
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -13,7 +13,7 @@
 
 <!-- 购物车展开面板 -->
 <t-popup
-  wx:if="{{ mode === 'popup' }}"
+  wx:if="{{ showCartPopup }}"
   id="cart-popup"
   placement="bottom"
   using-custom-navbar
@@ -25,10 +25,10 @@
       <view class="title">{{ '购物车' }}</view>
     </view>
     <scroll-view scroll-y class="content" type="" list>
-      <block wx:for="{{ dataList }}" wx:for-item="item" wx:key="_id">
+      <block wx:for="{{ recordList }}" wx:for-item="record" wx:key="_id">
         <goods
-          spuId="{{ item.spuId }}"
-          skuId="{{ item.skuId }}"
+          spuId="{{ record.spuId }}"
+          skuId="{{ record.skuId }}"
           editable="{{ false }}"
           tagSuffix="cart"
         />
@@ -38,11 +38,12 @@
     <view class="block-button-wrapper">
       <t-button
         block
+        disabled="{{ recordList.length === 0 }}"
         theme="primary"
         size="large"
         variant="outline"
         content="{{ '下单' }}"
-        bind:tap="handleGoodsAdd"
+        bind:tap="handleMakeOrder"
       />
     </view>
   </view>

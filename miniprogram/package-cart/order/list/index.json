@@ -1,0 +1,16 @@
+{
+  "component": true,
+  "usingComponents": {
+    "t-navbar": "tdesign-miniprogram/navbar/navbar",
+    "t-search": "tdesign-miniprogram/search/search",
+    "t-tabs": "tdesign-miniprogram/tabs/tabs",
+    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
+    "t-pull-down-refresh": "tdesign-miniprogram/pull-down-refresh/pull-down-refresh",
+    "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",
+    "page-load-more": "/common/page/page-load-more/index",
+    "goods": "/package-goods/goods/goods/index"
+  },
+  "componentPlaceholder": {
+    "goods": "view"
+  }
+}

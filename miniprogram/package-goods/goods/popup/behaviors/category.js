@@ -1,7 +1,7 @@
 import log from '@/common/log/log';
 import stores from '@/stores/index';
 import services from '@/services/index';
-import { runInAction, autorun, when } from 'mobx-miniprogram';
+import { runInAction, autorun } from 'mobx-miniprogram';
 import { showToastError } from '@/common/toast/simples';
 
 module.exports = Behavior({

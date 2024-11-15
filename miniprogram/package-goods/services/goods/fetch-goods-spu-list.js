@@ -5,8 +5,6 @@ import goodsModel from '../../models/goods/index';
 import goodsStore from '../../stores/goods/index';
 import { flow } from 'mobx-miniprogram';
 
-let _task = null; // 记录当前正在进行的请求
-
 export default function ({ tag, cId, pageNumber, trigger, callback = () => null }) {
   // 发起新的请求并记录任务
   let _task = _fetchGoodsSpuList({

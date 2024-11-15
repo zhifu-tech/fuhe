@@ -112,10 +112,60 @@ interface IModalFhSaas {
 
 interface IModalFhOrderItem {
   /**
-   * 数量
+   * supplierName
    *
    */
-  quantity?: number;
+  supplierName: string;
+  /**
+   * skuTitle
+   *
+   */
+  skuTitle: string;
+  /**
+   * saleQuantity
+   *
+   */
+  saleQuantity: number;
+  /**
+   * supplierId
+   *
+   */
+  supplierId: string;
+  /**
+   * originalPrice
+   *
+   */
+  originalPrice: number;
+  /**
+   * salePrice
+   *
+   */
+  salePrice: number;
+  /**
+   * orderId
+   *
+   */
+  orderId: string;
+  /**
+   * stockId
+   *
+   */
+  stockId: string;
+  /**
+   * spuTitle
+   *
+   */
+  spuTitle: string;
+  /**
+   * spuId
+   *
+   */
+  spuId: string;
+  /**
+   * skuId
+   *
+   */
+  skuId: string;
 }
 
 interface IModalFhLabel {
@@ -158,23 +208,33 @@ interface IModalFhEntity {
 
 interface IModalFhOrder {
   /**
-   * 订单编号
-   *
-   */
-  dd_id?: string;
-  /**
    * 类型
    * 0=入库单
    * 1=出库单
    */
   type: number;
   /**
+   * userName
+   *
+   */
+  userName: string;
+  /**
+   * userId
+   *
+   */
+  userId: string;
+  /**
+   * saasId
+   *
+   */
+  saasId: string;
+  /**
    * 状态
    * 0=待下单
    * 1=已下单
    * 2=已完成
    */
-  status?: number;
+  status: number;
 }
 
 interface IModalFhStock {

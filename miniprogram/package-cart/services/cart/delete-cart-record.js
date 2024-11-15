@@ -14,7 +14,7 @@ export default async function deleteCartRecord({ tag, spuId, skuId, stockId }) {
   try {
     const data = await cartModels.deleteMany({
       tag,
-      idList: recordList.map((record) => record._id),
+      idList: recordList.map((r) => r._id),
     });
 
     // 从store中删除记录

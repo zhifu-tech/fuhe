@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"prettier.documentSelectors": [
+			"/*.wxml",
+			"/*.wxss"
+		],
+		"files.associations": {
+			"*.wxml": "html"
+		},
+		"emmet.includeLanguages": {
+			"wxml": "html"
+		}
+	}
+}

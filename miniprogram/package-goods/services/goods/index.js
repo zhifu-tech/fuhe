@@ -6,6 +6,7 @@ import fetchGoodsSpuList from './fetch-goods-spu-list';
 import fetchGoodsSpuListByIdList, {
   fetchGoodsSpuListAsync,
 } from './fetch-goods-spu-list-by-id-list';
+import getGoodsSpuList from './get-goods-spu-list';
 import switchGoodsSpuList, { checkNeedFetchedData } from './switch-goods-spu-list';
 import updateGoodsSpu from './update-goods-spu';
 import deleteGoodsSku from './delete-goods-sku';
@@ -20,6 +21,7 @@ export default {
   createGoodsSkuList,
   updateGoodsSpu,
   deleteGoodsSku,
+  getGoodsSpuList,
 
   skuUpdateImageList: goodsModel.skuUpdateImageList,
   skuUpdateSaleInfo: goodsModel.skuUpdateSaleInfo,

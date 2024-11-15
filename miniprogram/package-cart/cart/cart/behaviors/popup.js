@@ -1,68 +1,89 @@
 import log from '@/common/log/log';
 import cartStore from '../../../stores/cart/index';
 import cartService from '../../../services/cart/index';
-import { autorun } from 'mobx-miniprogram';
+import { autorun, observe } from 'mobx-miniprogram';
 
 module.exports = Behavior({
-  behaviors: [require('miniprogram-computed').behavior],
   data: {
     fabStyle:
       'z-index:66; left: unset; right: var(--td-spacer); bottom: calc(80px + env(safe-area-inset-bottom))',
     fabBtnProps: { theme: 'default', size: 'large', variant: 'text' },
-
-    dataList: [], // 购物车数据
-    _dataList: [], // 购物车数据
-    _needFechGoods: true,
-  },
-  watch: {
-    mode: function (mode) {
-      const { tag, _needFechGoods } = this.data;
-      if (mode === 'popup') {
-        if (_needFechGoods) {
-          // 首次运行，拉取数据
-          this.fetchCartGoodsTask?.dispose();
-          this.fetchCartGoodsTask = cartService.fetchCartGodds({
-            tag,
-            trigger: 'cart-popup',
-            callback: this.handleFetchCartGoods.bind(this),
-          });
-        } else {
-          this.showCartList();
-        }
-      } else {
-        // 隐藏时，清空数据
-        setTimeout(() => this.setData({ dataList: [] }), 300);
-      }
-    },
+    showCartPopup: false,
+    recordList: [],
   },
   lifetimes: {
-    detached: function () {
-      this.fetchCartGoodsTask?.dispose();
-      this.fetchCartGoodsTask = null;
+    attached: function () {
+      const cart = this.data.cart;
+      this.addToAutoDisposable(
+        autorun(() => {
+          if (cart.mode === 'popup') {
+            this._showPopup();
+          } else {
+            this._hidePoup();
+          }
+        }),
+        autorun(() => {
+          if (cart.fetchCartDataStatus === 'success') {
+            this._showPopup();
+          } else if (cart.fetchCartGoodsStatus === 'success') {
+            this._showPopup();
+          }
+        }),
+        observe(cartStore.dataList, () => {
+          // 购物车数据发生变，更新数据
+          if (this.data.showCartPopup) {
+            log.info(this.data.tag, 'cart数据发生变，更新数据');
+            this.setData({
+              recordList: cartStore.dataList,
+            });
+          }
+        }),
+      );
     },
   },
   methods: {
-    handleFetchCartGoods: function (status) {
-      const { code } = status;
-      switch (code) {
-        case 'success': {
-          this.data._needFechGoods = false;
-          const { dataExtList } = status;
-          this.data._dataList = dataExtList;
-          this.showCartList();
-          break;
-        }
-        case 'error': {
-          break;
-        }
+    _showPopup: function () {
+      const { tag, cart, showCartPopup } = this.data;
+      if (showCartPopup) return;
+      if (cart.mode !== 'popup') return;
+      if (cart.fetchCartDataStatus === 'idle' || cart.fetchCartDataStatus === 'error') {
+        log.info(tag, '未拉取过购物车数据，或者拉取失败，重新拉取');
+        this._fetchCartData('popup');
+        return;
       }
+      if (cart.fetchCartGoodsStatus === 'idle' || cart.fetchCartGoodsStatus === 'error') {
+        log.info(tag, '未拉取过购物车商品，或者拉取失败，重新拉取');
+        this.addToAutoDisposable({
+          key: 'fetchCartGoods',
+          disposer: cartService.fetchCartGodds({
+            tag,
+            trigger: 'cart-popup',
+            callback: ({ code }) => {
+              cart.fetchCartGoodsStatus = code;
+            },
+          }),
+        });
+        return;
+      }
+      log.info(tag, '显示购物车弹窗');
+      this.setData({
+        showCartPopup: true,
+        recordList: cartStore.dataList,
+      });
+      this.selectComponent('#cart-popup').setData({ visible: true });
     },
-    showCartList: function () {
-      const { mode, _dataList } = this.data;
-      // 当正在显示时，需要更新数据
-      if (mode === 'popup' && _dataList != null) {
-        this.setData({ dataList: cartStore.dataList });
-      }
+    _hidePoup: function () {
+      // 已经隐藏，无需处理
+      if (!this.data.showCartPopup) return;
+      // 隐藏弹窗
+      this.selectComponent('#cart-popup').setData({ visible: false });
+      // 240ms后，再切换回fab模式，给动画流出时间
+      setTimeout(() => {
+        this.setData({
+          showCartPopup: false,
+          recordList: [],
+        });
+      }, 240);
     },
   },
 });

@@ -33,7 +33,7 @@ export async function fetchGoodsSpuListAsync({
       idList,
     });
 
-    disposable.checkDisposed();
+    disposable?.checkDisposed();
 
     // 加载规格信息
     await Promise.all([
@@ -41,7 +41,7 @@ export async function fetchGoodsSpuListAsync({
       services.stock.fetchStockList({ tag, spuList }),
     ]);
 
-    disposable.checkDisposed();
+    disposable?.checkDisposed();
 
     // 拼接spu中的规格信息
     _handleSkuOptionList(spuList);
