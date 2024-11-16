@@ -5,9 +5,6 @@ module.exports = Behavior({
     markup: 0,
   },
   observers: {
-    options: function (options) {
-      this.show(options);
-    },
     salePrice: function () {
       const { salePrice, originalPrice } = this.data;
       if (salePrice === 0 || originalPrice === 0) {

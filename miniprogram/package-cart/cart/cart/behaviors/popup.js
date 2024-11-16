@@ -31,6 +31,16 @@ module.exports = Behavior({
         }),
         observe(cartStore.dataList, () => {
           // 购物车数据发生变，更新数据
+          if (this.data.recordList.length < cartStore.dataList.length) {
+            // 新增数据时，需要重新拉取数据
+            log.info(this.data.tag, '购物车数据新增，重新拉取数据');
+            cart.fetchCartGoodsStatus = 'idle';
+            if (this.data.showCartPopup) {
+              this._showPopup();
+            }
+            return;
+          }
+          // 否则，数据减少后者变更，直接更新
           if (this.data.showCartPopup) {
             log.info(this.data.tag, 'cart数据发生变，更新数据');
             this.setData({
@@ -47,12 +57,12 @@ module.exports = Behavior({
       if (showCartPopup) return;
       if (cart.mode !== 'popup') return;
       if (cart.fetchCartDataStatus === 'idle' || cart.fetchCartDataStatus === 'error') {
-        log.info(tag, '未拉取过购物车数据，或者拉取失败，重新拉取');
+        log.info(tag, '需要拉取过购物车数据');
         this._fetchCartData('popup');
         return;
       }
       if (cart.fetchCartGoodsStatus === 'idle' || cart.fetchCartGoodsStatus === 'error') {
-        log.info(tag, '未拉取过购物车商品，或者拉取失败，重新拉取');
+        log.info(tag, '需要拉取购物车商品');
         this.addToAutoDisposable({
           key: 'fetchCartGoods',
           disposer: cartService.fetchCartGodds({

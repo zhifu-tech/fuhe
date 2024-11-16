@@ -1,4 +1,4 @@
-const { default: pages } = require('@/common/page/pages');
+import pages from '@/common/page/pages';
 
 Component({
   behaviors: [require('./behaviors/price'), require('./behaviors/quantity')],

@@ -1,8 +1,9 @@
 import log from '@/common/log/log';
+import services from '@/services/index';
 import cartStore from '../../../stores/cart/index';
 import cartService from '../../../services/cart/index';
 import orderService from '../../../services/order/index';
-import { autorun, flow, toJS } from 'mobx-miniprogram';
+import { flow } from 'mobx-miniprogram';
 import { showToastError, showToastLoading, hideToastLoading } from '@/common/toast/simples';
 
 module.exports = Behavior({
@@ -53,6 +54,30 @@ module.exports = Behavior({
         }
       } else {
         log.info(tag, 'createOrder empty');
+      }
+
+      // 更新库存信息
+      const stockInfoList = cartStore.dataList.map((item) => ({
+        stock: item.stock,
+        quantity: item.stock.quantity - item.saleQuantity,
+        salePrice: item.salePrice,
+      }));
+      if (stockInfoList.length > 0) {
+        try {
+          yield services.stock.updateStockInfoList({
+            tag,
+            infoList: stockInfoList,
+          });
+          log.info(tag, 'updateStockInfoList success');
+        } catch (error) {
+          log.error(tag, 'updateStockInfoList error', error);
+          showToastError({ message: '下单失败，请稍后再试！' });
+          return;
+        }
+        // 清空购物数据
+        cartStore.dataList.forEach(({ stock }) => {
+          stock.saleQuantity = 0;
+        });
       }
 
       try {

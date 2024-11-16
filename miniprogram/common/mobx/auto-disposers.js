@@ -41,6 +41,8 @@ module.exports = Behavior({
           return d.cancel();
         } else if (typeof d.disposer === 'function') {
           return d.disposer();
+        } else if (d.disposer && typeof d.disposer.dispose === 'function') {
+          return d.disposer.dispose();
         } else {
           log.error('invalid disposer', d);
         }

@@ -55,15 +55,11 @@ module.exports = Behavior({
       if (!stock || (stock.saleQuantity === saleQuantity && stock.salePrice === salePrice)) {
         return;
       }
-      const promises = [];
 
       runInAction(() => {
         if (salePrice && stock.salePrice !== salePrice) {
           // 库存价格被修改，更新stock的售价
           stock.salePrice = salePrice;
-
-          // 销售价格，需要持久化保存
-          promises.push(this._saveStockChanges(stock));
         }
         if (saleQuantity && stock.saleQuantity !== saleQuantity) {
           // 销售数量变更
@@ -74,31 +70,14 @@ module.exports = Behavior({
         }
       });
       // 更新store中的数据
-      promises.push(
-        services.cart.updateCartRecord({
-          tag,
-          spuId,
-          skuId,
-          stockId,
-          salePrice,
-          saleQuantity,
-        }),
-      );
-
-      if (promises.length > 0) {
-        await Promise.all(promises);
-      }
-    },
-    _saveStockChanges: async function (stock) {
-      try {
-        await services.stock.updateStockInfo({
-          tag: 'stockPricesChange',
-          stock,
-          salePrice: stock.salePrice,
-        });
-      } catch (error) {
-        log.error('更新库存价格失败', error);
-      }
+      await services.cart.updateCartRecord({
+        tag,
+        spuId,
+        skuId,
+        stockId,
+        salePrice,
+        saleQuantity,
+      });
     },
   },
 });

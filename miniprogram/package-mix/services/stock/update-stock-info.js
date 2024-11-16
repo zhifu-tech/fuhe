@@ -1,4 +1,5 @@
 import log from '@/common/log/log';
+import stockStore from '../../stores/stock/index';
 import stockModel from '../../models/stock/index';
 
 export default async function updateStockInfo({
@@ -35,7 +36,7 @@ export default async function updateStockInfo({
     });
 
     // 更新stock记录
-    stores.stock.updateStockInfo({
+    stockStore.updateStockInfo({
       tag,
       stock,
       ...fields,
@@ -47,4 +48,13 @@ export default async function updateStockInfo({
     log.error(tag, 'updateStockInfo', error);
     throw error;
   }
+}
+
+export async function updateStockInfoList({ tag, infoList }) {
+  log.info(tag, 'updateStockInfoList', infoList.length);
+  return Promise.all(
+    infoList.map((info) => {
+      return updateStockInfo({ tag, ...info });
+    }),
+  );
 }
