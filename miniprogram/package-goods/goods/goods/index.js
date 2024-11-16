@@ -19,7 +19,6 @@ Component({
   properties: {
     spuId: String,
     skuId: String,
-    stockId: String,
     tagSuffix: String,
     editable: {
       type: Boolean,
@@ -28,8 +27,7 @@ Component({
   },
   watch: {
     'spuId,skuId,tagSuffix': function (spuId, skuId, tagSuffix) {
-      const tag = `goods-${this.properties.tagSuffix}`;
-
+      const tag = `goods-${tagSuffix}`;
       const spu = stores.goods.getSpu(spuId) || observable({});
       const sku = stores.goods.getSku(spuId, skuId) || observable({});
 
