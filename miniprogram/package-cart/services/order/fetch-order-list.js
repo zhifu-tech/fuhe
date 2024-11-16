@@ -1,6 +1,7 @@
 import log from '@/common/log/log';
 import services from '@/services/index';
 import { flow } from 'mobx-miniprogram';
+import dayjs from 'dayjs';
 
 import orderStore from '../../stores/order/index';
 import orderModel from '../../models/order/index';
@@ -32,6 +33,11 @@ const _fetchOrderList = flow(function* ({ tag, trigger, callback, _finally }) {
     const { records: dataList, total } = yield orderModel.list({
       tag,
     });
+    // 格式化数据
+    dataList.forEach((order) => {
+      order.createdAtFormatted = dayjs(order.createdAt).format('YYYY-MM-DD HH:mm:ss');
+    });
+
     log.info(tag, 'fetchOrderList', dataList, total);
 
     // 拉取spu信息

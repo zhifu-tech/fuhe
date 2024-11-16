@@ -1,0 +1,80 @@
+.goods-cell {
+  --td-cell-image-width: 144rpx;
+  --td-cell-image-height: 144rpx;
+}
+
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.title-container {
+  width: 100%;
+  display: flex;
+}
+.title-wrapper {
+  display: inline-flex;
+  flex-wrap: wrap;
+  line-height: 48rpx;
+}
+.title {
+  line-height: 48rpx;
+  font-weight: 600;
+}
+.prices,
+.tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--td-spacer);
+  line-height: 48rpx;
+}
+.tags {
+  align-items: center;
+}
+.prices {
+  align-items: baseline;
+}
+
+.tags .tag {
+  margin-top: var(--td-spacer);
+}
+
+.cost-price {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  line-height: 48rpx;
+  gap: var(--td-spacer);
+}
+
+.label {
+  flex-shrink: 0;
+  font-size: var(--td-font-size-base);
+  color: var(--td-text-color-secondary);
+}
+
+.orders {
+  display: flex;
+  align-items: center;
+  margin-top: var(--td-spacer-s);
+  line-height: 48rpx;
+}
+
+.actions {
+  height: 100%;
+}
+
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 120rpx;
+  height: 100%;
+  color: white;
+}
+
+.btn.cancel {
+  background-color: #e34d59;
+}

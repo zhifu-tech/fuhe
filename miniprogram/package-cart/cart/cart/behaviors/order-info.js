@@ -22,9 +22,19 @@ module.exports = Behavior({
   methods: {
     handleStepChange: function (e) {
       log.info(this.data.tag, 'handleStepChange', e, e.detail.current);
+      this._handleStepChange(e.detail.current);
+    },
+    handleNextStep: function () {
+      if (this.data.currentStep === this.data.steps.length - 1) {
+        this.handleMakeOrer();
+      } else {
+        this._handleStepChange(this.data.currentStep + 1);
+      }
+    },
+    _handleStepChange: function (step) {
       this.setData({
-        currentStep: e.detail.current,
-        currentViewId: this.data.steps[e.detail.current].anchorViewId,
+        currentStep: step,
+        currentViewId: this.data.steps[step].anchorViewId,
       });
     },
   },

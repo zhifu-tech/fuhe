@@ -181,6 +181,8 @@ const _selectData = () => ({
   // 供应方
   providerId: true,
   providerName: true,
+  // 订单信息
+  createdAt: true,
   // 订单条目信息
   itemList: {
     _id: true,

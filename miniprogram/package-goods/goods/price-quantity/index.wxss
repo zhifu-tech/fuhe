@@ -9,6 +9,7 @@
   display: inline-flex;
   align-items: center;
 }
+
 .price {
   white-space: nowrap;
   order: 1;
@@ -26,6 +27,7 @@
   margin-left: var(--td-spacer-s);
   order: 2;
 }
+.quantity,
 .priceLabel {
   display: inline;
   color: var(--td-text-color-secondary);
@@ -33,4 +35,7 @@
   margin-left: var(--td-spacer-s);
   order: 3;
   vertical-align: baseline;
+}
+.quantity {
+  font-size: 1em;
 }

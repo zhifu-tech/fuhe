@@ -4,9 +4,14 @@ import orderService from '../../services/order/index';
 import { autorun } from 'mobx-miniprogram';
 
 Component({
-  behaviors: [require('miniprogram-computed').behavior, require('@/common/mobx/auto-disposers')],
+  behaviors: [
+    require('miniprogram-computed').behavior,
+    require('@/common/mobx/auto-disposers'),
+    require('./behaviors/tabs'),
+  ],
   options: {
     pureDataPattern: /^_/,
+    virtualHost: true,
   },
   data: {
     tag: 'order-list',

@@ -1,36 +1,84 @@
 <view class="container">
   <t-navbar>
-    <view class="search-wrapper" slot="left">
-      <t-search placeholder="输入tdesign，有预览结果" shape="round" bind:change="onChangeValue" />
+    <view class="search" slot="left">
+      <t-search placeholder="查询订单" shape="round" bind:change="handleSearchChange" />
     </view>
   </t-navbar>
+
   <t-tabs
-    defaultValue="{{0}}"
-    bind:change="onTabsChange"
-    bind:click="onTabsClick"
-    t-class="custom-tabs"
+    defaultValue="{{ 'all' }}"
+    bind:change="handleTabChange"
+    bind:click="handleTabClick"
+    t-class="tabs"
   >
-    <block wx:for="{{ 5 }}" wx:for-item="tab" wx:for-index="index" wx:key="value">
-      <t-tab-panel label="选项" value="{{ index }}" />
-    </block>
+    <t-tab-panel
+      wx:for="{{ tabs }}"
+      wx:for-item="tab"
+      wx:for-index="index"
+      wx:key="value"
+      label="{{ tab.label }}"
+      value="{{ tab.value }}"
+    />
   </t-tabs>
 
-  <view class="content-container">
+  <view class="content">
     <t-pull-down-refresh
       value="{{ pageStatus.isLoadingWithPullDown }}"
-      class="content"
+      loadingTexts="{{['下拉刷新', '松手刷新', '正在刷新', '刷新完成']}}"
+      class="scroll"
       type="list"
       scroll-y
+      bind:refresh="pullDownRefresh"
+      bind:scrolltolower="loadMoreGoods"
+      scroll-with-animation
+      enable-flex="true"
     >
       <block wx:for="{{ dataList }}" wx:for-item="order" wx:key="_id">
-        <block wx:for="{{ order.itemList }}" wx:for-item="item" wx:key="_id">
-          <goods
-            spuId="{{ item.spuId }}"
-            skuId="{{ item.skuId }}"
-            editable="{{ false }}"
-            tagSuffix="order"
-          />
-        </block>
+        <view class="order">
+          <view class="row padding-h padding-top">
+            <view class="date"> {{ order.createdAtFormatted }} 由 {{ order.userName }} 下单</view>
+          </view>
+          <view class="row padding-h">
+            <view class="customer">客户：{{ order.customerName }}</view>
+            <view class="provider">商家：{{ order.providerName }}</view>
+          </view>
+          <t-divider class="divider-custom padding-left" />
+
+          <block wx:for="{{ order.itemList }}" wx:for-item="item" wx:key="_id">
+            <goods-cell
+              spuId="{{ item.spuId }}"
+              skuId="{{ item.skuId }}"
+              stockId="{{ item.stockId }}"
+              sale-price="{{ item.salePrice }}"
+              sale-quantity="{{ item.saleQuantity }}"
+            />
+          </block>
+
+          <view class="row actions">
+            <view>
+              <t-button
+                theme="default"
+                variant="outline"
+                shape="round"
+                size="small"
+                bind:tap="handleShowGoodsPopup"
+              >
+                归档
+              </t-button>
+            </view>
+            <view>
+              <t-button
+                theme="default"
+                variant="outline"
+                shape="round"
+                size="small"
+                bind:tap="handleShowGoodsPopup"
+              >
+                再次购买
+              </t-button>
+            </view>
+          </view>
+        </view>
       </block>
 
       <page-load-more

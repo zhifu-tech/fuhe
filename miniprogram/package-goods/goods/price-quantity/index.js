@@ -23,6 +23,10 @@ Component({
       type: Number,
       value: 0,
     },
+    readonly: {
+      type: Boolean,
+      value: false,
+    },
   },
   data: {
     priceLabel: '',
@@ -55,6 +59,7 @@ Component({
   },
   methods: {
     handleClickPrice: function () {
+      if (this.data.readonly) return;
       require('@/package-goods/goods/price-quantity-popup/popup.js', (popup) => {
         const preSalePrice = this.data.salePrice;
         const preSaleQuantity = this.data.saleQuantity;

@@ -1,0 +1,14 @@
+{
+  "component": true,
+  "usingComponents": {
+    "t-swipe-cell": "tdesign-miniprogram/swipe-cell/swipe-cell",
+    "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-tag": "tdesign-miniprogram/tag/tag",
+    "price-quantity": "/package-goods/goods/price-quantity/index",
+    "price": "/package-goods/goods/price/index"
+  },
+  "componentPlaceholder": {
+    "price-quantity": "view",
+    "price": "view"
+  }
+}

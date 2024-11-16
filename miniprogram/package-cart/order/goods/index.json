@@ -1,0 +1,17 @@
+{
+  "component": true,
+  "usingComponents": {
+    "t-tag": "tdesign-miniprogram/tag/tag",
+    "t-check-tag": "tdesign-miniprogram/check-tag/check-tag",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-image": "tdesign-miniprogram/image/image",
+    "t-divider": "tdesign-miniprogram/divider/divider",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "price-quantity": "/package-goods/goods/price-quantity/index",
+    "price": "/package-goods/goods/price/index"
+  },
+  "componentPlaceholder": {
+    "price-quantity": "view",
+    "price": "view"
+  }
+}

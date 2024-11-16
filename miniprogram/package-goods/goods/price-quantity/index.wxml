@@ -11,10 +11,12 @@
     <view wx:if="{{ salePrice !== originalPrice }}" class="priceLabel">{{ priceLabel }}</view>
   </view>
   <t-stepper
+    wx:if="{{ !readonly }}"
     size="medium"
     theme="outline"
     max="{{ originalQuantity }}"
     value="{{ saleQuantity }}"
     bind:change="handleUpdateSaleQuantity"
   />
+  <view wx:if="{{ readonly }}" class="quantity"> 共 {{ saleQuantity }} 件 </view>
 </view>

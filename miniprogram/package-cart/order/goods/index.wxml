@@ -1,0 +1,63 @@
+<wxs src="./index.wxs" module="_" />
+<view class="container">
+  <view class="header">
+    <view class="image">
+      <t-image
+        wx:if="{{ _.getImage(sku.imageList) }}"
+        t-class="image-content"
+        src="{{ _.getImage(sku.imageList) }}"
+        shape="round"
+        mode="scaleToFill"
+        aria-label="{{ spu.title }}"
+      />
+    </view>
+    <view class="right">
+      <view class="title-container">
+        <view class="title-wrapper">
+          <view class="title">{{ _.getTitle(spu.title, sku) }}</view>
+        </view>
+      </view>
+      <view class="tags">
+        <t-tag
+          wx:if="{{ spu.supplierName }}"
+          t-class="tag"
+          size="medium"
+          shape="round"
+          icon="user-business"
+          variant="outline"
+        >
+          {{ supplierName }}
+        </t-tag>
+        <t-tag t-class="tag" size="medium" shape="round" icon="swap" variant="outline">
+          {{ spu.category.title }}
+        </t-tag>
+        <block wx:for="{{ sku.optionList }}" wx:for-item="option" wx:key="_id">
+          <t-tag t-class="tag" size="medium" shape="round" variant="outline">
+            {{ option.title }}
+          </t-tag>
+        </block>
+      </view>
+      <view class="'prices">
+        <view class="cost-price">
+          <view class="label">成本</view>
+          <price
+            class="price"
+            symbol="¥"
+            priceUnit="yuan"
+            price="{{ stock.costPrice }}"
+            fill="true"
+            decimalSmaller
+          />
+        </view>
+        <price-quantity
+          class="orders"
+          salePrice="{{ stock.salePrice }}"
+          originalPrice="{{ stock.originalPrice || 0 }}"
+          saleQuantity="{{ stock.saleQuantity || 0 }}"
+          originalQuantity="{{ stock.quantity || 0 }}"
+          readonly="{{ true }}"
+        />
+      </view>
+    </view>
+  </view>
+</view>

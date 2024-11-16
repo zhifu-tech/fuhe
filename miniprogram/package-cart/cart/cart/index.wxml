@@ -72,13 +72,13 @@
         />
       </t-steps>
       <t-button
-        disabled="{{ recordList.length === 0 || !userName || !customerName || !providerName }}"
+        disabled="{{ currentStep === 1  &&(recordList.length === 0 || !userName || !customerName || !providerName) }}"
         theme="primary"
         size="large"
         shape="round"
         variant="outline"
-        content="{{ '下单' }}"
-        bind:tap="handleMakeOrder"
+        content="{{ currentStep !== 1 ? '下一步': '下定单' }}"
+        bind:tap="handleNextStep"
       />
     </view>
   </view>
