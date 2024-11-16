@@ -29,7 +29,6 @@ Component({
   watch: {
     'spuId,skuId,tagSuffix': function (spuId, skuId, tagSuffix) {
       const tag = `goods-${this.properties.tagSuffix}`;
-      log.info(this.data.tag, 'spuId,skuId', spuId, skuId, tagSuffix);
 
       const spu = stores.goods.getSpu(spuId) || observable({});
       const sku = stores.goods.getSku(spuId, skuId) || observable({});
