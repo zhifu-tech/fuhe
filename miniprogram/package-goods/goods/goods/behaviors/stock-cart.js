@@ -10,7 +10,7 @@ module.exports = Behavior({
       const { spuId, skuId, sku } = this.data;
       // 当购物车数据变化时，需要同步stock更新数据
       runInAction(() => {
-        sku?.stockList?.forEach((stock) => {
+        sku.stockList?.forEach((stock) => {
           const list = stores.cart.getCartRecordList({
             spuId,
             skuId,

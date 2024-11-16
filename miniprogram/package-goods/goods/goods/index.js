@@ -26,42 +26,41 @@ Component({
       value: true,
     },
   },
-  lifetimes: {
-    attached: function () {
-      this.data.tag = `goods-${this.properties.tagSuffix}`;
+  watch: {
+    'spuId,skuId,tagSuffix': function (spuId, skuId, tagSuffix) {
+      const tag = `goods-${this.properties.tagSuffix}`;
+      log.info(this.data.tag, 'spuId,skuId', spuId, skuId, tagSuffix);
+
+      const spu = stores.goods.getSpu(spuId) || observable({});
+      const sku = stores.goods.getSku(spuId, skuId) || observable({});
+
+      this.setData({
+        tag,
+        spu,
+        sku,
+      });
+
       this.addToAutoDisposable(
         autorun(() => {
-          if (!this.data.spu) {
-            const spu = stores.goods.getSpu(this.properties.spuId);
-            this.setData({ spu: spu || observable({}) });
-          }
-        }),
-        autorun(() => {
-          if (!this.data.sku) {
-            const sku = stores.goods.getSku(this.properties.spuId, this.properties.skuId);
-            this.setData({ sku: sku || observable({}) });
-          }
-        }),
-        autorun(() => {
-          const spuTitle = this.data.spu?.title || '';
+          const spuTitle = spu.title || '';
           this.setData({ spuTitle });
         }),
         autorun(() => {
-          const supplierName = this.data.spu?.supplierName || '';
+          const supplierName = spu.supplierName || '';
           this.setData({ supplierName });
         }),
         autorun(() => {
-          const skuImageList = this.data.sku.imageList || [];
+          const skuImageList = sku.imageList || [];
           this.setData({ skuImageList });
         }),
         autorun(() => {
-          const skuStockList = this.data.sku?.stockList || [];
+          const skuStockList = sku.stockList || [];
           // log.info(this.data.tag, 'skuStockList', skuStockList.length);
           this.setData({ skuStockList });
         }),
         autorun(() => {
-          const skuCartData = stores.cart.getSkuCartData(this.properties.skuId) || {};
-          log.info(this.data.tag, 'skuCartData', skuCartData);
+          const skuCartData = stores.cart.getSkuCartData(skuId) || {};
+          log.info(tag, 'skuCartData', skuCartData);
           this.setData({ skuCartData });
         }),
       );

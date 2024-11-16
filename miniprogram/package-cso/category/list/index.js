@@ -5,6 +5,7 @@ import { show as showCategoryPopup } from '../popup/popup';
 Component({
   behaviors: [
     require('miniprogram-computed').behavior, //
+    require('@/common/mobx/auto-disposers'),
     require('@/common/toast/simple'),
   ],
   options: {
@@ -19,16 +20,12 @@ Component({
   lifetimes: {
     attached: function () {
       this._calStickyOffset();
-      this.disposers = [
+      this.addToAutoDisposable(
         autorun(() => {
           const categoryList = stores.category.categoryList;
           this._updateCategoryIndexList(categoryList);
         }),
-      ];
-    },
-    detached: function () {
-      this.disposers.forEach((disposer) => disposer());
-      this.disposers = [];
+      );
     },
   },
   methods: {

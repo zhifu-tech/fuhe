@@ -1,5 +1,5 @@
-import stores from '@/stores/index';
 import log from '@/common/log/log';
+import stores from '@/stores/index';
 import pages from '@/common/page/pages';
 import { observable, toJS } from 'mobx-miniprogram';
 
@@ -48,7 +48,6 @@ Component({
       const stock = _stock && observable(toJS(_stock));
 
       this.setData({
-        tag: 'goods-poup',
         ...options, // 展开对象
 
         _spu: _spu || observable({}),
@@ -61,11 +60,11 @@ Component({
         stock: stock || observable({}),
       });
 
-      this.show();
+      this._show();
     },
   },
   methods: {
-    show: function () {
+    _show: function () {
       this._popup((popup) => {
         popup.setData({
           visible: true,

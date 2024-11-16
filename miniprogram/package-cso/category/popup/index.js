@@ -1,10 +1,11 @@
 import log from '@/common/log/log';
-import pages from '@/common/page/pages';
 import stores from '@/stores/index';
-import { autorun, observable, toJS } from 'mobx-miniprogram';
+import pages from '@/common/page/pages';
+import { observable, toJS } from 'mobx-miniprogram';
 
 Component({
   behaviors: [
+    require('miniprogram-computed').behavior, //
     require('./behaviors/header'),
     require('./behaviors/category'),
     require('./behaviors/category-delete'),
@@ -29,54 +30,35 @@ Component({
       value: {},
     },
   },
-  lifetimes: {
-    attached: function () {
-      this.data.tag = 'category-popup';
-      this.disposers = [
-        autorun(() => {
-          if (!this.data._category || !this.data.category) {
-            const { cId } = this.properties.options;
-            if (cId) {
-              const _category = stores.category.getCategory(cId);
-              const _categoryJs = _category && toJS(_category);
-              const category = _categoryJs && observable(_categoryJs);
-              this.data._category = _category;
-              this.data.category = category;
-            }
-            this.setData({
-              _category: this.data._category || {},
-              category: this.data.category || observable({}),
-            });
-            log.info(this.data.tag, 'category-init');
-          }
-        }),
-        autorun(() => {
-          if (!this.data._specList || !this.data.specList) {
-            const { cId } = this.properties.options;
-            if (cId) {
-              const _specList = stores.spec.getSpecList(cId);
-              const _specListJs = _specList && toJS(_specList);
-              const specList = _specListJs && observable(_specListJs);
-              this.data._specList = _specList;
-              this.data.specList = specList;
-            }
-            this.setData({
-              _specList: this.data._specList || [],
-              specList: this.data.specList || observable([]),
-            });
-            log.info(this.data.tag, 'specList-init');
-          }
-        }),
-      ];
-      this.show(this.properties.options);
-    },
-    detached: function () {
-      this.disposers.forEach((disposer) => disposer());
+  data: {
+    tag: 'category-popup',
+  },
+  watch: {
+    options: function (options) {
+      log.info(this.data.tag, 'watch observer. function', options);
+      const { cId } = this.properties.options;
+
+      const _category = stores.category.getCategory(cId);
+      const category = _category && observable(toJS(_category));
+
+      const _specList = stores.spec.getSpecList(cId);
+      const specList = _specList && observable(_specList);
+
+      this.setData({
+        ...options,
+
+        _category: _category || {},
+        category: category || observable({}),
+
+        _specList: _specList || [],
+        specList: specList || observable([]),
+      });
+
+      this._show();
     },
   },
   methods: {
-    show: function (options) {
-      this.setData({ ...options });
+    _show: function () {
       this._popup((popup) => {
         popup.setData({
           visible: true,
@@ -95,9 +77,6 @@ Component({
           });
         }
         this.data.options?.close?.();
-        this.setData({
-          options: { destroy: true },
-        });
       });
     },
     _popup(callback) {
