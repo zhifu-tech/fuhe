@@ -1,7 +1,7 @@
 .container {
   width: 100vw;
   box-sizing: border-box;
-  height: 65vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   background-color: var(--td-bg-color-page);
@@ -33,5 +33,6 @@
 
 .block-button-wrapper {
   display: flex;
-  margin: var(--td-spacer-2);
+  padding: var(--td-spacer-2);
+  background-color: var(--td-bg-color-container);
 }

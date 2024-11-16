@@ -2,7 +2,7 @@ import log from '@/common/log/log';
 import goodsModel from '../../models/goods/index';
 import goodsStore from '../../stores/goods/index';
 
-export default async function ({ tag, spu, title, desc }) {
+export default async function updateGoodsSpu({ tag, spu, title, desc }) {
   try {
     const fileds = {};
     if (title != null) fileds.title = title;

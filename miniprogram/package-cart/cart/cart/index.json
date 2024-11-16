@@ -1,12 +1,15 @@
 {
   "component": true,
   "usingComponents": {
+    "t-cell": "tdesign-miniprogram/cell/cell",
     "t-badge": "tdesign-miniprogram/badge/badge",
     "t-button": "tdesign-miniprogram/button/button",
     "t-divider": "tdesign-miniprogram/divider/divider",
     "t-empty": "tdesign-miniprogram/empty/empty",
     "t-fab": "tdesign-miniprogram/fab/fab",
     "t-popup": "tdesign-miniprogram/popup/popup",
+    "t-steps": "tdesign-miniprogram/steps/steps",
+    "t-step-item": "tdesign-miniprogram/step-item/step-item",
     "goods": "/package-goods/goods/goods/index"
   },
   "componentPlaceholder": {

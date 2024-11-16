@@ -64,7 +64,7 @@ module.exports = Behavior({
         }
         await services.stock.updateStockInfo({
           tag,
-          stock,
+          stock: _stock,
           ...fields,
         });
 

@@ -2,7 +2,15 @@ import log from '@/common/log/log';
 import { saasId } from '@/common/saas/saas';
 
 export default {
-  create: async function ({ tag, userId, userName }) {
+  create: async function ({
+    tag,
+    userId,
+    userName,
+    customerId,
+    customerName,
+    providerId,
+    providerName,
+  }) {
     try {
       const { data } = await wx.cloud.models.fh_order.create({
         data: {
@@ -14,6 +22,18 @@ export default {
           userName,
           user: {
             _id: userId, // 关联用户ID
+          },
+          // 需求方
+          customerId,
+          customerName,
+          customer: {
+            _id: customerId, // 关联用户ID
+          },
+          // 供应方
+          providerId,
+          providerName,
+          provider: {
+            _id: providerId, // 关联用户ID
           },
         },
       });
@@ -155,6 +175,12 @@ const _selectData = () => ({
   // 下单用户
   userId: true,
   userName: true,
+  // 收货人信息
+  customerId: true,
+  customerName: true,
+  // 供应方
+  providerId: true,
+  providerName: true,
   // 订单条目信息
   itemList: {
     _id: true,

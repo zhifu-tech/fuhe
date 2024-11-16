@@ -24,7 +24,8 @@
     <view class="header">
       <view class="title">{{ '购物车' }}</view>
     </view>
-    <scroll-view scroll-y class="content" type="" list>
+    <scroll-view scroll-y class="content" type="list" scroll-into-view="{{ currentViewId }}">
+      <view id="goods-info" />
       <block wx:for="{{ recordList }}" wx:for-item="record" wx:key="_id">
         <goods
           spuId="{{ record.spuId }}"
@@ -33,14 +34,48 @@
           tagSuffix="cart"
         />
       </block>
+
+      <view id="order-info" />
+      <t-cell
+        wx:if="{{ recordList.length > 0 }}"
+        title="下单人"
+        arrow
+        hover
+        note="{{ userName }}"
+        bind:click="showUserPicker"
+      />
+      <t-cell
+        wx:if="{{ recordList.length > 0 }}"
+        title="买方"
+        arrow
+        hover
+        note="{{ customerName }}"
+        bind:click="showCustomerPicker"
+      />
+      <t-cell
+        wx:if="{{ recordList.length > 0 }}"
+        title="卖方"
+        arrow
+        hover
+        note="{{ providerName }}"
+        bind:click="showProviderPicker"
+      />
     </scroll-view>
 
     <view class="block-button-wrapper">
+      <t-steps current="{{ currentStep }}" bind:change="handleStepChange" theme="dot">
+        <t-step-item
+          wx:for="{{ steps }}"
+          wx:key="index"
+          title="{{ item.title }}"
+          content="{{ item.content }}"
+        />
+      </t-steps>
       <t-button
-        block
-        disabled="{{ recordList.length === 0 }}"
+        disabled="{{ recordList.length === 0 || !userName || !customerName || !providerName }}"
         theme="primary"
         size="large"
+        shape="round"
         variant="outline"
         content="{{ '下单' }}"
         bind:tap="handleMakeOrder"

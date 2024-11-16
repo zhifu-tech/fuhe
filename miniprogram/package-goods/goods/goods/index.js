@@ -52,7 +52,7 @@ Component({
         }),
         autorun(() => {
           const skuStockList = sku.stockList || [];
-          // log.info(this.data.tag, 'skuStockList', skuStockList.length);
+          log.info(this.data.tag, 'skuStockList', skuStockList.length);
           this.setData({ skuStockList });
         }),
         autorun(() => {

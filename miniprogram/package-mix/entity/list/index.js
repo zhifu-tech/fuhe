@@ -5,8 +5,9 @@ import { autorun } from 'mobx-miniprogram';
 
 Component({
   behaviors: [
-    require('miniprogram-computed').behavior, //
+    require('miniprogram-computed').behavior,
     require('@/common/toast/simple'),
+    require('./behaviors/add'),
   ],
   options: {
     pureDataPattern: /^_/,

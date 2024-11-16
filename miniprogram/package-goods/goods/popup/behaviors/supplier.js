@@ -2,7 +2,6 @@ import stores from '@/stores/index';
 import { autorun, runInAction } from 'mobx-miniprogram';
 
 module.exports = Behavior({
-  behaviors: [require('miniprogram-computed').behavior],
   data: {
     supplierName: '',
   },

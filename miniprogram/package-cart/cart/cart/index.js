@@ -1,6 +1,6 @@
 import cartStore from '../../stores/cart/index';
 import cartService from '../../services/cart/index';
-import { action, observable } from 'mobx-miniprogram';
+import { action, observable, runInAction } from 'mobx-miniprogram';
 
 Component({
   behaviors: [
@@ -8,7 +8,11 @@ Component({
     require('@/common/mobx/auto-disposers'),
     require('./behaviors/fab'),
     require('./behaviors/popup'),
+    require('./behaviors/user'),
+    require('./behaviors/customer'),
+    require('./behaviors/provider'),
     require('./behaviors/order'),
+    require('./behaviors/order-info'),
   ],
   options: {
     virtualHost: true,
@@ -38,9 +42,9 @@ Component({
         disposer: cartService.fetchCartData({
           tag: this.data.tag,
           trigger,
-          callback: ({ code }) => {
+          callback: action(({ code }) => {
             this.data.cart.fetchCartDataStatus = code;
-          },
+          }),
         }),
       });
     },

@@ -1,7 +1,7 @@
 import log from '@/common/log/log';
 import cartStore from '../../../stores/cart/index';
 import cartService from '../../../services/cart/index';
-import { autorun, observe } from 'mobx-miniprogram';
+import { action, autorun, observe, runInAction } from 'mobx-miniprogram';
 
 module.exports = Behavior({
   data: {
@@ -17,16 +17,19 @@ module.exports = Behavior({
       this.addToAutoDisposable(
         autorun(() => {
           if (cart.mode === 'popup') {
-            this._showPopup();
+            this._showPopup('mode change');
           } else {
             this._hidePoup();
           }
         }),
         autorun(() => {
           if (cart.fetchCartDataStatus === 'success') {
-            this._showPopup();
-          } else if (cart.fetchCartGoodsStatus === 'success') {
-            this._showPopup();
+            this._showPopup('cart-data change');
+          }
+        }),
+        autorun(() => {
+          if (cart.fetchCartGoodsStatus === 'success') {
+            this._showPopup('cart-goods change');
           }
         }),
         observe(cartStore.dataList, () => {
@@ -36,7 +39,7 @@ module.exports = Behavior({
             log.info(this.data.tag, '购物车数据新增，重新拉取数据');
             cart.fetchCartGoodsStatus = 'idle';
             if (this.data.showCartPopup) {
-              this._showPopup();
+              this._showPopup('cart-list-data change');
             }
             return;
           }
@@ -52,30 +55,34 @@ module.exports = Behavior({
     },
   },
   methods: {
-    _showPopup: function () {
+    _showPopup: function (trigger) {
+      log.info(this.data.tag, '_showPopup', trigger);
       const { tag, cart, showCartPopup } = this.data;
       if (showCartPopup) return;
       if (cart.mode !== 'popup') return;
       if (cart.fetchCartDataStatus === 'idle' || cart.fetchCartDataStatus === 'error') {
-        log.info(tag, '需要拉取过购物车数据');
+        log.info(tag, '需要拉取过购物车数据', trigger);
         this._fetchCartData('popup');
         return;
       }
       if (cart.fetchCartGoodsStatus === 'idle' || cart.fetchCartGoodsStatus === 'error') {
-        log.info(tag, '需要拉取购物车商品');
+        log.info(tag, '需要拉取购物车商品', trigger);
         this.addToAutoDisposable({
           key: 'fetchCartGoods',
           disposer: cartService.fetchCartGodds({
             tag,
             trigger: 'cart-popup',
-            callback: ({ code }) => {
-              cart.fetchCartGoodsStatus = code;
-            },
+            callback: action(({ code }) => {
+              runInAction(() => {
+                cart.fetchCartGoodsStatus = code;
+                log.info(tag, '拉取购物车商品成功', code, cart.fetchCartGoodsStatus);
+              });
+            }),
           }),
         });
         return;
       }
-      log.info(tag, '显示购物车弹窗');
+      log.info(tag, '显示购物车弹窗', trigger);
       this.setData({
         showCartPopup: true,
         recordList: cartStore.dataList,

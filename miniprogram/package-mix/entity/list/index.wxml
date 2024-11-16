@@ -9,7 +9,7 @@
 <t-indexes index-list="{{indexList}}" sticky-offset="{{stickyOffset}}">
   <t-indexes-anchor index="" />
   <t-cell-group>
-    <t-cell title="新增供应商" arrow hover bind:click="handleAddCategory" />
+    <t-cell title="新增" arrow hover bind:click="handleAddEntity" />
   </t-cell-group>
   <block wx:for="{{list}}" wx:for-item="item" wx:for-index="index" wx:key="index">
     <t-indexes-anchor index="{{item.index}}" />
