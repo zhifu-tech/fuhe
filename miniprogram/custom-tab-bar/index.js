@@ -6,7 +6,7 @@ Component({
     active: 'store',
     list: [
       {
-        icon: 'app',
+        icon: 'home',
         label: '小店',
         value: 'store',
         pagePath: '/pages/store/index',

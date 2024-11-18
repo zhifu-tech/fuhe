@@ -10,6 +10,7 @@ Component({
     require('./behaviors/content'),
     require('./behaviors/archive'),
     require('./behaviors/cart'),
+    require('./behaviors/search'),
   ],
   options: {
     pureDataPattern: /^_/,

@@ -15,7 +15,7 @@ module.exports = Behavior({
         autorun(() => {
           const orderList = orderStore.selected.orderList;
           log.info(tag, 'observe orderList', orderList);
-          this.setData({ orderList });
+          this.setData({ orderList: this.filterWithSearchKey(orderList) });
         }),
         autorun(() => {
           const filter = orderStore.selected.filter;

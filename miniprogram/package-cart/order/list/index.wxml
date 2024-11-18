@@ -1,7 +1,12 @@
 <view class="container">
   <t-navbar>
     <view class="search" slot="left">
-      <t-search placeholder="查询订单" shape="round" bind:change="handleSearchChange" />
+      <t-search
+        placeholder="查询订单"
+        shape="round"
+        bind:change="handleSearchChange"
+        bind:clear="handleSearchClear"
+      />
     </view>
   </t-navbar>
 
