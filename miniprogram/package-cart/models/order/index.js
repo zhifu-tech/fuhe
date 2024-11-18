@@ -1,7 +1,19 @@
 import log from '@/common/log/log';
 import { saasId } from '@/common/saas/saas';
 
+const filterList = [
+  {
+    label: '全部',
+    value: 'all',
+  },
+  {
+    label: '已归档',
+    value: 'archived',
+    archived: true,
+  },
+];
 export default {
+  filterList,
   create: async function ({
     tag,
     userId,
@@ -74,11 +86,7 @@ export default {
         select: _selectData(),
         filter: {
           where: {
-            $and: [
-              {
-                _id: { $eq: _id },
-              },
-            ],
+            $and: [{ _id: { $eq: _id } }],
           },
         },
       });
@@ -89,24 +97,29 @@ export default {
       throw error;
     }
   },
-  list: async function ({ tag, pageNumber }) {
+  list: async function ({ tag, pageNumber, status, archived }) {
     try {
       const { data } = await wx.cloud.models.fh_order.list({
         select: _selectData(),
-        filter: {
-          where: {
-            $and: [
-              {
-                saasId: { $eq: saasId() },
-              },
-            ],
-          },
-        },
-        sortby: [
-          {
-            createdAt: 'desc',
-          },
-        ],
+        filter: (() => {
+          const filter = {
+            where: {
+              $and: [{ saasId: { $eq: saasId() } }],
+            },
+          };
+          if (status != null) {
+            filter.where.$and.push({
+              status: { $eq: status },
+            });
+          }
+          if (archived != null) {
+            filter.where.$and.push({
+              archived: { $eq: archived },
+            });
+          }
+          return filter;
+        })(),
+        sortby: [{ createdAt: 'desc' }],
         pageSize: 10,
         pageNumber,
         getCount: true,
@@ -115,6 +128,30 @@ export default {
       return data;
     } catch (error) {
       log.error(tag, 'order-list', error);
+      throw error;
+    }
+  },
+  update: async function ({ tag, _id, archived }) {
+    try {
+      const { data } = await wx.cloud.models.fh_order.update({
+        data: (() => {
+          const obj = {};
+          if (archived != null) {
+            obj.archived = archived;
+          }
+          log.info(tag, 'order-update', obj);
+          return obj;
+        })(),
+        filter: {
+          where: {
+            $and: [{ _id: { $eq: _id } }],
+          },
+        },
+      });
+      log.info(tag, 'order-get', data);
+      return data;
+    } catch (error) {
+      log.error(tag, 'order-get', error);
       throw error;
     }
   },
@@ -172,6 +209,7 @@ const _selectData = () => ({
   saasId: true,
   type: true,
   status: true,
+  archived: true,
   // 下单用户
   userId: true,
   userName: true,

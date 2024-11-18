@@ -32,7 +32,7 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  /* height: unset !important; */
+  height: auto !important;
   /* max-height: unset !important; */
   z-index: 1;
 }
@@ -101,4 +101,21 @@
 .divider-custom {
   margin-top: 1rxp;
   margin-bottom: 1rpx;
+}
+
+.sk-goods-container {
+  display: flex;
+  flex-direction: column;
+  margin: var(--td-spacer-1);
+  padding: var(--td-spacer-1) var(--td-spacer-1) var(--td-spacer-3) var(--td-spacer-1);
+  border-radius: var(--td-radius-large);
+  background-color: var(--td-bg-color-container);
+}
+.sk-goods-header {
+  display: flex;
+}
+
+.sk-goods-header-right {
+  flex: 1;
+  margin-left: var(--td-spacer);
 }

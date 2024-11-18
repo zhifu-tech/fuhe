@@ -1,6 +1,4 @@
 import log from '@/common/log/log';
-import pages from '@/common/page/pages';
-import { showSimpleActionSheet } from '@/common/action-sheet/simples';
 
 module.exports = Behavior({
   data: {
@@ -26,7 +24,7 @@ module.exports = Behavior({
     },
     handleNextStep: function () {
       if (this.data.currentStep === this.data.steps.length - 1) {
-        this.handleMakeOrer();
+        this.handleMakeOrder();
       } else {
         this._handleStepChange(this.data.currentStep + 1);
       }

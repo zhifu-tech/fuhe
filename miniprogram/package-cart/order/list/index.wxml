@@ -5,19 +5,14 @@
     </view>
   </t-navbar>
 
-  <t-tabs
-    defaultValue="{{ 'all' }}"
-    bind:change="handleTabChange"
-    bind:click="handleTabClick"
-    t-class="tabs"
-  >
+  <t-tabs bind:click="handleTabClick" value="{{ activeFilterValue }}" t-class="tabs">
     <t-tab-panel
-      wx:for="{{ tabs }}"
-      wx:for-item="tab"
+      wx:for="{{ filterList }}"
+      wx:for-item="filter"
       wx:for-index="index"
       wx:key="value"
-      label="{{ tab.label }}"
-      value="{{ tab.value }}"
+      label="{{ filter.label }}"
+      value="{{ filter.value }}"
     />
   </t-tabs>
 
@@ -29,11 +24,11 @@
       type="list"
       scroll-y
       bind:refresh="pullDownRefresh"
-      bind:scrolltolower="loadMoreGoods"
+      bind:scrolltolower="loadMoreContent"
       scroll-with-animation
       enable-flex="true"
     >
-      <block wx:for="{{ dataList }}" wx:for-item="order" wx:key="_id">
+      <block wx:for="{{ orderList }}" wx:for-item="order" wx:key="_id">
         <view class="order">
           <view class="row padding-h padding-top">
             <view class="date"> {{ order.createdAtFormatted }} 由 {{ order.userName }} 下单</view>
@@ -57,13 +52,15 @@
           <view class="row actions">
             <view>
               <t-button
+                wx:if="{{ unarchivedEnabled || !order.archived }}"
                 theme="default"
                 variant="outline"
                 shape="round"
                 size="small"
-                bind:tap="handleShowGoodsPopup"
+                data-order-id="{{ order._id }}"
+                bind:tap="handleArchiveOrder"
               >
-                归档
+                {{ order.archived ? '移除归档':'归档' }}
               </t-button>
             </view>
             <view>
@@ -74,7 +71,7 @@
                 size="small"
                 bind:tap="handleShowGoodsPopup"
               >
-                再次购买
+                再来一单
               </t-button>
             </view>
           </view>
@@ -82,7 +79,7 @@
       </block>
 
       <page-load-more
-        wx:if="{{ !pageStatus.isLoadingWithSkeleton && goodsSpuList.length > 0 }}"
+        wx:if="{{ !pageStatus.isLoadingWithSkeleton && orderList.length > 0 }}"
         showLoading="{{ pageStatus.isLoadingWithMore }}"
         showNoMore="{{ pageStatus.showNoMore }}"
         showHasMore="{{ pageStatus.showHasMore }}"
@@ -93,10 +90,10 @@
     </t-pull-down-refresh>
 
     <t-empty
-      wx:if="{{ !pageStatus.isLoadingWithSkeleton && goodsSpuList.length === 0 }}"
+      wx:if="{{ !pageStatus.isLoadingWithSkeleton && orderList.length === 0 }}"
       class="empty"
       icon="info-circle-filled"
-      description="暂无商品"
+      description="暂无订单"
     >
       <t-button
         slot="action"
@@ -104,8 +101,9 @@
         theme="primary"
         variant="outline"
         size="large"
-        bind:tap="handleShowGoodsPopup"
-        >新增商品
+        bind:tap="handleShowGoodsStore"
+      >
+        去小店 选择商品
       </t-button>
     </t-empty>
 

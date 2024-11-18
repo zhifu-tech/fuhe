@@ -1,28 +1,33 @@
+import log from '@/common/log/log';
+import orderModel from '../../../models/order/index';
+import orderStore from '../../../stores/order/index';
+import { autorun } from 'mobx-miniprogram';
+
 module.exports = Behavior({
+  behaviors: [require('miniprogram-computed').behavior],
   data: {
-    tabs: [
-      {
-        label: '全部',
-        value: 'all',
-      },
-      {
-        label: '待归档',
-        value: 'unarchived',
-      },
-      {
-        label: '已归档',
-        value: 'archived',
-      },
-    ],
-    activeIndex: 0,
-    scrollLeft: 0,
+    filterList: orderModel.filterList,
+    activeFilterValue: orderModel.filterList[0].value,
+  },
+  watch: {
+    hostAttached: function () {
+      this.addToAutoDisposable({
+        key: 'activeFilter',
+        disposer: autorun(() => {
+          const activeFilterValue = orderStore.selected.filter.value;
+          log.info('activeFilterValue', activeFilterValue);
+          this.setData({ activeFilterValue });
+        }),
+      });
+    },
   },
   methods: {
-    handleTabClick(e) {
-      const { index } = e.currentTarget.dataset;
-      this.setData({
-        activeIndex: index,
-      });
+    handleTabClick: function (e) {
+      orderStore.selected = e.detail.value;
+      log.info('handleTabClick', e.detail.value);
+    },
+    handleShowGoodsStore: function () {
+      wx.switchTab({ url: '/pages/store/index' });
     },
   },
 });

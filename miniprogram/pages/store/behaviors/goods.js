@@ -55,15 +55,16 @@ module.exports = Behavior({
         log.info(tag, 'loadMoreGoods', 'intercepted as being no more!');
         return;
       }
-      this.addToAutoDisposable(
-        services.goods.fetchGoodsSpuList({
+      this.addToAutoDisposable({
+        key: 'loadMoreGoods',
+        disposer: services.goods.fetchGoodsSpuList({
           tag,
           cId: goodsSelected.cId,
           pageNumber: goodsSelected.pageNumber + 1,
           trigger: 'more',
           callback: this._updatePageStatus.bind(this),
         }),
-      );
+      });
     },
     pullDownRefresh: function () {
       const { tag, goodsSelected } = this.data;
@@ -71,15 +72,16 @@ module.exports = Behavior({
         log.info(tag, 'pullDownRefresh', 'intercepted as being loading!');
         return;
       }
-      this.addToAutoDisposable(
-        services.goods.fetchGoodsSpuList({
+      this.addToAutoDisposable({
+        key: 'pullDownRefresh',
+        disposer: services.goods.fetchGoodsSpuList({
           tag,
           cId: goodsSelected.cId,
           pageNumber: 1,
           trigger: 'pullDown',
           callback: this._updatePageStatus.bind(this),
         }),
-      );
+      });
     },
     _updatePageStatus: function (status) {
       const { code, error, trigger } = status;

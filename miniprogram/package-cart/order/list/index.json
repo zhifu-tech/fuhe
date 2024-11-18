@@ -9,6 +9,7 @@
     "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
     "t-pull-down-refresh": "tdesign-miniprogram/pull-down-refresh/pull-down-refresh",
     "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",
+    "t-empty": "tdesign-miniprogram/empty/empty",
     "page-load-more": "/common/page/page-load-more/index",
     "goods": "../goods/index",
     "goods-cell": "../goods-cell/index"

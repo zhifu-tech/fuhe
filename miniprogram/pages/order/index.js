@@ -6,7 +6,7 @@ Component({
   options: {
     pureDataPattern: /^_/,
   },
-  behaviors: [require('@/common/tab-bar/custom')],
+  behaviors: [require('@/common/tab-bar/custom'), require('@/common/toast/simple')],
 
   lifetimes: {
     attached: async function () {

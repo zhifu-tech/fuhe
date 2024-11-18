@@ -1,6 +1,7 @@
 {
   "component": true,
   "usingComponents": {
+    "t-toast": "tdesign-miniprogram/toast/toast",
     "order-list": "/package-cart/order/list/index"
   },
   "componentPlaceholder": {
