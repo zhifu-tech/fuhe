@@ -15,9 +15,9 @@
   margin-left: var(--td-spacer-2);
 }
 
-.search-wrapper {
-  padding: var(--td-spacer) var(--td-spacer-1);
-  background-color: var(--td-bg-color-container);
+.search {
+  padding: var(--td-spacer-2) var(--td-spacer-1) 0 var(--td-spacer-1);
+  --td-search-bg-color: var(--td-bg-color-container);
 }
 
 .content {

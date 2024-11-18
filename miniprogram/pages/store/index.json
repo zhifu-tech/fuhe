@@ -8,6 +8,7 @@
     "cart": "/package-cart/cart/cart/index",
     "price-quantity-popup": "/package-goods/goods/price-quantity-popup/index",
     "page-load-more": "/common/page/page-load-more/index",
+    "t-search": "tdesign-miniprogram/search/search",
     "t-action-sheet": "tdesign-miniprogram/action-sheet/action-sheet",
     "t-avatar": "tdesign-miniprogram/avatar/avatar",
     "t-button": "tdesign-miniprogram/button/button",

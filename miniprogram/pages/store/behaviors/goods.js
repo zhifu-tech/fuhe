@@ -1,13 +1,13 @@
 import log from '@/common/log/log';
 import stores from '@/stores/index';
 import services from '@/services/index';
-import { autorun } from 'mobx-miniprogram';
+import { autorun, toJS } from 'mobx-miniprogram';
 
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],
   data: {
     goodsSelected: null,
-    goodsSpuList: [],
+    goodsList: [],
   },
   watch: {
     hostAttached: function () {
@@ -18,9 +18,8 @@ module.exports = Behavior({
           this.setData({ goodsSelected });
         }),
         autorun(() => {
-          const goodsSpuList = stores.goods.selected.spuList || [];
-          log.info(this.data.tag, 'goodsSpuList', goodsSpuList.length);
-          this.setData({ goodsSpuList });
+          const goodsSpuList = stores.goods.selected.spuList;
+          this.setData({ goodsList: this.filterWithSearchKey(goodsSpuList) });
         }),
       );
     },

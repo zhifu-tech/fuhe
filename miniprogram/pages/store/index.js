@@ -15,6 +15,7 @@ Component({
     require('@/common/page/page-status'),
     require('@/common/tab-bar/custom'),
     require('./behaviors/goods'),
+    require('./behaviors/search'),
     require('./behaviors/sidebar'),
     require('./behaviors/header'),
     require('./behaviors/category'),

@@ -59,18 +59,26 @@
         scroll-with-animation
         enable-flex="true"
       >
-        <block
+        <t-search
+          class="search"
+          placeholder="查询商品"
+          shape="round"
+          bind:change="handleSearchChange"
+          bind:clear="handleSearchClear"
+        />
+
+        <goods
           wx:if="{{ !pageStatus.isLoadingWithSkeleton }}"
-          wx:for="{{ goodsSpuList }}"
-          wx:for-item="spu"
+          wx:for="{{ goodsList }}"
+          wx:for-item="item"
           wx:key="_id"
-        >
-          <block wx:for="{{ spu.skuList }}" wx:for-item="sku" wx:key="_id">
-            <goods spuId="{{ spu._id }}" skuId="{{ sku._id }}" tagSuffix="store" />
-          </block>
-        </block>
+          spuId="{{ item.spu._id }}"
+          skuId="{{ item.sku._id }}"
+          tagSuffix="store"
+        />
+
         <page-load-more
-          wx:if="{{ !pageStatus.isLoadingWithSkeleton && goodsSpuList.length > 0 }}"
+          wx:if="{{ !pageStatus.isLoadingWithSkeleton && goodsList.length > 0 }}"
           showLoading="{{ pageStatus.isLoadingWithMore }}"
           showNoMore="{{ pageStatus.showNoMore }}"
           showHasMore="{{ pageStatus.showHasMore }}"
@@ -81,7 +89,7 @@
       </t-pull-down-refresh>
 
       <t-empty
-        wx:if="{{ !pageStatus.isLoadingWithSkeleton && goodsSpuList.length === 0 }}"
+        wx:if="{{ !pageStatus.isLoadingWithSkeleton && goodsList.length === 0 }}"
         class="empty"
         icon="info-circle-filled"
         description="暂无商品"

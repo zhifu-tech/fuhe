@@ -16,7 +16,7 @@ module.exports = Behavior({
           `由 ${order.userName} 下单` + // 订单创建人
           `客户 ${order.customerName}` + // 订单客户
           `商家 ${order.providerName}` + // 订单商家
-          `商品 ${order.spuName}`; // 订单商品
+          `商品 ${order.spu.title}`; // 订单商品
         return searchInfo.includes(this.data.searchValue);
       });
     },
