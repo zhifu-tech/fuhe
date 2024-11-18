@@ -21,6 +21,25 @@ export default {
       throw error;
     }
   },
+  createMany: async function ({ tag, infoList }) {
+    try {
+      const { data } = await wx.cloud.models.fh_cart.createMany({
+        data: infoList.map(({ spuId, skuId, stockId, salePrice, saleQuantity }) => ({
+          saasId: saasId(),
+          spuId,
+          skuId,
+          stockId,
+          salePrice,
+          saleQuantity,
+        })),
+      });
+      log.info(tag, 'cart-createMany', data);
+      return data.idList;
+    } catch (error) {
+      log.error(tag, 'cart-createMany', error);
+      throw error;
+    }
+  },
   get: async function ({ tag, _id }) {
     try {
       const { data } = await wx.cloud.models.fh_cart.get({

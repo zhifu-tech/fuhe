@@ -1,4 +1,4 @@
-import addCartRecord from './add-cart-record';
+import addCartRecord, { addCartRecordList } from './add-cart-record';
 import fetchCartData from './fetch-cart-data';
 import getCartRecord from './get-cart-record';
 import updateCartRecord from './update-cart-record';
@@ -9,6 +9,7 @@ import clearCart from './clear-cart';
 
 export default {
   addCartRecord,
+  addCartRecordList,
   fetchCartData,
   getCartRecord,
   updateCartRecord,

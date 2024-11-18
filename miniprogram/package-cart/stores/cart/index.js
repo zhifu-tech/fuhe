@@ -60,7 +60,7 @@ export default (function () {
         return true;
       });
     },
-    getCardRecord: function ({ tag, _id }) {
+    getCartRecord: function ({ tag, _id }) {
       const res = this.getCartRecordList({ tag, _id });
       return res.length > 0 ? res[0] : null;
     },

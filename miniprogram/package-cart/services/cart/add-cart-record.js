@@ -1,9 +1,10 @@
 import log from '@/common/log/log';
-import { saasId } from '@/common/saas/saas';
 import cartModels from '../../models/cart/index';
 import cartServices from './index';
+import cartStore from '../../stores/cart/index';
+import { runInAction } from 'mobx-miniprogram';
 
-export default async function addCardRecord({
+export default async function addCartRecord({
   tag,
   spuId,
   skuId,
@@ -14,7 +15,6 @@ export default async function addCardRecord({
   try {
     const id = await cartModels.create({
       tag,
-      saasId: saasId(),
       spuId,
       skuId,
       stockId,
@@ -23,11 +23,33 @@ export default async function addCardRecord({
     });
 
     // 拉取新增记录，并更新store
-    log.info(tag, 'addCardRecord', 'create', id);
+    log.info(tag, 'addCartRecord', 'create', id);
     cartServices.getCartRecord({ tag, _id: id, useStore: false });
     return id;
   } catch (error) {
-    log.error(tag, 'addCardRecord', error);
+    log.error(tag, 'addCartRecord', error);
+    throw error;
+  }
+}
+
+export async function addCartRecordList({ tag, infoList }) {
+  try {
+    const idList = await cartModels.createMany({
+      tag,
+      infoList,
+    });
+
+    // 加入到购物车中
+    log.info(tag, 'addCartRecords', 'createList', idList);
+    runInAction(() => {
+      infoList.forEach((info, index) => {
+        info._id = idList[index];
+        cartStore.addCartRecord({ tag, record: info });
+      });
+    });
+    return idList;
+  } catch (error) {
+    log.error(tag, 'addCartRecords', error);
     throw error;
   }
 }

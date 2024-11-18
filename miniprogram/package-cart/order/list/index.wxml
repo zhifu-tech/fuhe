@@ -69,7 +69,8 @@
                 variant="outline"
                 shape="round"
                 size="small"
-                bind:tap="handleShowGoodsPopup"
+                data-order-id="{{ order._id }}"
+                bind:tap="handleCartOnceMore"
               >
                 再来一单
               </t-button>
