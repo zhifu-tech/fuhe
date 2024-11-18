@@ -18,8 +18,9 @@
   },
   "componentFramework": "glass-easel",
   "pages": [
+    "pages/store/index",
     "pages/order/index",
-    "pages/store/index"
+    "pages/dashboard/index"
   ],
   "subpackages": [
     {
@@ -41,6 +42,10 @@
     {
       "root": "package-cart",
       "pages": []
+    },
+    {
+      "root": "package-dashboard",
+      "pages": []
     }
   ],
   "tabBar": {
@@ -51,6 +56,9 @@
       },
       {
         "pagePath": "pages/order/index"
+      },
+      {
+        "pagePath": "pages/dashboard/index"
       }
     ]
   },

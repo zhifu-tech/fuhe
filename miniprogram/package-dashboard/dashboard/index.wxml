@@ -1,0 +1,3 @@
+<view class="container">
+  <t-navbar title="小店数据" />
+</view>

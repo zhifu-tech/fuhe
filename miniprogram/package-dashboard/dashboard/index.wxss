@@ -1,0 +1,7 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--td-bg-color-page);
+  font-size: var(--td-font-size-m);
+}

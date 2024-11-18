@@ -1,0 +1,3 @@
+<dashboard />
+
+<include src="../../common/toast/simple.wxml" />

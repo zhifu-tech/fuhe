@@ -17,6 +17,12 @@ Component({
         value: 'order',
         pagePath: '/pages/order/index',
       },
+      {
+        icon: 'dashboard',
+        label: '数据',
+        value: 'dashboard',
+        pagePath: '/pages/dashboard/index',
+      },
     ],
   },
   methods: {

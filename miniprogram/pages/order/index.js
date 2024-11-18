@@ -30,8 +30,6 @@ Component({
         stores.fetchEntity(),
         services.fetchEntity(),
       ]);
-      this.setData({ hostAttached: true });
-      log.info('hostAttached', 'attached');
     },
   },
 });

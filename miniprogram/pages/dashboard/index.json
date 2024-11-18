@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "usingComponents": {
+    "t-toast": "tdesign-miniprogram/toast/toast",
+    "dashboard": "/package-dashboard/dashboard/index"
+  },
+  "componentPlaceholder": {
+    "dashboard": "view"
+  }
+}
