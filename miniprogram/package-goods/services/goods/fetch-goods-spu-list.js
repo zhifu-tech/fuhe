@@ -7,7 +7,7 @@ import { flow } from 'mobx-miniprogram';
 
 export default function ({ tag, cId, pageNumber, trigger, callback = () => null }) {
   // 发起新的请求并记录任务
-  let _task = _fetchGoodsSpuList({
+  let _task = fetchGoodsSpuListFlow({
     tag,
     cId,
     pageNumber,
@@ -26,18 +26,26 @@ export default function ({ tag, cId, pageNumber, trigger, callback = () => null 
   };
 }
 
-const _fetchGoodsSpuList = flow(function* ({ tag, cId, pageNumber, trigger, callback, _finally }) {
+export const fetchGoodsSpuListFlow = flow(function* ({
+  tag,
+  cId,
+  pageNumber,
+  trigger,
+  callback,
+  _finally,
+}) {
   // 请求中，切换选中状态
   callback({ code: 'loading', trigger });
   log.info(tag, '_fetchGoodsSpuList', trigger, cId, pageNumber);
 
   try {
-    const { records: spuList, total } = yield goodsModel.spuList({
+    const data = yield goodsModel.spuList({
       tag,
       cId,
       pageNumber,
       pageSize: 10,
     });
+    const { records: spuList, total } = data;
 
     // 加载规格信息
     yield Promise.all([
@@ -53,6 +61,7 @@ const _fetchGoodsSpuList = flow(function* ({ tag, cId, pageNumber, trigger, call
     // 请求成功，切换选中状态
     callback({ code: 'success', trigger, spuList, total });
     log.info(tag, '_fetchGoodsSpuList result', spuList.length);
+    return data;
   } catch (error) {
     // 判断任务是否被取消
     if (error.message === 'FLOW_CANCELLED') {

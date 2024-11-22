@@ -13,7 +13,7 @@ export default function fetchOrderList({
   pageNumber,
   callback,
 }) {
-  let _task = _fetchOrderList({
+  let _task = fetchOrderListFlow({
     tag,
     trigger,
     filter,
@@ -27,11 +27,12 @@ export default function fetchOrderList({
     key: 'fetchOrderList',
     dispose: () => {
       _task?.cancel();
+      _task = null;
     },
   };
 }
 
-const _fetchOrderList = flow(function* ({
+export const fetchOrderListFlow = flow(function* ({
   tag, //
   trigger,
   filter,
@@ -42,9 +43,6 @@ const _fetchOrderList = flow(function* ({
   // 请求中，切换选中状态
   callback({ code: 'loading', trigger });
   log.info(tag, 'fetchOrderList', 'start');
-
-  // 等待30s
-  // yield new Promise((resolve) => setTimeout(resolve, 30000));
 
   try {
     // 拉取订单列表
@@ -91,6 +89,7 @@ const _fetchOrderList = flow(function* ({
 
     callback({ code: 'success', trigger });
     log.info(tag, 'fetchOrderList', 'end');
+    return { records: orderList, total };
   } catch (error) {
     callback({ code: 'error', error, trigger });
     log.error(tag, 'fetchOrderList', error);

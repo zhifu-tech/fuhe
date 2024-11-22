@@ -97,7 +97,15 @@ export default {
       throw error;
     }
   },
-  list: async function ({ tag, pageNumber, status, archived }) {
+  list: async function ({
+    tag, //
+    pageNumber,
+    pageSize = 10,
+    status,
+    archived,
+    startTimeMs,
+    endTimeMs,
+  }) {
     try {
       const { data } = await wx.cloud.models.fh_order.list({
         select: _selectData(),
@@ -117,10 +125,18 @@ export default {
               archived: { $eq: archived },
             });
           }
+          startTimeMs &&
+            filter.where.$and.push({
+              createdAt: { $gt: startTimeMs },
+            });
+          endTimeMs &&
+            filter.where.$and.push({
+              createdAt: { $lt: endTimeMs },
+            });
           return filter;
         })(),
         sortby: [{ createdAt: 'desc' }],
-        pageSize: 10,
+        pageSize,
         pageNumber,
         getCount: true,
       });

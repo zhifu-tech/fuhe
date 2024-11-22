@@ -1,3 +1,53 @@
 <view class="container">
-  <t-navbar title="小店数据" />
+  <t-navbar title="小店数据" style="z-index: 1000000" />
+
+  <view class="content">
+    <t-pull-down-refresh
+      value="{{ pageStatus.isLoadingWithPullDown }}"
+      loadingTexts="{{['下拉刷新', '松手刷新', '正在刷新', '刷新完成']}}"
+      class="scroll"
+      type="list"
+      scroll-y
+      bind:refresh="pullDownRefresh"
+      scroll-with-animation
+      enable-flex
+    >
+      <view class="card">
+        <t-cell title="小店数据" description="更新时间: {{ storeSyncTime || '' }}" />
+        <t-row>
+          <t-col span="8" t-class="card-content">
+            <text class="number">{{ goodsTotal }}</text>
+            <text class="text">商品总数</text>
+          </t-col>
+          <t-col span="8" t-class="card-content">
+            <text class="number">{{ orderTotal }}</text>
+            <text class="text">订单总数</text>
+          </t-col>
+          <t-col span="8" t-class="card-content">
+            <text class="number">{{ entityTotal || 0 }}</text>
+            <text class="text">关系总数</text>
+          </t-col>
+        </t-row>
+      </view>
+      <view class="card">
+        <t-cell title="收入统计" description="更新时间: {{ incomeSyncTime || '' }}" />
+        <t-row class="income-tags">
+          <t-col span="4" wx:for="{{ income.tags }}" wx:for-item="tag" wx:key="title">
+            <t-check-tag
+              shape="round"
+              size="large"
+              checked="{{ index === income.active }}"
+              variant="outline"
+              data-index="{{ index }}"
+              content="{{ [ tag.title, tag.title] }}"
+              bind:tap="handleIncomeTagClick"
+            />
+          </t-col>
+        </t-row>
+        <t-row class="canvas-wrapper">
+          <ec-canvas class="canvas" canvas-id="income" ec="{{ income }}" />
+        </t-row>
+      </view>
+    </t-pull-down-refresh>
+  </view>
 </view>

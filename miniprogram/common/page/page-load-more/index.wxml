@@ -22,6 +22,7 @@
 
   <t-divider
     wx:if="{{ showHasMore }}"
+    t-class="divider-margin"
     t-class-content="divider-content"
     content="{{ hasMoreText }}"
     bind:tap="handleLoadMoreAction"

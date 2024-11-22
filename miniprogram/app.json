@@ -18,9 +18,9 @@
   },
   "componentFramework": "glass-easel",
   "pages": [
+    "pages/dashboard/index",
     "pages/store/index",
-    "pages/order/index",
-    "pages/dashboard/index"
+    "pages/order/index"
   ],
   "subpackages": [
     {

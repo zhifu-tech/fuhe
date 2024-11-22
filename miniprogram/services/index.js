@@ -6,5 +6,6 @@ export default fetchGetManager({
   stock: async () => require.async('@/package-mix/services/stock/index.js'),
   goods: async () => require.async('@/package-goods/services/goods/index.js'),
   cart: async () => require.async('@/package-cart/services/cart/index.js'),
+  order: async () => require.async('@/package-cart/services/order/index.js'),
   entity: async () => require.async('@/package-mix/services/entity/index.js'),
 });
