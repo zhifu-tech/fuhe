@@ -4,8 +4,10 @@
   "darkmode": true,
   "resizable": false,
   "frameset": false,
+  "themeLocation": "theme.json",
   "window": {
-    "navigationStyle": "custom"
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "@navTxtStyle"
   },
   "lazyCodeLoading": "requiredComponents",
   "renderer": "webview",
@@ -18,9 +20,9 @@
   },
   "componentFramework": "glass-easel",
   "pages": [
-    "pages/dashboard/index",
     "pages/store/index",
-    "pages/order/index"
+    "pages/order/index",
+    "pages/dashboard/index"
   ],
   "subpackages": [
     {
