@@ -40,7 +40,7 @@ module.exports = Behavior({
           originalPrice: stock.originalPrice,
           originalQuantity: stock.quantity,
 
-          change: action(function ({ salePrice, saleQuantity }) {
+          change: action(({ salePrice, saleQuantity }) => {
             stock.salePrice = salePrice;
             stock.saleQuantity = saleQuantity;
           }),

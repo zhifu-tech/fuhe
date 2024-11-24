@@ -6,6 +6,7 @@ import { autorun } from 'mobx-miniprogram';
 Component({
   behaviors: [
     require('miniprogram-computed').behavior,
+    require('@/common/mobx/auto-disposers'),
     require('@/common/toast/simple'),
     require('./behaviors/add'),
   ],
@@ -24,28 +25,23 @@ Component({
     attached: function () {
       const tag = 'entity-list';
       this._calStickyOffset();
-      this.disposers = [
-        autorun(() => {
+      this.addToAutoDisposable({
+        key: 'entity-list',
+        disposer: autorun(() => {
           const entityList = entityStore.entityList;
           if (!entityList) {
-            this.fetchEntityListTask?.cancel();
-            this.fetchEntityListTask = entityService.fetchEntityList({
-              tag,
-              trigger: 'init',
-              callback: () => null,
-            });
-            log.info(tag, 'fetchEntityListTask', this.fetchEntityListTask);
+            this.addToAutoDisposable(
+              entityService.fetchEntityList({
+                tag,
+                trigger: 'init',
+                callback: () => null,
+              }),
+            );
           } else {
             this._updateEntityIndexList({ tag, entityList });
           }
         }),
-      ];
-    },
-    detached: function () {
-      this.disposers.forEach((disposer) => disposer());
-      this.disposers = [];
-      this.fetchEntityListTask?.cancel();
-      this.fetchEntityListTask = null;
+      });
     },
   },
   methods: {

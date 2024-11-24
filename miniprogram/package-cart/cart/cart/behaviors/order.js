@@ -27,25 +27,31 @@ module.exports = Behavior({
           providerId: this.data.providerId || 'unknown',
           providerName: this.data.providerName || 'unknown',
           // 订单信息
-          infoList: cartStore.dataList.map((item) => ({
-            // 订单信息
-            orderId: '',
-            // 商品信息
-            spuId: item.spuId,
-            spuTitle: item.spu.title,
-            // 商品规格信息
-            skuId: item.skuId,
-            skuTitle: 'todo', // fixme
-            // 库存信息
-            stockId: item.stockId,
-            // 供应商信息
-            supplierId: item.supplierId || 'unknown',
-            supplierName: item.supplier?.name || 'unknown',
-            // 价格、数量信息
-            salePrice: item.salePrice,
-            saleQuantity: item.saleQuantity,
-            originalPrice: 0, // fixme
-          })),
+          infoList: cartStore.dataList.map((item) => {
+            const spu = item.spu || stores.goods.getSpu(item.spuId);
+            const sku = item.sku || stores.goods.getSku(item.spuId, item.skuId);
+            const stock = item.stock || stores.goods.getStock(item.spuId, item.skuId, item.stockId);
+            return {
+              // 订单信息
+              orderId: '',
+              // 商品信息
+              spuId: item.spuId,
+              spuTitle: spu.title,
+              // 商品规格信息
+              skuId: item.skuId,
+              skuTitle: sku.optionList.reduce((title, option) => title + option.value, spu.title),
+              skuImage: sku.imageList[0],
+              // 库存信息
+              stockId: item.stockId,
+              // 供应商信息
+              supplierId: item.supplierId || 'unknown',
+              supplierName: item.supplier?.name || 'unknown',
+              // 价格、数量信息
+              salePrice: item.salePrice,
+              saleQuantity: item.saleQuantity,
+              originalPrice: stock.originalPrice,
+            };
+          }),
         });
         log.info(tag, 'createOrder success', order);
       } catch (error) {

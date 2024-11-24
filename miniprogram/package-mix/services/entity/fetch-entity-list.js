@@ -5,7 +5,7 @@ import entityStore from '../../stores/entity/index';
 
 // 拉取所有的实体列表
 export default function fetchEntityList({ tag, trigger, callback }) {
-  const _task = fetchEntityListFlow({
+  let _task = fetchEntityListFlow({
     tag,
     trigger,
     callback,

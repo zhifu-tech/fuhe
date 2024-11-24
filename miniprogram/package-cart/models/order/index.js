@@ -179,6 +179,7 @@ const _createItemData = ({
   spuTitle,
   skuId,
   skuTitle,
+  skuImage,
   stockId,
   supplierId,
   supplierName,
@@ -197,9 +198,10 @@ const _createItemData = ({
   spu: {
     _id: spuId, // 关联商品ID
   },
-  // 商品规格信息
+  // 商品规格信息，需要确保在sku被删除后，可以显示订单信息
   skuId,
   skuTitle,
+  skuImage,
   sku: {
     _id: skuId, // 关联商品SKU ID
   },

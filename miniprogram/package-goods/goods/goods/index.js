@@ -11,7 +11,6 @@ Component({
     require('miniprogram-computed').behavior,
     require('@/common/mobx/auto-disposers'),
     require('./behaviors/spec-list'),
-    require('./behaviors/stock-more'),
     require('./behaviors/stock-action'),
     require('./behaviors/stock-cart'),
     require('./behaviors/sku-delete'),
@@ -40,12 +39,10 @@ Component({
 
       this.addToAutoDisposable(
         autorun(() => {
-          const spuTitle = spu.title || '';
-          this.setData({ spuTitle });
-        }),
-        autorun(() => {
-          const supplierName = spu.supplierName || '';
-          this.setData({ supplierName });
+          this.setData({
+            spuTitle: spu.title || '',
+            supplierName: spu.supplierName || '',
+          });
         }),
         autorun(() => {
           const skuImageList = sku.imageList || [];

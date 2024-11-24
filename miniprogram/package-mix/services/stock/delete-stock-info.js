@@ -14,7 +14,7 @@ export default async function deleteStockInfo({ tag, sku, _id }) {
     });
 
     log.info(tag, 'deleteStockInfo', _id);
-    return stock;
+    return res;
   } catch (error) {
     log.error(tag, 'deleteStockInfo', error);
     throw error;
