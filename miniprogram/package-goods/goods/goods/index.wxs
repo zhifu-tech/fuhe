@@ -20,17 +20,6 @@ function getTitle(title, sku) {
   return title;
 }
 
-function getTags(sku) {
-  var tags = '';
-  if (sku && sku.optionList) {
-    for (var i = 0; i < sku.optionList.length; i++) {
-      if (i !== 0) tags += ',';
-      tags += sku.optionList[i].title;
-    }
-  }
-  return tags;
-}
-
 function isOptionChecked(optionList, option) {
   if (!optionList) return false;
   for (var i = 0; i < optionList.length; i++) {
@@ -41,9 +30,27 @@ function isOptionChecked(optionList, option) {
   return false;
 }
 
+function getPriceLabel(salePrice, originalPrice) {
+  if (originalPrice === 0 || salePrice === 0) {
+    return '';
+  } else if (salePrice < originalPrice) {
+    var discount = (salePrice / originalPrice) * 10;
+    if (Math.floor(discount) !== discount) {
+      discount = Math.round(discount * 10) / 10;
+    }
+    return discount + '折';
+  } else {
+    var markup = salePrice / originalPrice;
+    if (Math.floor(markup) !== markup) {
+      markup = Math.round(markup * 10) / 10;
+    }
+    return markup + '倍';
+  }
+}
+
 module.exports = {
-  getTags: getTags,
   getImage: getImage,
   getTitle: getTitle,
   isOptionChecked: isOptionChecked,
+  getPriceLabel: getPriceLabel,
 };

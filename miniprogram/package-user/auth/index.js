@@ -1,32 +1,21 @@
-const AuthStepType = {
-  ONE: 1,
-  TWO: 2,
-  THREE: 3,
-};
-
 Component({
-  options: {
-    multipleSlots: true,
-  },
-  properties: {
-    currAuthStep: {
-      type: Number,
-      value: AuthStepType.ONE,
-    },
-    userInfo: {
-      type: Object,
-      value: {},
-    },
-    isNeedGetUserInfo: {
-      type: Boolean,
-      value: false,
-    },
-  },
   data: {
-    defaultAvatarUrl: 'https://cdn-we-retail.ym.tencent.com/miniapp/usercenter/icon-user-center-avatar@2x.png',
-    AuthStepType,
+    defaultAvatarUrl:
+      'https://cdn-we-retail.ym.tencent.com/miniapp/usercenter/icon-user-center-avatar@2x.png',
   },
   methods: {
+    onGetUserInfo: function (e) {
+      console.log('onGetUserInfo', e);
+      this.setData({
+        userInfo: e.detail.userInfo,
+      });
+    },
+    onGetPhoneNumber: function (e) {
+      console.log('onGetPhoneNumber', e);
+      this.setData({
+        phoneNumber: e.detail.phoneNumber,
+      });
+    },
     gotoUserEditPage() {
       // this.triggerEvent('gotoUserEditPage');
       wx.cloud.callFunction({

@@ -13,4 +13,8 @@ export default {
     stock.skuId = sku._id;
     sku.stockList.unshift(stock);
   }),
+  removeStock: action(function ({ sku, stockId }) {
+    sku.stockList = sku.stockList || [];
+    sku.stockList = sku.stockList.filter((stock) => stock._id !== stockId);
+  }),
 };

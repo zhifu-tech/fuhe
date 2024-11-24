@@ -3,6 +3,7 @@ import list from './list';
 import listBatch from './list-batch';
 import update from './update';
 import get from './get';
+import deleteStock from './delete';
 
 export default {
   create,
@@ -11,4 +12,5 @@ export default {
   listBatch,
   update,
   get,
+  deleteStock,
 };

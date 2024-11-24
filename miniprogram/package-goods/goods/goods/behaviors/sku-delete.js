@@ -10,11 +10,11 @@ module.exports = Behavior({
       // 有库存时，不可以删除
       const hasStock = sku.stockList?.some((stock) => stock.quantity > 0);
       if (hasStock) {
-        showToastError({ message: '有库存时，不可以删除' });
+        showToastError({ message: '有库存时，商品不可以删除' });
         return;
       }
       showConfirmDialog({
-        title: '删除库存',
+        title: '删除商品',
         content: '删除库存会导致关联的信息不可用？',
         confirmBtn: '确认删除',
         cancelBtn: '取消',

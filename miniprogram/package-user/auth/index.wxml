@@ -1,0 +1,47 @@
+<t-navbar title="授权登陆" left-arrow />
+<view class="container">
+  <t-steps t-class="steps" layout="vertical" current="{{third}}" bind:change="onThirdChange">
+    <t-step-item title="用户信息" content="获取用户信息，用来展示">
+      <view class="card" slot="extra">
+        <t-cell>
+          <t-avatar slot="image" icon="user" size="large" image="{{ userInfo.avatarUrl }}" />
+          <text wx:if="{{ userInfo }}" slot="title"> {{ userInfo.nickName }} </text>
+          <text wx:if="{{ !userInfo }}" slot="description"> {{ '点击获取用户名、头像' }} </text>
+          <t-button
+            wx:if="{{ !userInfo }}"
+            slot="title"
+            variant="text"
+            type="primary"
+            size="small"
+            open-type="getUserInfo"
+            bind:getuserinfo="onGetUserInfo"
+          >
+            {{ '未授权' }}
+          </t-button>
+        </t-cell>
+        <t-cell>
+          <text wx:if="{{ phoneNumber }}" slot="title"> {{ phoneNumber }} </text>
+          <t-button
+            wx:else="{{ !phoneNumber }}"
+            slot="title"
+            variant="text"
+            type="primary"
+            size="small"
+            open-type="getPhoneNumber"
+            bind:getphonenumber="onGetPhoneNumber"
+          >
+            {{ '获取手机号码' }}
+          </t-button>
+        </t-cell>
+      </view>
+    </t-step-item>
+
+    <t-step-item title="关联商户" content="关联或者新建商户信息">
+      <view slot="extra">
+        <t-cell title="新建商户" hover arrow />
+        <t-divider content="或" />
+        <t-input placeholder="请输入已有商户标识，如 66666 " />
+      </view>
+    </t-step-item>
+  </t-steps>
+</view>

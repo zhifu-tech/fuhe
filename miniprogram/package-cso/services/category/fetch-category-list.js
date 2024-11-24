@@ -5,7 +5,7 @@ import categoryModel from '../../models/category/index';
 import categroyStore from '../../stores/category/index';
 import setCategoryPinyin from './set-category-pinyin.js';
 
-export default async function ({ tag, trigger, callback = () => null }) {
+export default function ({ tag, trigger, callback = () => null }) {
   let _task = _fetchCategoryList({
     tag,
     trigger,

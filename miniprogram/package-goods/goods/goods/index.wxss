@@ -4,61 +4,41 @@
   font-size: var(--td-font-size-m);
   color: var(--td-text-color-primary);
   margin: var(--td-spacer-1);
-  padding: var(--td-spacer-1) var(--td-spacer-1) var(--td-spacer-1) var(--td-spacer-1);
   border-radius: var(--td-radius-large);
+  overflow: hidden;
   background-color: var(--td-bg-color-container);
 }
-.header {
-  display: flex;
-}
-.image {
-  flex-shrink: 0;
-  display: block;
-  width: 72px;
-  height: 72px;
-}
-.image-content {
-  width: 100%;
-  height: 100%;
-  border-radius: 8rpx;
-}
 
-.header .right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  margin-left: var(--td-spacer);
+/* [START] Goods Cell css */
+.goods-cell-image {
+  --td-cell-image-width: 72px;
+  --td-cell-image-height: 72px;
 }
-.title-container {
-  width: 100%;
-  display: flex;
-}
-.title-wrapper {
-  flex: 1;
-  display: inline-flex;
-  flex-wrap: wrap;
-  line-height: 48rpx;
-}
-.title {
-  flex: 1;
-  line-height: 48rpx;
-  font-weight: 600;
-}
-.more {
-  position: relative;
-  right: -24rpx;
-  top: -12rpx;
-}
-.tags {
-  display: inline-flex;
-  flex-wrap: wrap;
+.goods-cell-title {
   align-items: center;
 }
-.tags .tag {
+.goods-cell-title .title {
+  flex: 1;
+}
+.goods-cell-title .more {
+  --td-button-small-height: 48rpx;
+  position: relative;
+  top: -12rpx;
+  right: -32rpx;
+}
+.goods-cell-description {
+  display: flex;
+  flex-wrap: wrap;
   margin-top: var(--td-spacer);
-  margin-right: var(--td-spacer);
+  gap: calc(var(--td-spacer) / 2);
+}
+/* [END] Goods Cell css */
+
+/* [START] Stock Cell css */
+.row {
+  gap: var(--td-spacer);
+  margin-top: var(--td-spacer);
+  line-height: 48rpx;
 }
 
 .label {
@@ -67,125 +47,79 @@
   color: var(--td-text-color-secondary);
 }
 
-.specList {
+.stock-empty-title {
+  align-items: center;
+}
+.stock-empty-description {
   display: flex;
   flex-direction: column;
 }
-.specList .label {
-  margin-top: var(--td-spacer-1);
-}
-.specList .options {
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: var(--td-spacer-3);
-}
-.specList .options .option {
-  margin-top: var(--td-spacer);
-  margin-right: var(--td-spacer);
-}
-.divider3 {
-  margin-left: var(--td-spacer-3);
-}
 
-.stock-wrapper {
-  margin-top: var(--td-spacer-s);
-  line-height: 48rpx;
-  display: flex;
-  align-items: center;
-}
+.prices,
 .stock {
-  display: inline-flex;
-  align-items: center;
-}
-
-.stock .value {
-  color: #fa4126;
-  font-size: var(--td-font-size-m);
-  font-weight: 600;
-  margin: 0 var(--td-spacer);
-}
-.stock .unit {
-  font-size: var(--td-font-size-base);
-  color: var(--td-text-color-secondary);
-}
-.view-all {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-}
-.view-all .button {
-  --td-button-font-weight: normal;
-}
-
-.input-price-quantity-wrapper {
-  display: flex;
-  align-items: center;
-  line-height: 48rpx;
-  margin-top: var(--td-spacer-s);
-}
-.input-price {
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-}
-
-.minus {
-  margin-right: var(--td-spacer-s);
-}
-.add {
-  margin-left: var(--td-spacer-s);
-}
-
-.stock-date-wrapper {
-  display: inline-flex;
-  align-items: center;
-}
-.stock-date {
-  flex: 1;
-  font-size: var(--td-font-size-base);
-  color: var(--td-text-color-secondary);
-}
-.stocks {
-  display: flex;
-  align-items: center;
-  line-height: 48rpx;
-}
-.prices {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   line-height: 48rpx;
 }
-.stocks .prices {
-  margin-left: var(--td-spacer-2);
-}
-
-.prices .label {
-  margin-right: var(--td-spacer);
-}
-.input-price .price,
-.prices .price {
-  white-space: nowrap;
-  font-weight: 600;
-  order: 1;
+.prices .price,
+.stock .value {
   color: #fa4126;
   font-size: var(--td-font-size-m);
-  margin: 0;
+  font-weight: 600;
+  margin-left: var(--td-spacer);
 }
-.orders {
-  display: flex;
-  align-items: center;
-  margin-top: var(--td-spacer-s);
-  line-height: 48rpx;
+.stock .unit {
+  font-size: var(--td-font-size-base);
+  color: var(--td-text-color-secondary);
+  margin-left: var(--td-spacer);
 }
-.orders .prices {
-  margin-right: var(--td-spacer-2);
+.salePrice {
+  font-weight: 600;
+  color: #fa4126;
+  order: 1;
 }
-.quantity-wrapper {
-  flex: 1;
-  display: flex;
+.originalPrice {
+  color: var(--td-text-color-secondary) !important;
+  font-size: 0.8em !important;
+  margin-left: var(--td-spacer-s);
+  order: 2;
+}
+.priceLabel {
+  color: var(--td-text-color-secondary);
+  font-size: 0.8em;
+  margin-left: var(--td-spacer-s);
+  order: 3;
+  vertical-align: baseline;
+}
+.quantity {
+  order: 4;
+  margin-left: var(--td-spacer-1);
+}
+
+.actions {
+  margin-top: var(--td-spacer);
   justify-content: flex-end;
+  align-items: center;
+  gap: var(--td-spacer-2);
 }
-.divider-content {
+
+.goods-swipe-action {
+  height: 100%;
+}
+.goods-swipe-action .action {
   display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 120rpx;
+  height: 100%;
+  color: white;
 }
+.goods-swipe-action .action.delete-btn {
+  background-color: #e34d59;
+}
+.goods-swipe-action .action.edit-btn {
+  background-color: #ed7b2f;
+}
+
+/* [END] Stock Cell css */

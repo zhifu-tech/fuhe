@@ -11,7 +11,6 @@
     "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",
     "t-empty": "tdesign-miniprogram/empty/empty",
     "page-load-more": "/common/page/page-load-more/index",
-    "goods": "../goods/index",
     "goods-cell": "../goods-cell/index"
   }
 }

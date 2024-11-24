@@ -12,6 +12,7 @@ Component({
     require('@/common/mobx/auto-disposers'),
     require('./behaviors/spec-list'),
     require('./behaviors/stock-more'),
+    require('./behaviors/stock-action'),
     require('./behaviors/stock-cart'),
     require('./behaviors/sku-delete'),
     require('./behaviors/sku-more'),

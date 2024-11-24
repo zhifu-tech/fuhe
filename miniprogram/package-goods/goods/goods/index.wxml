@@ -1,138 +1,195 @@
 <wxs src="./index.wxs" module="_" />
+
 <view class="container">
-  <view class="header">
-    <view class="image">
-      <t-image
-        wx:if="{{ _.getImage(skuImageList) }}"
-        t-class="image-content"
-        src="{{ _.getImage(skuImageList) }}"
-        shape="round"
-        mode="scaleToFill"
-        aria-label="{{ spu.title }}"
-      />
-    </view>
-    <view class="right">
-      <view class="title-container">
-        <view class="title-wrapper">
-          <view class="title">{{ _.getTitle(spuTitle, sku) }}</view>
-        </view>
-        <t-button
-          class="more"
-          icon="more"
-          theme="default"
-          variant="text"
-          size="small"
-          disabled="{{ !editable }}"
-          bind:tap="showActionMore"
-        />
-      </view>
-      <view class="tags">
-        <t-tag
-          wx:if="{{ supplierName}}"
-          t-class="tag"
-          size="medium"
-          shape="round"
-          icon="user-business"
-          variant="outline"
-          bind:click="{{ editable ? 'handleShowSpecList' : '' }}"
-        >
-          {{ supplierName }}
-        </t-tag>
-        <t-tag
-          t-class="tag"
-          size="medium"
-          shape="round"
-          icon="swap"
-          variant="outline"
-          bind:click="{{ editable ? 'handleShowSpecList' : '' }}"
-        >
-          {{ spu.category.title }}
-        </t-tag>
-        <block wx:for="{{ sku.optionList }}" wx:for-item="option" wx:key="_id">
-          <t-tag
-            t-class="tag"
-            size="medium"
-            shape="round"
-            variant="outline"
-            bind:click="{{ editable ? 'handleShowSpecList' : '' }}"
-          >
-            {{ option.title }}
-          </t-tag>
-        </block>
-      </view>
-    </view>
-  </view>
-
-  <view wx:if="{{ showSpecList }}" class="specList">
-    <block wx:for="{{ spu.specList }}" wx:for-item="spec" wx:key="_id">
-      <view class="label">{{ spec.title }}</view>
-      <view class="options">
-        <block wx:for="{{spec.optionList}}" wx:for-item="option" wx:key="_id">
-          <t-check-tag
-            class="option"
-            shape="round"
-            size="large"
-            variant="outline"
-            checked="{{_.isOptionChecked(sku.optionList, option)}}"
-            data-option="{{option}}"
-            content="{{ [option.title, option.title] }}"
-          />
-        </block>
-      </view>
-    </block>
-  </view>
-  <t-divider wx:if="{{ showSpecList }}" t-class="divider3" bind:tap="handleShowSpecList">
-    <view slot="content" class="divider-content">
-      <t-icon name="chevron-up-double" size="20px" />
-      <view>收起规格</view>
-    </view>
-  </t-divider>
-
-  <!--库存清单-->
-
-  <block wx:for="{{ skuStockList }}" wx:for-item="stock" wx:for-index="index" wx:key="_id">
-    <t-divider />
-    <view class="stock-date-wrapper">
-      <view class="stock-date">{{ stock.createdAtFormatted }} 入库</view>
-      <t-button
-        class="more"
-        icon="more"
-        disabled="{{ !editable }}"
-        data-stock-id="{{ stock._id }}"
-        data-index="{{ index }}"
-        theme="default"
-        variant="text"
-        size="small"
-        bind:tap="showStockActionMore"
-      />
-    </view>
-    <view class="stocks">
-      <view class="stock">
-        <view class="label">库存</view>
-        <view class="value">{{ stock.quantity }}</view>
-        <view class="unit">{{ '件' }}</view>
-      </view>
-      <view class="prices">
-        <view class="label">成本</view>
-        <price
-          class="price"
-          symbol="¥"
-          priceUnit="yuan"
-          price="{{ stock.costPrice }}"
-          fill="true"
-          decimalSmaller
-        />
-      </view>
-    </view>
-    <price-quantity
-      class="orders"
-      salePrice="{{ stock.salePrice }}"
-      originalPrice="{{ stock.originalPrice || 0 }}"
-      saleQuantity="{{ stock.saleQuantity || 0 }}"
-      originalQuantity="{{ stock.quantity || 0 }}"
-      data-stock-id="{{ stock._id }}"
-      data-index="{{ index }}"
-      bind:cart-change="handleCartChangeEvent"
+  <t-cell
+    t-class="goods-cell"
+    t-class-image="goods-cell-image"
+    t-class-title="goods-cell-title"
+    t-class-description="goods-cell-description"
+    image="{{ _.getImage(skuImageList) }}"
+  >
+    <!-- title -->
+    <view slot="title" class="title">{{_.getTitle(spuTitle, sku) }}</view>
+    <t-button
+      wx:if="{{ editable }}"
+      slot="title"
+      class="more"
+      icon="more"
+      theme="default"
+      variant="text"
+      size="small"
+      bind:tap="showActionMore"
     />
-  </block>
+    <!-- description -->
+    <t-tag
+      slot="description"
+      wx:if="{{ supplierName }}"
+      size="medium"
+      shape="round"
+      icon="user-business"
+      variant="outline"
+      bind:click="{{ editable ? 'handleShowSpecList' : '' }}"
+    >
+      {{ supplierName }}
+    </t-tag>
+    <t-tag
+      slot="description"
+      size="medium"
+      shape="round"
+      icon="menu-application"
+      variant="outline"
+      bind:click="{{ editable ? 'handleShowSpecList' : '' }}"
+    >
+      {{ spu.category.title }}
+    </t-tag>
+    <t-tag
+      slot="description"
+      wx:for="{{ sku.optionList }}"
+      wx:for-item="option"
+      wx:key="_id"
+      size="medium"
+      shape="round"
+      variant="outline"
+      bind:click="{{ editable ? 'handleShowSpecList' : '' }}"
+    >
+      {{ option.title }}
+    </t-tag>
+  </t-cell>
+  <!--库存清单-->
+  <t-swipe-cell
+    wx:if="{{ skuStockList && skuStockList.length > 0 }}"
+    wx:for="{{ skuStockList }}"
+    wx:for-item="stock"
+    wx:for-index="index"
+    wx:key="_id"
+  >
+    <t-cell
+      description="更新时间：{{ stock.createdAtFormatted }}"
+      bordered="{{ index !== skuStockList.length - 1 }}"
+    >
+      <view wx:if="{{ stock.code }}" slot="title"> 货号: {{ stock.code || 'KC20241123-1' }} </view>
+      <t-row slot="description" class="row">
+        <view class="stock">
+          <view class="label">库存</view>
+          <view class="value">{{ stock.quantity }}</view>
+          <view class="unit">{{ '件' }};</view>
+        </view>
+        <view class="prices">
+          <view class="label">成本 </view>
+          <price
+            class="price"
+            symbol="¥"
+            priceUnit="yuan"
+            price="{{ stock.costPrice }}"
+            fill="true"
+            decimalSmaller
+          />
+          <view class="label" style="order: 99">;</view>
+        </view>
+        <view class="prices">
+          <view class="label">原价 </view>
+          <price
+            class="price"
+            symbol="¥"
+            priceUnit="yuan"
+            price="{{ stock.originalPrice }}"
+            fill="true"
+            decimalSmaller
+          />
+          <view class="label" style="order: 99">;</view>
+        </view>
+      </t-row>
+      <t-row slot="description" class="row">
+        <view class="prices">
+          <view class="label">售价 </view>
+          <price
+            class="price"
+            symbol="¥"
+            priceUnit="yuan"
+            price="{{ stock.salePrice }}"
+            fill="true"
+            decimalSmaller
+          />
+          <price
+            wx:if="{{ stock.salePrice !== stock.originalPrice }}"
+            class="price originalPrice"
+            priceUnit="yuan"
+            price="{{ stock.originalPrice }}"
+            type="delthrough"
+          />
+          <view wx:if="{{ stock.salePrice !== stock.originalPrice }}" class="priceLabel">
+            {{ _.getPriceLabel(stock.salePrice, stock.originalPrice) }}
+          </view>
+          <view class="quantity"> 数量: X {{ stock.saleQuantity }} 件 </view>
+        </view>
+      </t-row>
+
+      <t-row wx:if="{{ editable }}" slot="description" class="row actions">
+        <t-col>
+          <t-button
+            class="button"
+            theme="default"
+            shape="round"
+            variant="outline"
+            size="small"
+            content="补货"
+            data-stock-id="{{ stock._id }}"
+            bind:tap="handleStockActionIn"
+          />
+        </t-col>
+        <t-col>
+          <t-button
+            class="button"
+            theme="default"
+            shape="round"
+            variant="outline"
+            size="small"
+            content="出货"
+            data-stock-id="{{ stock._id }}"
+            bind:tap="handleStockActionOut"
+          />
+        </t-col>
+      </t-row>
+    </t-cell>
+
+    <view slot="right" class="goods-swipe-action">
+      <view
+        class="action edit-btn"
+        data-stock-id="{{ stock._id }}"
+        bind:tap="handleStockActionEdit"
+      >
+        <t-icon name="edit" size="32rpx" />
+        编辑
+      </view>
+      <view
+        class="action delete-btn"
+        data-stock-id="{{ stock._id }}"
+        bind:tap="handleStockActionDelete"
+      >
+        <t-icon name="delete" size="32rpx" />
+        删除
+      </view>
+    </view>
+  </t-swipe-cell>
+  <t-cell
+    wx:if="{{ skuStockList && skuStockList.length === 0 }}"
+    description="没有库存信息, 请先添加库存"
+    t-class-title="stock-empty-title"
+    t-class-description="stock-empty-description"
+  >
+    <t-row slot="description" class="row actions">
+      <t-col>
+        <t-button
+          class="button"
+          theme="default"
+          shape="round"
+          variant="outline"
+          size="small"
+          content="新增库存"
+          data-stock-id="{{ stock._id }}"
+          bind:tap="handleStockActionAdd"
+        />
+      </t-col>
+    </t-row>
+  </t-cell>
 </view>

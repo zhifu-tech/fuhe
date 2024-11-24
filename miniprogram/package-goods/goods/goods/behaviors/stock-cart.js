@@ -1,5 +1,3 @@
-import log from '@/common/log/log';
-import services from '@/services/index';
 import stores from '@/stores/index';
 import { runInAction } from 'mobx-miniprogram';
 
@@ -26,57 +24,6 @@ module.exports = Behavior({
             }
           }
         });
-      });
-    },
-  },
-  methods: {
-    handleCartChangeEvent: async function (e) {
-      // 更新Stock的数据
-      // 这里的调用比价频繁，需要增加一个机制，避免高频调用。这增加一个队列，
-      // 1. 每次处理一次变更，上一个处理结束，下一个处理开始
-      // 2. 如果新增加的 变更，正在处理中，则取消执行。
-      const { stockId, index } = e.target.dataset;
-      const { salePrice, saleQuantity } = e.detail;
-      services.cart.enqueueCartChange({
-        options: {
-          stockId,
-          index,
-          salePrice,
-          saleQuantity,
-        },
-        executeFn: this.executeCartChange.bind(this),
-      });
-    },
-    executeCartChange: async function ({ stockId, index, salePrice, saleQuantity }) {
-      const { tag, spuId, skuId } = this.data;
-      const stock = stores.goods.getStock(spuId, skuId, stockId);
-      log.info(tag, 'executeCartChange', index, salePrice, saleQuantity);
-      // 判断是否需要更新
-      if (!stock || (stock.saleQuantity === saleQuantity && stock.salePrice === salePrice)) {
-        return;
-      }
-
-      runInAction(() => {
-        if (salePrice && stock.salePrice !== salePrice) {
-          // 库存价格被修改，更新stock的售价
-          stock.salePrice = salePrice;
-        }
-        if (saleQuantity && stock.saleQuantity !== saleQuantity) {
-          // 销售数量变更
-          stock.saleQuantity = saleQuantity;
-        } else if (!saleQuantity && stock.saleQuantity !== 0) {
-          // 被删除，需要清空销售数量
-          stock.saleQuantity = 0;
-        }
-      });
-      // 更新store中的数据
-      await services.cart.updateCartRecord({
-        tag,
-        spuId,
-        skuId,
-        stockId,
-        salePrice,
-        saleQuantity,
       });
     },
   },

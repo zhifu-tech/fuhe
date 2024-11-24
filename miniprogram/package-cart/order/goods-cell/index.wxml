@@ -2,54 +2,77 @@
 <t-swipe-cell>
   <t-cell
     t-class="goods-cell"
+    t-class-image="goods-cell-image"
+    t-class-title="goods-cell-title"
+    t-class-description="goods-cell-description"
     image="{{ _.getImage(sku.imageList) }}"
-    title="{{ _.getTitle(spu.title, sku) }}"
   >
-    <view class="right" slot="description">
-      <view class="tags">
-        <t-tag
-          wx:if="{{ spu.supplierName }}"
-          t-class="tag"
-          size="medium"
-          shape="round"
-          icon="user-business"
-          variant="outline"
-        >
-          {{ supplierName }}
-        </t-tag>
-        <t-tag t-class="tag" size="medium" shape="round" icon="swap" variant="outline">
-          {{ spu.category.title }}
-        </t-tag>
-        <block wx:for="{{ sku.optionList }}" wx:for-item="option" wx:key="_id">
-          <t-tag t-class="tag" size="medium" shape="round" variant="outline">
-            {{ option.title }}
-          </t-tag>
-        </block>
-      </view>
-      <view class="'prices">
-        <view class="cost-price">
-          <view class="label">成本</view>
-          <price
-            class="price"
-            symbol="¥"
-            priceUnit="yuan"
-            price="{{ stock.costPrice }}"
-            fill="true"
-            decimalSmaller
-          />
-        </view>
-        <price-quantity
-          class="orders"
-          salePrice="{{ salePrice }}"
-          originalPrice="{{ stock.originalPrice || 0 }}"
-          saleQuantity="{{ saleQuantity || 0 }}"
-          originalQuantity="{{ stock.quantity || 0 }}"
-          readonly="{{ true }}"
+    <!-- title -->
+    <view slot="title" class="title">{{_.getTitle(spu.title, sku) }}</view>
+    <!-- description -->
+    <t-tag
+      slot="description"
+      wx:if="{{ supplierName }}"
+      size="medium"
+      shape="round"
+      icon="user-business"
+      variant="outline"
+      bind:click="{{ editable ? 'handleShowSpecList' : '' }}"
+    >
+      {{ supplierName }}
+    </t-tag>
+    <t-tag
+      slot="description"
+      size="medium"
+      shape="round"
+      icon="menu-application"
+      variant="outline"
+      bind:click="{{ editable ? 'handleShowSpecList' : '' }}"
+    >
+      {{ spu.category.title }}
+    </t-tag>
+    <t-tag
+      slot="description"
+      wx:for="{{ sku.optionList }}"
+      wx:for-item="option"
+      wx:key="_id"
+      size="medium"
+      shape="round"
+      variant="outline"
+      bind:click="{{ editable ? 'handleShowSpecList' : '' }}"
+    >
+      {{ option.title }}
+    </t-tag>
+
+    <t-row slot="description" class="row">
+      <view class="prices">
+        <view class="label">售价 </view>
+        <price
+          class="price"
+          symbol="¥"
+          priceUnit="yuan"
+          price="{{ salePrice }}"
+          fill="true"
+          decimalSmaller
         />
+        <price
+          wx:if="{{ salePrice !== stock.originalPrice }}"
+          class="price originalPrice"
+          priceUnit="yuan"
+          price="{{ stock.originalPrice }}"
+          type="delthrough"
+        />
+        <view wx:if="{{ salePrice !== stock.originalPrice }}" class="priceLabel">
+          {{ _.getPriceLabel(salePrice, stock.originalPrice) }}
+        </view>
+        <view class="quantity"> 数量: X {{ saleQuantity }} 件 </view>
       </view>
-    </view>
+    </t-row>
   </t-cell>
-  <view slot="right" class="actions">
-    <view class="btn cancel" bindtap="handleActionCancel">取消</view>
+  <view slot="right" class="goods-swipe-action">
+    <view class="action delete-btn" bind:tap="handleGoodsSwipeActionDelete">
+      <t-icon name="delete" size="32rpx" />
+      删除
+    </view>
   </view>
 </t-swipe-cell>

@@ -18,13 +18,18 @@
       "disableABTest": true
     }
   },
-  "componentFramework": "glass-easel",
   "pages": [
-    "pages/order/index",
     "pages/store/index",
+    "pages/order/index",
     "pages/dashboard/index"
   ],
   "subpackages": [
+    {
+      "root": "package-user",
+      "pages": [
+        "auth/index"
+      ]
+    },
     {
       "root": "package-goods",
       "pages": []

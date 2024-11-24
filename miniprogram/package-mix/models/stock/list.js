@@ -5,6 +5,7 @@ export default async function ({ tag, skuId }) {
     const { data } = await wx.cloud.models.fh_stock.list({
       select: {
         _id: true,
+        code: true,
         skuId: true,
         costPrice: true,
         salePrice: true,

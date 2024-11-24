@@ -1,6 +1,5 @@
+<t-navbar title="小店数据" />
 <view class="container">
-  <t-navbar title="小店数据" style="z-index: 1000000" />
-
   <view class="content">
     <t-pull-down-refresh
       value="{{ pageStatus.isLoadingWithPullDown }}"

@@ -7,6 +7,11 @@
     "t-image": "tdesign-miniprogram/image/image",
     "t-divider": "tdesign-miniprogram/divider/divider",
     "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-row": "tdesign-miniprogram/row/row",
+    "t-col": "tdesign-miniprogram/col/col",
+    "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-empty": "tdesign-miniprogram/empty/empty",
+    "t-swipe-cell": "tdesign-miniprogram/swipe-cell/swipe-cell",
     "price-quantity": "../price-quantity/index",
     "price": "../price/index"
   }

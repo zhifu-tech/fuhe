@@ -1,12 +1,23 @@
 <wxs src="./index.wxs" module="_" />
 <view class="container">
-  <t-navbar>
-    <view class="header" slot="left">
-      <t-icon size="48rpx" name="user-circle" />
-      <view class="label">{{ header.label }}</view>
-    </view>
+  <t-navbar t-class="navbar" t-class-left="navbar-left">
+    <t-cell
+      t-class="header"
+      t-class-center="header-center"
+      slot="left"
+      bordered="{{ false }}"
+      title="{{ header.userName }}"
+      bind:click="handleHeaderClick"
+    >
+      <view class="header-description" slot="description">{{ header.storeName }}</view>
+      <t-avatar
+        slot="image"
+        size="small"
+        t-class-image="header-avatar-image"
+        image="{{ header.avatarUrl }}"
+      />
+    </t-cell>
   </t-navbar>
-
   <view class="content">
     <view class="{{ showSideBar ? 'side-bar-wrapper show': 'side-bar-wrapper hide' }}">
       <t-side-bar class="side-bar" value="{{ categorySelected }}" bind:change="onSideBarChange">

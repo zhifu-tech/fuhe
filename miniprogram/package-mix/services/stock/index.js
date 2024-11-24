@@ -3,6 +3,7 @@ import fetchStockList from './fetch-stock-list.js';
 import updateStockInfo, { updateStockInfoList } from './update-stock-info';
 import createStockInfo from './create-stock-info';
 import getStockInfo from './get-stock-info';
+import deleteStockInfo from './delete-stock-info';
 
 export default {
   createStockList,
@@ -11,4 +12,5 @@ export default {
   updateStockInfoList,
   createStockInfo,
   getStockInfo,
+  deleteStockInfo,
 };

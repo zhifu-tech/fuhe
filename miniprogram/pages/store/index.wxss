@@ -4,15 +4,27 @@
   height: 100vh;
   background-color: var(--td-bg-color-page);
 }
-
-.header {
-  display: flex;
-  align-items: center;
-  padding: var(--td-spacer) var(--td-spacer);
+.navbar {
+  --td-navbar-height: 66px !important;
+}
+.navbar-left {
+  overflow: hidden;
 }
 
-.header .label {
-  margin-left: var(--td-spacer-2);
+.header {
+  --td-cell-vertical-padding: 0rpx;
+  --td-cell-horizontal-padding: 0rpx;
+}
+.header-center {
+  overflow: hidden;
+}
+.header-description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.header-avatar-image {
+  --td-avatar-bg-color: var(--td-bg-color-secondarycontainer);
 }
 
 .search {
