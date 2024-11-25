@@ -86,14 +86,17 @@
   order: 2;
 }
 .priceLabel {
+  flex-shrink: 0;
   color: var(--td-text-color-secondary);
   font-size: 0.8em;
   margin-left: var(--td-spacer-s);
   order: 3;
   vertical-align: baseline;
 }
+
 .quantity {
   order: 4;
+  flex-shrink: 0;
   margin-left: var(--td-spacer-1);
 }
 

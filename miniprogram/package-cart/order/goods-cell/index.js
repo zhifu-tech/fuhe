@@ -7,7 +7,10 @@ Component({
     virtualHost: true,
     pureDataPattern: /^_/,
   },
-  behaviors: [require('miniprogram-computed').behavior, require('@/common/mobx/auto-disposers')],
+  behaviors: [
+    require('miniprogram-computed').behavior, //
+    require('@/common/mobx/auto-disposers'),
+  ],
   properties: {
     spuId: String,
     skuId: String,
@@ -24,6 +27,13 @@ Component({
       const stock = stores.goods.getStock(spuId, skuId, stockId) || observable({});
 
       this.setData({ tag, spu, sku, stock });
+
+      this.addToAutoDisposable(
+        autorun(() => {
+          const category = stores.category.getCategory(spu.cId);
+          this.setData({ spuCategoryTitle: category.title || '' });
+        }),
+      );
     },
   },
 });

@@ -29,7 +29,7 @@
       variant="outline"
       bind:click="{{ editable ? 'handleShowSpecList' : '' }}"
     >
-      {{ spu.category.title }}
+      {{ spuCategoryTitle }}
     </t-tag>
     <t-tag
       slot="description"
@@ -65,7 +65,7 @@
         <view wx:if="{{ salePrice !== stock.originalPrice }}" class="priceLabel">
           {{ _.getPriceLabel(salePrice, stock.originalPrice) }}
         </view>
-        <view class="quantity"> 数量: X {{ saleQuantity }} 件 </view>
+        <view class="quantity"> 数量: {{ saleQuantity }} 件 </view>
       </view>
     </t-row>
   </t-cell>
