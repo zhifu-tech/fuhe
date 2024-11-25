@@ -39,11 +39,10 @@ export const fetchGoodsSpuListFlow = flow(function* ({
   log.info(tag, '_fetchGoodsSpuList', trigger, cId, pageNumber);
 
   try {
-    const data = yield goodsModel.spuList({
+    const data = yield goodsModel.listSpu({
       tag,
       cId,
       pageNumber,
-      pageSize: 10,
     });
     const { records: spuList, total } = data;
 

@@ -8,10 +8,10 @@ export default async function updateGoodsSpu({ tag, spu, title, desc }) {
     if (title != null) fileds.title = title;
     if (desc != null) fileds.desc = desc;
 
-    await goodsModel.spuUpdate({
+    await goodsModel.updateSpu({
       tag,
       spuId: spu._id,
-      ...fileds,
+      param: fileds,
     });
 
     goodsStore.spu.updateSpuInfo({ spu, ...fileds });

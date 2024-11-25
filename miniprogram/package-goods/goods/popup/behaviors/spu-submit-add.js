@@ -49,18 +49,13 @@ module.exports = Behavior({
       showToastLoading({ message: '更新中' });
 
       // 提交商品Spu信息
-      if (spu._id.startsWith('-')) {
-        // 增加判定，防止提交失败之后之后，重复提交
-        try {
-          await services.goods.createGoodsSpu({ tag, spu });
-          log.info(tag, tagExtra, 'createGoodsSpu success');
-        } catch (e) {
-          log.info(tag, tagExtra, 'createGoodsSpu error', e);
-          showToastError({ message: '未知错误，稍后重试!' });
-          return;
-        }
-      } else {
-        log.info(tag, tagExtra, 'updateGoodsSpu', 'spu has updated before, do nothing!');
+      try {
+        await services.goods.createGoodsSpu({ tag, spu });
+        log.info(tag, tagExtra, 'createGoodsSpu success');
+      } catch (e) {
+        log.info(tag, tagExtra, 'createGoodsSpu error', e);
+        showToastError({ message: '添加商品失败!' });
+        return;
       }
 
       // 提交商品Sku信息
@@ -83,10 +78,18 @@ module.exports = Behavior({
         return;
       }
 
-      log.info(tag, tagExtra, 'goods submit', spu);
-      // 添加信息到store中，并触发更新
-      stores.goods.addGoodsSpu({ tag, spu });
+      // 拉取商品信息
+      try {
+        // 远程会拼接一些spu信息，所以这里需要重新拉取SPU信息
+        await services.goods.getGoodsSpu({ tag, _id: spu._id });
+        log.info(tag, tagExtra, 'getGoodsSpu success');
+      } catch (error) {
+        log.error(tag, tagExtra, 'getGoodsSpu error', error);
+        showToastError({ message: '未知错误，稍后重试!' });
+        return;
+      }
 
+      log.info(tag, tagExtra, 'goods submit', spu);
       hideToastLoading();
       this.hide();
     },

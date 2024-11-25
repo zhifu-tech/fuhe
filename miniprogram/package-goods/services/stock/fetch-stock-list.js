@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 export default async function fetchStockList({ tag, spuList }) {
   try {
     const skuList = spuList.flatMap((spu) => spu.skuList);
-    const { records: stockList } = await stockModel.listBatch({
+    const { records: stockList } = await stockModel.list({
       tag,
       skuIdList: skuList.map((sku) => sku._id),
     });

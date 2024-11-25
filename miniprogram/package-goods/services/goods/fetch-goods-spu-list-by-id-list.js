@@ -28,7 +28,7 @@ export async function fetchGoodsSpuListAsync({
     callback({ code: 'loading', trigger });
 
     // 这才用一次拉取所有请求，当数据量比较大时，会非常慢。但当前满足，后续有必要时再优化
-    const { records: spuList, total } = await goodsModel.spuListByIdList({
+    const { records: spuList, total } = await goodsModel.listSpu({
       tag,
       idList,
     });

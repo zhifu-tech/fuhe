@@ -24,6 +24,6 @@ export default {
   deleteGoodsSku,
   getGoodsSpuList,
 
-  skuUpdateImageList: goodsModel.skuUpdateImageList,
-  skuUpdateSaleInfo: goodsModel.skuUpdateSaleInfo,
+  updateSku: goodsModel.updateSku,
+  updateSku: goodsModel.updateSku,
 };

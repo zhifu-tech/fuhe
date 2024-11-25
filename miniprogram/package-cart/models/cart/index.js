@@ -86,7 +86,7 @@ export default {
         ++pageNumber;
         const { records, total } = await this.list({ tag, pageNumber });
         totals = total;
-        results = [...results, ...records];
+        results = results.concat(records);
       } while (results.length < totals);
 
       log.info(tag, 'cart-all', results);

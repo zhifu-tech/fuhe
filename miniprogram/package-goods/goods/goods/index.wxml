@@ -63,12 +63,10 @@
     wx:for-index="index"
     wx:key="_id"
   >
-    <t-cell
-      description="更新时间：{{ stock.createdAtFormatted }}"
-      bordered="{{ index !== skuStockList.length - 1 }}"
-    >
-      <view wx:if="{{ stock.code }}" slot="title"> 货号: {{ stock.code || 'KC20241123-1' }} </view>
+    <t-cell bordered="{{ index !== skuStockList.length - 1 }}">
+      <view wx:if="{{ stock.code }}" slot="title"> 货号: {{ stock.code }} </view>
       <t-row slot="description" class="row">
+        <view class="label">更新时间：{{ stock.createdAtFormatted }};</view>
         <view class="stock">
           <view class="label">库存</view>
           <view class="value">{{ stock.quantity }}</view>

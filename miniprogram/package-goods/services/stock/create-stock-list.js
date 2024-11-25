@@ -14,10 +14,14 @@ export default async function createStockList({ tag, spu }) {
       const stockIdList = await stockModel.createMany({
         tag,
         paramList: newStockList.map((stock) => ({
-          quantity: stock.quantity,
-          costPrice: stock.costPrice,
-          originalPrice: stock.originalPrice,
+          spuId: spu._id,
           skuId: stock.skuId,
+          // 价格、数量信息
+          costPrice: stock.costPrice,
+          // 如果没有销售价格，取原始价格作为销售价格
+          salePrice: stock.salePrice || stock.originalPrice,
+          originalPrice: stock.originalPrice,
+          quantity: stock.quantity,
         })),
       });
       newStockList.forEach((stock, index) => {

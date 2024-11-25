@@ -1,6 +1,7 @@
 import log from '@/common/log/log';
 import stockStore from '../../stores/stock/index';
 import stockModel from '../../models/stock/index';
+import { runInAction } from 'mobx-miniprogram';
 
 export default async function updateStockInfo({
   tag,
@@ -32,7 +33,7 @@ export default async function updateStockInfo({
     const data = await stockModel.update({
       tag,
       _id: stock._id,
-      ...fields,
+      param: fields,
     });
 
     // 更新stock记录

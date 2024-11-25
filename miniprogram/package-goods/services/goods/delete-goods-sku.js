@@ -4,7 +4,7 @@ import goodsModel from '../../models/goods/index';
 
 export default async function ({ tag, spuId, skuId }) {
   try {
-    await goodsModel.skuDelete({ tag, _id: skuId });
+    await goodsModel.deleteSku({ tag, _id: skuId });
 
     stores.goods.deleteGoodsSku({ tag, spuId, skuId });
 

@@ -58,10 +58,12 @@ module.exports = Behavior({
         // 提交图片的修改，待成功获得图片地址后，提交修改
         await Promise.all(promises);
         // 提交修改
-        await services.goods.skuUpdateImageList({
+        await services.goods.updateSku({
           tag,
           skuId: sku._id,
-          imageList: sku.imageList,
+          param: {
+            imageList: sku.imageList,
+          },
         });
 
         // 更新store
