@@ -33,7 +33,10 @@ module.exports = Behavior({
       );
     },
     categorySelected: function (selected) {
-      if (selected === stores.category.categoryAdd._id) {
+      if (
+        selected === stores.category.categoryAll._id && //
+        this.data.categoryExtList.length === 0
+      ) {
         // 首次加载选中的是新增分类信息，需要加载分类列表
         this.addToAutoDisposable(
           services.category.fetchCategoryList({

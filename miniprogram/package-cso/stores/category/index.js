@@ -15,15 +15,15 @@ export default (function store() {
   return observable({
     categoryAdd,
     categoryAll,
-    _selected: categoryAdd._id,
+    _selected: categoryAll._id,
     categoryList: [],
     categoryTotal: 0,
 
     get categoryExtList() {
       if (this.categoryList.length > 1) {
-        return [categoryAll, ...this.categoryList, categoryAdd];
+        return [categoryAll, ...this.categoryList];
       }
-      return [...this.categoryList, categoryAdd];
+      return this.categoryList;
     },
 
     setCategoryList: action(function ({ categoryList, total }) {
@@ -44,7 +44,8 @@ export default (function store() {
       }
       // 如果不满足以上条件，或者 `_selected` 不在 `categoryExtList` 中，
       // 则重置为 `categoryExtList[0]._id`
-      this._selected = this.categoryExtList[0]?._id || null;
+      this._selected =
+        (this.categoryExtList.length > 0 && this.categoryExtList[0]._id) || this._selected;
       return this._selected;
     },
 

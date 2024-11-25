@@ -19,6 +19,7 @@ Component({
     require('./behaviors/sidebar'),
     require('./behaviors/header'),
     require('./behaviors/category'),
+    require('./behaviors/menu'),
   ],
   data: {
     tag: 'storePage',

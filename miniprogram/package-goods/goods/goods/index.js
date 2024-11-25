@@ -40,7 +40,7 @@ Component({
       this.addToAutoDisposable(
         autorun(() => {
           const category = stores.category.getCategory(spu.cId);
-          this.setData({ spuCategoryTitle: category.title || '' });
+          this.setData({ spuCategoryTitle: category?.title || '' });
         }),
         autorun(() => {
           this.setData({
