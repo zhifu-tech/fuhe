@@ -6,6 +6,10 @@
   font-size: var(--td-font-size-m);
   color: var(--td-text-color-primary);
 }
+.price-quantity {
+  display: flex;
+  align-items: center;
+}
 .label-container {
   display: inline-flex;
   align-items: flex-end;

@@ -1,4 +1,5 @@
 import { showToastWarning } from '@/common/toast/simples.js';
+
 module.exports = Behavior({
   data: {
     discount: 0,

@@ -54,6 +54,7 @@
           variant="text"
           icon="menu-unfold"
           bind:tap="handleMenuClick"
+          bind:longpress="handleSideBarFold"
         />
       </view>
     </view>
@@ -145,6 +146,7 @@
   usingCustomNavbar="true"
   style="z-index: 66; left: unset; right: unset; bottom: calc(80px + env(safe-area-inset-bottom))"
   bind:click="handleMenuClick"
+  bind:longpress="handleSideBarFold"
   aria-label="增加"
 />
 <cart />

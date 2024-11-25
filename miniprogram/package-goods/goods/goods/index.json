@@ -12,7 +12,6 @@
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-empty": "tdesign-miniprogram/empty/empty",
     "t-swipe-cell": "tdesign-miniprogram/swipe-cell/swipe-cell",
-    "price-quantity": "../price-quantity/index",
     "price": "../price/index"
   }
 }

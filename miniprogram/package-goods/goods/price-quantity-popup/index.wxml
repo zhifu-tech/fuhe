@@ -1,7 +1,6 @@
 <t-popup
   id="popup"
   placement="bottom"
-  close-btn
   using-custom-navbar
   close-on-overlay-click
   show-overlay="false"
@@ -9,14 +8,27 @@
 >
   <view class="container" slot="content">
     <!-- 输入价格支持 -->
-    <t-input
-      t-class="input"
-      placeholder="输入价格"
-      type="number"
-      label="售价"
-      value="{{ salePrice }}"
-      bind:change="handleChangeSalePrice"
-    />
+    <view class="price-quantity">
+      <t-input
+        style="flex: 0.4"
+        t-class="input"
+        placeholder="输入价格"
+        type="number"
+        label="售价"
+        value="{{ salePrice }}"
+        bind:change="handleChangeSalePrice"
+      />
+      <t-divider layout="vertical" />
+      <t-input
+        style="flex: 0.6"
+        t-class="input"
+        placeholder="输入数量"
+        type="number"
+        label="数量"
+        value="{{ saleQuantity }}"
+        bind:change="handleChangeSaleQuantity"
+      />
+    </view>
     <view class="label-container">
       <view class="label">折扣</view>
       <t-slider
