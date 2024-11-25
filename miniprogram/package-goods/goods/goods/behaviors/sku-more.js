@@ -26,11 +26,16 @@ module.exports = Behavior({
             value: '3',
             selectedFn: this._handleDeleteSku.bind(this),
           },
+          {
+            label: '新增库存',
+            value: '4',
+            selectedFn: this._handleAddStock.bind(this),
+          },
         ],
       });
     },
     _handleEditSku: function () {
-      const { spu, sku, spuId, skuId } = this.data;
+      const { spuId, skuId } = this.data;
       require('@/package-goods/goods/popup/popup.js', (popup) => {
         popup.showGoodsEditSkuPopup(pages.currentPage(), {
           spuId,
@@ -43,7 +48,7 @@ module.exports = Behavior({
     },
     _handleEditSpu: function () {
       require('@/package-goods/goods/popup/popup.js', (popup) => {
-        const { spu, spuId } = this.data;
+        const { spuId } = this.data;
         popup.showGoodsEditSpuPopup(pages.currentPage(), {
           spuId,
           title: '修改商品信息',
@@ -53,7 +58,7 @@ module.exports = Behavior({
       });
     },
     _handleAddSku: function () {
-      const { spu, spuId } = this.data;
+      const { spuId } = this.data;
       require('@/package-goods/goods/popup/popup.js', (popup) => {
         popup.showGoodsAddSkuPopup(pages.currentPage(), {
           spuId,
@@ -65,6 +70,18 @@ module.exports = Behavior({
     },
     _handleDeleteSku: function () {
       this.showSkuDeleteDialog();
+    },
+    _handleAddStock: function () {
+      const { spuId, skuId } = this.data;
+      require('@/package-goods/goods/popup/popup.js', (popup) => {
+        popup.showGoodsAddStockPopup(pages.currentPage(), {
+          spuId,
+          skuId,
+          title: '新增库存',
+        });
+      }, ({ mod, errMsg }) => {
+        console.error(`path: ${mod}, ${errMsg}`);
+      });
     },
   },
 });

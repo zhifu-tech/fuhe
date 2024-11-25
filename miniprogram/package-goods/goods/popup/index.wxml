@@ -24,6 +24,12 @@
       </t-button>
     </view>
 
+    <!-- 头部信息展示 -->
+    <block wx:if="{{ isModeEditSku || isModeEditStock || isModeEditStockSuper|| isModeAddStock }}">
+      <goods spuId="{{ spuId }}" skuId="{{ skuId }}" editable="{{false}}" tagSuffix="popup" />
+    </block>
+    <t-divider />
+
     <scroll-view scroll-y class="content" type="list">
       <block wx:if="{{ isModeAddSpu || isModeEditSpu }}">
         <t-input
@@ -76,9 +82,7 @@
         </block>
       </block>
 
-      <block
-        wx:if="{{ isModeAddSpu || isModeAddSku || isModeEditSku || isModeEditStock || isModeEditStockSuper || isModeAddStock }}"
-      >
+      <block wx:if="{{ isModeAddSpu || isModeAddSku }}">
         <t-divider t-class="divider" content="规格信息" />
         <view class="specList">
           <block wx:for="{{ spuSpecList }}" wx:for-item="spec" wx:key="_id">

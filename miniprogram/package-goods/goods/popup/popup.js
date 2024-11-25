@@ -56,6 +56,7 @@ export function showGoodsAddStockPopup(context, { spuId, skuId, title }) {
     isModeAddStock: true,
     spuId,
     skuId,
+    title,
   });
 }
 

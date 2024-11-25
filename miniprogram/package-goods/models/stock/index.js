@@ -159,10 +159,10 @@ export default {
     try {
       const { data } = await wx.cloud.models.fh_stock.update({
         data: {
-          ...(param.quantity != null && { quantity }),
-          ...(param.costPrice != null && { costPrice }),
-          ...(param.salePrice != null && { salePrice }),
-          ...(param.originalPrice != null && { originalPrice }),
+          ...(param.quantity != null && { quantity: param.quantity }),
+          ...(param.costPrice != null && { costPrice: param.costPrice }),
+          ...(param.salePrice != null && { salePrice: param.salePrice }),
+          ...(param.originalPrice != null && { originalPrice: param.originalPrice }),
         },
         filter: {
           where: {

@@ -141,6 +141,7 @@ module.exports = Behavior({
           {
             spuId,
             skuId,
+            title: '新增库存',
           },
           ({ mod, errMsg }) => {
             console.error(`path: ${mod}, ${errMsg}`);
