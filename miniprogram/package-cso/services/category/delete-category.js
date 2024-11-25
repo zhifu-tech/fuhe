@@ -4,7 +4,7 @@ import categroyStore from '../../stores/category/index';
 
 export default async function ({ tag, category }) {
   try {
-    await categoryModel.deleteCategory({
+    await categoryModel.delete({
       tag,
       _id: category._id,
       title: category.title,

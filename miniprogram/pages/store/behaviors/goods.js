@@ -27,9 +27,8 @@ module.exports = Behavior({
       const { tag, goodsSelected } = this.data;
       if (goodsSelected && goodsSelected.cId !== cId) {
         // 切换分类时，重新加载商品列表
-        services.goods.switchGoodsSpuList({ tag, cId, trigger: 'init' });
-        if (services.goods.checkNeedFetchedData({ tag, cId })) {
-          log.info(tag, 'switchGoodsSpuList needFetch');
+        stores.goods.selected = cId;
+        if (stores.goods.checkNeedFetchedData({ tag, cId })) {
           this.addToAutoDisposable(
             services.goods.fetchGoodsSpuList({
               tag,

@@ -4,7 +4,7 @@ import specModel from '../../models/spec/index';
 
 export default async function ({ tag, cId, infoList }) {
   try {
-    const res = await _deleteMany({
+    const res = await specModel.deleteOptionMany({
       tag,
       infoList,
     });

@@ -6,8 +6,7 @@ export default async function ({ tag, cId, specList }) {
   try {
     const idList = await specModel.createMany({
       tag,
-      cId,
-      titles: specList.map((it) => it.title),
+      paramList: specList.map((it) => ({ cId, title: it.title })),
     });
 
     // 重新赋值id
@@ -18,10 +17,10 @@ export default async function ({ tag, cId, specList }) {
 
     // 保存到store中
     specStore.addSpecList(cId, specList);
-    log.info(tag, 'create spec list success');
+    log.info(tag, 'create-spec-list success');
     return specList;
   } catch (e) {
-    log.error(tag, 'create spec list error', e);
+    log.error(tag, 'create-spec-list error', e);
     throw e;
   }
 }

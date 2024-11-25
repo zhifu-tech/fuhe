@@ -34,7 +34,7 @@ module.exports = Behavior({
         });
       });
       if (infoList.length > 0) {
-        await services.option.createOptionMany({
+        await services.spec.createOptionList({
           tag,
           cId,
           infoList,
@@ -72,7 +72,7 @@ module.exports = Behavior({
         });
       });
       if (infoList.length > 0) {
-        await services.option.updateOptionMany({
+        await services.spec.updateOptionList({
           tag,
           cId,
           infoList,
@@ -118,7 +118,7 @@ module.exports = Behavior({
         }
       });
       if (infoList.length > 0) {
-        await services.option.deleteOptionMany({
+        await services.spec.deleteOptionList({
           tag,
           cId,
           infoList,

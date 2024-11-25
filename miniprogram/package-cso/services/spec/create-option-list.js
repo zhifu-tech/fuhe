@@ -4,7 +4,7 @@ import specModel from '../../models/spec/index';
 
 export default async function ({ tag, cId, infoList }) {
   try {
-    const idList = await specModel.createMany({
+    const idList = await specModel.createOptionMany({
       tag,
       infoList,
     });

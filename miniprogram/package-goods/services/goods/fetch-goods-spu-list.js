@@ -86,6 +86,7 @@ export const _handleSpuSpecList = async function ({ tag, spuList }) {
   const cIdList = Array.from(cIdSet);
   const cIdSpecListMap = await services.spec.getSpecListBatch({ tag, cIdList });
   spuList.forEach((spu) => {
+    // fixme: spu中，不应该保存 specList，应该通过 cId去 spec store中获取
     spu.specList = cIdSpecListMap.get(spu.cId) || [];
   });
 };
