@@ -2,17 +2,44 @@ import log from '@/common/log/log';
 import { saasId } from '@/common/saas/saas';
 
 export default {
+  _createParam: ({
+    // 商品/库存信息
+    spuId,
+    skuId,
+    stockId,
+    // 库存信息
+    salePrice,
+    saleQuantity,
+  }) => ({
+    // 商户信息
+    saasId: saasId(),
+    // 库存信息
+    spuId,
+    skuId,
+    stockId,
+    // 价格及数量
+    salePrice,
+    saleQuantity,
+  }),
+  _selectParam: () => ({
+    _id: true,
+    // 商户信息
+    saasId: true,
+    // 库存信息
+    spuId: true,
+    skuId: true,
+    stockId: true,
+    // 价格及数量
+    salePrice: true,
+    saleQuantity: true,
+    // 共有信息
+    createdAt: true,
+    updateAt: true,
+  }),
   create: async function ({ tag, spuId, skuId, stockId, salePrice, saleQuantity }) {
     try {
       const { data } = await wx.cloud.models.fh_cart.create({
-        data: {
-          saasId: saasId(),
-          spuId,
-          skuId,
-          stockId,
-          salePrice,
-          saleQuantity,
-        },
+        data: this._createParam({ spuId, skuId, stockId, salePrice, saleQuantity }),
       });
       log.info(tag, 'cart-create', data);
       return data.id;
@@ -24,14 +51,7 @@ export default {
   createMany: async function ({ tag, infoList }) {
     try {
       const { data } = await wx.cloud.models.fh_cart.createMany({
-        data: infoList.map(({ spuId, skuId, stockId, salePrice, saleQuantity }) => ({
-          saasId: saasId(),
-          spuId,
-          skuId,
-          stockId,
-          salePrice,
-          saleQuantity,
-        })),
+        data: infoList.map(this._createParam),
       });
       log.info(tag, 'cart-createMany', data);
       return data.idList;
@@ -43,7 +63,7 @@ export default {
   get: async function ({ tag, _id }) {
     try {
       const { data } = await wx.cloud.models.fh_cart.get({
-        select: _selectData(),
+        select: this._selectParam(),
         filter: {
           where: {
             $and: [{ _id: { $eq: _id } }],
@@ -60,12 +80,13 @@ export default {
   list: async function ({ tag, pageNumber }) {
     try {
       const { data } = await wx.cloud.models.fh_cart.list({
-        select: _selectData(),
+        select: this._selectParam(),
         filter: {
           where: {
             $and: [{ saasId: { $eq: saasId() } }],
           },
         },
+        sortby: [{ createdAt: 'desc' }],
         getCount: true,
         pageNumber,
         pageSize: 200,
@@ -133,29 +154,23 @@ export default {
     }
   },
   updateMany: async function updateMany({ tag, idList, salePrice, saleQuantity }) {
-    const data = await wx.cloud.models.fh_cart.updateMany({
-      data: {
-        salePrice,
-        saleQuantity,
-      },
-      filter: {
-        where: {
-          _id: { $in: idList },
+    try {
+      const data = await wx.cloud.models.fh_cart.updateMany({
+        data: {
+          ...(salePrice != null && { salePrice }),
+          ...(saleQuantity != null && { saleQuantity }),
         },
-      },
-    });
-    return data;
+        filter: {
+          where: {
+            $and: [{ _id: { $in: idList } }],
+          },
+        },
+      });
+      log.info(tag, 'cart-updateMany', data);
+      return data;
+    } catch (error) {
+      log.error(tag, 'cart-updateMany', error);
+      throw error;
+    }
   },
 };
-
-const _selectData = () => ({
-  _id: true,
-  saasId: true,
-  spuId: true,
-  skuId: true,
-  stockId: true,
-  salePrice: true,
-  saleQuantity: true,
-  createAt: true,
-  updateAt: true,
-});
