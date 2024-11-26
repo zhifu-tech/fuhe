@@ -150,24 +150,24 @@
       </t-row>
     </t-cell>
 
-    <view slot="right" class="goods-swipe-action">
-      <view
-        class="action edit-btn"
+    <t-row slot="right" class="goods-swipe-action">
+      <t-col
+        t-class="action edit-btn"
         data-stock-id="{{ stock._id }}"
         bind:tap="handleStockActionEdit"
       >
         <t-icon name="edit" size="32rpx" />
-        编辑
-      </view>
-      <view
-        class="action delete-btn"
+        <t-text>编辑</t-text>
+      </t-col>
+      <t-col
+        t-class="action delete-btn"
         data-stock-id="{{ stock._id }}"
         bind:tap="handleStockActionDelete"
       >
         <t-icon name="delete" size="32rpx" />
-        删除
-      </view>
-    </view>
+        <t-text>删除</t-text>
+      </t-col>
+    </t-row>
   </t-swipe-cell>
   <t-cell
     wx:if="{{ skuStockList && skuStockList.length === 0 }}"

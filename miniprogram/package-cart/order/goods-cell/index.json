@@ -3,6 +3,9 @@
   "usingComponents": {
     "t-swipe-cell": "tdesign-miniprogram/swipe-cell/swipe-cell",
     "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-row": "tdesign-miniprogram/row/row",
+    "t-col": "tdesign-miniprogram/col/col",
     "t-tag": "tdesign-miniprogram/tag/tag",
     "price": "/package-goods/goods/price/index"
   },

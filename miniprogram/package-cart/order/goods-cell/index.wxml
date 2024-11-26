@@ -69,10 +69,14 @@
       </view>
     </t-row>
   </t-cell>
-  <view slot="right" class="goods-swipe-action">
-    <view class="action delete-btn" bind:tap="handleGoodsSwipeActionDelete">
+  <t-row slot="right" class="goods-swipe-action">
+    <t-col
+      t-class="action delete-btn"
+      data-stock-id="{{ stock._id }}"
+      bind:tap="handleGoodsSwipeActionDelete"
+    >
       <t-icon name="delete" size="32rpx" />
-      删除
-    </view>
-  </view>
+      <t-text>删除</t-text>
+    </t-col>
+  </t-row>
 </t-swipe-cell>
