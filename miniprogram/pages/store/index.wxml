@@ -48,9 +48,6 @@
         />
       </t-side-bar>
       <view wx:if="{{ !showCategorySkeleton }}" class="side-bar-actions">
-        <!-- <view class="side-bar-action" bind:tap="handleShowGoodsPopup">
-          {{ _.formatSideBarLabel('新增商品')}}
-        </view> -->
         <t-button
           class="side-bar-action"
           theme="default"
@@ -76,7 +73,7 @@
         enable-flex="true"
       >
         <t-search
-          wx:if="{{ !pageStatus.isLoadingWithSkeleton && goodsList.length > 0 }}"
+          wx:if="{{ searchValue ||  !pageStatus.isLoadingWithSkeleton && goodsList.length > 0 }}"
           class="search"
           placeholder="查询商品"
           shape="round"

@@ -23,8 +23,10 @@ module.exports = Behavior({
         if (supplierMatch) return true;
 
         // 库存信息匹配
-        const stockMatch = sku.stockList?.some((stock) =>
-          stock.createdAtFormatted?.includes(this.data.searchValue),
+        const stockMatch = sku.stockList?.some(
+          (stock) =>
+            stock.code?.includes(this.data.searchValue) ||
+            stock.createdAtFormatted?.includes(this.data.searchValue),
         );
         if (stockMatch) return true;
 
@@ -32,9 +34,8 @@ module.exports = Behavior({
       });
     },
     handleSearchChange: function (e) {
-      this.data.searchValue = e.detail.value;
-      log.info(this.data.tag, 'handleSearchChange', this.data.searchValue);
       this.setData({
+        searchValue: e.detail.value,
         goodsList: this.filterWithSearchKey(stores.goods.selected.spuList),
       });
     },
