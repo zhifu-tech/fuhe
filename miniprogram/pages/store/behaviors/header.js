@@ -4,6 +4,7 @@ module.exports = Behavior({
       userName: '小福', // 当前登录用户名
       storeName: '北京福和德运商贸有限公司', // 选择小店
       avatarUrl: '',
+      avatarText: '福和德运',
     },
   },
   methods: {

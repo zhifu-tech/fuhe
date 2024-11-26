@@ -1,3 +1,5 @@
+const { default: log } = require('../../common/log/log');
+
 Component({
   data: {
     defaultAvatarUrl:
@@ -9,11 +11,29 @@ Component({
       this.setData({
         userInfo: e.detail.userInfo,
       });
+      const app = getApp();
+      app.getUserOpenIdViaCloud().then((openid) => {
+        log.info('openid', 'getUserOpenIdViaCloud', openid);
+      });
+      app.getUserOpenId();
     },
-    onGetPhoneNumber: function (e) {
-      console.log('onGetPhoneNumber', e);
-      this.setData({
-        phoneNumber: e.detail.phoneNumber,
+    getPhoneNumber: function (e) {
+      console.log('getPhoneNumber', e, e.detail.code);
+      wx.cloud.callFunction({
+        name: 'cloudbase_module',
+        data: {
+          name: 'wx_user_get_phone_number',
+          data: {
+            code: e.detail.code,
+          },
+        },
+        success: (res) => {
+          const phoneInfo = res.result?.phoneInfo;
+          console.log('获取到的phoneInfo：', phoneInfo);
+          this.setData({
+            phoneNumber: e.detail.phoneNumber,
+          });
+        },
       });
     },
     gotoUserEditPage() {

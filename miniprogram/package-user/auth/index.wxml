@@ -19,7 +19,7 @@
             {{ '未授权' }}
           </t-button>
         </t-cell>
-        <!-- <t-cell>
+        <t-cell>
           <text wx:if="{{ phoneNumber }}" slot="title"> {{ phoneNumber }} </text>
           <t-button
             wx:else="{{ !phoneNumber }}"
@@ -28,11 +28,11 @@
             type="primary"
             size="small"
             open-type="getPhoneNumber"
-            bind:getphonenumber="onGetPhoneNumber"
+            bind:getphonenumber="getPhoneNumber"
           >
             {{ '获取手机号码' }}
           </t-button>
-        </t-cell> -->
+        </t-cell>
       </view>
     </t-step-item>
 

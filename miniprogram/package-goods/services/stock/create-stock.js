@@ -1,23 +1,25 @@
 import log from '@/common/log/log';
-import stockService from '../../services/stock/index';
+import stockService from './index';
 import stockModel from '../../models/stock/index';
 
-export default async function ({ tag, sku, draft }) {
+export default async function createStock({ tag, spu, sku, stock }) {
   try {
     const id = await stockModel.create({
       tag,
       param: {
-        skuId: draft.skuId,
-        costPrice: draft.costPrice,
-        originalPrice: draft.originalPrice,
-        quantity: draft.quantity,
+        spuId: spu._id,
+        skuId: sku._id,
+        costPrice: stock.costPrice,
+        salePrice: stock.salePrice || stock.originalPrice,
+        originalPrice: stock.originalPrice,
+        quantity: stock.quantity,
       },
     });
     // 更新草稿ID
-    draft._id = id;
+    stock._id = id;
 
     // 更新stock记录，重新拉取新增的stock信息
-    const data = stockService.getStockInfo({
+    const data = await stockService.getStockInfo({
       tag,
       sku,
       _id: id,

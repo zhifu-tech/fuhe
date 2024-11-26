@@ -15,7 +15,11 @@
         size="small"
         t-class-image="header-avatar-image"
         image="{{ header.avatarUrl }}"
-      />
+      >
+        <text wx:if="{{ !header.avatarUrl && header.avatarText }}" class="header-avatar-content"
+          >{{ _.formatSideBarLabel(header.avatarText) }}</text
+        >
+      </t-avatar>
     </t-cell>
   </t-navbar>
   <view class="content">

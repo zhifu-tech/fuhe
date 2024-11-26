@@ -26,6 +26,12 @@
 .header-avatar-image {
   --td-avatar-bg-color: var(--td-bg-color-secondarycontainer);
 }
+.header-avatar-content {
+  font-size: var(--td-font-size-s);
+  white-space: normal;
+  line-height: 1;
+  color: var(--td-text-color-primary);
+}
 
 .search {
   padding: var(--td-spacer-2) var(--td-spacer-1) 0 var(--td-spacer-1);

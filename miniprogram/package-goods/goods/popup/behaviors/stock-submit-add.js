@@ -30,14 +30,15 @@ module.exports = Behavior({
   },
   methods: {
     _submitAddStock: async function () {
-      const { tag, sku, _sku, stock, _stock } = this.data;
+      const { tag, _spu, sku, _sku, stock } = this.data;
       showToastLoading({});
       try {
         stock.skuId = sku._id;
-        await services.stock.createStockInfo({
+        await services.stock.createStock({
           tag,
+          spu: _spu,
           sku: _sku,
-          draft: stock,
+          stock,
         });
 
         hideToastLoading();
