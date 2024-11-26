@@ -1,5 +1,4 @@
 import log from '@/common/log/log';
-import { saasId } from '@/common/saas/saas';
 import categoryModel from '../../models/category/index';
 import categoryService from './index';
 
@@ -7,7 +6,6 @@ export default async function ({ tag, draft }) {
   try {
     const id = await categoryModel.create({
       tag,
-      saasId: saasId(),
       title: draft.title,
     });
     draft._id = id;

@@ -1,7 +1,7 @@
 import log from '@/common/log/log';
 import stores from '@/stores/index';
 import services from '@/services/index';
-import { autorun, toJS } from 'mobx-miniprogram';
+import { autorun } from 'mobx-miniprogram';
 
 module.exports = Behavior({
   behaviors: [require('miniprogram-computed').behavior],

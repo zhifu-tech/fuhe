@@ -1,5 +1,4 @@
 import log from '@/common/log/log';
-import { saasId } from '@/common/saas/saas';
 import { flow } from 'mobx-miniprogram';
 import categoryModel from '../../models/category/index';
 import categroyStore from '../../stores/category/index';
@@ -31,7 +30,6 @@ const _fetchCategoryList = flow(function* ({ tag, trigger, callback, _finally })
   try {
     const { records: categoryList, total } = yield categoryModel.all({
       tag,
-      saasId: saasId(),
     });
 
     // 增加pinyin支持

@@ -1,4 +1,3 @@
-import log from '@/common/log/log';
 import fetchGetManager from '@/common/module/fetch-get-manager';
 
 export default fetchGetManager({
